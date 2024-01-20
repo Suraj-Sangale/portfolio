@@ -1,4 +1,3 @@
-// src/components/Work.js
 import React from 'react';
 
 const Work = () => {

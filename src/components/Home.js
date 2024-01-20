@@ -19,7 +19,7 @@ const Home = ({ scrollToTop }) => {
           <a href='#contact' className='btn'>Hire Me</a>
         </div>
       </section>
-      <button onClick={scrollToTop}>Scroll to Top</button>
+      {/* <button onClick={scrollToTop}>Scroll to Top</button> */}
     </div>
   );
 };

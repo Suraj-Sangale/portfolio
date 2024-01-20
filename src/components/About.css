@@ -1,10 +1,6 @@
-.about__container {
-    grid-template-columns: 3fr 9fr;
-    column-gap: 1.875rem;
-}
-
 .about__data{
-    padding: 1.875rem;
+    padding: 2rem;
+    margin: 5rem;
     background-color: var(--container-color);
     box-shadow: var(--shadow);
     border-radius: var(--border-radius);
@@ -14,7 +10,7 @@
     position: relative;
 }
 
-.about__data::before {
+/* .about__data::before {
     content: '';
     width: 0%;
     height: 0%;
@@ -25,7 +21,7 @@
     left: 0.93rem;
     left: -0.93rem;
     top: 20%;
-}
+} */
 
 .about__description {
     margin-bottom: 1rem;
