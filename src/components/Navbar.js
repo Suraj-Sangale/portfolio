@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react';
-import { Link } from 'react-scroll';
+import React, { useState } from "react";
+import { Link } from "react-scroll";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -11,22 +11,22 @@ const Navbar = () => {
   return (
     <nav className="flex items-center justify-between p-6 bg-transparent fixed  inset-x-0 top-0 z-10">
       <div>
-      <img src="https://i.ibb.co/Ss4z8Z0/reactpng.png" class="rotate" width="50"  />
-       
+        <img src="https://i.ibb.co/Ss4z8Z0/reactpng.png" class="rotate" width="50" />
+
       </div>
       <div className="hidden md:flex space-x-4">
-        <Link to="home" smooth={true} duration={500} className="text-white">
+        <a href="#home" smooth={true} duration={500} className="text-white">
           Home
-        </Link>
-        <Link to="about" smooth={true} duration={400} className="text-white">
+        </a>
+        <a href="#about" smooth={true} duration={400} className="text-white">
           About
-        </Link>
-        <Link to="work" smooth={true} duration={500} className="text-white">
+        </a>
+        <a href="#work" smooth={true} duration={500} className="text-white">
           Work
-        </Link>
-        <Link to="contact" smooth={true} duration={500} className="text-white">
+        </a>
+        <a href="#contact" smooth={true} duration={500} className="text-white">
           Contact
-        </Link>
+        </a>
       </div>
       {/* Menu icon for mobile view */}
       <div className="md:hidden">
@@ -49,10 +49,10 @@ const Navbar = () => {
       </div>
       {menuOpen && (
         <div className="md:hidden absolute top-16 right-0 bg-gray-800 w-40 p-2 space-y-2">
-          <Link to="" className="text-white block">Home</Link>
-          <Link to="about" className="text-white block">About</Link>
-          <Link to="work" className="text-white block">Work</Link>
-          <Link to="contact" className="text-white block">Contact</Link>
+          <a href="#" className="text-white block">Home</a>
+          <a href="#about" className="text-white block">About</a>
+          <a href="#work" className="text-white block">Work</a>
+          <a href="#contact" className="text-white block">Contact</a>
         </div>
       )}
     </nav>
