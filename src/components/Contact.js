@@ -65,7 +65,7 @@ const Contact = () => {
 
   return (
     <section className='contact container section' id='contact'>
-      <h2 className='section__title'>Reach Out to me!</h2>
+      <h2 className='section__title text-white'>Reach Out to me!</h2>
       <div className='contact__container grid'>
         <div className='contact__info'>
           <p className='contact__details text-white'>DISCUSS A PROJECT OR JUST WANT TO SAY HI? MY INBOX IS OPEN FOR ALL.👋</p>

@@ -5,7 +5,7 @@ import Card from './Card.js';
 
 const Work = () => {
   return (
-    <section className='Work container section' id='Work'>
+    <section className='Work container section' id='work'>
       <h2 className='section__title text-white'>
         Experience
       </h2>
