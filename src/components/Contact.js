@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import "./Contact.css";
+import { FaLinkedin, FaGithub, FaTwitter, FaFacebook, FaInstagram } from 'react-icons/fa';
+
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -28,13 +30,11 @@ const Contact = () => {
     let isValid = true;
     const newErrors = { ...errors };
 
-    // Name validation
     if (!formData.name.trim()) {
       isValid = false;
       newErrors.name = 'Name is required';
     }
 
-    // Email validation
     if (!formData.email.trim()) {
       isValid = false;
       newErrors.email = 'Email is required';
@@ -43,13 +43,11 @@ const Contact = () => {
       newErrors.email = 'Invalid email format';
     }
 
-    // Subject validation
     if (!formData.subject.trim()) {
       isValid = false;
       newErrors.subject = 'Subject is required';
     }
 
-    // Message validation
     if (!formData.message.trim()) {
       isValid = false;
       newErrors.message = 'Message is required';
@@ -58,17 +56,36 @@ const Contact = () => {
     setErrors(newErrors);
 
     if (isValid) {
-      // Proceed with form submission or other actions
       console.log('Form submitted:', formData);
     }
   };
+  const onClickIcons = (name) => {
+    let url =
+      name === 'linkdin' ? 'https://www.linkedin.com/in/suraj-sangale/'
+        : name === 'git' ? 'https://github.com/Suraj-Sangale'
+          : name === 'twitter' ? 'https://twitter.com/SurajSangale4'
+            : name === 'fb' ? 'https://www.facebook.com/'
+              : 'https://www.instagram.com/'
+    window.open(url, '_blank');
+  }
 
   return (
     <section className='contact container section' id='contact'>
       <h2 className='section__title text-white'>Reach Out to me!</h2>
       <div className='contact__container grid'>
         <div className='contact__info'>
-          <p className='contact__details text-white'>DISCUSS A PROJECT OR JUST WANT TO SAY HI? MY INBOX IS OPEN FOR ALL.👋</p>
+          <p className='contact__details text-white'>DISCUSS A PROJECT OR JUST WANT TO SAY HI ? MY INBOX IS OPEN FOR ALL.👋</p>
+          {/* <div > */}
+
+          <div className="text-xl font-bold  text-white mt-8"> Stay in Touch</div>
+          <div className="flex  space-x-4 mt-4 socialIcons">
+            <FaLinkedin className="contact__icon" onClick={() => onClickIcons('linkdin')} />
+            <FaGithub className="contact__icon" onClick={() => onClickIcons('git')} />
+            <FaTwitter className="contact__icon" onClick={() => onClickIcons('twitter')} />
+            <FaFacebook className="contact__icon" onClick={() => onClickIcons('fb')} />
+            <FaInstagram className="contact__icon" onClick={() => onClickIcons('insta')} />
+          </div>
+          {/* </div> */}
         </div>
 
         <form onSubmit={handleSubmit} className='contact__form'>

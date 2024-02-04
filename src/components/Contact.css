@@ -69,6 +69,9 @@
     .contact__info {
         text-align: center;
     }
+    .socialIcons{
+        justify-content: space-between;
+    }
 }
 
 
@@ -85,3 +88,36 @@
         }
 
     }
+
+    /* Add this CSS to your styles */
+
+  
+  .contact__icon {
+    font-size: 24px;
+    color: #fff;
+    transition: color 0.3s ease-in-out;
+  }
+  
+
+  .contact__icon:nth-child(1):hover {
+    color: #0e76a8; 
+  }
+  
+  .contact__icon:nth-child(2):hover {
+    color: #24292e; 
+    background-color: white;
+    border-radius: 50%;
+    
+  }
+  
+  .contact__icon:nth-child(3):hover {
+    color: #1da1f2; 
+  }
+  
+  .contact__icon:nth-child(4):hover {
+    color: #1877f2; 
+  }
+  
+  .contact__icon:nth-child(5):hover {
+    color: #e1306c; 
+  }
