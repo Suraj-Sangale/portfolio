@@ -9,7 +9,7 @@ const Navbar = () => {
     setMenuOpen(!menuOpen);
   };
   return (
-    <nav className="flex items-center justify-between p-6 bg-transparent fixed  inset-x-0 top-0 z-10">
+    <nav className="flex items-center justify-between  fixed  inset-x-0 z-10 navbar">
       <div>
         <img src="https://i.ibb.co/Ss4z8Z0/reactpng.png" class="rotate" width="50" />
 
@@ -49,10 +49,10 @@ const Navbar = () => {
       </div>
       {menuOpen && (
         <div className="md:hidden absolute top-16 right-0 bg-gray-800 w-40 p-2 space-y-2">
-          <a href="#" className="text-white block">Home</a>
-          <a href="#about" className="text-white block">About</a>
-          <a href="#work" className="text-white block">Work</a>
-          <a href="#contact" className="text-white block">Contact</a>
+          <a href="#" className="text-white block" onClick={toggleMenu}>Home</a>
+          <a href="#about" className="text-white block" onClick={toggleMenu}>About</a>
+          <a href="#work" className="text-white block" onClick={toggleMenu}>Work</a>
+          <a href="#contact" className="text-white block" onClick={toggleMenu}>Contact</a>
         </div>
       )}
     </nav>
