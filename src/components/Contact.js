@@ -75,8 +75,6 @@ const Contact = () => {
       <div className='contact__container grid'>
         <div className='contact__info'>
           <p className='contact__details text-white'>DISCUSS A PROJECT OR JUST WANT TO SAY HI ? MY INBOX IS OPEN FOR ALL.👋</p>
-          {/* <div > */}
-
           <div className="text-xl font-bold  text-white mt-8"> Stay in Touch</div>
           <div className="flex  space-x-4 mt-4 socialIcons">
             <FaLinkedin className="contact__icon" onClick={() => onClickIcons('linkdin')} />
@@ -85,7 +83,6 @@ const Contact = () => {
             <FaFacebook className="contact__icon" onClick={() => onClickIcons('fb')} />
             <FaInstagram className="contact__icon" onClick={() => onClickIcons('insta')} />
           </div>
-          {/* </div> */}
         </div>
 
         <form onSubmit={handleSubmit} className='contact__form'>
