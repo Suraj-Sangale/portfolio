@@ -14,9 +14,16 @@ const About = () => {
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {images.map((item, index) => (
-            <div key={index} className="flex justify-center items-center h-20 m-3 rounded-md">
-              <img src={item.imgUrl} alt={`Image ${item.id}`} className="max-h-full max-w-full" />
-
+            <div
+              key={index}
+              className="relative overflow-hidden group flex justify-center items-center h-20 m-3 rounded-md transition-transform transform hover:scale-105"
+            >
+              <img
+                src={item.imgUrl}
+                alt={`Image ${item.id}`}
+                className="max-h-full max-w-full transition-transform transform duration-300 group-hover:scale-105"
+                style={{ objectFit: 'cover' }}
+              />
             </div>
           ))}
         </div>
