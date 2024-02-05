@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import "./Contact.css";
-import { FaLinkedin, FaGithub, FaTwitter, FaFacebook, FaInstagram } from 'react-icons/fa';
 
 
 const Contact = () => {
@@ -59,15 +58,6 @@ const Contact = () => {
       console.log('Form submitted:', formData);
     }
   };
-  const onClickIcons = (name) => {
-    let url =
-      name === 'linkdin' ? 'https://www.linkedin.com/in/suraj-sangale/'
-        : name === 'git' ? 'https://github.com/Suraj-Sangale'
-          : name === 'twitter' ? 'https://twitter.com/SurajSangale4'
-            : name === 'fb' ? 'https://www.facebook.com/'
-              : 'https://www.instagram.com/'
-    window.open(url, '_blank');
-  }
 
   return (
     <section className='contact container section' id='contact'>
@@ -75,14 +65,6 @@ const Contact = () => {
       <div className='contact__container grid'>
         <div className='contact__info'>
           <p className='contact__details text-white'>DISCUSS A PROJECT OR JUST WANT TO SAY HI ? MY INBOX IS OPEN FOR ALL.👋</p>
-          <div className="text-xl font-bold  text-white mt-8"> Stay in Touch</div>
-          <div className="flex  space-x-4 mt-4 socialIcons">
-            <FaLinkedin className="contact__icon" onClick={() => onClickIcons('linkdin')} />
-            <FaGithub className="contact__icon" onClick={() => onClickIcons('git')} />
-            <FaTwitter className="contact__icon" onClick={() => onClickIcons('twitter')} />
-            <FaFacebook className="contact__icon" onClick={() => onClickIcons('fb')} />
-            <FaInstagram className="contact__icon" onClick={() => onClickIcons('insta')} />
-          </div>
         </div>
 
         <form onSubmit={handleSubmit} className='contact__form'>

@@ -11,11 +11,11 @@ const Navbar = () => {
   return (
     <nav className="flex items-center justify-between  fixed  inset-x-0 z-10 navbar">
       <div>
-        <img src="https://i.ibb.co/Ss4z8Z0/reactpng.png" class="rotate" width="50" />
-
+        <a href="#"><img src="https://i.ibb.co/Ss4z8Z0/reactpng.png" class="rotate" width="50" />
+        </a>
       </div>
       <div className="hidden md:flex space-x-4">
-        <a href="#home" smooth={true} duration={500} className="text-white">
+        <a href="#" smooth={true} duration={500} className="text-white">
           Home
         </a>
         <a href="#about" smooth={true} duration={400} className="text-white">

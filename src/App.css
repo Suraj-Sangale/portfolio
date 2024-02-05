@@ -69,15 +69,13 @@
     button {
         font-family: var(--body-font);
         font-size: var(--normal-font-size);
-        background: rgb(1,0,8);
-        background: linear-gradient(90deg, rgba(1,0,8,1) 0%, rgba(46,45,45,1) 15%, rgba(69,69,69,1) 41%, rgba(87,87,87,1) 48%, rgba(93,93,93,1) 60%, rgba(66,66,66,1) 77%, rgba(29,36,37,1) 100%);
-  
+        background: rgb(0,0,0);
+background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(25,25,25,1) 10%, rgba(59,59,67,1) 35%, rgba(75,75,75,1) 50%, rgba(59,59,67,1) 65%, rgba(25,25,25,1) 90%, rgba(0,0,0,1) 100%);
     }
     .navbar{
         padding: 1rem 2rem 0rem 1rem;
-        background: rgb(1,0,8);
-        background: linear-gradient(90deg, rgba(1,0,8,1) 0%, rgba(46,45,45,1) 15%, rgba(69,69,69,1) 41%, rgba(87,87,87,1) 48%, rgba(93,93,93,1) 60%, rgba(66,66,66,1) 77%, rgba(29,36,37,1) 100%);
-  
+        background: rgb(0,0,0);
+background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(25,25,25,1) 10%, rgba(59,59,67,1) 35%, rgba(75,75,75,1) 50%, rgba(59,59,67,1) 65%, rgba(25,25,25,1) 90%, rgba(0,0,0,1) 100%);
     }
     input,
     textarea {

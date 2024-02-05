@@ -31,6 +31,7 @@ const About = () => {
 
           ))}
         </div>
+        <a href='https://drive.google.com/file/d/15m_ARCqtRzMSqww4K56Wpbfky5AqJsoC/view?usp=drive_link' target="_blank" className='btn mt-4 text-center'>Download Resume</a>
       </div>
     </div>
   )
