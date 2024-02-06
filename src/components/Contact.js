@@ -9,16 +9,16 @@ const Contact = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const initialFormState = {
-    user_name: '',
-    user_email: '',
-    user_subject: '',
+    from_name: '',
+    from_email: '',
+    subject: '',
     message: '',
   }
   const [formData, setFormData] = useState(initialFormState);
 
   const [errors, setErrors] = useState({
-    user_name: '',
-    user_email: '',
+    from_name: '',
+    from_email: '',
     subject: '',
     message: '',
   });
@@ -39,22 +39,22 @@ const Contact = () => {
     let isValid = true;
     const newErrors = { ...errors };
 
-    if (!formData.user_name.trim()) {
+    if (!formData.from_name.trim()) {
       isValid = false;
-      newErrors.user_name = 'Name is required';
+      newErrors.from_name = 'Name is required';
     }
 
-    if (!formData.user_email.trim()) {
+    if (!formData.from_email.trim()) {
       isValid = false;
-      newErrors.user_email = 'Email is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.user_email)) {
+      newErrors.from_email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.from_email)) {
       isValid = false;
       newErrors.email = 'Invalid email format';
     }
 
-    if (!formData.user_subject.trim()) {
+    if (!formData.subject.trim()) {
       isValid = false;
-      newErrors.user_subject = 'Subject is required';
+      newErrors.subject = 'Subject is required';
     }
 
     if (!formData.message.trim()) {
@@ -69,7 +69,7 @@ const Contact = () => {
       e.preventDefault();
       setIsLoading(true);
       emailjs
-        .sendForm('service_kurtcr8', 'template_loqa4rh', form.current, {
+        .sendForm('service_kurtcr8', 'template_ed9ynop', form.current, {
           publicKey: 'DvhW8RF1zxNX4rKXe',
         })
         .then(
@@ -104,8 +104,8 @@ const Contact = () => {
                 type='text'
                 className='contact__form-input'
                 placeholder='Your Good Name Here'
-                name='user_name'
-                value={formData.user_name}
+                name='from_name'
+                value={formData.from_name}
                 onChange={handleInputChange}
               />
               <span className='text-red-500 absolute mt-[3.6rem] ms-4'>{errors.name}</span>
@@ -116,8 +116,8 @@ const Contact = () => {
                 type='email'
                 className='contact__form-input'
                 placeholder='Your Email'
-                name='user_email'
-                value={formData.user_email}
+                name='from_email'
+                value={formData.from_email}
                 onChange={handleInputChange}
               />
               <span className='text-red-500 absolute mt-[3.6rem] ms-4'>{errors.email}</span>
@@ -129,8 +129,8 @@ const Contact = () => {
               type='text'
               className='contact__form-input'
               placeholder="Let's Talk About..."
-              name='user_subject'
-              value={formData.user_subject}
+              name='subject'
+              value={formData.subject}
               onChange={handleInputChange}
             />
             <span className='text-red-500 absolute mt-[3.6rem] ms-4'>{errors.subject}</span>
