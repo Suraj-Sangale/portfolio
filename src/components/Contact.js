@@ -1,18 +1,20 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import "./Contact.css";
-
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
+  const form = useRef();
+
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
+    user_name: '',
+    user_email: '',
+    user_subject: '',
     message: '',
   });
 
   const [errors, setErrors] = useState({
-    name: '',
-    email: '',
+    user_name: '',
+    user_email: '',
     subject: '',
     message: '',
   });
@@ -29,22 +31,22 @@ const Contact = () => {
     let isValid = true;
     const newErrors = { ...errors };
 
-    if (!formData.name.trim()) {
+    if (!formData.user_name.trim()) {
       isValid = false;
-      newErrors.name = 'Name is required';
+      newErrors.user_name = 'Name is required';
     }
 
-    if (!formData.email.trim()) {
+    if (!formData.user_email.trim()) {
       isValid = false;
-      newErrors.email = 'Email is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.user_email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.user_email)) {
       isValid = false;
       newErrors.email = 'Invalid email format';
     }
 
-    if (!formData.subject.trim()) {
+    if (!formData.user_subject.trim()) {
       isValid = false;
-      newErrors.subject = 'Subject is required';
+      newErrors.user_subject = 'Subject is required';
     }
 
     if (!formData.message.trim()) {
@@ -56,9 +58,24 @@ const Contact = () => {
 
     if (isValid) {
       console.log('Form submitted:', formData);
+      
+    e.preventDefault();
+
+    emailjs
+      .sendForm('service_kurtcr8', 'template_loqa4rh', form.current, {
+        publicKey: 'DvhW8RF1zxNX4rKXe',
+      })
+      .then(
+        () => {
+          console.log('SUCCESS!');
+        },
+        (error) => {
+          console.log('FAILED...', error.text);
+        },
+      );
+ 
     }
   };
-
   return (
     <section className='contact container section' id='contact'>
       <h2 className='section__title text-white'>Reach Out to me!</h2>
@@ -67,15 +84,15 @@ const Contact = () => {
           <p className='contact__details text-white'>DISCUSS A PROJECT OR JUST WANT TO SAY HI ? MY INBOX IS OPEN FOR ALL.👋</p>
         </div>
 
-        <form onSubmit={handleSubmit} className='contact__form'>
+        <form onSubmit={handleSubmit} ref={form} className='contact__form'>
           <div className='contact__form-group'>
             <div className='contact__form-div'>
               <input
                 type='text'
                 className='contact__form-input'
                 placeholder='Your Good Name Here'
-                name='name'
-                value={formData.name}
+                name='user_name'
+                value={formData.user_name}
                 onChange={handleInputChange}
               />
               <span className='text-red-500 absolute mt-[3.6rem] ms-4'>{errors.name}</span>
@@ -86,8 +103,8 @@ const Contact = () => {
                 type='email'
                 className='contact__form-input'
                 placeholder='Your Email'
-                name='email'
-                value={formData.email}
+                name='user_email'
+                value={formData.user_email}
                 onChange={handleInputChange}
               />
               <span className='text-red-500 absolute mt-[3.6rem] ms-4'>{errors.email}</span>
@@ -99,8 +116,8 @@ const Contact = () => {
               type='text'
               className='contact__form-input'
               placeholder="Let's Talk About..."
-              name='subject'
-              value={formData.subject}
+              name='user_subject'
+              value={formData.user_subject}
               onChange={handleInputChange}
             />
             <span className='text-red-500 absolute mt-[3.6rem] ms-4'>{errors.subject}</span>
