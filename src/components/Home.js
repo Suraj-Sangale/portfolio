@@ -9,8 +9,8 @@ const Home = ({ scrollToTop }) => {
       name === 'linkdin' ? 'https://www.linkedin.com/in/suraj-sangale/'
         : name === 'git' ? 'https://github.com/Suraj-Sangale'
           : name === 'twitter' ? 'https://twitter.com/SurajSangale4'
-            : name === 'fb' ? 'https://www.facebook.com/'
-              : 'https://www.instagram.com/'
+            : name === 'fb' ? 'https://m.facebook.com/profile.php/?id=100009445972401'
+              : 'https://www.instagram.com/____suraj____/'
     window.open(url, '_blank');
   }
   return (
