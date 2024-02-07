@@ -143,7 +143,7 @@ const Contact = () => {
               cols={30}
               rows={10}
               className='contact__form-input'
-              placeholder='Suraj, Lets Grow Together !?'
+              placeholder='Suraj, Lets Grow Together !'
               value={formData.message}
               onChange={handleInputChange}
             />

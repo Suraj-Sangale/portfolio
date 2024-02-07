@@ -12,7 +12,7 @@ export const images = [
     { id: '08', name: 'Bootstrap', imgUrl: 'https://i.ibb.co/9ct0WTx/bootstrap.png' },
 
 ]
-export const aboutMeText = 'I am an enthusiastic, reliable, responsible and hard working person. I am a capable team player who can adjust to any difficult circumstance. I can operate effectively both independently and in a group setting.I am an enthusiastic, reliable, responsible and hard working person. I am a capable team player who can adjust to any difficult circumstance. I can operate effectively both independently and in a group setting.'
+export const aboutMeText = 'I thrive in environments where creativity and innovation are valued, constantly seeking out new ways to approach problems and deliver impactful solutions. My goal is simple to leverage my skills, experience, and passion to make a meaningful impact in software development. I am a capable team player who can adjust to any difficult circumstance. I can operate effectively both independently and in a group setting.'
 
 let graduation = <PiGraduationCapDuotone />;
 let work = <PiBriefcaseLight />;
