@@ -70,12 +70,12 @@
         font-family: var(--body-font);
         font-size: var(--normal-font-size);
         background: rgb(0,0,0);
-background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(25,25,25,1) 10%, rgba(59,59,67,1) 35%, rgba(75,75,75,1) 50%, rgba(59,59,67,1) 65%, rgba(25,25,25,1) 90%, rgba(0,0,0,1) 100%);
+background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(25,25,25,1) 10%, rgb(50, 50, 53)35%, rgba(75,75,75,1) 50%, rgb(50, 50, 53) 65%, rgba(25,25,25,1) 90%, rgba(0,0,0,1) 100%);
     }
     .navbar{
         padding: 1rem 2rem 0rem 1rem;
         background: rgb(0,0,0);
-background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(25,25,25,1) 10%, rgba(59,59,67,1) 35%, rgba(75,75,75,1) 50%, rgba(59,59,67,1) 65%, rgba(25,25,25,1) 90%, rgba(0,0,0,1) 100%);
+background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(25,25,25,1) 10%, rgb(50, 50, 53)35%, rgba(75,75,75,1) 50%, rgb(50, 50, 53) 65%, rgba(25,25,25,1) 90%, rgba(0,0,0,1) 100%);
     }
     input,
     textarea {
