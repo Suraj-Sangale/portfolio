@@ -15,11 +15,10 @@ const Home = ({ scrollToTop }) => {
   }
   return (
     <div className='homeBg'>
-      <h1 className='text-lime-500'></h1>
-      <section className='home container' id='home'>
+      <section className='home container  animate-drop' id='home'>
         <div className='intro flex flex-col	items-center	'>
           <div className='	'>
-            <img src="https://i.ibb.co/kcLwjhh/person1.png" height={185} width={140} className='' />
+            <img src="https://i.ibb.co/kcLwjhh/person1.png" height={185} width={140} className='z-20' />
           </div>
           <div>
             <h1 className='home__name text-white' >Hi, I am Suraj Sangale</h1>
