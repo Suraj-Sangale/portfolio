@@ -169,24 +169,12 @@
   0% {
     transform: translateY(-200%);
   }
-  90% {
-    transform: translateY(0%);
-  }  
-  97% {
-    transform: translateY(-3%);
-  }
-  98% {
-    transform: translateY(0%);
-  }
-  99% {
-    transform: translateY(-1%);
-  }
   100% {
     transform: translateY(0);
   }
 }
 
 .animate-drop {
-  animation: drop 2.5s ease-out;
+  animation: drop 1.5s ease-out;
   z-index: 60;
 }

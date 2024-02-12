@@ -15,16 +15,16 @@ const Navbar = () => {
         </a>
       </div>
       <div className="hidden md:flex space-x-4">
-        <a href="#" smooth={true} duration={500} className="text-white">
+        <a href="#" duration={500} className="text-white">
           Home
         </a>
-        <a href="#about" smooth={true} duration={400} className="text-white">
+        <a href="#about" duration={400} className="text-white">
           About
         </a>
-        <a href="#work" smooth={true} duration={500} className="text-white">
+        <a href="#work" duration={500} className="text-white">
           Work
         </a>
-        <a href="#contact" smooth={true} duration={500} className="text-white">
+        <a href="#contact" duration={500} className="text-white">
           Contact
         </a>
       </div>
