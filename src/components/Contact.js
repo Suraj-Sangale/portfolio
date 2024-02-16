@@ -108,7 +108,7 @@ const Contact = () => {
                 value={formData.from_name}
                 onChange={handleInputChange}
               />
-              <span className='text-red-500 absolute mt-[3.6rem] ms-4'>{errors.name}</span>
+              <span className='text-red-500 absolute mt-[3.6rem] ms-4'>{errors.from_name}</span>
             </div>
 
             <div className='contact__form-div'>
@@ -120,7 +120,7 @@ const Contact = () => {
                 value={formData.from_email}
                 onChange={handleInputChange}
               />
-              <span className='text-red-500 absolute mt-[3.6rem] ms-4'>{errors.email}</span>
+              <span className='text-red-500 absolute mt-[3.6rem] ms-4'>{errors.from_email}</span>
             </div>
           </div>
 
