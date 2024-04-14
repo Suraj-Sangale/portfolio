@@ -12,7 +12,7 @@ const About = () => {
             {aboutMeText}</p>
           <h2 className='section__subtitle text-slate-800 text-center'>Skills</h2>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {images.map((item, index) => (
 
             <div
@@ -22,7 +22,7 @@ const About = () => {
               <img
                 src={item.imgUrl}
                 alt={`Image ${item.id}`}
-                className=" group max-h-full max-w-full object-cover transition-transform transform duration-300 group-hover:scale-120"
+                className="icons group max-h-full max-w-full object-cover transition-transform transform duration-300 group-hover:scale-120"
                 style={{ maxHeight: '83%', maxWidth: '100%' }}
               />
               <p className="mb-1 text-center text-sm">{item.name}</p>

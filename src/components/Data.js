@@ -2,15 +2,17 @@
 import { PiGraduationCapDuotone, PiBriefcaseLight } from "react-icons/pi";
 
 export const images = [
-    { id: '01', name: 'React', imgUrl: 'https://i.ibb.co/Ss4z8Z0/reactpng.png' },
     { id: '02', name: 'JavaScript', imgUrl: 'https://i.ibb.co/Lhq2sJf/js.png' },
-    { id: '03', name: 'Redux', imgUrl: 'https://i.ibb.co/YXZYK05/redux.png' },
+    { id: '01', name: 'Next.js', imgUrl: 'https://i.ibb.co/h7xbhPv/nextjs.jpg' },
+    { id: '01', name: 'React', imgUrl: 'https://i.ibb.co/Ss4z8Z0/reactpng.png' },
     { id: '05', name: 'Mongo DB', imgUrl: 'https://i.ibb.co/9qCJLZV/mongo.png' },
     { id: '04', name: 'Node.js', imgUrl: 'https://i.ibb.co/vYqSP95/pngwing-com-2.png' },
+    { id: '06', name: 'strapi', imgUrl: 'https://i.ibb.co/2Zk80Vx/strapi.png' },
+    { id: '07', name: 'Redis', imgUrl: 'https://i.ibb.co/47qry58/redis.webp' },
     { id: '06', name: 'Tailwind CSS', imgUrl: 'https://i.ibb.co/pWXXdGj/twd.png' },
     { id: '07', name: 'Material UI', imgUrl: 'https://i.ibb.co/ydQfq96/mui.png' },
-    { id: '08', name: 'Bootstrap', imgUrl: 'https://i.ibb.co/9ct0WTx/bootstrap.png' },
-
+    // { id: '08', name: 'Bootstrap', imgUrl: 'https://i.ibb.co/9ct0WTx/bootstrap.png' },
+    
 ]
 export const aboutMeText = 'I thrive in environments where creativity and innovation are valued, constantly seeking out new ways to approach problems and deliver impactful solutions. My goal is simple to leverage my skills, experience, and passion to make a meaningful impact in software development. I am a capable team player who can adjust to any difficult circumstance. I can operate effectively both independently and in a group setting.'
 
