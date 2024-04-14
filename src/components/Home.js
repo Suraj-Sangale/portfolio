@@ -37,7 +37,7 @@ const Home = ({ scrollToTop }) => {
           </div>
           <div>
             <h1 className="home__name text-white">Hi, I am Suraj Sangale</h1>
-            <a class="underline decoration-pink-500/30 text-white">
+            <a className="underline decoration-pink-500/30 text-white">
               I am a Software Developer
             </a>
           </div>
