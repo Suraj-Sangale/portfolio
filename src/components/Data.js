@@ -7,7 +7,7 @@ export const images = [
     { id: '01', name: 'React', imgUrl: 'https://i.ibb.co/Ss4z8Z0/reactpng.png' },
     { id: '05', name: 'Mongo DB', imgUrl: 'https://i.ibb.co/9qCJLZV/mongo.png' },
     { id: '04', name: 'Node.js', imgUrl: 'https://i.ibb.co/vYqSP95/pngwing-com-2.png' },
-    { id: '06', name: 'strapi', imgUrl: 'https://i.ibb.co/2Zk80Vx/strapi.png' },
+    { id: '06', name: 'strapi', imgUrl: 'https://i.ibb.co/cvbt3cN/strapi.png' },
     { id: '07', name: 'Redis', imgUrl: 'https://i.ibb.co/47qry58/redis.webp' },
     { id: '06', name: 'Tailwind CSS', imgUrl: 'https://i.ibb.co/pWXXdGj/twd.png' },
     { id: '07', name: 'Material UI', imgUrl: 'https://i.ibb.co/ydQfq96/mui.png' },

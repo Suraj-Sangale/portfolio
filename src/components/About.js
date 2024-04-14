@@ -21,8 +21,8 @@ const About = () => {
               <img
                 src={item.imgUrl}
                 alt={`Image ${item.id}`}
-                className="icons group max-h-full max-w-full object-cover transition-transform transform duration-300 group-hover:scale-120"
-                style={{ maxHeight: "83%", maxWidth: "100%" }}
+                className="icons group  max-w-full object-cover transition-transform transform duration-300 group-hover:scale-120"
+                style={{ maxHeight: "72%", maxWidth: "100%" }}
               />
               <p className="mb-1 text-center text-sm">{item.name}</p>
             </div>
