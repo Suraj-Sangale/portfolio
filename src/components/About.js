@@ -1,6 +1,6 @@
 import React from "react";
 import "./About.css";
-import { aboutMeText, images } from "./Data";
+import { aboutMeText, images, resumeLink } from "./Data";
 const About = () => {
   return (
     <div className="about container section" id="about">
@@ -29,7 +29,7 @@ const About = () => {
           ))}
         </div>
         <a
-          href="https://drive.google.com/file/d/1E0HIyQVYQ_GtvAkp41KPo33kc9Oa_Pjw/view?usp=drive_link"
+          href={resumeLink}
           target="_blank"
           className="btn mt-4 text-center"
         >
