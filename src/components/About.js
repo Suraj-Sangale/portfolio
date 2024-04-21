@@ -20,7 +20,7 @@ const About = () => {
             >
               <img
                 src={item.imgUrl}
-                alt={`Image ${item.id}`}
+                alt='imgage not found'
                 className="icons group  max-w-full object-cover transition-transform transform duration-300 group-hover:scale-120"
                 style={{ maxHeight: "72%", maxWidth: "100%" }}
               />

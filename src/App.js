@@ -1,13 +1,14 @@
 // src/App.js
 import React from 'react';
 import './App.css';
-import { Link, animateScroll as scroll } from 'react-scroll';
+import { animateScroll as scroll } from 'react-scroll';
 
 import Home from './components/Home';
 import About from './components/About';
 import Work from './components/Work';
 import Contact from './components/Contact';
 import Navbar from './components/Navbar';
+import CustomCursor from './components/Items/CustomCursor';
 
 function App() {
   const scrollToTop = () => {
@@ -16,6 +17,7 @@ function App() {
 
   return (
     <div className="App">
+      <CustomCursor />
       <Navbar />
       <Home scrollToTop={scrollToTop} />
       <About />

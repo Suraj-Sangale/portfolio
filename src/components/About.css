@@ -185,3 +185,30 @@
       
 }
 
+
+.cursorFollower {
+    position: fixed;
+    width: 3rem;
+    height: 3rem;
+    border: 2px solid rgb(228, 108, 29);
+    /* border: 1.5px solid rgb(6 6 6); */
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s;
+    mix-blend-mode: difference;
+    z-index: 999;
+    pointer-events: none;
+  }
+  .cursorFollowerDot {
+    position: fixed;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    /* border: 2px solid rgb(228, 108, 29); */
+    background-color: rgb(228, 108, 29);
+    transition: transform 0.1s;
+    mix-blend-mode: difference;
+    z-index: 999;
+    pointer-events: none;
+  }
