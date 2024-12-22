@@ -1,20 +1,20 @@
 import React from "react";
 import "../styles/About.css";
 import { aboutMeText, images, resumeLink } from "./Data";
+import CustomTitle from "./Items/CustomTitle";
 const About = () => {
   return (
     <div
       className="about container section"
       id="about"
     >
-      <h2 className="section__title text-white">About Me</h2>
-      <div class="text-container">
-        <p class="subheading">Services</p>
-        <h1 class="main-heading">
-          <span class="white-text">What I </span>
-          <span class="gradient-text">Do</span>
-        </h1>
-      </div>
+      {/* <h2 className="section__title text-white"></h2> */}
+
+      <CustomTitle
+        subheading="About"
+        mainText="What I"
+        highlightedText="Do"
+      />
 
       <div className=" mx-auto my-8 p-8 bg-white rounded-lg shadow-md w-10/12		">
         <div className="mb-6">
