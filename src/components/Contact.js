@@ -65,7 +65,6 @@ const Contact = () => {
     setErrors(newErrors);
 
     if (isValid) {
-      // console.log('Form submitted:', formData);
       e.preventDefault();
       setIsLoading(true);
       emailjs

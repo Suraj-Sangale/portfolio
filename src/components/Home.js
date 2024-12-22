@@ -10,7 +10,6 @@ import {
 import { getConstant } from "../utils";
 
 const Home = ({ scrollToTop }) => {
-  // 
   return (
     <div className="homeBg">
       <section
