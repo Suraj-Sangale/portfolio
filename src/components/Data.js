@@ -1,6 +1,8 @@
 import { PiGraduationCapDuotone, PiBriefcaseLight } from "react-icons/pi";
 export const resumeLink =
-  "https://drive.google.com/file/d/11H4QaHbPzwoFYe_c7T1KEPP5kmZBK4Ly/view?usp=drive_link";
+  "https://drive.google.com/file/d/13qMLjG5cUDb8c9ffsAYJon8v5VxU3wy6/preview";
+// "https://drive.google.com/file/d/13qMLjG5cUDb8c9ffsAYJon8v5VxU3wy6/view?usp=sharing";
+
 export const images = [
   { id: "02", name: "JavaScript", imgUrl: "https://i.ibb.co/Lhq2sJf/js.png" },
   { id: "01", name: "Next.js", imgUrl: "https://i.ibb.co/h7xbhPv/nextjs.jpg" },

@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/About.css";
 import { aboutMeText, images, resumeLink } from "./Data";
 import CustomTitle from "./Items/CustomTitle";
+import ResumeModal from "./Items/ResumeModal";
 const About = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (isModalOpen) {
+      // Disable scrolling on the body
+      document.body.style.overflow = "hidden";
+    } else {
+      // Re-enable scrolling on the body
+      document.body.style.overflow = "auto";
+    }
+  }, [isModalOpen]);
+
   return (
     <div
       className="about container section"
@@ -39,13 +52,28 @@ const About = () => {
             </div>
           ))}
         </div>
-        <a
+        {/* <a
           href={resumeLink}
           target="_blank"
           className="btn mt-4 text-center"
         >
           Download Resume
-        </a>
+        </a> */}
+        <div>
+          <button
+            className="btn mt-4 text-center"
+            onClick={() => setIsModalOpen(true)}
+          >
+            View Resume
+          </button>
+
+          {/* Modal Component */}
+          <ResumeModal
+            show={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            resumeLink={resumeLink}
+          />
+        </div>
       </div>
     </div>
   );
