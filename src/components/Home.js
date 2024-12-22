@@ -1,6 +1,5 @@
-// src/components/Home.js
 import React from "react";
-import "./Home.css";
+import "../styles//Home.css";
 import {
   FaLinkedin,
   FaGithub,
@@ -8,27 +7,19 @@ import {
   FaFacebook,
   FaInstagram,
 } from "react-icons/fa";
+import { getConstant } from "../utils";
 
 const Home = ({ scrollToTop }) => {
-  const onClickIcons = (name) => {
-    let url =
-      name === "linkdin"
-        ? "https://www.linkedin.com/in/suraj-sangale/"
-        : name === "git"
-        ? "https://github.com/Suraj-Sangale"
-        : name === "twitter"
-        ? "https://twitter.com/SurajSangale4"
-        : name === "fb"
-        ? "https://m.facebook.com/profile.php/?id=100009445972401"
-        : "https://www.instagram.com/____suraj____/";
-    window.open(url, "_blank");
-  };
   return (
     <div className="homeBg">
-      <section className="home container " id="home">
+      <section
+        className="home container "
+        id="home"
+      >
         <div className="intro flex flex-col	items-center	">
           <div className="animate-drop">
             <img
+              alt="Suraj Sangale"
               src="https://i.ibb.co/kcLwjhh/person1.png"
               height={185}
               width={140}
@@ -37,35 +28,62 @@ const Home = ({ scrollToTop }) => {
           </div>
           <div>
             <h1 className="home__name text-white">Hi, I am Suraj Sangale</h1>
-            <a className="underline decoration-pink-500/30 text-white">
+            <div className="underline decoration-pink-500/30 text-white">
               I am a Software Developer
-            </a>
+            </div>
           </div>
-          <a href="#contact" className="btn mt-2">
+          <a
+            href="#contact"
+            className="btn mt-2"
+          >
             Hire Me
           </a>
-          {/* <div className="text-xl font-bold  text-white mt-8">You can find me on</div> */}
-          <div className="flex  space-x-4 mt-4 socialIcons">
-            <FaLinkedin
+          <div className="flex space-x-4 mt-4 socialIcons">
+            <a
+              href={getConstant("LINKDIN_URL")}
+              target="_blank"
+              rel="noopener noreferrer"
               className="contact__icon"
-              onClick={() => onClickIcons("linkdin")}
-            />
-            <FaGithub
+              aria-label="LinkedIn"
+            >
+              <FaLinkedin />
+            </a>
+            <a
+              href={getConstant("GIT_URL")}
+              target="_blank"
+              rel="noopener noreferrer"
               className="contact__icon"
-              onClick={() => onClickIcons("git")}
-            />
-            <FaTwitter
+              aria-label="GitHub"
+            >
+              <FaGithub />
+            </a>
+            <a
+              href={getConstant("TWITTER_URL")}
+              target="_blank"
+              rel="noopener noreferrer"
               className="contact__icon"
-              onClick={() => onClickIcons("twitter")}
-            />
-            <FaFacebook
+              aria-label="Twitter"
+            >
+              <FaTwitter />
+            </a>
+            <a
+              href={getConstant("FB_URL")}
+              target="_blank"
+              rel="noopener noreferrer"
               className="contact__icon"
-              onClick={() => onClickIcons("fb")}
-            />
-            <FaInstagram
+              aria-label="Facebook"
+            >
+              <FaFacebook />
+            </a>
+            <a
+              href={getConstant("INSTAGRAM_URL")}
+              target="_blank"
+              rel="noopener noreferrer"
               className="contact__icon"
-              onClick={() => onClickIcons("insta")}
-            />
+              aria-label="Instagram"
+            >
+              <FaInstagram />
+            </a>
           </div>
         </div>
       </section>
