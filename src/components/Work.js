@@ -3,6 +3,8 @@ import "../styles//Work.css";
 import Card from "./Card.js";
 import { EXPERIENCEDATA } from "./Data.js";
 import CustomTitle from "./Items/CustomTitle.js";
+import ExperienceCard from "./Items/ExperienceCard.js";
+import Timeline from "./Timeline.js";
 
 const Work = () => {
   const Data = EXPERIENCEDATA;
@@ -12,6 +14,9 @@ const Work = () => {
       className="Work container section"
       id="work"
     >
+      <ExperienceCard />
+      {/* <Timeline /> */}
+
       <div className="section__title text-white">
         <CustomTitle
           subheading=""
