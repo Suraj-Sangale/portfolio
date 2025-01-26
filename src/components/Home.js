@@ -51,7 +51,7 @@ const Home = ({ scrollToTop }) => {
               src="https://i.ibb.co/bBmCf3p/new-prof.png"
               height={185}
               width={140}
-              className="z-20"
+              // className="z-20"
             />
           </div>
           <div>

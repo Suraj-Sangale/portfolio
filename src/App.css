@@ -67,8 +67,9 @@
     }
     .navbar{
         padding: 1rem 2rem 0rem 1rem;
-        background: rgb(0,0,0);
-        background: var(--background-gradiant);
+        /* background: rgb(0,0,0); */
+        /* background: var(--background-gradiant); */
+        backdrop-filter: blur(10px);
 
     }
     input,
@@ -211,7 +212,8 @@
   }
   
   ::-webkit-scrollbar-thumb {
-    background: #b276d1; /* Purple color */
+    /* background: #2ed5ff;  */
+    background:  linear-gradient( #9c31ff, #3b82f6);
     border-radius: 20px; /* Rounded scrollbar */
     border: 2px solid #1a1038; /* Creates spacing effect */
     border-radius: 5px;
