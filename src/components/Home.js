@@ -10,6 +10,34 @@ import {
 import { getConstant } from "../utils";
 
 const Home = ({ scrollToTop }) => {
+  const socialLinks = [
+    {
+      url: getConstant("LINKDIN_URL"),
+      icon: <FaLinkedin />,
+      label: "LinkedIn",
+      className: "linkedin",
+    },
+    {
+      url: getConstant("GIT_URL"),
+      className: "github",
+      icon: <FaGithub />,
+      label: "GitHub",
+    },
+    {
+      url: getConstant("TWITTER_URL"),
+      className: "twitter",
+      icon: <FaTwitter />,
+      label: "Twitter",
+    },
+    {
+      url: getConstant("INSTAGRAM_URL"),
+      icon: <FaInstagram />,
+      label: "Instagram",
+      className: "instagram",
+    },
+    { url: getConstant("FB_URL"), icon: <FaFacebook />, label: "Facebook" },
+  ];
+  
   return (
     <div className="homeBg">
       <section
@@ -39,51 +67,18 @@ const Home = ({ scrollToTop }) => {
             Hire Me
           </a> */}
           <div className="flex space-x-4 mt-4 socialIcons">
-            <a
-              href={getConstant("LINKDIN_URL")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="contact__icon"
-              aria-label="LinkedIn"
-            >
-              <FaLinkedin />
-            </a>
-            <a
-              href={getConstant("GIT_URL")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="contact__icon"
-              aria-label="GitHub"
-            >
-              <FaGithub />
-            </a>
-            <a
-              href={getConstant("TWITTER_URL")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="contact__icon"
-              aria-label="Twitter"
-            >
-              <FaTwitter />
-            </a>
-            <a
-              href={getConstant("FB_URL")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="contact__icon"
-              aria-label="Facebook"
-            >
-              <FaFacebook />
-            </a>
-            <a
-              href={getConstant("INSTAGRAM_URL")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="contact__icon"
-              aria-label="Instagram"
-            >
-              <FaInstagram />
-            </a>
+            {socialLinks.map((link, index) => (
+              <a
+                key={index}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="contact__icon"
+                aria-label={link.label}
+              >
+                {link.icon}
+              </a>
+            ))}
           </div>
         </div>
       </section>

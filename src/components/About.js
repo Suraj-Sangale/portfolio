@@ -40,12 +40,12 @@ const About = () => {
           {images.map((item, index) => (
             <div
               key={index}
-              className="relative overflow-hidden  flex flex-col justify-center items-center h-20 m-1 rounded-md transition-transform transform hover:scale-105"
+              className="icons relative overflow-hidden  flex flex-col justify-center items-center h-20 m-1 rounded-md transition-transform transform hover:scale-105"
             >
               <img
                 src={item.imgUrl}
                 alt="imgage not found"
-                className="icons group  max-w-full object-cover transition-transform transform duration-300 group-hover:scale-120"
+                className=" group  max-w-full object-cover transition-transform transform duration-300 group-hover:scale-120"
                 style={{ maxHeight: "72%", maxWidth: "100%" }}
               />
               <p className="mb-1 text-center text-sm">{item.name}</p>
@@ -61,10 +61,10 @@ const About = () => {
         </a> */}
         <div>
           <button
-            className="btn mt-4 text-center"
+            class="mt-4 text-center style_button"
             onClick={() => setIsModalOpen(true)}
           >
-            View Resume
+            <span class="button-content">View Resume</span>
           </button>
 
           {/* Modal Component */}
