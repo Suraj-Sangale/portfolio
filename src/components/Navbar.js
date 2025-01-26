@@ -14,7 +14,7 @@ const Navbar = () => {
     { id: 3, label: "Work", path: "#work" },
     { id: 4, label: "Contact", path: "#contact" },
   ];
-  
+
   return (
     <nav className="flex items-center justify-between  fixed  inset-x-0 z-10 navbar">
       <div>
@@ -29,7 +29,7 @@ const Navbar = () => {
       <div className="hidden md:flex space-x-4">
         {pages.map((item, index) => (
           <a
-          key={index}
+            key={index}
             href={item.path}
             duration={500}
             className="text-white"
@@ -62,34 +62,16 @@ const Navbar = () => {
       </div>
       {menuOpen && (
         <div className="md:hidden absolute top-16 right-0 bg-gray-800 w-40 p-2 space-y-2">
-          <a
-            href="#"
-            className="text-white block"
-            onClick={toggleMenu}
-          >
-            Home
-          </a>
-          <a
-            href="#about"
-            className="text-white block"
-            onClick={toggleMenu}
-          >
-            About
-          </a>
-          <a
-            href="#work"
-            className="text-white block"
-            onClick={toggleMenu}
-          >
-            Work
-          </a>
-          <a
-            href="#contact"
-            className="text-white block"
-            onClick={toggleMenu}
-          >
-            Contact
-          </a>
+          {pages.map((item, index) => (
+            <a
+              key={index}
+              href={item.path}
+              className="text-white block"
+              onClick={toggleMenu}
+            >
+              {item.label}
+            </a>
+          ))}
         </div>
       )}
     </nav>
