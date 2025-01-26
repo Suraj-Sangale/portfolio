@@ -2,6 +2,7 @@ import React from "react";
 import "../styles//Work.css";
 import Card from "./Card.js";
 import { EXPERIENCEDATA } from "./Data.js";
+import CustomTitle from "./Items/CustomTitle.js";
 
 const Work = () => {
   const Data = EXPERIENCEDATA;
@@ -11,7 +12,13 @@ const Work = () => {
       className="Work container section"
       id="work"
     >
-      <h2 className="section__title text-white">Experience</h2>
+      <div className="section__title text-white">
+        <CustomTitle
+          subheading=""
+          mainText="Education &"
+          highlightedText="Experience"
+        />
+      </div>
 
       <div className="Work__container grid">
         <div className="timeline grid">
