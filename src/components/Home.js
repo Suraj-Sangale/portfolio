@@ -20,7 +20,7 @@ const Home = ({ scrollToTop }) => {
           <div className="animate-drop">
             <img
               alt="Suraj Sangale"
-              src="https://i.ibb.co/kcLwjhh/person1.png"
+              src="https://i.ibb.co/bBmCf3p/new-prof.png"
               height={185}
               width={140}
               className="z-20"
@@ -32,12 +32,12 @@ const Home = ({ scrollToTop }) => {
               I am a Software Developer
             </div>
           </div>
-          <a
+          {/* <a
             href="#contact"
             className="btn mt-2"
           >
             Hire Me
-          </a>
+          </a> */}
           <div className="flex space-x-4 mt-4 socialIcons">
             <a
               href={getConstant("LINKDIN_URL")}

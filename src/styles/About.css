@@ -190,7 +190,7 @@
     position: fixed;
     width: 3rem;
     height: 3rem;
-    border: 2px solid rgb(228, 108, 29);
+    border: 2px solid #c48ae0;
     /* border: 1.5px solid rgb(6 6 6); */
     border-radius: 50%;
     transform: translate(-50%, -50%);
