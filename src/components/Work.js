@@ -14,8 +14,7 @@ const Work = () => {
       className="Work container section"
       id="work"
     >
-      <ExperienceCard />
-      {/* <Timeline /> */}
+      {/* <ExperienceCard /> */}
 
       <div className="section__title text-white">
         <CustomTitle

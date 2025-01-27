@@ -21,7 +21,7 @@ export const images = [
     imgUrl: "https://i.ibb.co/pWXXdGj/twd.png",
   },
   { id: "07", name: "Material UI", imgUrl: "https://i.ibb.co/ydQfq96/mui.png" },
-  // { id: '08', name: 'Bootstrap', imgUrl: 'https://i.ibb.co/9ct0WTx/bootstrap.png' },
+  // { id: '08', name: 'Bootstrap', imgUrl: 'https://:.ibb.co/9ct0WTx/bootstrap.png' },
 ];
 export const aboutMeText =
   "I thrive in environments where creativity and innovation are valued, constantly seeking out new ways to approach problems and deliver impactful solutions. My goal is simple to leverage my skills, experience, and passion to make a meaningful impact in software development. I am a capable team player who can adjust to any difficult circumstance. I can operate effectively both independently and in a group setting.";
@@ -37,6 +37,7 @@ export const EXPERIENCEDATA = [
     year: "2017-2022",
     title: "B.E in EXTC",
     desc: "Mumbai University - 7.35 CGPA",
+    skills: ["Angular", "AngularJS", "SpringBoot", "Java"],
   },
   {
     id: 2,
@@ -45,6 +46,7 @@ export const EXPERIENCEDATA = [
     year: "2016-2017",
     title: "HSC",
     desc: "State Board - 56.31%",
+    skills: ["Angular", "AngularJS", "SpringBoot", "Java"],
   },
   {
     id: 4,
@@ -53,6 +55,7 @@ export const EXPERIENCEDATA = [
     year: "02/2024 - present",
     title: "Fortune4 Technologies",
     desc: "Software Developer",
+    skills: ["Angular", "AngularJS", "SpringBoot", "Java"],
   },
   {
     id: 6,
@@ -61,6 +64,7 @@ export const EXPERIENCEDATA = [
     year: "07/2022 - 12/2023",
     title: "Boppo Technologies",
     desc: "Software Engineer",
+    skills: ["Angular", "AngularJS", "SpringBoot", "Java"],
   },
   {
     id: 5,
@@ -69,5 +73,6 @@ export const EXPERIENCEDATA = [
     year: "01/2022 - 03/2022",
     title: "Intern at CGI",
     desc: "Front-End Developer",
+    skills: ["Angular", "AngularJS", "SpringBoot", "Java"],
   },
 ];
