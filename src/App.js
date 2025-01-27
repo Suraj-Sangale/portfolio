@@ -21,7 +21,7 @@ function App() {
       <Navbar />
       <Home scrollToTop={scrollToTop} />
       <About />
-      <Timeline />
+      {/* <Timeline /> */}
       <Work />
       <Contact />
     </div>

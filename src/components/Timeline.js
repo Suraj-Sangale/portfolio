@@ -50,33 +50,34 @@ const Timeline = () => {
   const skills = ["Angular", "AngularJS", "SpringBoot", "Java"];
 
   return (
-    <div className="card-container  justify-center items-center h-screen">
-      {/* Vertical blue line */}
-      <div className="relative bg-white w-1 h-full">
+    <div className="card-container flex justify-center items-center min-h-screen ">
+      <div className=" shadow-lg rounded-2xl p-6 w-96 md:w-[32rem] h-auto relative my-10">
+      <ul className="relative flex flex-col items-center space-y-8">
+        <div className="absolute left-1/2 top-0 h-full w-1 -translate-x-1/2 bg-white border-l-2 border-gray-300"></div>
         {experiences.map((item, index) => (
-          <div
+          <li
             key={index}
-            className="absolute"
-            style={{ top: `${index * 20}%` }}
+            className="relative"
           >
             {/* Red hexagon */}
-            <div className="-ml-2">
+            {/* <div className="-ml-2">
               <BsFillHexagonFill
                 color="red"
                 size={"25"}
               />
-            </div>
+            </div> */}
             {/* Cards */}
             <div
               className={`absolute ${
                 index % 2 === 0 ? "left-[2.5rem]" : "right-[2.5rem]"
-              } top-1/2 `}
+              } top-1/2`}
             >
               <ExperienceCard item={item} />
             </div>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
+    </div>
     </div>
   );
 };
