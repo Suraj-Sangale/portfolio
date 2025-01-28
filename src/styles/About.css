@@ -212,8 +212,7 @@
   } */
 
 
-
-  /* From Uiverse.io by Madflows */ 
+/* From Uiverse.io by Madflows */ 
 .style_button {
     position: relative;
     overflow: hidden;
@@ -241,7 +240,6 @@
     position: absolute;
     top: 0;
     left: 0;
-    bottom: 0;
     transform: scaleX(0);
     transform-origin: 0 50%;
     width: 100%;

@@ -31,15 +31,6 @@ let work = <PiBriefcaseLight />;
 
 export const EXPERIENCEDATA = [
   {
-    id: 3,
-    category: "education",
-    icon: graduation,
-    year: "2017-2022",
-    title: "B.E in EXTC",
-    desc: "Mumbai University - 7.35 CGPA",
-    skills: ["Angular", "AngularJS", "SpringBoot", "Java"],
-  },
-  {
     id: 2,
     category: "education",
     icon: graduation,
@@ -49,12 +40,21 @@ export const EXPERIENCEDATA = [
     skills: ["Angular", "AngularJS", "SpringBoot", "Java"],
   },
   {
-    id: 4,
+    id: 3,
+    category: "education",
+    icon: graduation,
+    year: "2017-2022",
+    title: "B.E in EXTC",
+    desc: "Mumbai University - 7.35 CGPA",
+    skills: ["Angular", "AngularJS", "SpringBoot", "Java"],
+  },
+  {
+    id: 5,
     category: "experience",
     icon: work,
-    year: "02/2024 - present",
-    title: "Fortune4 Technologies",
-    desc: "Software Developer",
+    year: "01/2022 - 03/2022",
+    title: "Intern at CGI",
+    desc: "Front-End Developer",
     skills: ["Angular", "AngularJS", "SpringBoot", "Java"],
   },
   {
@@ -67,12 +67,12 @@ export const EXPERIENCEDATA = [
     skills: ["Angular", "AngularJS", "SpringBoot", "Java"],
   },
   {
-    id: 5,
+    id: 4,
     category: "experience",
     icon: work,
-    year: "01/2022 - 03/2022",
-    title: "Intern at CGI",
-    desc: "Front-End Developer",
+    year: "02/2024 - present",
+    title: "Fortune4 Technologies",
+    desc: "Software Developer",
     skills: ["Angular", "AngularJS", "SpringBoot", "Java"],
   },
 ];
