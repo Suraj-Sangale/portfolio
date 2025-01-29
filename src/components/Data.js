@@ -37,7 +37,6 @@ export const EXPERIENCEDATA = [
     year: "2016-2017",
     title: "HSC",
     desc: "State Board - 56.31%",
-    skills: ["Angular", "AngularJS", "SpringBoot", "Java"],
   },
   {
     id: 3,
@@ -46,7 +45,6 @@ export const EXPERIENCEDATA = [
     year: "2017-2022",
     title: "B.E in EXTC",
     desc: "Mumbai University - 7.35 CGPA",
-    skills: ["Angular", "AngularJS", "SpringBoot", "Java"],
   },
   {
     id: 5,
@@ -55,7 +53,7 @@ export const EXPERIENCEDATA = [
     year: "01/2022 - 03/2022",
     title: "Intern at CGI",
     desc: "Front-End Developer",
-    skills: ["Angular", "AngularJS", "SpringBoot", "Java"],
+    skills: ["HTML", "CSS","JavaScript","React", "React router"],
   },
   {
     id: 6,
@@ -64,7 +62,6 @@ export const EXPERIENCEDATA = [
     year: "07/2022 - 12/2023",
     title: "Boppo Technologies",
     desc: "Software Engineer",
-    skills: ["Angular", "AngularJS", "SpringBoot", "Java"],
   },
   {
     id: 4,
