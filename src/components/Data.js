@@ -62,6 +62,7 @@ export const EXPERIENCEDATA = [
     year: "07/2022 - 12/2023",
     title: "Boppo Technologies",
     desc: "Software Engineer",
+skills: ["React", "Redux","React Native", "Python", "Java"],
   },
   {
     id: 4,
