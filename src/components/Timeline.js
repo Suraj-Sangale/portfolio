@@ -5,9 +5,9 @@ import { EXPERIENCEDATA } from "./Data";
 
 const Timeline = () => {
   return (
-    <div className="flex justify-center items-center min-h-screen card-container">
-      <h1 className="text-4xl font-bold mb-3 text-white">My Journey</h1>
-      <p className="text-lg text-white">
+    <div className=" container  flex justify-center items-center min-h-screen card-container">
+      <h1 className="text-4xl font-bold mb-3 ">My Journey</h1>
+      <p className="text-lg ">
         For more information, have a look at my
         <a
           className="text-blue-500 underline hover:text-blue-700 ml-1"
