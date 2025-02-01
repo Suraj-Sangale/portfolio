@@ -38,46 +38,60 @@
 // export default Timeline;
 
 import React from "react";
-import { PiGraduationCapDuotone, PiPaperPlaneFill } from "react-icons/pi";
 import { BsFillHexagonFill } from "react-icons/bs";
 import ExperienceCard from "./Items/ExperienceCard";
 import { EXPERIENCEDATA } from "./Data";
 
 const Timeline = () => {
-  const hexagons = Array(5).fill(null); // Number of hexagons/cards
-  const experiences = EXPERIENCEDATA;
-
-  const skills = ["Angular", "AngularJS", "SpringBoot", "Java"];
-
   return (
-    <div className="card-container flex justify-center items-center min-h-screen ">
-      <div className=" shadow-lg rounded-2xl p-6 w-96 md:w-[32rem] h-auto relative my-10">
-      <ul className="relative flex flex-col items-center space-y-8">
-        <div className="absolute left-1/2 top-0 h-full w-1 -translate-x-1/2 bg-white border-l-2 border-gray-300"></div>
-        {experiences.map((item, index) => (
-          <li
-            key={index}
-            className="relative"
-          >
-            {/* Red hexagon */}
-            {/* <div className="-ml-2">
-              <BsFillHexagonFill
-                color="red"
-                size={"25"}
-              />
-            </div> */}
-            {/* Cards */}
-            <div
-              className={`absolute ${
-                index % 2 === 0 ? "left-[2.5rem]" : "right-[2.5rem]"
-              } top-1/2`}
+    <div className="flex justify-center items-center min-h-screen card-container">
+      <h1 className="text-4xl font-bold mb-3 text-white">My Journey</h1>
+      <p className="text-lg text-white">
+        For more information, have a look at my
+        <a
+          className="text-blue-500 underline hover:text-blue-700 ml-1"
+          target="_blank"
+          rel="noreferrer"
+        >
+          curriculum vitae
+        </a>
+        .
+      </p>
+      <div className="w-96 md:w-[65rem] h-auto relative">
+        <ul className="relative flex flex-col items-center space-y-8">
+          {/* Vertical line */}
+          <div className="absolute left-1/2 top-0 h-full w-1 -translate-x-1/2 bg-white border-l-2 border-gray-300"></div>
+          {/* Dynamic list items */}
+          {[...EXPERIENCEDATA].reverse().map((item, index) => (
+            <li
+              key={index}
+              className={`relative text-gray-700 px-4 py-2 rounded-lg w-full md:w-[48%] text-center ${
+                index % 2 === 0
+                  ? "md:self-start md:ml-0"
+                  : "md:self-end md:mr-0"
+              }`}
             >
-              <ExperienceCard item={item} />
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
+              <div
+                className={`absolute hidden md:block ${
+                  index % 2 === 0
+                    ? "left-auto -right-[2rem]"
+                    : "-left-[2rem] right-auto"
+                }`}
+              >
+                <BsFillHexagonFill
+                  color="red"
+                  size={"25"}
+                />
+              </div>
+
+              <ExperienceCard
+                item={item}
+                index={index}
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
