@@ -1,4 +1,4 @@
-miimport { PiGraduationCapDuotone, PiBriefcaseLight } from "react-icons/pi";
+import { PiGraduationCapDuotone, PiBriefcaseLight } from "react-icons/pi";
 export const resumeLink =
   "https://drive.google.com/file/d/13qMLjG5cUDb8c9ffsAYJon8v5VxU3wy6/preview";
 // "https://drive.google.com/file/d/13qMLjG5cUDb8c9ffsAYJon8v5VxU3wy6/view?usp=sharing";
@@ -75,4 +75,3 @@ skills: ["React", "Redux","React Native", "Python", "Java"],
   },
 ];
 
-// test
