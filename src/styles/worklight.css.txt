@@ -101,42 +101,47 @@
   }
 }
 
-
 .card-container {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background: #f9f9f9; /* Light background */
+  /* align-items: flex-start; */
+  background: #2c2c2c; /* Slightly lighter dark color for contrast */
   padding: 20px;
   border-radius: 15px;
   /* box-shadow: 5px 5px 15px #d4d4d4, -5px -5px 15px #ffffff; */
   width: fit-content;
 }
 
+.company-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .company-name {
-  background: #ffffff;
+  background: #2c2c2c;
   padding: 5px 10px;
-  color: #007bff; /* Blue accent color */
+  color: rgb(255, 7, 58);
   border-radius: 10px;
-  box-shadow: 2px 2px 10px #e0e0e0, -2px -2px 10px #ffffff;
+  box-shadow: 2px 2px 10px #1a1a1a, -2px -2px 10px #747474;
   font-size: 16px;
   font-weight: 600;
   text-align: center;
   transition: 0.2s ease-in-out;
 }
-
 .company-name:hover {
   cursor: default;
   transform: translateY(-3px);
-  box-shadow: 2px 2px 10px #c0c0c0, -2px -2px 10px #ffffff;
+  box-shadow: 2px 2px 10px #1a1a1a, -2px -2px 10px #747474;
 }
 
 .duration {
-  background: #ffffff;
-  color: #333;
+  background: #2c2c2c;
+  color: white;
   padding: 5px 10px;
   border-radius: 10px;
-  box-shadow: 2px 2px 10px #e0e0e0, -2px -2px 10px #ffffff;
+  box-shadow: 2px 2px 10px #1a1a1a, -2px -2px 10px #747474;
   font-size: 16px;
   font-weight: 600;
   text-align: center;
@@ -144,16 +149,17 @@
 }
 
 .card {
-  background: #ffffff;
+  background: #2c2c2c;
   padding: 20px;
   border-radius: 15px;
-  box-shadow: 5px 5px 15px #d4d4d4, -5px -5px 15px #ffffff;
+  box-shadow: 5px 5px 15px #1a1a1a, -5px -5px 15px #3e3e3e;
+  /* width: 300px; */
   text-align: center;
 }
 
 .card-title {
   font-size: 18px;
-  color: #333;
+  color: #ffffff;
   margin-bottom: 10px;
 }
 
@@ -165,11 +171,11 @@
 }
 
 .skill {
-  background: #ffffff;
+  background: #2c2c2c;
   padding: 5px 10px;
   border-radius: 10px;
-  box-shadow: inset 2px 2px 5px #e0e0e0, inset -2px -2px 5px #ffffff;
-  color: #333;
+  box-shadow: inset 2px 2px 5px #1a1a1a, inset -2px -2px 5px #3e3e3e;
+  color: #ffffff;
   font-size: 14px;
   text-align: center;
   transition: 0.2s ease-in-out;
@@ -178,17 +184,17 @@
 .skill:hover {
   cursor: pointer;
   transform: translateY(-3px);
-  box-shadow: 2px 2px 10px #d0d0d0, -2px -2px 10px #ffffff;
+  box-shadow: 2px 2px 10px #1a1a1a, -2px -2px 10px #3e3e3e;
 }
 
-/* Button */
+/* From Uiverse.io by CYBWEBALI */
 .btn_company {
   display: grid;
   place-items: center;
-  background: #ffffff;
+  background: #e3edf7;
   padding: 1.4em;
   border-radius: 10px;
-  box-shadow: 6px 6px 10px -1px rgba(0, 0, 0, 0.1),
+  box-shadow: 6px 6px 10px -1px rgba(0, 0, 0, 0.15),
     -6px -6px 10px -1px rgba(255, 255, 255, 0.7);
   border: 1px solid rgba(0, 0, 0, 0);
   cursor: pointer;
@@ -196,14 +202,15 @@
 }
 
 .btn_company:hover {
-  box-shadow: inset 4px 4px 6px -1px rgba(0, 0, 0, 0.1),
+  box-shadow: inset 4px 4px 6px -1px rgba(0, 0, 0, 0.2),
     inset -4px -4px 6px -1px rgba(255, 255, 255, 0.7),
     -0.5px -0.5px 0px rgba(255, 255, 255, 1),
-    0.5px 0.5px 0px rgba(0, 0, 0, 0.1),
-    0px 12px 10px -10px rgba(0, 0, 0, 0.05);
+    0.5px 0.5px 0px rgba(0, 0, 0, 0.15), 0px 12px 10px -10px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(0, 0, 0, 0.1);
+  /* transform: translateY(0.5em); */
 }
 
 .btn_company:hover {
-  color: #007bff;
+  /* transform: scale(0.9); */
+  color: #333333;
 }

@@ -31,7 +31,7 @@ const About = () => {
           highlightedText="Do"
         />
 
-        <div className=" mx-auto my-8 p-8 bg-white rounded-lg shadow-md w-10/12		">
+        <div className=" mx-auto my-8 md:p-8 p-4 bg-white rounded-lg shadow-md w-10/12		">
           <div className="mb-6">
             <p className="about__description">{aboutMeText}</p>
             <h2 className="section__subtitle text-slate-800 text-center">
