@@ -1,6 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 import "../styles//Contact.css";
-import emailjs from '@emailjs/browser';
+import emailjs from "@emailjs/browser";
+import CustomTitle from "./Items/CustomTitle";
 
 const Contact = () => {
   const form = useRef();
@@ -9,24 +10,24 @@ const Contact = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const initialFormState = {
-    from_name: '',
-    from_email: '',
-    subject: '',
-    message: '',
-  }
+    from_name: "",
+    from_email: "",
+    subject: "",
+    message: "",
+  };
   const [formData, setFormData] = useState(initialFormState);
 
   const [errors, setErrors] = useState({
-    from_name: '',
-    from_email: '',
-    subject: '',
-    message: '',
+    from_name: "",
+    from_email: "",
+    subject: "",
+    message: "",
   });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    setErrors({ ...errors, [name]: '' });
+    setErrors({ ...errors, [name]: "" });
   };
   const closeModal = () => {
     setIsOpen(false);
@@ -41,25 +42,25 @@ const Contact = () => {
 
     if (!formData.from_name.trim()) {
       isValid = false;
-      newErrors.from_name = 'Name is required';
+      newErrors.from_name = "Name is required";
     }
 
     if (!formData.from_email.trim()) {
       isValid = false;
-      newErrors.from_email = 'Email is required';
+      newErrors.from_email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.from_email)) {
       isValid = false;
-      newErrors.email = 'Invalid email format';
+      newErrors.email = "Invalid email format";
     }
 
     if (!formData.subject.trim()) {
       isValid = false;
-      newErrors.subject = 'Subject is required';
+      newErrors.subject = "Subject is required";
     }
 
     if (!formData.message.trim()) {
       isValid = false;
-      newErrors.message = 'Message is required';
+      newErrors.message = "Message is required";
     }
 
     setErrors(newErrors);
@@ -68,87 +69,126 @@ const Contact = () => {
       e.preventDefault();
       setIsLoading(true);
       emailjs
-        .sendForm('service_kurtcr8', 'template_ed9ynop', form.current, {
-          publicKey: 'DvhW8RF1zxNX4rKXe',
+        .sendForm("service_kurtcr8", "template_ed9ynop", form.current, {
+          publicKey: "DvhW8RF1zxNX4rKXe",
         })
         .then(
           () => {
-            console.log('SUCCESS!');
+            console.log("SUCCESS!");
             setIsOpen(true);
             setIsLoading(false);
             setIsSuccess(true);
           },
           (error) => {
-            console.log('FAILED...', error.text);
+            console.log("FAILED...", error.text);
             setIsOpen(true);
             setIsLoading(false);
             setIsSuccess(false);
-          },
+          }
         );
-
     }
   };
+
+  useEffect(() => {
+    // Disable scroll when loading
+    if (isLoading) {
+      document.body.classList.add("no-scroll");
+    } else {
+      document.body.classList.remove("no-scroll");
+    }
+
+    // Clean up when the component is unmounted or state changes
+    return () => {
+      document.body.classList.remove("no-scroll");
+    };
+  }, [isLoading]);
   return (
-    <section className='contact container section' id='contact'>
-      <h2 className='section__title text-white'>Reach Out to me!</h2>
-      <div className='contact__container grid'>
-        <div className='contact__info'>
-          <p className='contact__details text-white'>DISCUSS A PROJECT OR JUST WANT TO SAY HI ? MY INBOX IS OPEN FOR ALL.👋</p>
+    <section
+      className="contact container section"
+      id="contact"
+    >
+      <CustomTitle
+        subheading=""
+        mainText="Reach out"
+        highlightedText="to me!"
+      />
+      {/* <h2 className="section__title text-white">Reach Out to me!</h2> */}
+      <div className="contact__container grid mt-5">
+        <div className="contact__info">
+          <p className="contact__details text-white">
+            DISCUSS A PROJECT OR JUST WANT TO SAY HI ? MY INBOX IS OPEN FOR
+            ALL.👋
+          </p>
         </div>
 
-        <form onSubmit={handleSubmit} ref={form} className='contact__form'>
-          <div className='contact__form-group'>
-            <div className='contact__form-div'>
+        <form
+          onSubmit={handleSubmit}
+          ref={form}
+          className="contact__form"
+        >
+          <div className="contact__form-group">
+            <div className="contact__form-div">
               <input
-                type='text'
-                className='contact__form-input'
-                placeholder='Your Good Name Here'
-                name='from_name'
+                type="text"
+                className="contact__form-input"
+                placeholder="Your Good Name Here"
+                name="from_name"
                 value={formData.from_name}
                 onChange={handleInputChange}
               />
-              <span className='text-red-500 absolute mt-[3.6rem] ms-4'>{errors.from_name}</span>
+              <span className="text-red-500 absolute mt-[3.6rem] ms-4">
+                {errors.from_name}
+              </span>
             </div>
 
-            <div className='contact__form-div'>
+            <div className="contact__form-div">
               <input
-                type='email'
-                className='contact__form-input'
-                placeholder='Your Email'
-                name='from_email'
+                type="email"
+                className="contact__form-input"
+                placeholder="Your Email"
+                name="from_email"
                 value={formData.from_email}
                 onChange={handleInputChange}
               />
-              <span className='text-red-500 absolute mt-[3.6rem] ms-4'>{errors.from_email}</span>
+              <span className="text-red-500 absolute mt-[3.6rem] ms-4">
+                {errors.from_email}
+              </span>
             </div>
           </div>
 
-          <div className='contact__form-div'>
+          <div className="contact__form-div">
             <input
-              type='text'
-              className='contact__form-input'
+              type="text"
+              className="contact__form-input"
               placeholder="Let's Talk About..."
-              name='subject'
+              name="subject"
               value={formData.subject}
               onChange={handleInputChange}
             />
-            <span className='text-red-500 absolute mt-[3.6rem] ms-4'>{errors.subject}</span>
+            <span className="text-red-500 absolute mt-[3.6rem] ms-4">
+              {errors.subject}
+            </span>
           </div>
 
-          <div className='contact__form-div contact__form-area'>
+          <div className="contact__form-div contact__form-area">
             <textarea
-              name='message'
-              id=''
+              name="message"
+              id=""
               cols={30}
               rows={10}
-              className='contact__form-input'
-              placeholder='Suraj, Lets Grow Together !'
+              className="contact__form-input"
+              placeholder="Suraj, Lets Grow Together !"
               value={formData.message}
               onChange={handleInputChange}
             />
-            <span className='text-red-500 absolute mt-[3.6rem] ms-4'>{errors.message}</span>
+            <span className="text-red-500 absolute mt-[3.6rem] ms-4">
+              {errors.message}
+            </span>
           </div>
-          <button type='submit' className='btn'>
+          <button
+            type="submit"
+            className="btn"
+          >
             Send Message
           </button>
         </form>
@@ -157,9 +197,12 @@ const Contact = () => {
         <div className="fixed z-10 inset-0 overflow-y-auto">
           <div className="flex items-center justify-center min-h-screen px-4 text-center">
             <div className="fixed inset-0 transition-opacity">
-              <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+              <div className="absolute inset-0 bg-black bg-opacity-70"></div>
             </div>
-            <span className="inline-block h-screen align-middle" aria-hidden="true">
+            <span
+              className="inline-block h-screen align-middle"
+              aria-hidden="true"
+            >
               &#8203;
             </span>
 
@@ -207,16 +250,24 @@ const Contact = () => {
                   <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                     {isSuccess ? (
                       <>
-                        <h3 className="text-lg leading-6 font-medium text-gray-900">Success!</h3>
+                        <h3 className="text-lg leading-6 font-medium text-gray-900">
+                          Success!
+                        </h3>
                         <div className="mt-2">
-                          <p className="text-sm text-gray-500">Your message has been sent successfully.</p>
+                          <p className="text-sm text-gray-500">
+                            Your message has been sent successfully.
+                          </p>
                         </div>
                       </>
                     ) : (
                       <>
-                        <h3 className="text-lg leading-6 font-medium text-gray-900">Failed</h3>
+                        <h3 className="text-lg leading-6 font-medium text-gray-900">
+                          Failed
+                        </h3>
                         <div className="mt-2">
-                          <p className="text-sm text-gray-500">Oops! Something went wrong. Please try again later</p>
+                          <p className="text-sm text-gray-500">
+                            Oops! Something went wrong. Please try again later
+                          </p>
                         </div>
                       </>
                     )}
@@ -237,8 +288,13 @@ const Contact = () => {
         </div>
       )}
       {isLoading && (
-        <div className="fixed top-0 left-0 z-50 w-full h-full flex items-center justify-center bg-black bg-opacity-25">
-          <div className="animate-spin rounded-full h-20 w-20 border-t-2 border-b-2 border-gray-900"></div>
+        <div className="fixed top-0 left-0 z-50 w-full h-full flex items-center justify-center bg-black bg-opacity-70">
+          <div class="loader">
+            <div class="intern">Please wait..</div>
+            <div class="external-shadow">
+              <div class="central"></div>
+            </div>
+          </div>
         </div>
       )}
     </section>
