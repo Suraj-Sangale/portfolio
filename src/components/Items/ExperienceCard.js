@@ -11,7 +11,11 @@ const ExperienceCard = ({ item, index }) => {
       </div> */}
 
       <div className="card">
-        <div className={`flex ${index % 2 === 0 && "justify-end"}`}>
+        <div
+          className={`flex justify-center ${
+            index % 2 === 0 ? " md:justify-end" : " md:justify-start"
+          }`}
+        >
           <span className="company-name">{item?.title}</span>
           <span className="duration ml-3">{item?.year}</span>
         </div>

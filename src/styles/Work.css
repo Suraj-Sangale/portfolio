@@ -207,3 +207,11 @@
 .btn_company:hover {
   color: #007bff;
 }
+
+@media screen and (max-width: 576px) {
+  .card-container {
+    width: 92%;
+    margin: 4%;
+  }
+  
+}
