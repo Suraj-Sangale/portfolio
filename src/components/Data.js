@@ -71,6 +71,6 @@ export const EXPERIENCEDATA = [
     year: "02/2024 - present",
     title: "Fortune4 Technologies",
     desc: "Software Developer",
-    skills: ["Angular", "AngularJS", "SpringBoot", "Java"],
+    skills: ["Next js", "Node js", "MySQL", "Redis", "Strapi"],
   },
 ];
