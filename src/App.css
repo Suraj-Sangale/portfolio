@@ -201,19 +201,19 @@ img {
 }
 
 ::-webkit-scrollbar-track {
-  background: #1a1038; /* Dark background */
+  background: #161616; /* Dark background */
 }
 
 ::-webkit-scrollbar-thumb {
   /* background: #2ed5ff;  */
-  background: linear-gradient(#9c31ff, #3b82f6);
+  background: linear-gradient(#4cc6ff, #c52ce4);
   border-radius: 20px; /* Rounded scrollbar */
   border: 2px solid #1a1038; /* Creates spacing effect */
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #c48ae0; /* Lighter purple on hover */
+  background: #868686; 
 }
 
 /* Firefox scrollbar */
