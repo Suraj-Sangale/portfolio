@@ -1,14 +1,14 @@
-import React from 'react';
-import './App.css';
-import { animateScroll as scroll } from 'react-scroll';
+import React from "react";
+import "./App.css";
+import { animateScroll as scroll } from "react-scroll";
 
-import Home from './components/Home';
-import About from './components/About';
-import Work from './components/Work';
-import Contact from './components/Contact';
-import Navbar from './components/Navbar';
-import CustomCursor from './components/Items/CustomCursor';
-import Timeline from './components/Timeline';
+import Home from "./components/Home";
+import About from "./components/About";
+import Work from "./components/Work";
+import Contact from "./components/Contact";
+import Navbar from "./components/Navbar";
+import CustomCursor from "./components/Items/CustomCursor";
+import Timeline from "./components/Timeline";
 
 function App() {
   const scrollToTop = () => {
@@ -16,7 +16,13 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className="App" style={{backgroundColor:"black"}}>
+      <div class="bg-animation">
+        <div id="stars"></div>
+        <div id="stars2"></div>
+        <div id="stars3"></div>
+        <div id="stars4"></div>
+      </div>
       <CustomCursor />
       <Navbar />
       <Home scrollToTop={scrollToTop} />

@@ -61,7 +61,7 @@ const Navbar = () => {
         </button>
       </div>
       {menuOpen && (
-        <div className="md:hidden absolute top-16 right-0 bg-gray-800 w-40 p-2 space-y-2">
+        <div className="md:hidden absolute top-16 right-0 -gray-800 w-40 p-2 space-y-2">
           {pages.map((item, index) => (
             <a
               key={index}
