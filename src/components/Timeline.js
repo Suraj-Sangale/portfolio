@@ -17,7 +17,7 @@ const Timeline = () => {
       />
       <div className=" flex justify-center items-center min-h-screen card-container mt-8">
         {/* <h1 className="text-4xl font-bold mb-3 ">My Journey</h1> */}
-        <p className="text-lg ">
+        {/* <p className="text-lg ">
           For more information, have a look at my
           <a
             className="text-blue-500 underline hover:text-blue-700 ml-1"
@@ -27,7 +27,7 @@ const Timeline = () => {
             curriculum vitae
           </a>
           .
-        </p>
+        </p> */}
         <div className="w-96 md:w-[65rem] h-auto relative">
           <ul className="relative flex flex-col items-center space-y-8">
             <div className="absolute left-1/2 top-0 h-full w-1 -translate-x-1/2 bg-white border-l-2 border-gray-300"></div>
