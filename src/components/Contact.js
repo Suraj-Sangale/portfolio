@@ -104,7 +104,7 @@ const Contact = () => {
   }, [isLoading]);
   return (
     <section
-      className="contact container section"
+      className="contact container section relative"
       id="contact"
     >
       <CustomTitle

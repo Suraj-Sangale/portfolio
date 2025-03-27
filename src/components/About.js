@@ -20,7 +20,7 @@ const About = () => {
   return (
     <>
       <div
-        className="about container section"
+        className="about container section relative"
         id="about"
       >
         {/* <h2 className="section__title text-white"></h2> */}

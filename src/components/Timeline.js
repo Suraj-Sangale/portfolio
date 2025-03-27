@@ -7,7 +7,7 @@ import CustomTitle from "./Items/CustomTitle";
 const Timeline = () => {
   return (
     <div
-      className="about container section"
+      className="about container section relative"
       id="work"
     >
       <CustomTitle
