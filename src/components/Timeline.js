@@ -15,7 +15,7 @@ const Timeline = () => {
         mainText="My"
         highlightedText="Journey"
       />
-      <div className=" flex justify-center items-center min-h-screen card-container mt-8">
+      <div className=" flex justify-center items-center  card-container mt-8">
         {/* <h1 className="text-4xl font-bold mb-3 ">My Journey</h1> */}
         {/* <p className="text-lg ">
           For more information, have a look at my

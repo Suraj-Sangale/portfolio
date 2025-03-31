@@ -289,10 +289,10 @@ const Contact = () => {
       )}
       {isLoading && (
         <div className="fixed top-0 left-0 z-50 w-full h-full flex items-center justify-center bg-black bg-opacity-70">
-          <div class="loader">
-            <div class="intern">Please wait..</div>
-            <div class="external-shadow">
-              <div class="central"></div>
+          <div className="loader">
+            <div className="intern">Please wait..</div>
+            <div className="external-shadow">
+              <div className="central"></div>
             </div>
           </div>
         </div>
