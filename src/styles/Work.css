@@ -173,6 +173,7 @@
   font-size: 14px;
   text-align: center;
   transition: 0.2s ease-in-out;
+  user-select: none;
 }
 
 .skill:hover {

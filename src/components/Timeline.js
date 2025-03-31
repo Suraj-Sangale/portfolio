@@ -28,7 +28,7 @@ const Timeline = () => {
           </a>
           .
         </p> */}
-        <div className="w-96 md:w-[65rem] h-auto relative">
+        <div className="w-96 md:w-[90vw] lg:w-[65rem] h-auto relative">
           <ul className="relative flex flex-col items-center space-y-8">
             <div className="absolute left-1/2 top-0 h-full w-1 -translate-x-1/2 bg-white border-l-2 border-gray-300"></div>
             {[...EXPERIENCEDATA].reverse().map((item, index) => (
