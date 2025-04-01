@@ -24,7 +24,7 @@ const Contact = () => {
     message: "",
   });
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e) => {// test
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
     setErrors({ ...errors, [name]: "" });
