@@ -9,7 +9,7 @@ const Contact = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const initialFormState = {
+  const initialFormState = { // comment afd
     from_name: "",
     from_email: "",
     subject: "",
