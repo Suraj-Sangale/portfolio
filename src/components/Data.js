@@ -29,6 +29,8 @@ export const aboutMeText =
 let graduation = <PiGraduationCapDuotone />;
 let work = <PiBriefcaseLight />;
 
+  // experience  data
+
 export const EXPERIENCEDATA = [
   {
     id: 2,
