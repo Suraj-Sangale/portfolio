@@ -37,6 +37,8 @@ const Home = ({ scrollToTop }) => {
     },
     { url: getConstant("FB_URL"), icon: <FaFacebook />, label: "Facebook" },
   ];
+
+// test only
   
   return (
     <div className="homeBg">
