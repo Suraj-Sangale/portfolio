@@ -16,7 +16,7 @@ function App() {
   };
 
   return (
-    <div className="App" style={{backgroundColor:"black"}}>
+    <div className="App" style={{backgroundColor:""}}>
       <div className="bg-animation">
         <div id="stars"></div>
         <div id="stars2"></div>
