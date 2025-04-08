@@ -12,7 +12,7 @@
   --container-color: #fff;
 
   --body-font: "Nunito", "Rubik", sans-serif;
-  --h1-font-size: 2.5rem;
+  --h1-font-size: 3rem;
   --h2-font-size: 2.25rem;
   --h3-font-size: 1.25rem;
   --normal-font-size: 1rem;
@@ -34,7 +34,8 @@
       rgba(25, 25, 25, 1) 90%,
       rgba(0, 0, 0, 1) 100%);
 
-      --star-color: #37f2ff; /* Define the color variable */
+  --star-color: #37f2ff;
+  /* Define the color variable */
 }
 
 @media screen and (max-width: 1024px) {
@@ -59,10 +60,12 @@ html {
 }
 
 body {
+  line-height: 1.7;
+  color: var(--text-color);
+  cursor: url('/public/cursor.png') 10 10, auto;
   font-family: var(--body-font);
   font-size: var(--normal-font-size);
   background: rgb(0, 0, 0);
-  background: var(--background-gradiant);
 }
 
 .navbar {
@@ -78,12 +81,6 @@ textarea {
   font-size: var(--normal-font-size);
 }
 
-body {
-  background-color: var(--body-color);
-  line-height: 1.7;
-  color: var(--text-color);
-  cursor: url('/public/cursor.png') 10 10, auto;
-}
 ::selection {
   background-color: #8605ff;
   color: #ffffff;

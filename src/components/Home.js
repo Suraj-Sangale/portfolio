@@ -39,34 +39,35 @@ const Home = ({ scrollToTop }) => {
   ];
   
   return (
-    <div className="homeBg">
+    <div className="">
       <section
-        className="home container "
+        className="home"
         id="home"
       >
-        <div className="intro flex flex-col	items-center	">
-          <div className="animate-drop">
+        <div className="intro flex flex-col-reverse md:flex-row-reverse justify-evenly hover-parent	">
+          <div className="">
             <img
               alt="Suraj Sangale"
-              src="https://i.ibb.co/bBmCf3p/new-prof.png"
-              height={185}
-              width={140}
+              // src="https://i.ibb.co/bBmCf3p/new-prof.png"
+              src="/developer.png"
+              height={400}
+              width={400}
               // className="z-20"
             />
           </div>
-          <div>
+          <div className="items-center mb-10 md:mb-0">
             <h1 className="home__name text-white">Hi, I am Suraj Sangale</h1>
-            <div className="underline decoration-pink-500/30 text-white">
+            <div className="underline-hover hover:decoration-pink-500 text-white">
               I am a Software Developer
             </div>
-          </div>
+            
           {/* <a
             href="#contact"
             className="btn mt-2"
           >
             Hire Me
           </a> */}
-          <div className="flex space-x-4 mt-4 socialIcons">
+          {/* <div className="flex space-x-4 mt-4 socialIcons">
             {socialLinks.map((link, index) => (
               <a
                 key={index}
@@ -79,6 +80,7 @@ const Home = ({ scrollToTop }) => {
                 {link.icon}
               </a>
             ))}
+          </div> */}
           </div>
         </div>
       </section>
