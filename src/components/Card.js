@@ -1,6 +1,7 @@
 import React from 'react'
 
 const Card = (props) => {
+  // test card
   return (
     <div className='timeline__item'>
       <div className='icon'>{props.icon}</div>
