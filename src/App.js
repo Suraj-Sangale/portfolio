@@ -9,6 +9,7 @@ import Contact from "./components/Contact";
 import Navbar from "./components/Navbar";
 import CustomCursor from "./components/Items/CustomCursor";
 import Timeline from "./components/Timeline";
+import Projects from "./components/Projects";
 
 function App() {
   const scrollToTop = () => {
@@ -16,7 +17,10 @@ function App() {
   };
 
   return (
-    <div className="App" style={{backgroundColor:""}}>
+    <div
+      className="App"
+      style={{ backgroundColor: "" }}
+    >
       <div className="bg-animation">
         <div id="stars"></div>
         <div id="stars2"></div>
@@ -28,6 +32,7 @@ function App() {
       <Home scrollToTop={scrollToTop} />
       <About />
       <Timeline />
+      <Projects />
       {/* <Work /> */}
       <Contact />
     </div>
