@@ -20,7 +20,7 @@ export default function Projects() {
     {
       title: "Project 2",
       description: "Description of Project 2",
-      image: "https://i.ibb.co/bBmCf3p/new-prof.png",
+      image: "PSPboard.png",
       liveUrl: "https://i.ibb.co/bBmCf3p/new-prof.png",
     },
     {
