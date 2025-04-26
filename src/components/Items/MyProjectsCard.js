@@ -8,6 +8,7 @@ export default function MyProjectsCard({ item }) {
     image = "",
     gitUrl = "",
     liveUrl = "",
+    keyFeatures,
   } = item;
 
   return (
@@ -21,10 +22,20 @@ export default function MyProjectsCard({ item }) {
         className="w-full h-full object-cover"
       />
       <div className="card__content p-5">
-        <p className="card__title text-xl font-semibold text-white mb-2">
-          {title}
-        </p>
-        <p className="card__description text-gray-300 mb-4">{description}</p>
+        <p className="card__title text-xl font-semibold  mb-2">{title}</p>
+        <p className="card__description  mb-4">{description}</p>
+        <h3 className="text-lg font-semibold mb-2">Key Features:</h3>
+        <ul className="list-disc list-inside">
+          {keyFeatures &&
+            keyFeatures.map((feature) => (
+              <li
+                key={feature.id}
+                className="mb-1"
+              >
+                {feature.text}
+              </li>
+            ))}
+        </ul>
         <div className="flex space-x-4">
           {gitUrl && (
             <a
