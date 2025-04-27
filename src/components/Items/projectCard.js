@@ -1,25 +1,39 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import { FaEye, FaGithub } from "react-icons/fa";
-import { FaCheckCircle } from "react-icons/fa"; // For feature icon
+import React, { useEffect, useState, useRef } from "react";
+import { FaEye, FaGithub, FaCheckCircle } from "react-icons/fa";
 
 export default function ProjectCard({ project }) {
   const [isOpen, setIsOpen] = useState(false);
+  const modalRef = useRef(null);
+
   useEffect(() => {
     if (isOpen) {
-      // Disable scrolling on the body
       document.body.style.overflow = "hidden";
     } else {
-      // Re-enable scrolling on the body
       document.body.style.overflow = "auto";
     }
+
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, [isOpen]);
 
   return (
     <>
       {/* Card */}
       <div
-        className="max-w-sm bg-white rounded-2xl shadow-lg overflow-hidden p-5"
+        className="max-w-sm bg-white rounded-2xl shadow-lg overflow-hidden p-5 cursor-pointer hover:shadow-2xl transition-shadow"
         onClick={() => setIsOpen(true)}
       >
         {/* Image */}
@@ -27,9 +41,10 @@ export default function ProjectCard({ project }) {
           <img
             src={`/myProjects/${project.image}`}
             alt={project.title}
-            className="w-full h-48 object-cover transition-transform duration-300 ease-in-out hover:scale-105"
+            className="w-full h-48 object-cover transition-transform duration-300 ease-in-out hover:scale-110"
           />
         </div>
+
         {/* Content */}
         <div className="p-4">
           <div className="flex justify-between items-center mb-2">
@@ -45,6 +60,7 @@ export default function ProjectCard({ project }) {
               </a>
             </div>
           </div>
+
           <p className="text-gray-600 text-sm mb-4 line-clamp-3">
             {project.description}
           </p>
@@ -55,7 +71,7 @@ export default function ProjectCard({ project }) {
               {project.techStack.map((tech, index) => (
                 <span
                   key={index}
-                  className="px-3 py-1 bg-black text-white text-xs rounded-full"
+                  className="px-3 py-1 rounded-full bg-gradient-to-r from-indigo-600 to-purple-500 hover:from-indigo-700 hover:to-purple-600 transition-colors text-white font-semibold text-sm shadow-md"
                 >
                   {tech}
                 </span>
@@ -67,8 +83,11 @@ export default function ProjectCard({ project }) {
 
       {/* Modal */}
       {isOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-4">
-          <div className="bg-white rounded-2xl shadow-xl max-w-4xl w-full overflow-hidden relative flex flex-col md:flex-row">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4">
+          <div
+            ref={modalRef}
+            className="bg-white rounded-2xl shadow-xl w-full max-w-5xl overflow-hidden relative flex flex-col md:flex-row max-h-[90vh]"
+          >
             {/* Close button */}
             <button
               onClick={() => setIsOpen(false)}
@@ -90,7 +109,7 @@ export default function ProjectCard({ project }) {
             </div>
 
             {/* Right side: Details */}
-            <div className="w-full md:w-1/2 p-8 overflow-y-scroll scrollbar-hide max-h-[80vh]">
+            <div className="w-full md:w-1/2 p-6 overflow-y-auto scrollbar-hide">
               <h2 className="text-2xl font-bold mb-4">{project.title}</h2>
 
               <h3 className="text-lg font-semibold mb-2">Description</h3>
@@ -103,9 +122,9 @@ export default function ProjectCard({ project }) {
                 {project.keyFeatures.map((feature) => (
                   <li
                     key={feature.id}
-                    className="flex items-start space-x-2 bg-blue-50 rounded-lg p-3"
+                    className="flex items-start space-x-2 rounded-lg p-3"
                   >
-                    <FaCheckCircle className="text-blue-600 mt-1" />
+                    <FaCheckCircle className="text-blue-600 mt-1 w-5" />
                     <span className="text-gray-700 text-sm">
                       {feature.text}
                     </span>
@@ -123,7 +142,7 @@ export default function ProjectCard({ project }) {
                     {project.techStack.map((tech, index) => (
                       <span
                         key={index}
-                        className="px-3 py-1 bg-black text-white text-xs rounded-full"
+                        className="px-4 py-2 rounded-full bg-gradient-to-r from-indigo-600 to-purple-500 hover:from-indigo-700 hover:to-purple-600 transition-colors text-white font-semibold text-sm shadow-md"
                       >
                         {tech}
                       </span>
