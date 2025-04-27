@@ -37,7 +37,7 @@ export default function Projects() {
         },
         {
           id: 2,
-          text: "Developed backend API with JWT authentication, WebSocket.io integration, and MySQL database management.",
+          text: "Built backend API with JWT auth, WebSocket support, and MySQL integration.",
         },
         {
           id: 3,
@@ -68,12 +68,14 @@ export default function Projects() {
       className="proj section relative"
       id="projects"
     >
-      <CustomTitle
-        subheading="Projects"
-        mainText="What"
-        highlightedText="I've Done"
-      />
-      <div className="my_project_wrapper my-8 ">
+      <div className="md:ml-28">
+        <CustomTitle
+          subheading="Projects"
+          mainText="What"
+          highlightedText="I've Done"
+        />
+      </div>
+      <div className="my_project_wrapper m-[4%] ">
         <div
           className={`flex flex-wrap justify-center items-center gap-8 projectCardWrapper ${
             hoveredIndex ? "hover-active" : ""

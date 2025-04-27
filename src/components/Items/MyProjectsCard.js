@@ -19,20 +19,21 @@ export default function MyProjectsCard({ item }) {
         loading="lazy"
         height={400}
         width={400}
-        className="w-full h-full object-cover"
+        className="w-full h-full object-contain rounded "
       />
-      <div className="card__content p-5">
-        <p className="card__title text-xl font-semibold  mb-2">{title}</p>
-        <p className="card__description  mb-4">{description}</p>
+      <div className="card__content p-3">
+        <p className="card__title">{title}</p>
+        <p className="card__description mb-2">{description}</p>
         <h3 className="text-lg font-semibold mb-2">Key Features:</h3>
-        <ul className="list-disc list-inside">
+        <ul className="list-disc list-inside mb-2">
           {keyFeatures &&
             keyFeatures.map((feature) => (
               <li
                 key={feature.id}
-                className="mb-1"
+                className="flex items-start gap-2 transition-colors duration-300"
               >
-                {feature.text}
+                <span className="flex-shrink-0 w-2 h-2 mt-1 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full animate-pulse"></span>
+                <span className="font-medium">{feature.text}</span>
               </li>
             ))}
         </ul>
