@@ -83,18 +83,15 @@ export default function ProjectCard({ project }) {
 
       {/* Modal */}
       {isOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-40 p-4">
           <div
             ref={modalRef}
             className="bg-white rounded-2xl shadow-xl w-full max-w-5xl overflow-hidden relative flex flex-col md:flex-row max-h-[90vh]"
           >
             {/* Close button */}
-            <button
-              onClick={() => setIsOpen(false)}
-              className="absolute top-4 right-4 text-gray-600 hover:text-black text-2xl"
-            >
-              ✕
-            </button>
+            <div className="absolute w-7 h-7 bg-gray-600 rounded-2xl top-4 right-4 text-gray-100 text-2xl md:top-6 md:right-6 z-50 flex items-center justify-center cursor-pointer">
+              <button onClick={() => setIsOpen(false)}>✕</button>
+            </div>
 
             {/* Left side: Image */}
             <div className="w-full md:w-1/2 bg-gray-100 flex flex-col items-center justify-center relative">
@@ -112,7 +109,7 @@ export default function ProjectCard({ project }) {
             <div className="w-full md:w-1/2 p-6 overflow-y-auto scrollbar-hide">
               <h2 className="text-2xl font-bold mb-4">{project.title}</h2>
 
-              <h3 className="text-lg font-semibold mb-2">Description</h3>
+              {/* <h3 className="text-lg font-semibold mb-2">Description</h3> */}
               <p className="text-gray-700 text-sm mb-6">
                 {project.description}
               </p>

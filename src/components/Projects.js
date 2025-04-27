@@ -9,7 +9,6 @@ export default function Projects() {
   const setHovered = (state, index = null) => {
     setHoveredIndex(state ? index : null);
   };
-  
 
   const MY_PROJECTS = [
     {
@@ -82,7 +81,7 @@ export default function Projects() {
       className="proj section relative"
       id="projects"
     >
-      <div className="md:ml-28">
+      <div className="md:ml-36">
         <CustomTitle
           subheading="Projects"
           mainText="What"
