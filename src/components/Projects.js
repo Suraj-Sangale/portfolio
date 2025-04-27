@@ -2,12 +2,14 @@ import React from "react";
 import "../styles/projects.css";
 import CustomTitle from "./Items/CustomTitle";
 import MyProjectsCard from "./Items/MyProjectsCard";
+import ProjectCard from "./Items/projectCard";
 
 export default function Projects() {
   const [hoveredIndex, setHoveredIndex] = React.useState(null);
   const setHovered = (state, index = null) => {
     setHoveredIndex(state ? index : null);
   };
+  
 
   const MY_PROJECTS = [
     {
@@ -21,7 +23,15 @@ export default function Projects() {
           id: 3,
           text: "Built with React.js and Tailwind CSS, deployed on Netlify",
         },
+        { id: 1, text: "Modern and responsive UI for smooth product browsing" },
+        { id: 2, text: "Add to cart and complete checkout functionality" },
+        {
+          id: 3,
+          text: "Built with React.js and Tailwind CSS, deployed on Netlify",
+        },
       ],
+
+      techStack: ["Next.js", "Tailwind CSS", "Node.js"],
       image: "UrbanMarket.png",
       gitUrl: "https://github.com/Suraj-Sangale/urban-market",
       liveUrl: "https://urbanmarketplace.netlify.app/home",
@@ -44,6 +54,8 @@ export default function Projects() {
           text: "Enabled real-time score updates from multiple referees for accurate match tracking.",
         },
       ],
+
+      techStack: ["Next.js", "Tailwind CSS", "Node.js"],
       image: "PSPboard.png",
       liveUrl: "https://board.agni-byte.com",
     },
@@ -59,6 +71,8 @@ export default function Projects() {
           text: "User-friendly interface for easy navigation and study",
         },
       ],
+
+      techStack: ["Next.js", "Tailwind CSS", "Node.js"],
       image: "memoMind.png",
       liveUrl: "https://memo-mind-self.vercel.app",
     },
@@ -75,6 +89,7 @@ export default function Projects() {
           highlightedText="I've Done"
         />
       </div>
+      {/* <ProjectCard /> */}
       <div className="my_project_wrapper m-[4%] ">
         <div
           className={`flex flex-wrap justify-center items-center gap-8 projectCardWrapper ${
@@ -85,14 +100,14 @@ export default function Projects() {
           {MY_PROJECTS.map((item, index) => (
             <div
               key={index}
-              className={`projectCard ${
-                hoveredIndex !== null && hoveredIndex !== index ? "blurred" : ""
-              }`}
-              onMouseEnter={() => setHovered(true, index)}
-              onMouseLeave={() => setHovered(false, null)}
+              // className={`projectCard ${
+              //   hoveredIndex !== null && hoveredIndex !== index ? "blurred" : ""
+              // }`}
+              // onMouseEnter={() => setHovered(true, index)}
+              // onMouseLeave={() => setHovered(false, null)}
             >
-              <MyProjectsCard
-                item={item}
+              <ProjectCard
+                project={item}
                 key={index}
               />
             </div>
