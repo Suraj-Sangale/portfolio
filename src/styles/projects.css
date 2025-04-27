@@ -48,7 +48,7 @@
   /* padding: 20px; */
   box-sizing: border-box;
   background-color: #f2f2f2;
-  transform: rotateX(-90deg);
+  transform: rotateX(-85deg);
   transform-origin: bottom;
   transition: transform 0.5s ease-in-out;
   pointer-events: none;
