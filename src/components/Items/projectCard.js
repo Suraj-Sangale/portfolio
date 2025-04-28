@@ -33,7 +33,7 @@ export default function ProjectCard({ project }) {
     <>
       {/* Card */}
       <div
-        className="max-w-sm bg-white rounded-2xl shadow-lg overflow-hidden p-5 cursor-pointer hover:shadow-2xl transition-shadow"
+        className="max-w-sm bg-white rounded-2xl shadow-lg overflow-hidden p-4 cursor-pointer hover:shadow-2xl transition-shadow"
         onClick={() => setIsOpen(true)}
       >
         {/* Image */}
@@ -50,14 +50,24 @@ export default function ProjectCard({ project }) {
           <div className="flex justify-between items-center mb-2">
             <h2 className="text-xl font-semibold">{project.title}</h2>
             <div className="flex space-x-3">
-              <FaEye className="text-gray-600 hover:text-black text-xl" />
-              <a
-                href={project.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FaGithub className="text-gray-600 hover:text-black text-xl" />
-              </a>
+              {project.liveUrl && (
+                <a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaEye className="text-gray-600 hover:text-black text-xl" />
+                </a>
+              )}
+              {project.gitUrl && (
+                <a
+                  href={project.gitUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaGithub className="text-gray-600 hover:text-black text-xl" />
+                </a>
+              )}
             </div>
           </div>
 
