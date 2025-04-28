@@ -10,71 +10,71 @@ export default function Projects() {
     setHoveredIndex(state ? index : null);
   };
 
- const MY_PROJECTS = [
-	{
-		title: "Urban Market",
-		description:
-			"I built a fully responsive clone of Urban Marketplace, a modern e-commerce platform where users can explore a wide variety of products, add items to their cart, and seamlessly place orders.",
-		keyFeatures: [
-			{ id: 1, text: "Modern and responsive UI for smooth product browsing" },
-			{ id: 2, text: "Add to cart and complete checkout functionality" },
-			{
-				id: 3,
-				text: "Built with React.js and Tailwind CSS, deployed on Netlify",
-			},
-			{ id: 1, text: "Modern and responsive UI for smooth product browsing" },
-			{ id: 2, text: "Add to cart and complete checkout functionality" },
-			{
-				id: 3,
-				text: "Built with React.js and Tailwind CSS, deployed on Netlify",
-			},
-		],
+  const MY_PROJECTS = [
+    {
+      title: "Urban Market",
+      description:
+        "I built a fully responsive clone of Urban Marketplace, a modern e-commerce platform where users can explore a wide variety of products, add items to their cart, and seamlessly place orders.",
+      keyFeatures: [
+        { id: 1, text: "Modern and responsive UI for smooth product browsing" },
+        { id: 2, text: "Add to cart and complete checkout functionality" },
+        {
+          id: 3,
+          text: "Built with React.js and Tailwind CSS, deployed on Netlify",
+        },
+        { id: 1, text: "Modern and responsive UI for smooth product browsing" },
+        { id: 2, text: "Add to cart and complete checkout functionality" },
+        {
+          id: 3,
+          text: "Built with React.js and Tailwind CSS, deployed on Netlify",
+        },
+      ],
 
-		techStack: ["Next.js", "Tailwind CSS", "Node.js"],
-		image: "UrbanMarket.png",
-		gitUrl: "https://github.com/Suraj-Sangale/urban-market",
-		liveUrl: "https://urbanmarketplace.netlify.app/home",
-	},
-	{
-		title: "Point Stream Panel",
-		description:
-			"A dynamic web-based platform built to streamline the management of sports tournaments, matches, and real-time scoring. Key highlights include match booth setups, referee-based access control, live scoreboard updates from multiple devices, detailed match history with obtained scores, and automated scorecard generation.",
-		keyFeatures: [
-			{
-				id: 1,
-				text: "Blazing-fast performance with Server-Side Rendering (SSR) and Static Site Generation (SSG) using Next.js.",
-			},
-			{
-				id: 2,
-				text: "Robust backend API with JWT authentication, WebSocket-powered real-time communication, and seamless MySQL database integration.",
-			},
-			{
-				id: 3,
-				text: "Real-time multi-referee scoring system with secured role-based access, ensuring accurate and transparent match updates.",
-			},
-		],
-		techStack: ["Next.js", "Tailwind CSS", "Socket.io", "MySQL", "Node.js"],
-		image: "PSPboard.png",
-		liveUrl: "https://board.agni-byte.com",
-	},
-	{
-		title: "Memo Mind",
-		description:
-			"A web-based platform designed to enhance memory retention and learning through interactive flashcards and quizzes. Users can create, share, and study flashcards on various topics, making learning engaging and effective.",
-		keyFeatures: [
-			{ id: 1, text: "Create and share flashcards for effective learning" },
-			{ id: 2, text: "Interactive quizzes to reinforce knowledge retention" },
-			{
-				id: 3,
-				text: "User-friendly interface for easy navigation and study",
-			},
-		],
+      techStack: ["Next.js", "Tailwind CSS", "Node.js"],
+      image: "UrbanMarket.png",
+      gitUrl: "https://github.com/Suraj-Sangale/urban-market",
+      liveUrl: "https://urbanmarketplace.netlify.app/home",
+    },
+    {
+      title: "Point Stream Panel",
+      description:
+        "A dynamic web-based platform built to streamline the management of sports tournaments, matches, and real-time scoring. Key highlights include match booth setups, referee-based access control, live scoreboard updates from multiple devices, detailed match history with obtained scores, and automated scorecard generation.",
+      keyFeatures: [
+        {
+          id: 1,
+          text: "Blazing-fast performance with Server-Side Rendering (SSR) and Static Site Generation (SSG) using Next.js.",
+        },
+        {
+          id: 2,
+          text: "Robust backend API with JWT authentication, WebSocket-powered real-time communication, and seamless MySQL database integration.",
+        },
+        {
+          id: 3,
+          text: "Real-time multi-referee scoring system with secured role-based access, ensuring accurate and transparent match updates.",
+        },
+      ],
+      techStack: ["Next.js", "Tailwind CSS", "Socket.io", "MySQL", "Node.js"],
+      image: "PSPboard.png",
+      liveUrl: "https://board.agni-byte.com",
+    },
+    {
+      title: "Memo Mind",
+      description:
+        "A web-based platform designed to enhance memory retention and learning through interactive flashcards and quizzes. Users can create, share, and study flashcards on various topics, making learning engaging and effective.",
+      keyFeatures: [
+        { id: 1, text: "Create and share flashcards for effective learning" },
+        { id: 2, text: "Interactive quizzes to reinforce knowledge retention" },
+        {
+          id: 3,
+          text: "User-friendly interface for easy navigation and study",
+        },
+      ],
 
-		techStack: ["Next.js", "Tailwind CSS", "Node.js"],
-		image: "memoMind.png",
-		liveUrl: "https://memo-mind-self.vercel.app",
-	},
-];
+      techStack: ["Next.js", "Tailwind CSS", "Node.js"],
+      image: "memoMind.png",
+      liveUrl: "https://memo-mind-self.vercel.app",
+    },
+  ];
 
   return (
     <div
@@ -91,25 +91,14 @@ export default function Projects() {
       {/* <ProjectCard /> */}
       <div className="my_project_wrapper m-[4%] ">
         <div
-          className={`flex flex-wrap justify-center items-center gap-8 projectCardWrapper ${
-            hoveredIndex ? "hover-active" : ""
-          }`}
+          className={`flex flex-wrap justify-center gap-8 projectCardWrapper`}
           onMouseLeave={() => setHovered(false)}
         >
           {MY_PROJECTS.map((item, index) => (
-            <div
+            <ProjectCard
+              project={item}
               key={index}
-              // className={`projectCard ${
-              //   hoveredIndex !== null && hoveredIndex !== index ? "blurred" : ""
-              // }`}
-              // onMouseEnter={() => setHovered(true, index)}
-              // onMouseLeave={() => setHovered(false, null)}
-            >
-              <ProjectCard
-                project={item}
-                key={index}
-              />
-            </div>
+            />
           ))}
         </div>
       </div>
