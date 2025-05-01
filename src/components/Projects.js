@@ -75,21 +75,34 @@ export default function Projects() {
       liveUrl: "https://memo-mind-self.vercel.app",
     },
     {
-      title: "Memo Mind",
-      description:
-        "A web-based platform designed to enhance memory retention and learning through interactive flashcards and quizzes. Users can create, share, and study flashcards on various topics, making learning engaging and effective.",
-      keyFeatures: [
-        { id: 1, text: "Create and share flashcards for effective learning" },
-        { id: 2, text: "Interactive quizzes to reinforce knowledge retention" },
-        {
-          id: 3,
-          text: "User-friendly interface for easy navigation and study",
-        },
-      ],
-
-      techStack: ["Next.js", "Tailwind CSS", "Node.js"],
+      title: "linux Tools",
       image: "linuxtools.png",
       liveUrl: "https://agni-byte.com/",
+      description:
+        "Built a comprehensive web-based toolkit tailored for DevOps engineers and system administrators to streamline server troubleshooting and daily operational tasks. The app integrates various diagnostic tools to enhance productivity and simplify common server-side challenges.",
+      keyFeatures: [
+        {
+          id: 1,
+          text: "DNS Checker to quickly verify domain records and identify misconfigurations",
+        },
+        {
+          id: 2,
+          text: "Port Scanner to detect open ports and assess network vulnerabilities",
+        },
+        {
+          id: 3,
+          text: "IP Lookup tool providing geolocation, ISP, and detailed IP data",
+        },
+        {
+          id: 4,
+          text: "Built-in Linux Command Library for instant access to essential terminal commands",
+        },
+        {
+          id: 5,
+          text: "Bonus tools like JSON Formatter, Text Comparator, and Server Diagnostics for enhanced productivity",
+        },
+      ],
+      techStack: ["Next.js", "React", "PHP", "MariaDB", "Node.js"],
     },
   ];
 
