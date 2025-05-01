@@ -1,15 +1,9 @@
 import React from "react";
 import "../styles/projects.css";
 import CustomTitle from "./Items/CustomTitle";
-import MyProjectsCard from "./Items/MyProjectsCard";
 import ProjectCard from "./Items/projectCard";
 
 export default function Projects() {
-  const [hoveredIndex, setHoveredIndex] = React.useState(null);
-  const setHovered = (state, index = null) => {
-    setHoveredIndex(state ? index : null);
-  };
-
   const MY_PROJECTS = [
     {
       title: "Urban Market",
@@ -122,7 +116,6 @@ export default function Projects() {
       <div className="my_project_wrapper m-[4%] ">
         <div
           className={`flex flex-wrap justify-center gap-8 projectCardWrapper`}
-          onMouseLeave={() => setHovered(false)}
         >
           {MY_PROJECTS.map((item, index) => (
             <ProjectCard
