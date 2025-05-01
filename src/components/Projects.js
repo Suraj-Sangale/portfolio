@@ -75,7 +75,7 @@ export default function Projects() {
       liveUrl: "https://memo-mind-self.vercel.app",
     },
     {
-      title: "linux Tools",
+      title: "Linux Tools",
       image: "linuxtools.png",
       liveUrl: "https://agni-byte.com/",
       description:
