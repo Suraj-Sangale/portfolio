@@ -1,4 +1,5 @@
 import React from "react";
+import HomeLanding from "./homeLanding";
 
 export default function HomeWrapper() {
   return (
@@ -9,6 +10,7 @@ export default function HomeWrapper() {
         <div id="stars3"></div>
         <div id="stars4"></div>
       </div>
+      <HomeLanding />
     </>
   );
 }
