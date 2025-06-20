@@ -388,3 +388,32 @@ img {
     transform: translateY(-2000px);
   }
 }
+
+
+.text-container {
+  text-align: left;
+}
+
+.subheading {
+  color: gray;
+  font-size: 0.875rem; /* Equivalent to "text-sm" */
+  text-transform: uppercase;
+  letter-spacing: 0.1em; /* Equivalent to "tracking-widest" */
+  margin: 0;
+}
+
+.main-heading {
+  font-size: 2.5rem; /* Equivalent to "text-4xl" */
+  font-weight: bold;
+  margin: 0;
+}
+
+.white-text {
+  color: white;
+}
+
+.gradient-text {
+  background: linear-gradient(to right, #9c31ff, #3b82f6); /* Purple to Blue */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
