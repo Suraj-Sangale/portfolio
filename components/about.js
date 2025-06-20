@@ -63,10 +63,12 @@ const About = () => {
         </a> */}
           <div>
             <button
-              className="mt-4 text-center style_button"
+              className={`mt-4 text-center ${aboutStyles.styleButton}`}
               onClick={() => setIsModalOpen(true)}
             >
-              <span className="style_button-content">View Resume</span>
+              <span className={`${aboutStyles.viewResumeButton}`}>
+                View Resume
+              </span>
             </button>
 
             {/* Modal Component */}
