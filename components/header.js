@@ -24,7 +24,7 @@ const Header = () => {
     { id: 3, label: "Work", path: "work" },
     { id: 4, label: "Contact", path: "contact" },
   ];
-
+  //  test
   return (
     <nav className="fixed top-0 inset-x-0 z-20 backdrop-blur-md">
       <div className="container mx-auto flex items-center justify-between px-6 py-4">
