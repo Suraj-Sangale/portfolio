@@ -63,7 +63,7 @@ const HomeLanding = () => {
               Hi, I am Suraj Sangale
             </h1>
             <div
-              className={`${homeStyle.hoverParent} hover:decoration-pink-500 text-white`}
+              className={`${homeStyle.hoverParentX} hover:decoration-pink-500 text-white`}
             >
               I am a Software Developer
             </div>
