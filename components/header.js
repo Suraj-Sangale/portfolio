@@ -48,7 +48,7 @@ const Header = () => {
               href={"#" + item.path}
               smooth={true}
               duration={500}
-              className="text-white text-lg font-medium hover:text-orange-400 cursor-pointer transition"
+              className="text-white text-lg font-medium hover:text-blue-400 cursor-pointer transition"
             >
               {item.label}
             </Link>
