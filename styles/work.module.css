@@ -1,0 +1,218 @@
+.Work__container {
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 1.875rem;
+}
+
+.timeline {
+  background-color: var(--container-color);
+  padding: 1.875rem;
+  border-radius: var(--border-radius);
+  position: relative;
+  box-shadow: var(--shadow);
+}
+
+.timeline__item {
+  position: relative;
+  padding-left: 3.125rem;
+  padding-bottom: 3.123rem;
+}
+
+.timeline__item:last-child {
+  padding-bottom: 0%;
+}
+.timeline__item::before {
+  content: "";
+  width: 1px;
+  height: 100%;
+  background-color: var(--first-color);
+  position: absolute;
+  left: 0.25rem;
+  top: 0%;
+}
+
+.icon-graduation {
+  height: 10px;
+  width: 10px;
+  background-color: red;
+  color: blue;
+  display: flex;
+}
+.icon {
+  position: absolute;
+  left: -0.4375rem;
+  top: 0%;
+  font-size: 1.5rem;
+  color: var(--first-color);
+  background-color: var(--container-color);
+  padding: 0.4375rem 0;
+}
+
+.timeline__date {
+  color: #8b88b1;
+  font-size: var(--small-font);
+}
+
+.timeline__title {
+  font-size: var(--h3-font-size);
+  margin: 0.5rem 0;
+}
+
+@media screen and (max-width: 1024) {
+  .Work__container {
+    grid-template-columns: 540px;
+    justify-content: center;
+    row-gap: 1.875rem;
+  }
+
+  .timeline__item::before {
+    left: 2px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .Work__container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .timeline__item {
+    padding-left: 1.875rem;
+    padding-bottom: 1.875rem;
+  }
+
+  .timeline__item::before {
+    left: 0%;
+  }
+
+  .timeline .icon-briefcase,
+  .timeline .icon-graduation {
+    left: -9px;
+  }
+
+  .timeline__text {
+    text-align: justify;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .about__container {
+    grid-template-columns: 320px;
+  }
+}
+
+
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #f9f9f9; /* Light background */
+  padding: 20px;
+  border-radius: 15px;
+  /* box-shadow: 5px 5px 15px #d4d4d4, -5px -5px 15px #ffffff; */
+  width: fit-content;
+}
+
+.company-name {
+  background: #ffffff;
+  padding: 5px 10px;
+  color: #007bff; /* Blue accent color */
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px #e0e0e0, -2px -2px 10px #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  transition: 0.2s ease-in-out;
+}
+
+.company-name:hover {
+  cursor: default;
+  transform: translateY(-3px);
+  box-shadow: 2px 2px 10px #c0c0c0, -2px -2px 10px #ffffff;
+}
+
+.duration {
+  background: #ffffff;
+  color: #333;
+  padding: 5px 10px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px #e0e0e0, -2px -2px 10px #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  transition: 0.2s ease-in-out;
+}
+
+.card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 5px 5px 15px #d4d4d4, -5px -5px 15px #ffffff;
+  text-align: center;
+}
+
+.cardTitle {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.skills {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.skill {
+  background: #ffffff;
+  padding: 5px 10px;
+  border-radius: 10px;
+  box-shadow: inset 2px 2px 5px #e0e0e0, inset -2px -2px 5px #ffffff;
+  color: #333;
+  font-size: 14px;
+  text-align: center;
+  transition: 0.2s ease-in-out;
+  user-select: none;
+}
+
+.skill:hover {
+  cursor: pointer;
+  transform: translateY(-3px);
+  box-shadow: 2px 2px 10px #d0d0d0, -2px -2px 10px #ffffff;
+}
+
+/* Button */
+.btn_company {
+  display: grid;
+  place-items: center;
+  background: #ffffff;
+  padding: 1.4em;
+  border-radius: 10px;
+  box-shadow: 6px 6px 10px -1px rgba(0, 0, 0, 0.1),
+    -6px -6px 10px -1px rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0);
+  cursor: pointer;
+  transition: transform 0.5s;
+}
+
+.btn_company:hover {
+  box-shadow: inset 4px 4px 6px -1px rgba(0, 0, 0, 0.1),
+    inset -4px -4px 6px -1px rgba(255, 255, 255, 0.7),
+    -0.5px -0.5px 0px rgba(255, 255, 255, 1),
+    0.5px 0.5px 0px rgba(0, 0, 0, 0.1),
+    0px 12px 10px -10px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.btn_company:hover {
+  color: #007bff;
+}
+
+@media screen and (max-width: 576px) {
+  .cardContainer {
+    width: 92%;
+    margin: 4%;
+  }
+  
+}
