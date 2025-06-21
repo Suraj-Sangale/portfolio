@@ -24,7 +24,6 @@ const Header = () => {
     { id: 3, label: "Work", path: "work" },
     { id: 4, label: "Contact", path: "contact" },
   ];
-  // sam
 
   return (
     <nav className="fixed top-0 inset-x-0 z-20 backdrop-blur-md">
