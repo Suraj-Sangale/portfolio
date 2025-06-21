@@ -1,0 +1,189 @@
+.contact.section {
+    padding-bottom: 6.25rem;
+}
+
+.contactContainer {
+    grid-template-columns: 4fr 8fr;
+    column-gap: 1.875rem;
+}
+
+.contact__title {
+    font-size: var(--h3-font-size);
+    margin-top: 0.5rem;
+}
+
+.contactFormGroup {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 1.5rem;
+}
+
+.contactFormDiv {
+    position: relative;
+    margin-bottom: 1.875rem;
+    height: 3.75rem;
+}
+
+.contactFormInput {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    box-shadow: var(--shadow);
+    background-color: var(--container-color);
+    color: var(--text-color);
+    border: none;
+    outline: none;
+    border-radius: 1.875rem;
+    padding: 0.625rem 1.875rem;
+    z-index: 1;
+
+}
+
+.contactFormArea {
+    height: 10.25rem;
+
+}
+
+.contactFormArea {
+    resize: none;
+}
+
+@media screen and (max-width: 1024px) {
+    .contactContainer {
+        grid-template-columns: 300px 360px;
+        justify-content: center;
+    }
+
+    .contactFormGroup {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .contactContainer {
+        grid-template-columns: 310px;
+        row-gap: 1.875rem;
+    }
+
+    .contactInfo {
+        text-align: center;
+    }
+
+    .socialIcons {
+        justify-content: center;
+    }
+}
+
+
+@media screen and (max-width: 350px) {
+    .contactContainer {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 576px) {
+
+    .about__container {
+        grid-template-columns: 320px;
+    }
+
+}
+
+/* Add this CSS to your styles */
+
+
+.contact__icon {
+    font-size: 18px;
+    color: #fff;
+    transition: color 0.3s ease-in-out;
+}
+
+
+.contact__icon:nth-child(1):hover {
+    color: #0e76a8;
+}
+
+.contact__icon:nth-child(2):hover {
+    color: #24292e;
+    background-color: white;
+    border-radius: 50%;
+
+}
+
+.contact__icon:nth-child(3):hover {
+    color: #1da1f2;
+}
+
+.contact__icon:nth-child(4):hover {
+    color: #e1306c;
+}
+
+.contact__icon:nth-child(5):hover {
+    color: #1877f2;
+}
+
+/* From Uiverse.io by Ratinax */
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: not-allowed;
+    scale: 0.7;
+}
+
+.central {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 10em;
+    height: 10em;
+    border-radius: 50%;
+    box-shadow: 0.5em 1em 1em blueviolet,
+        -0.5em 0.5em 1em blue,
+        0.5em -0.5em 1em purple,
+        -0.5em -0.5em 1em cyan;
+}
+
+.external-shadow {
+    width: 10em;
+    height: 10em;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-shadow: 0.5em 0.5em 3em blueviolet,
+        -0.5em 0.5em 3em blue,
+        0.5em -0.5em 3em purple,
+        -0.5em -0.5em 3em cyan;
+    z-index: 999;
+    animation: rotate 3s linear infinite;
+    background-color: #212121;
+}
+
+.intern {
+    position: absolute;
+    color: white;
+    font-size: larger;
+    z-index: 9999;
+}
+
+
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
