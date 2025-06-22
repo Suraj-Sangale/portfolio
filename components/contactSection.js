@@ -4,6 +4,9 @@ import contactStyles from "../styles/contact.module.css";
 import CustomTitle from "./Items/CustomTitle";
 import { getConstant } from "@/utilities/utils";
 import { contactValidation } from "@/utilities/formValidations";
+import aboutStyles from "../styles/about.module.css";
+import { FaCheckCircle } from "react-icons/fa";
+import { IoWarning } from "react-icons/io5";
 
 export default function Contact() {
   const defaultFormData = {
@@ -18,6 +21,7 @@ export default function Contact() {
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [showMsg, setShowMsg] = useState(false);
 
   const {
     register,
@@ -37,6 +41,7 @@ export default function Contact() {
   }, []);
 
   const updateSelectedForm = (field, value) => {
+    setShowMsg(false);
     setFormData({ ...formData, [field]: value });
   };
 
@@ -50,18 +55,12 @@ export default function Contact() {
   };
 
   const onSubmit = async () => {
-    const data = {
-      from_name: "Raj",
-      from_email: "sender@gmail.com",
-      subject: "sample subject",
-      message: "full message here",
-    };
     setIsLoading(true);
     try {
       const res = await fetch("/api/sendMail", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify(formData),
       });
 
       const result = await res.json();
@@ -72,21 +71,27 @@ export default function Contact() {
       setIsSuccess(false);
       setIsOpen(true);
     } finally {
+      setShowMsg(true);
       setIsLoading(false);
     }
   };
 
   return (
     <section
-      className="contact container section relative"
+      className={`${contactStyles.contact} container ${contactStyles.section}  relative`}
       id="contact"
     >
-      <button onClick={onSubmit}> test</button>
       <CustomTitle
         mainText="Reach out"
         highlightedText="to me!"
       />
       <div className={`${contactStyles.contactContainer} grid mt-5`}>
+        <div className={`${contactStyles.contactInfo}`}>
+          <p className="contact__details text-white">
+            Want to discuss a project or just say hi? My inbox is always open.
+            👋
+          </p>
+        </div>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className={contactStyles.contactForm}
@@ -108,7 +113,9 @@ export default function Contact() {
                 autoComplete="off"
                 maxLength={getConstant("MAX_LEN_TEXT")}
               />
-              <span className="text-red-500">{errors?.from_name?.message}</span>
+              <span className="text-red-500 absolute top-[3.7rem] left-7">
+                {errors?.from_name?.message}
+              </span>
             </div>
 
             <div className={contactStyles.contactFormDiv}>
@@ -125,7 +132,7 @@ export default function Contact() {
                 className={contactStyles.contactFormInput}
                 autoComplete="off"
               />
-              <span className="text-red-500">
+              <span className="text-red-500 absolute top-[3.7rem] left-7">
                 {errors?.from_email?.message}
               </span>
             </div>
@@ -146,7 +153,9 @@ export default function Contact() {
               className={contactStyles.contactFormInput}
               autoComplete="off"
             />
-            <span className="text-red-500">{errors?.subject?.message}</span>
+            <span className="text-red-500 absolute top-[3.7rem] left-7">
+              {errors?.subject?.message}
+            </span>
           </div>
 
           {/* Message */}
@@ -163,20 +172,48 @@ export default function Contact() {
               value={formData.message}
               className={contactStyles.contactFormInput}
             />
-            <span className="text-red-500">{errors?.message?.message}</span>
+            <span className="text-red-500 absolute top-[3.7rem] left-7">
+              {errors?.message?.message}
+            </span>
           </div>
-
+          {/* <div className="flex justify-end items-end"> */}
           <button
+            className={`text-center ${aboutStyles.styleButton}`}
             type="submit"
-            className="btn"
           >
-            {isLoading ? "Sending..." : "Send Message"}
+            <span className={`${aboutStyles.viewResumeButton}`}>
+              {isLoading ? "Sending..." : "Send Message"}
+            </span>
           </button>
+          {/* </div> */}
+          {isOpen && showMsg && Object.keys(errors).length == 0 && (
+            <>
+              <div
+                className={`mt-2 p-2 rounded-xl text-center border-2 flex items-center justify-center gap-2 ${
+                  isSuccess
+                    ? "bg-green-200 border-green-700 text-green-700 font-semibold"
+                    : "bg-yellow-200 border-yellow-700 text-yellow-700 font-semibold"
+                }`}
+              >
+                {isSuccess ? (
+                  <>
+                    <FaCheckCircle />
+                    Message Sent Successfully
+                  </>
+                ) : (
+                  <>
+                    <IoWarning />
+                    Failed to Send Message, Please try again later
+                  </>
+                )}
+              </div>
+            </>
+          )}
         </form>
       </div>
 
-      {isOpen && (
-        <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+      {/* {isOpen && (
+        <div className="fixed top-0 left-0 right-0 bottom-0 bg-opacity-70 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg">
             <h2 className="text-xl font-bold">
               {isSuccess ? "✅ Message Sent" : "❌ Failed to Send"}
@@ -194,7 +231,7 @@ export default function Contact() {
             </button>
           </div>
         </div>
-      )}
+      )} */}
     </section>
   );
 }
