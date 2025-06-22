@@ -18,7 +18,27 @@ export default async function handler(req, res) {
     from: from_email,
     to: process.env.MAIL_USER,
     subject,
-    html: `<p><strong>${from_name}</strong> says:</p><p>${message}</p>`,
+    html: `<div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+  <h2 style="color: #007bff;">New Contact Message</h2>
+
+  <p>
+    <strong>Name:</strong> ${from_name}<br />
+    <strong>Email:</strong> <a href="mailto:${from_email}">${from_email}</a>
+  </p>
+
+  <hr style="margin: 20px 0;" />
+
+  <p style="line-height: 1.6;">
+    <strong>Message:</strong><br />
+    ${message}
+  </p>
+
+  <br />
+  <p style="font-size: 0.9em; color: #777;">
+    This message was sent from your portfolio contact form.
+  </p>
+</div>
+`,
   };
 
   try {

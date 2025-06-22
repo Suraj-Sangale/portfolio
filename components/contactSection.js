@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import contactStyles from "../styles/contact.module.css";
 import CustomTitle from "./Items/CustomTitle";
 import { getConstant } from "@/utilities/utils";
-import { contactValidation } from "@/utilities/formvalidations";
+import { contactValidation } from "@/utilities/formValidations";
 
 export default function Contact() {
   const defaultFormData = {
@@ -50,12 +50,18 @@ export default function Contact() {
   };
 
   const onSubmit = async () => {
+    const data = {
+      from_name: "Raj",
+      from_email: "sender@gmail.com",
+      subject: "sample subject",
+      message: "full message here",
+    };
     setIsLoading(true);
     try {
       const res = await fetch("/api/sendMail", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(data),
       });
 
       const result = await res.json();
@@ -75,6 +81,7 @@ export default function Contact() {
       className="contact container section relative"
       id="contact"
     >
+      <button onClick={onSubmit}> test</button>
       <CustomTitle
         mainText="Reach out"
         highlightedText="to me!"
