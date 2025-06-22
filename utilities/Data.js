@@ -8,20 +8,20 @@ export const images = [
   { id: "02", name: "JavaScript", imgUrl: "https://i.ibb.co/Lhq2sJf/js.png" },
   { id: "01", name: "Next.js", imgUrl: "https://i.ibb.co/h7xbhPv/nextjs.jpg" },
   { id: "01", name: "React", imgUrl: "https://i.ibb.co/Ss4z8Z0/reactpng.png" },
-  { id: "05", name: "Mongo DB", imgUrl: "https://i.ibb.co/9qCJLZV/mongo.png" },
-  {
-    id: "04",
-    name: "Node.js",
-    imgUrl: "https://i.ibb.co/vYqSP95/pngwing-com-2.png",
-  },
-  { id: "06", name: "strapi", imgUrl: "https://i.ibb.co/cvbt3cN/strapi.png" },
+  { id: "04", name: "Node.js", imgUrl: "https://i.ibb.co/dRSj6Dt/nodejs.png"},
+  { id: "10", name: "MySQL", imgUrl: "https://i.ibb.co/XQK5wHP/mysql.png"},
   { id: "07", name: "Redis", imgUrl: "https://i.ibb.co/47qry58/redis.webp" },
-  {
-    id: "06",
-    name: "Tailwind CSS",
-    imgUrl: "https://i.ibb.co/pWXXdGj/twd.png",
-  },
+  { id: "09", name: "TypeScript", imgUrl: "https://i.ibb.co/HLf7cS5p/type-Script.png"},
+  { id: "11", name: "Socket IO", imgUrl: "https://i.ibb.co/yFhp99NQ/socket.png"},
+  { id: "05", name: "Mongo DB", imgUrl: "https://i.ibb.co/9qCJLZV/mongo.png" },
+  { id: "06", name: "strapi", imgUrl: "https://i.ibb.co/cvbt3cN/strapi.png" },
+  { id: "06", name: "Tailwind CSS", imgUrl: "https://i.ibb.co/pWXXdGj/twd.png"},
   { id: "07", name: "Material UI", imgUrl: "https://i.ibb.co/ydQfq96/mui.png" },
+  // {
+  //   id: "08",
+  //   name: "Redux",
+  //   imgUrl: "https://i.ibb.co/S7xRXwXf/redux.png",
+  // },
   // { id: '08', name: 'Bootstrap', imgUrl: 'https://:.ibb.co/9ct0WTx/bootstrap.png' },
 ];
 export const aboutMeText =
