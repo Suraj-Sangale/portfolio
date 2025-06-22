@@ -4,6 +4,7 @@ import About from "./about";
 import Timeline from "./timeline";
 import Projects from "./projects";
 import Contact from "./contact";
+import ContactSection from "./contactSection";
 
 export default function HomeWrapper() {
   return (
@@ -18,7 +19,8 @@ export default function HomeWrapper() {
       <About />
       <Timeline />
       <Projects />
-      <Contact />
+      {/* <Contact /> */}
+      <ContactSection />
     </>
   );
 }

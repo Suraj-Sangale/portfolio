@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap");
+
 
 :root {
   --first-color: hsl(224, 100%, 65%);
@@ -51,6 +51,7 @@
   /* margin: 0;
   padding: 0; */
   box-sizing: border-box;
+  font-family: 'Nunito', sans-serif !important;
 }
 
 html {
@@ -61,7 +62,7 @@ body {
   line-height: 1.7;
   color: var(--text-color);
   cursor: url('/public/cursor.png') 10 10, auto;
-  font-family: var(--body-font);
+  font-family: 'Nunito', sans-serif !important;
   font-size: var(--normal-font-size);
   background: rgb(0, 0, 0);
 }
@@ -75,7 +76,7 @@ body {
 
 input,
 textarea {
-  font-family: var(--body-font);
+  /* font-family: var(--body-font); */
   font-size: var(--normal-font-size);
 }
 
@@ -396,14 +397,17 @@ img {
 
 .subheading {
   color: gray;
-  font-size: 0.875rem; /* Equivalent to "text-sm" */
+  font-size: 0.875rem;
+  /* Equivalent to "text-sm" */
   text-transform: uppercase;
-  letter-spacing: 0.1em; /* Equivalent to "tracking-widest" */
+  letter-spacing: 0.1em;
+  /* Equivalent to "tracking-widest" */
   margin: 0;
 }
 
 .main-heading {
-  font-size: 2.5rem; /* Equivalent to "text-4xl" */
+  font-size: 2.5rem;
+  /* Equivalent to "text-4xl" */
   font-weight: bold;
   margin: 0;
 }
@@ -413,7 +417,8 @@ img {
 }
 
 .gradient-text {
-  background: linear-gradient(to right, #9c31ff, #3b82f6); /* Purple to Blue */
+  background: linear-gradient(to right, #9c31ff, #3b82f6);
+  /* Purple to Blue */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -437,10 +442,14 @@ img {
 
 .modal-content {
   background: white;
-  width: 90%; /* Adjust width for smaller screens */
-  max-width: 900px; /* Maximum width for larger screens */
-  height: 90vh; /* Use viewport height units */
-  max-height: 600px; /* Set a maximum height for the modal */
+  width: 90%;
+  /* Adjust width for smaller screens */
+  max-width: 900px;
+  /* Maximum width for larger screens */
+  height: 90vh;
+  /* Use viewport height units */
+  max-height: 600px;
+  /* Set a maximum height for the modal */
   border-radius: 8px;
   padding: 10px;
   display: flex;
@@ -453,7 +462,8 @@ img {
   width: 100%;
   height: 100%;
   border: none;
-  overflow-y: auto; /* Enable scrolling for iframe content */
+  overflow-y: auto;
+  /* Enable scrolling for iframe content */
 }
 
 .modal-close {
@@ -470,8 +480,10 @@ img {
 
 @media (max-width: 768px) {
   .modal-content {
-    width: 95%; /* Adjust width for mobile devices */
-    height: 80vh; /* Slightly reduce height for smaller screens */
+    width: 95%;
+    /* Adjust width for mobile devices */
+    height: 80vh;
+    /* Slightly reduce height for smaller screens */
   }
 
   .modal-close {
