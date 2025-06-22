@@ -8,6 +8,7 @@ import {
 } from "react-icons/fa";
 import homeStyle from "../styles/Home.module.css";
 import { getConstant } from "@/utilities/utils";
+import Image from "next/image";
 
 const HomeLanding = () => {
   const socialLinks = [
@@ -50,7 +51,7 @@ const HomeLanding = () => {
           className={`${homeStyle.intro} ${homeStyle.hoverParentX} flex-col-reverse md:flex-row-reverse justify-evenly  flex`}
         >
           <div className="">
-            <img
+            <Image
               src="/developer.png"
               alt="Suraj Sangale"
               height={400}

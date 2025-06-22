@@ -3,6 +3,7 @@ import { aboutMeText, images, resumeLink } from "../utilities/Data";
 import ResumeModal from "./Items/ResumeModal";
 import CustomTitle from "./Items/CustomTitle";
 import aboutStyles from "../styles/about.module.css";
+import Image from "next/image";
 
 const About = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,17 +39,20 @@ const About = () => {
               Skills
             </h2>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {images.map((item, index) => (
               <div
                 key={index}
-                className="icons relative overflow-hidden  flex flex-col justify-center items-center h-20 m-1 rounded-md transition-transform transform hover:scale-105"
+                className="icons relative overflow-hidden  flex flex-col justify-center items-center h-22 m-0 rounded-md transition-transform transform duration-500 hover:scale-115"
               >
-                <img
+                <Image
                   src={item.imgUrl}
-                  alt="imgage not found"
-                  className="max-w-full object-cover transition-transform transform duration-500 hover:scale-120"
+                  alt={item.name}
+                  className="max-w-full object-cover"
                   style={{ maxHeight: "72%", maxWidth: "100%" }}
+                  width={60}
+                  height={60}
+                  loading="lazy"
                 />
                 <p className="mb-1 text-center text-sm">{item.name}</p>
               </div>

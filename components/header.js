@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useRef, useEffect } from "react";
 
@@ -29,16 +30,19 @@ const Header = () => {
     <nav className="fixed top-0 inset-x-0 z-20 backdrop-blur-md">
       <div className="container mx-auto flex items-center justify-between px-6 py-3">
         {/* Logo */}
-        <a
+        <Link
           href="/"
           className="flex items-center"
         >
-          <img
+          <Image
             src="/logo.png"
             className="w-12 h-12 animate-spin-slow"
             alt="Logo"
+            width={48}
+            height={48}
+            loading="lazy"
           />
-        </a>
+        </Link>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex space-x-6">

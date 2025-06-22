@@ -1,5 +1,7 @@
 import React from "react";
 import "../../styles/projects.css";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function MyProjectsCard({ item }) {
   const {
@@ -13,7 +15,7 @@ export default function MyProjectsCard({ item }) {
 
   return (
     <div className="projectCard bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300">
-      <img
+      <Image
         alt={title}
         src={`/myProjects/${image}`}
         loading="lazy"
@@ -43,24 +45,24 @@ export default function MyProjectsCard({ item }) {
           </ul>
           <div className="flex flex-wrap gap-3">
             {gitUrl && (
-              <a
+              <Link
                 href={gitUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-2 rounded-full bg-gradient-to-r from-indigo-600 to-purple-500 hover:from-indigo-700 hover:to-purple-600 transition-colors text-white font-semibold text-sm shadow-md"
               >
                 GitHub
-              </a>
+              </Link>
             )}
             {liveUrl && (
-              <a
+              <Link
                 href={liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 transition-colors text-white font-semibold text-sm shadow-md"
               >
                 Live Demo
-              </a>
+              </Link>
             )}
           </div>
         </div>

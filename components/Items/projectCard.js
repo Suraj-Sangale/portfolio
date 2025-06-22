@@ -1,3 +1,5 @@
+import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect, useState, useRef } from "react";
 import { FaEye, FaGithub, FaCheckCircle } from "react-icons/fa";
 
@@ -38,10 +40,13 @@ export default function ProjectCard({ project }) {
       >
         {/* Image */}
         <div className="overflow-hidden rounded-lg">
-          <img
+          <Image
             src={`/myProjects/${project.image}`}
             alt={project.title}
             className="w-full h-48 object-cover transition-transform duration-300 ease-in-out hover:scale-110"
+            width={400}
+            height={300}
+            loading="lazy"
           />
         </div>
 
@@ -51,22 +56,22 @@ export default function ProjectCard({ project }) {
             <h2 className="text-xl font-semibold">{project.title}</h2>
             <div className="flex space-x-3">
               {project.liveUrl && (
-                <a
+                <Link
                   href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <FaEye className="text-gray-600 hover:text-black text-xl" />
-                </a>
+                </Link>
               )}
               {project.gitUrl && (
-                <a
+                <Link
                   href={project.gitUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <FaGithub className="text-gray-600 hover:text-black text-xl" />
-                </a>
+                </Link>
               )}
             </div>
           </div>
@@ -105,10 +110,13 @@ export default function ProjectCard({ project }) {
 
             {/* Left side: Image */}
             <div className="w-full md:w-1/2 bg-gray-100 flex flex-col items-center justify-center relative">
-              <img
+              <Image
                 src={`/myProjects/${project.image}`}
                 alt="Project Preview"
                 className="object-contain w-full h-full"
+                loading="lazy"
+                width={400}
+                height={300}
               />
               <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent text-white text-center text-lg font-semibold">
                 Project Preview
