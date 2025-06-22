@@ -6,7 +6,7 @@ import {
   FaFacebook,
   FaInstagram,
 } from "react-icons/fa";
-import homeStyle from "../styles/Home.module.css";
+import homeStyle from "../styles/home.module.css";
 import { getConstant } from "@/utilities/utils";
 import Image from "next/image";
 
