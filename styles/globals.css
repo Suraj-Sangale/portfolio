@@ -61,7 +61,7 @@ html {
 body {
   line-height: 1.7;
   color: var(--text-color);
-  cursor: url('/public/cursor.png') 10 10, auto;
+  cursor: url('/cursor.png') 10 10, auto;
   font-family: 'Nunito', sans-serif !important;
   font-size: var(--normal-font-size);
   background: rgb(0, 0, 0);

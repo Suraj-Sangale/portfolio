@@ -27,15 +27,15 @@ const Header = () => {
 
   return (
     <nav className="fixed top-0 inset-x-0 z-20 backdrop-blur-md">
-      <div className="container mx-auto flex items-center justify-between px-6 py-4">
+      <div className="container mx-auto flex items-center justify-between px-6 py-3">
         {/* Logo */}
         <a
           href="/"
           className="flex items-center"
         >
           <img
-            src="https://i.ibb.co/Ss4z8Z0/reactpng.png"
-            className="w-10 h-10 animate-spin-slow"
+            src="/logo.png"
+            className="w-12 h-12 animate-spin-slow"
             alt="Logo"
           />
         </a>
