@@ -9,11 +9,10 @@ const ExperienceCard = ({ item, index }) => {
   return (
     <div className={workStyles.card}>
       <div
-        className={`flex items-baseline justify-center ${
-          isClient && index % 2 === 0 ? "md:justify-end" : "md:justify-start"
-        }`}
+        className={`flex items-baseline justify-center ${isClient && index % 2 === 0 ? "md:justify-end" : "md:justify-start"
+          }`}
       >
-        <p className="text-blue-500 text-lg">{item?.title}</p>
+        <p className={`text-lg ${workStyles.companyName}`}>{item?.title}</p>
         <div className="ml-3 text-sm">{item?.year}</div>
       </div>
 

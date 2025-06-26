@@ -22,14 +22,14 @@ const Timeline = () => {
       >
         <div className="w-96 md:w-[90vw] lg:w-[65rem] h-auto relative">
           <ul className="relative flex flex-col items-center space-y-8">
-            <div className="absolute left-1/2 top-0 h-full w-1 -translate-x-1/2 bg-white border-l-2 border-gray-300"></div>
+            <div className="absolute left-1/2 top-0 h-full w-1 -translate-x-1/2 border-l-2 border-gray-300"></div>
             {expData
               .slice()
               .reverse()
               .map((item, index) => (
                 <li
                   key={item.id || index}
-                  className={`relative text-gray-700 px-4 py-2 rounded-lg w-full md:w-[48%] text-center ${
+                  className={`relative text-gray-700 rounded-lg w-full md:w-[48%] text-center ${
                     index % 2 === 0
                       ? "md:self-start md:ml-0"
                       : "md:self-end md:mr-0"
@@ -43,7 +43,7 @@ const Timeline = () => {
                     }`}
                   >
                     <BsFillHexagonFill
-                      color="#007bff"
+                      color="#5c67f9"
                       size={"25"}
                     />
                   </div>
