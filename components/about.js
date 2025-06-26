@@ -32,7 +32,7 @@ const About = () => {
           highlightedText="Do"
         />
 
-        <div className=" mx-auto my-8 md:p-8 p-4 bg-white rounded-lg shadow-md w-96 md:w-10/12		">
+        <div className=" mx-auto my-8 md:p-8 p-4 bg-gray-200 rounded-lg shadow-md w-96 md:w-10/12		">
           <div className="mb-6">
             <p className="about__description">{aboutMeText}</p>
             <h2 className="section__subtitle text-slate-800 text-center">
@@ -50,8 +50,8 @@ const About = () => {
                   alt={item.name}
                   className="max-w-full object-cover"
                   style={{ maxHeight: "72%", maxWidth: "100%" }}
-                  width={60}
-                  height={60}
+                  width={65}
+                  height={65}
                   loading="lazy"
                 />
                 <p className="mb-1 text-center text-sm">{item.name}</p>
