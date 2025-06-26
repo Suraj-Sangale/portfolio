@@ -9,6 +9,24 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "w7.pngwing.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "icon.icepanel.io",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "uxwing.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
 };
