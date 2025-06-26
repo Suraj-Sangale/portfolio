@@ -5,9 +5,9 @@
 :root {
   --first-color: hsl(224, 100%, 65%);
   --title-color: hsl(0, 0%, 100%);
-  --text-color: hsl(244, 16%, 43%);
-  --body-color: hsl(258, 60%, 98%);
-  --container-color: #fff;
+  --text-color: hsl(242, 16%, 31%);
+  --body-color: #f1f1f1;
+  --container-color: #f1f1f1;
 
   --body-font: "Nunito", "Rubik", sans-serif;
   --h1-font-size: 3rem;

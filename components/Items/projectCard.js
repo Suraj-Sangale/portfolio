@@ -35,7 +35,7 @@ export default function ProjectCard({ project }) {
     <>
       {/* Card */}
       <div
-        className="max-w-sm bg-white rounded-2xl shadow-lg overflow-hidden p-4 cursor-pointer hover:shadow-2xl transition-shadow"
+        className="max-w-sm bg-gray-100 rounded-2xl shadow-lg overflow-hidden p-4 cursor-pointer hover:shadow-2xl transition-shadow"
         onClick={() => setIsOpen(true)}
       >
         {/* Image */}
@@ -101,7 +101,7 @@ export default function ProjectCard({ project }) {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-40 p-4">
           <div
             ref={modalRef}
-            className="bg-white rounded-2xl shadow-xl w-full max-w-5xl overflow-hidden relative flex flex-col md:flex-row max-h-[90vh]"
+            className="bg-gray-100 rounded-2xl shadow-xl w-full max-w-5xl overflow-hidden relative flex flex-col md:flex-row max-h-[90vh]"
           >
             {/* Close button */}
             <div className="absolute w-7 h-7 bg-gray-600 rounded-2xl top-4 right-4 text-gray-100 text-2xl md:top-6 md:right-6 z-50 flex items-center justify-center cursor-pointer">
@@ -109,7 +109,7 @@ export default function ProjectCard({ project }) {
             </div>
 
             {/* Left side: Image */}
-            <div className="w-full md:w-1/2 bg-gray-100 flex flex-col items-center justify-center relative">
+            <div className="w-full md:w-1/2 bg-gray-200 flex flex-col items-center justify-center relative">
               <Image
                 src={`/myProjects/${project.image}`}
                 alt="Project Preview"
