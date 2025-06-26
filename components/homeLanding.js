@@ -9,6 +9,7 @@ import {
 import homeStyle from "../styles/home.module.css";
 import { getConstant } from "@/utilities/utils";
 import Image from "next/image";
+import Link from "next/link";
 
 const HomeLanding = () => {
   const socialLinks = [
@@ -66,9 +67,25 @@ const HomeLanding = () => {
             >
               I am a Software Developer
             </div>
+
+            <div className="flex justify-center mt-4 gap-4">
+              {socialLinks.map((link, index) => (
+                <Link
+                  key={index}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={homeStyle.socialLinks}
+                  aria-label={link.label}
+                >
+                  {link.icon}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
-      </section>
+
+      </section >
       {/* <button onClick={scrollToTop}>Scroll to Top</button> */}
     </>
   );
