@@ -1,12 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import { aboutMeText, images, resumeLink } from "../utilities/Data";
 import ResumeModal from "./Items/ResumeModal";
 import CustomTitle from "./Items/CustomTitle";
 import aboutStyles from "../styles/about.module.css";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 const About = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
+  const query = router.query;
+
+  useEffect(() => {
+    if (query.view_resume) {
+      setIsModalOpen(true);
+    }
+  }, [query.view_resume]);
 
   useEffect(() => {
     if (isModalOpen) {
