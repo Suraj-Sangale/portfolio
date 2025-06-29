@@ -27,6 +27,11 @@ const About = () => {
     }
   }, [isModalOpen]);
 
+  const removeQuery = () => {
+    // Removes query params without reloading the page
+    router.replace(router.pathname, undefined, { shallow: true });
+  };
+
   return (
     <>
       <div
@@ -87,7 +92,10 @@ const About = () => {
             {/* Modal Component */}
             <ResumeModal
               show={isModalOpen}
-              onClose={() => setIsModalOpen(false)}
+              onClose={() => {
+                setIsModalOpen(false);
+                removeQuery();
+              }}
               resumeLink={resumeLink}
             />
           </div>
