@@ -492,3 +492,33 @@ img {
     padding: 3px 7px;
   }
 }
+
+
+
+/* Only targets elements with class 'custom-scrollbar' */
+.custom-scrollbar::-webkit-scrollbar {
+  height: 8px;
+  /* for horizontal scroll */
+  width: 8px;
+  /* for vertical scroll */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #161616 !important;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(#4cff55, #0f8500) !important;
+  border: 2px solid #1a1038;
+  border-radius: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #868686;
+}
+
+/* For Firefox */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #353535 #161616;
+}

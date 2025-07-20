@@ -5,6 +5,7 @@ import CustomTitle from "./Items/CustomTitle";
 import aboutStyles from "../styles/about.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import GitHubGraph from "./Items/gitHubGraph";
 
 const About = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -72,6 +73,8 @@ const About = () => {
               </div>
             ))}
           </div>
+
+          <GitHubGraph />
           {/* <a
           href={resumeLink}
           target="_blank"
