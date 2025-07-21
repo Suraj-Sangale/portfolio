@@ -105,7 +105,7 @@ export const SEOData = {
   title:
     "Suraj Sangale | Full Stack Developer | React | Next.js | Node.js Developer",
   description:
-    "Portfolio of Suraj Sangale, a frontend developer specializing in React, Next.js, and modern web UI/UX.",
+    "Hi, I'm Suraj — a full stack developer who crafts seamless user experiences and robust backends using modern technologies like React, Node.js, and Next.js. Let’s build the future together",
   canonical: "https://surajsangale.vercel.app",
   openGraph: {
     type: "website",
