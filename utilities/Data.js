@@ -114,10 +114,10 @@ export const SEOData = {
     site_name: "Suraj Sangale Portfolio",
     title: "Suraj Sangale | Full Stack Developer",
     description:
-      "Explore the projects and skills of Suraj Sangale, a passionate frontend developer building fast and responsive web experiences.",
+      "Hi, I'm Suraj — a full stack developer who crafts seamless user experiences and robust backends using modern technologies like React, Node.js, and Next.js. Let’s build the future together.",
     images: [
       {
-        url: "https://surajsangale.vercel.app/logo.png",
+        url: "https://surajsangale.vercel.app/seoLogo.png",
         width: 1200,
         height: 630,
         alt: "Suraj Sangale Portfolio Preview",
