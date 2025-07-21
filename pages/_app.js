@@ -1,5 +1,5 @@
 import "@/styles/globals.css";
-import { SEOData } from "@/utilities/Data";
+import { newSeoData } from "@/utilities/Data";
 import { DefaultSeo } from "next-seo";
 import { Nunito } from "next/font/google";
 
@@ -11,7 +11,7 @@ const nunito = Nunito({
 export default function App({ Component, pageProps }) {
   return (
     <>
-      <DefaultSeo {...SEOData} />
+      <DefaultSeo {...newSeoData} />
       <Component
         className={nunito.className}
         {...pageProps}

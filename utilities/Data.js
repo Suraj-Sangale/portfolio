@@ -101,11 +101,11 @@ export const EXPERIENCEDATA = [
   },
 ];
 
-export const SEOData = {
+export const newSeoData = {
   title:
     "Suraj Sangale | Full Stack Developer | React | Next.js | Node.js Developer",
   description:
-    "Hi, I'm Suraj — a full stack developer who crafts seamless user experiences and robust backends using modern technologies like React, Node.js, and Next.js. Let’s build the future together",
+    "I'm Suraj, a full stack developer building seamless UIs and powerful backends with React, Node.js, and Next.js. Let’s build the future together.",
   canonical: "https://surajsangale.vercel.app",
   openGraph: {
     type: "website",
