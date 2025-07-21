@@ -7,17 +7,38 @@ export const resumeLink =
 export const images = [
   { id: "02", name: "JavaScript", imgUrl: "https://i.ibb.co/Lhq2sJf/js.png" },
 
-  { id: "01", name: "Next.js", imgUrl: "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/nextjs-icon.png" },
+  {
+    id: "01",
+    name: "Next.js",
+    imgUrl:
+      "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/nextjs-icon.png",
+  },
 
   { id: "01", name: "React", imgUrl: "https://i.ibb.co/Ss4z8Z0/reactpng.png" },
-  { id: "04", name: "Node.js", imgUrl: "https://i.ibb.co/p6YrRtk0/pngwing-com-1.png" },
+  {
+    id: "04",
+    name: "Node.js",
+    imgUrl: "https://i.ibb.co/p6YrRtk0/pngwing-com-1.png",
+  },
   { id: "10", name: "MySQL", imgUrl: "https://i.ibb.co/XQK5wHP/mysql.png" },
   { id: "07", name: "Redis", imgUrl: "https://i.ibb.co/47qry58/redis.webp" },
-  { id: "09", name: "TypeScript", imgUrl: "https://i.ibb.co/HLf7cS5p/type-Script.png" },
-  { id: "11", name: "Socket IO", imgUrl: "https://i.ibb.co/ZRq8gdy8/socket-io.png" },
+  {
+    id: "09",
+    name: "TypeScript",
+    imgUrl: "https://i.ibb.co/HLf7cS5p/type-Script.png",
+  },
+  {
+    id: "11",
+    name: "Socket IO",
+    imgUrl: "https://i.ibb.co/ZRq8gdy8/socket-io.png",
+  },
   { id: "05", name: "Mongo DB", imgUrl: "https://i.ibb.co/9qCJLZV/mongo.png" },
   { id: "06", name: "strapi", imgUrl: "https://i.ibb.co/cvbt3cN/strapi.png" },
-  { id: "06", name: "Tailwind CSS", imgUrl: "https://i.ibb.co/pWXXdGj/twd.png" },
+  {
+    id: "06",
+    name: "Tailwind CSS",
+    imgUrl: "https://i.ibb.co/pWXXdGj/twd.png",
+  },
   { id: "07", name: "Material UI", imgUrl: "https://i.ibb.co/ydQfq96/mui.png" },
   // {
   //   id: "08",
@@ -79,3 +100,33 @@ export const EXPERIENCEDATA = [
     skills: ["Next js", "Node js", "MySQL", "Redis", "Strapi"],
   },
 ];
+
+export const SEOData = {
+  title:
+    "Suraj Sangale | Full Stack Developer | React | Next.js | Node.js Developer",
+  description:
+    "Portfolio of Suraj Sangale, a frontend developer specializing in React, Next.js, and modern web UI/UX.",
+  canonical: "https://surajsangale.vercel.app",
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    url: "https://surajsangale.vercel.app",
+    site_name: "Suraj Sangale Portfolio",
+    title: "Suraj Sangale | Full Stack Developer",
+    description:
+      "Explore the projects and skills of Suraj Sangale, a passionate frontend developer building fast and responsive web experiences.",
+    images: [
+      {
+        url: "https://surajsangale.vercel.app/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Suraj Sangale Portfolio Preview",
+      },
+    ],
+  },
+  twitter: {
+    handle: "@SurajSangale4",
+    site: "@SurajSangale4",
+    cardType: "summary_large_image",
+  },
+};

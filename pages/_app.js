@@ -1,4 +1,6 @@
 import "@/styles/globals.css";
+import { SEOData } from "@/utilities/Data";
+import { DefaultSeo } from "next-seo";
 import { Nunito } from "next/font/google";
 
 const nunito = Nunito({
@@ -8,9 +10,12 @@ const nunito = Nunito({
 });
 export default function App({ Component, pageProps }) {
   return (
-    <Component
-      className={nunito.className}
-      {...pageProps}
-    />
+    <>
+      <DefaultSeo {...SEOData} />
+      <Component
+        className={nunito.className}
+        {...pageProps}
+      />
+    </>
   );
 }
