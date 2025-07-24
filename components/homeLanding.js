@@ -49,7 +49,7 @@ const HomeLanding = () => {
         <div
           className={`${homeStyle.intro} ${homeStyle.hoverParentX} flex-col-reverse md:flex-row-reverse justify-evenly  flex`}
         >
-          <div className="">
+          <div>
             <Image
               src="/developer.png"
               alt="Suraj Sangale"
@@ -84,8 +84,7 @@ const HomeLanding = () => {
             </div>
           </div>
         </div>
-
-      </section >
+      </section>
       {/* <button onClick={scrollToTop}>Scroll to Top</button> */}
     </>
   );
