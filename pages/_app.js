@@ -2,6 +2,7 @@ import "@/styles/globals.css";
 import { newSeoData } from "@/utilities/Data";
 import { DefaultSeo } from "next-seo";
 import { Nunito } from "next/font/google";
+import useLenis from "@/hooks/useLenis";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -9,11 +10,13 @@ const nunito = Nunito({
   display: "swap",
 });
 export default function App({ Component, pageProps }) {
+  useLenis();
+
   return (
     <>
       <DefaultSeo {...newSeoData} />
       <Component
-        className={nunito.className}
+        className={nunito.className + " min-h-screen"}
         {...pageProps}
       />
     </>
