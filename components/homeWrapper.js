@@ -3,7 +3,6 @@ import HomeLanding from "./homeLanding";
 import About from "./about";
 import Timeline from "./timeline";
 import Projects from "./projects";
-import Contact from "./contact";
 import ContactSection from "./contactSection";
 
 export default function HomeWrapper() {
