@@ -68,6 +68,23 @@ export default function Projects() {
       liveUrl: "https://memo-mind-self.vercel.app",
     },
     {
+      title: "Cargo Desk",
+      description:
+        "A web-based platform designed to enhance memory retention and learning through interactive flashcards and quizzes. Users can create, share, and study flashcards on various topics, making learning engaging and effective.",
+      keyFeatures: [
+        { id: 1, text: "Create and share flashcards for effective learning" },
+        { id: 2, text: "Interactive quizzes to reinforce knowledge retention" },
+        {
+          id: 3,
+          text: "User-friendly interface for easy navigation and study",
+        },
+      ],
+
+      techStack: ["Next.js", "Tailwind CSS", "Node.js"],
+      image: "cargoDesk.png",
+      liveUrl: "https://cargodesk.vercel.app/",
+    },
+    {
       title: "Linux Tools",
       image: "linuxtools.png",
       liveUrl: "https://agni-byte.com/",
