@@ -10,7 +10,7 @@ const nunito = Nunito({
   display: "swap",
 });
 export default function App({ Component, pageProps }) {
-  useLenis();
+  // useLenis();
 
   return (
     <>
