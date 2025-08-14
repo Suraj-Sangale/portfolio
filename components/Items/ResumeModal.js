@@ -1,20 +1,21 @@
-import React from "react";
-
 const ResumeModal = ({ show, onClose, resumeLink }) => {
   if (!show) return null;
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+    <div
+      className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50"
+      onClick={onClose}
+    >
+      <div
+        className="bg-white rounded-xl shadow-lg overflow-hidden max-w-4xl w-full"
+        onClick={(e) => e.stopPropagation()}
+      >
         <iframe
           src={resumeLink}
           title="Resume"
-          className="modal-iframe"
+          className="w-full h-[80vh]"
           frameBorder="0"
         ></iframe>
-        {/* <button className="modal-close" onClick={onClose}>
-          Close
-        </button> */}
       </div>
     </div>
   );
