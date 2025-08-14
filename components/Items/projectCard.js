@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState, useRef } from "react";
 import { FaEye, FaGithub, FaCheckCircle } from "react-icons/fa";
+import { IoIosClose } from "react-icons/io";
 
 export default function ProjectCard({ project }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,16 +40,18 @@ export default function ProjectCard({ project }) {
         onClick={() => setIsOpen(true)}
       >
         {/* Image */}
-        <div className="overflow-hidden rounded-lg">
-          <Image
-            src={`/myProjects/${project.image}`}
-            alt={project.title}
-            className="w-full h-48 object-cover transition-transform duration-300 ease-in-out hover:scale-110"
-            width={400}
-            height={300}
-            loading="lazy"
-          />
-        </div>
+        {project?.image && (
+          <div className="overflow-hidden rounded-lg">
+            <Image
+              src={`/myProjects/${project.image}`}
+              alt={project.title}
+              className="w-full h-48 object-cover transition-transform duration-300 ease-in-out hover:scale-110"
+              width={400}
+              height={300}
+              loading="lazy"
+            />
+          </div>
+        )}
 
         {/* Content */}
         <div className="p-4">
@@ -98,14 +101,16 @@ export default function ProjectCard({ project }) {
 
       {/* Modal */}
       {isOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-40 p-4">
+        <div className="fixed inset-0 flex items-center justify-center backdrop-blur-xl bg-white/30 bg-opacity-50 z-40 p-4">
           <div
             ref={modalRef}
             className="bg-gray-100 rounded-2xl shadow-xl w-full max-w-5xl overflow-hidden relative flex flex-col md:flex-row max-h-[90vh]"
           >
             {/* Close button */}
             <div className="absolute w-7 h-7 bg-gray-600 rounded-2xl top-4 right-4 text-gray-100 text-2xl md:top-6 md:right-6 z-50 flex items-center justify-center cursor-pointer">
-              <button onClick={() => setIsOpen(false)}>✕</button>
+              <button onClick={() => setIsOpen(false)}>
+                <IoIosClose />
+              </button>
             </div>
 
             {/* Left side: Image */}
@@ -118,7 +123,7 @@ export default function ProjectCard({ project }) {
                 width={400}
                 height={300}
               />
-              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent text-white text-center text-lg font-semibold">
+              <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black/80 to-transparent text-white text-center text-lg font-semibold">
                 Project Preview
               </div>
             </div>
@@ -133,14 +138,17 @@ export default function ProjectCard({ project }) {
               </p>
 
               <h3 className="text-lg font-semibold mb-2">Key Features</h3>
-              <ul className="space-y-3">
+              <ul className="space-y-2">
                 {project.keyFeatures.map((feature) => (
                   <li
                     key={feature.id}
-                    className="flex items-start space-x-2 rounded-lg p-3"
+                    className="flex items-start gap-2 rounded-lg p-3  drop-shadow-sm hover:shadow-md transition"
                   >
-                    <FaCheckCircle className="text-blue-600 mt-1 w-5" />
-                    <span className="text-gray-700 text-sm">
+                    <FaCheckCircle
+                      className="text-blue-600 mt-1 w-5 h-5 flex-shrink-0"
+                      aria-hidden="true"
+                    />
+                    <span className="text-gray-700 text-sm leading-relaxed">
                       {feature.text}
                     </span>
                   </li>
