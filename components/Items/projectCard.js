@@ -129,7 +129,7 @@ export default function ProjectCard({ project }) {
             </div>
 
             {/* Right side: Details */}
-            <div className="w-full md:w-1/2 p-6 overflow-y-auto scrollbar-hide">
+            <div className="w-full md:w-1/2 p-6 overflow-y-auto modal-scrollbar">
               <h2 className="text-2xl font-bold mb-4">{project.title}</h2>
 
               {/* <h3 className="text-lg font-semibold mb-2">Description</h3> */}
