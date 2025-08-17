@@ -533,7 +533,7 @@ img {
 
 .modal-scrollbar::-webkit-scrollbar {
   width: 8px;
-  /* vertical scrollbar width */
+  /* vertical scrollbar width  changes*/
   height: 8px;
   /* horizontal scrollbar height */
 }
