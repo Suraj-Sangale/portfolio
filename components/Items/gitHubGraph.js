@@ -32,7 +32,9 @@ export default function GitHubGraph() {
 
   return (
     <>
-      <h2 className="text-xl mb-4  mt-5">GitHub Contributions</h2>
+      <h2 className=" section__subtitle  text-slate-800 mb-4  mt-8 text-center">
+        GitHub Contributions
+      </h2>
       <div className="overflow-x-auto max-w-full custom-scrollbar">
         <div className="w-full flex justify-center">
           <GitHubCalendar
