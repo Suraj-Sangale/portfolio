@@ -65,8 +65,8 @@ const About = () => {
                   alt={item.name}
                   className="max-w-full object-cover"
                   style={{ maxHeight: "72%", maxWidth: "100%" }}
-                  width={65}
-                  height={65}
+                  width={50}
+                  height={50}
                   loading="lazy"
                 />
                 <p className="mb-1 text-center text-sm">{item.name}</p>
