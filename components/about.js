@@ -6,6 +6,8 @@ import aboutStyles from "../styles/about.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import GitHubGraph from "./Items/gitHubGraph";
+import Ingredients from "./resumeSection";
+import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 
 const About = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -73,7 +75,19 @@ const About = () => {
               </div>
             ))}
           </div>
-
+          <img
+            src={"/resume.pdf"}
+            alt="Resume"
+            className="max-h-full max-w-full"
+          />
+          <a
+            href={"/resume.pdf"}
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-xl border px-3 py-1.5 hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2"
+          >
+            Open Fullscreen
+          </a>
           <GitHubGraph />
           {/* <a
           href={resumeLink}
@@ -82,6 +96,7 @@ const About = () => {
         >
           Download Resume
         </a> */}
+
           <div>
             <button
               className={`mt-4 text-center ${aboutStyles.styleButton}`}
@@ -99,7 +114,7 @@ const About = () => {
                 setIsModalOpen(false);
                 removeQuery();
               }}
-              resumeLink={resumeLink}
+              resumeLink={"http://localhost:3000/resume.pdf"}
             />
           </div>
         </div>
