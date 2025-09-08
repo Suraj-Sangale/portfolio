@@ -11,7 +11,7 @@ const ResumeModal = ({ show, onClose, resumeLink }) => {
         onClick={(e) => e.stopPropagation()}
       >
         <iframe
-          src={resumeLink}
+          src={process.env.NEXT_PUBLIC_BASE_URL + resumeLink}
           title="Resume"
           className="w-full h-[80vh]"
           frameBorder="0"

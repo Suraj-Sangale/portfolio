@@ -75,19 +75,15 @@ const About = () => {
               </div>
             ))}
           </div>
-          <img
-            src={"/resume.pdf"}
-            alt="Resume"
-            className="max-h-full max-w-full"
-          />
-          <a
+
+          {/* <a
             href={"/resume.pdf"}
             target="_blank"
             rel="noreferrer"
             className="rounded-xl border px-3 py-1.5 hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2"
           >
             Open Fullscreen
-          </a>
+          </a> */}
           <GitHubGraph />
           {/* <a
           href={resumeLink}
@@ -114,7 +110,7 @@ const About = () => {
                 setIsModalOpen(false);
                 removeQuery();
               }}
-              resumeLink={"http://localhost:3000/resume.pdf"}
+              resumeLink={resumeLink}
             />
           </div>
         </div>
