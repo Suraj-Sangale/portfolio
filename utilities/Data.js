@@ -78,7 +78,7 @@ export const EXPERIENCEDATA = [
     icon: work,
     year: "01/2022 - 03/2022",
     title: "Intern at CGI",
-    desc: "Front-End Developer",
+    desc: "Frontend Intern",
     skills: ["HTML", "CSS", "JavaScript", "React", "React router"],
   },
   {
@@ -87,7 +87,7 @@ export const EXPERIENCEDATA = [
     icon: work,
     year: "07/2022 - 12/2023",
     title: "Boppo Technologies",
-    desc: "Software Engineer",
+    desc: "Frontend Developer",
     skills: ["React", "Redux", "React Native", "Python", "Java"],
   },
   {
