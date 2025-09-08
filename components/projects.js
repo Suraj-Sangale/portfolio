@@ -162,14 +162,14 @@ export default function Projects() {
           className={`flex flex-wrap justify-center gap-8 projectCardWrapper`}
         >
           {MY_PROJECTS.map((item, index) => (
-            <>
+            <React.Fragment key={index}>
               {item.isEnable && (
                 <ProjectCard
                   key={index}
                   project={item}
                 />
               )}
-            </>
+            </React.Fragment>
           ))}
         </div>
       </div>
