@@ -55,6 +55,7 @@ const About = () => {
             <h2 className="section__subtitle text-slate-800 text-center">
               Skills
             </h2>
+            <span className={aboutStyles.strokeme}>Send via WhatsApp</span>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {images.map((item, index) => (
