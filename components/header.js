@@ -1,8 +1,24 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import aboutStyles from "../styles/about.module.css";
 
 const Header = () => {
+  const headerHeight = 80; // keep in sync with --header-height in globals.css
+
+  const handleNavClick = (event, targetId) => {
+    event.preventDefault();
+    if (typeof document === "undefined") return;
+    const targetElement = document.getElementById(targetId);
+    if (!targetElement) return;
+    const y =
+      targetElement.getBoundingClientRect().top + window.scrollY - headerHeight;
+    window.scrollTo({ top: y, behavior: "smooth" });
+    // if (history && history.replaceState) {
+    //   history.replaceState(null, "", `#${targetId}`);
+    // }
+  };
+
   const pages = [
     { id: 1, label: "Home", path: "home" },
     { id: 2, label: "About", path: "about" },
@@ -32,13 +48,14 @@ const Header = () => {
         {/* Menu Positioned at Center-Left (25%) */}
         <div className="flex gap-6">
           {pages.map((item) => (
-            <Link
+            <div
               key={item.id}
-              href={`#${item.path}`}
-              className="text-white text-sm sm:text-base font-medium hover:text-[#007bff] transition"
+              // href={`#${item.path}`}
+              className={`text-white text-sm sm:text-base font-medium hover:text-[#007bff] transition cursor-pointer ${aboutStyles.strokeme}`}
+              onClick={(e) => handleNavClick(e, item.path)}
             >
               {item.label}
-            </Link>
+            </div>
           ))}
         </div>
       </div>

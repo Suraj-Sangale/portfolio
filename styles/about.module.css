@@ -66,3 +66,11 @@
       rgba(99, 88, 238, 1) 94.3%);
   transition: all 0.475s;
 }
+
+.strokeme {
+  color: white;
+  text-shadow:
+    0.5px -0.5px 0 #303030,
+    0.5px 0.5px 0 #2e2e2e;
+
+}
