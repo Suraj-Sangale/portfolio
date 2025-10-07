@@ -47,7 +47,7 @@ const HomeLanding = () => {
         id="home"
       >
         <div
-          className={`${homeStyle.intro} ${homeStyle.hoverParentX} flex-col-reverse md:flex-row-reverse justify-evenly  flex`}
+          className={`${homeStyle.intro} ${homeStyle.hoverParentX} flex-col-reverse md:flex-row-reverse justify-evenly flex`}
         >
           <div>
             <Image
