@@ -119,7 +119,7 @@ ${from_email}`;
       id="contact"
     >
       <CustomTitle
-        subheading="About"
+        subheading="Contact"
         mainText="Reach out"
         highlightedText="to me!"
       />
