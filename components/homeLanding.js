@@ -59,11 +59,11 @@ const HomeLanding = () => {
             />
           </div>
           <div className="items-center mb-10 md:mb-0">
-            <h1 className={`${homeStyle.home__name} text-white`}>
+            <h1 className={`${homeStyle.home__name} `}>
               Hi, I am Suraj Sangale
             </h1>
             <div
-              className={`${homeStyle.hoverParentX} hover:decoration-pink-500 text-white`}
+              className={`${homeStyle.hoverParentX} hover:decoration-pink-500`}
             >
               I am a Software Developer
             </div>

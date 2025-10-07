@@ -1,10 +1,27 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import aboutStyles from "../styles/about.module.css";
 
 const Header = () => {
   const headerHeight = 80; // keep in sync with --header-height in globals.css
+  const [theme, setTheme] = useState("dark");
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const current = document.documentElement.getAttribute("data-theme") || "dark";
+    setTheme(current);
+  }, []);
+
+  const toggleTheme = useCallback(() => {
+    if (typeof document === "undefined") return;
+    const next = theme === "light" ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", next);
+    setTheme(next);
+    try {
+      localStorage.setItem("theme", next);
+    } catch (_) {}
+  }, [theme]);
 
   const handleNavClick = (event, targetId) => {
     event.preventDefault();
@@ -46,7 +63,7 @@ const Header = () => {
         </Link>
 
         {/* Menu Positioned at Center-Left (25%) */}
-        <div className="flex gap-6">
+        <div className="flex gap-6 items-center">
           {pages.map((item) => (
             <div
               key={item.id}
@@ -57,6 +74,13 @@ const Header = () => {
               {item.label}
             </div>
           ))}
+          <button
+            aria-label="Toggle theme"
+            onClick={toggleTheme}
+            className="ml-4 px-3 py-1 rounded-full border border-white/30 text-white text-xs hover:bg-white/10 transition"
+          >
+            {theme === "light" ? "Dark" : "Light"}
+          </button>
         </div>
       </div>
     </nav>

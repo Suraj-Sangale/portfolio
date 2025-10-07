@@ -5,9 +5,11 @@
 :root {
   --first-color: hsl(224, 100%, 65%);
   --title-color: hsl(0, 0%, 100%);
-  --text-color: hsl(242, 16%, 31%);
-  --body-color: #f1f1f1;
-  --container-color: #f1f1f1;
+  /* Default to dark theme */
+  --text-color: #e5e7eb; /* gray-200 */
+  --body-bg: #000000;
+  --body-color: #0b0b0b;
+  --container-color: #0b0b0b;
 
   --body-font: "Nunito", "Rubik", sans-serif;
   --h1-font-size: 3rem;
@@ -34,6 +36,26 @@
 
   --star-color: #37f2ff;
   /* Define the color variable */
+}
+
+/* Light theme overrides */
+:root[data-theme="light"] {
+  --title-color: #0f172a; /* slate-900 */
+  --text-color: #1f2937; /* gray-800 */
+  --body-bg: #f9fafb; /* gray-50 */
+  --body-color: #f9fafb;
+  --container-color: #ffffff;
+  --star-color: #6366f1; /* indigo-500 for lighter background */
+}
+
+/* Dark theme explicit (optional, equals defaults) */
+:root[data-theme="dark"] {
+  --title-color: hsl(0, 0%, 100%);
+  --text-color: #e5e7eb;
+  --body-bg: #000000;
+  --body-color: #0b0b0b;
+  --container-color: #0b0b0b;
+  --star-color: #37f2ff;
 }
 
 @media screen and (max-width: 1024px) {
@@ -64,7 +86,7 @@ body {
   cursor: url('/cursor.png') 10 10, auto;
   font-family: 'Nunito', sans-serif !important;
   font-size: var(--normal-font-size);
-  background: rgb(0, 0, 0);
+  background: var(--body-bg);
 }
 
 .navbar {
