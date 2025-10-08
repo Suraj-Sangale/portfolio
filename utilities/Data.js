@@ -244,7 +244,7 @@ export const newSeoData = {
       title: "Linux Tools",
       isEnable: true,
       image: "linuxtools.png",
-      liveUrl: "https://agni-byte.com/",
+      liveUrl: "https://linux-support-manager.vercel.app/",
       description:
         "Built a comprehensive web-based toolkit tailored for DevOps engineers and system administrators to streamline server troubleshooting and daily operational tasks. The app integrates various diagnostic tools to enhance productivity and simplify common server-side challenges.",
       keyFeatures: [
