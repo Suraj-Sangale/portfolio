@@ -54,7 +54,7 @@ export default function ProjectCard({ project }) {
         {/* Image Carousel */}
         {project?.image && (
           <div
-            className="relative w-full h-52 sm:h-56 overflow-hidden"
+            className="relative w-full overflow-hidden"
             onClick={handleSwiperClick}
           >
             <CustomSwiper carouselOptions={carouselOptions}>
@@ -140,27 +140,33 @@ export default function ProjectCard({ project }) {
             {/* Left: Swiper Gallery */}
             {/* Left side: Swiper inside modal */}
             <div className="w-full md:w-1/2 bg-gray-200 flex flex-col items-center justify-center relative">
-              <CustomSwiper carouselOptions={carouselOptions}>
+              {/* <div className="pointer-events-none absolute top-0 left-0 right-0 p-5 bg-gradient-to-b from-black/80 to-transparent text-white text-center text-lg font-semibold">
+                Project Preview
+              </div> */}
+              <CustomSwiper
+                key={isOpen ? `modal-swiper-open` : `modal-swiper-closed`}
+                carouselOptions={carouselOptions}
+                className="w-full"
+              >
                 {(Array.isArray(project.image)
                   ? project.image
                   : [project.image]
                 ).map((img, index) => (
                   <SwiperSlide key={index}>
-                    <Image
-                      src={`/myProjects/${img}`}
-                      alt="Project Preview"
-                      className="object-contain w-full h-[60vh]"
-                      loading="lazy"
-                      width={400}
-                      height={300}
-                    />
+                    <div className="w-full flex items-center justify-center bg-gray-200">
+                      <Image
+                        src={`/myProjects/${img}`}
+                        alt="Project Preview"
+                        className="object-contain w-full h-full"
+                        loading="lazy"
+                        width={1200}
+                        height={800}
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                    </div>
                   </SwiperSlide>
                 ))}
               </CustomSwiper>
-
-              <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black/80 to-transparent text-white text-center text-lg font-semibold">
-                Project Preview
-              </div>
             </div>
 
             {/* Right: Project Details */}
