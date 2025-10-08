@@ -2,16 +2,16 @@
 
 .swiper,
 .swiper_navigation {
-    [class="swiper-button-prev"] {
+    :global(.swiper-button-prev) {
         left: 3%;
     }
 
-    [class="swiper-button-next"] {
+    :global(.swiper-button-next) {
         right: 3%;
     }
 
-    [class="swiper-button-prev"],
-    [class="swiper-button-next"] {
+    :global(.swiper-button-prev),
+    :global(.swiper-button-next) {
         position: absolute;
         // transform: translateY(-50%);
         top: 50% !important;
@@ -64,23 +64,53 @@
         }
     }
 
-    .swiper-pagination {
+    :global(.swiper-pagination) {
         position: absolute;
-        top: calc(100% + 0px);
-        left: 0;
-        right: 0;
-        display: flex;
+        left: 50%;
+        bottom: 12px;
+        top: auto;
+        transform: translateX(-50%);
+        display: inline-flex;
+        align-items: center;
         justify-content: center;
+        padding: 6px 10px;
+        border-radius: 9999px;
+        background: rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        color: #fff;
+        font-weight: 600;
+        line-height: 1;
 
-        .swiper-pagination-bullet-active {
+        :global(.swiper-pagination-bullet) {
+            background: rgba(255, 255, 255, 0.6);
+            opacity: 1;
+
+        }
+
+        :global(.swiper-pagination-bullet-active) {
             background-color: $colorPrimary2;
+            color: #fff;
+        }
+    }
+
+    /* Fraction specific tweaks */
+    :global(.swiper-pagination-fraction) {
+        width: 50px;
+        font-variant-numeric: tabular-nums;
+
+        :global(.swiper-pagination-current),
+        :global(.swiper-pagination-total) {
+            color: #fff;
         }
     }
 
     @media (max-width: $phones) {
 
-        [class="swiper-button-prev"],
-        [class="swiper-button-next"] {
+        :global(.swiper-button-prev),
+        :global(.swiper-button-next) {
             height: 32px;
             width: 32px;
 
@@ -89,12 +119,28 @@
             }
         }
 
-        [class="swiper-button-prev"] {
+        :global(.swiper-button-prev) {
             left: 4%;
         }
 
-        [class="swiper-button-next"] {
+        :global(.swiper-button-next) {
             right: 4%;
         }
     }
+}
+
+/* Ensure Swiper fills container heights reliably (esp. in hidden → shown modals) */
+.swiper {
+    height: 100%;
+}
+
+.swiper :global(.swiper-wrapper) {
+    height: 100%;
+}
+
+.swiper :global(.swiper-slide) {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

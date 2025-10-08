@@ -5,6 +5,7 @@ import { Navigation, Pagination, Autoplay, EffectCoverflow, EffectCards } from "
 import commonStyle from "@/styles/common.module.scss";
 import "swiper/css";
 import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 export default function CustomSwiper({ children, carouselOptions, className = "" }) {
 	const id = useId();
@@ -16,6 +17,9 @@ export default function CustomSwiper({ children, carouselOptions, className = ""
 		loop: false,
 		rewind: false,
 		pagination: false,
+		observer: true,
+		observeParents: true,
+		observeSlideChildren: true,
 		navigation: carouselOptions?.navigation
 			? {
 					nextEl: `.swiper-instance-${id} .swiper-button-next`,
