@@ -14,10 +14,10 @@ export default function HomeWrapper() {
         <div id="stars3"></div>
         <div id="stars4"></div>
       </div>
+      <Projects />
       <HomeLanding />
       <About />
       <Timeline />
-      <Projects />
       {/* <Contact /> */}
       <ContactSection />
     </>

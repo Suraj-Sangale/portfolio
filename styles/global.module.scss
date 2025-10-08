@@ -1,0 +1,15 @@
+/* Global SCSS (globals.scss) */
+.swiper-pagination-fraction {
+  background: rgba(0, 0, 0, 0.5); /* dark translucent background */
+  color: #fff;                     /* white text */
+  padding: 5px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  backdrop-filter: blur(6px);      /* frosted glass effect */
+}

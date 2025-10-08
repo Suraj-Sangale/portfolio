@@ -2,6 +2,9 @@ import "@/styles/globals.css";
 import { newSeoData } from "@/utilities/Data";
 import { DefaultSeo } from "next-seo";
 import { Nunito } from "next/font/google";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 const nunito = Nunito({
   subsets: ["latin"],
