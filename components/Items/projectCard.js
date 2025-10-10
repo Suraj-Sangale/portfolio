@@ -9,11 +9,16 @@ import projecStyle from "@/styles/projects.module.scss";
 
 export default function ProjectCard({ project }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [imageLoading, setImageLoading] = useState(true);
   const modalRef = useRef(null);
 
   useEffect(() => {
-    if (isOpen) document.body.style.overflow = "hidden";
-    else document.body.style.overflow = "auto";
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+      setImageLoading(true); // Reset loading state when modal opens
+    } else {
+      document.body.style.overflow = "auto";
+    }
 
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -54,7 +59,7 @@ export default function ProjectCard({ project }) {
         {/* Image Carousel */}
         {project?.image && (
           <div
-            className="relative w-full overflow-hidden"
+            className="relative w-full h-52 sm:h-56 overflow-hidden"
             onClick={handleSwiperClick}
           >
             <CustomSwiper carouselOptions={carouselOptions}>
@@ -63,14 +68,27 @@ export default function ProjectCard({ project }) {
                 : [project.image]
               ).map((img, index) => (
                 <SwiperSlide key={index}>
-                  <Image
-                    src={`/myProjects/${img}`}
-                    alt={project.title}
-                    className="object-cover w-full h-52 sm:h-56 transition-transform duration-500"
-                    width={400}
-                    height={300}
-                    loading="lazy"
-                  />
+                  <div className="relative w-full h-full">
+                    {imageLoading && (
+                      <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
+                        <div className="w-8 h-8 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin"></div>
+                      </div>
+                    )}
+                    <Image
+                      src={`/myProjects/${img}`}
+                      alt={project.title}
+                      className={`object-cover w-full h-full transition-all duration-500 ${
+                        imageLoading ? 'opacity-0' : 'opacity-100'
+                      }`}
+                      // width={400}
+                      // height={300}
+                      loading="lazy"
+                      fill
+                      sizes="(max-width: 640px) 100vw, 400px"
+                      onLoad={() => setImageLoading(false)}
+                      onError={() => setImageLoading(false)}
+                    />
+                  </div>
                 </SwiperSlide>
               ))}
             </CustomSwiper>
