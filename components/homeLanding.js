@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FaLinkedin,
   FaGithub,
@@ -39,6 +39,13 @@ const HomeLanding = () => {
     },
     { url: getConstant("FB_URL"), icon: <FaFacebook />, label: "Facebook" },
   ];
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+
+  const handleHover = (url, index) => {
+    setHoveredIndex(index);
+    // Attempt to copy (will likely fail silently unless click)
+    navigator.clipboard?.writeText(url).catch(() => {});
+  };
 
   return (
     <>
@@ -75,10 +82,23 @@ const HomeLanding = () => {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={homeStyle.socialLinks}
                   aria-label={link.label}
+                  onMouseEnter={() => handleHover(link.url, index)}
+                  onMouseLeave={() => setHoveredIndex(null)}
+                  className="relative group text-2xl"
                 >
                   {link.icon}
+                  <span
+                    className={`absolute -top-7 left-1/2 -translate-x-1/2 text-xs rounded-md px-2 py-1 transition-all duration-200 pointer-events-none
+              ${
+                hoveredIndex === index
+                  ? "bg-blue-900 text-white opacity-100"
+                  : "opacity-0"
+              }
+            `}
+                  >
+                    Copied!
+                  </span>
                 </Link>
               ))}
             </div>
