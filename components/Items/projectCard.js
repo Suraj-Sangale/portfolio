@@ -78,7 +78,7 @@ export default function ProjectCard({ project }) {
                       src={`/myProjects/${img}`}
                       alt={project.title}
                       className={`object-cover w-full h-full transition-all duration-500 ${
-                        imageLoading ? 'opacity-0' : 'opacity-100'
+                        imageLoading ? "opacity-0" : "opacity-100"
                       }`}
                       // width={400}
                       // height={300}
