@@ -176,7 +176,7 @@
 }
 
 .skill:hover {
-  cursor: pointer;
+  /* cursor: pointer; */
   transform: translateY(-3px);
   box-shadow: 2px 2px 10px #d0d0d0, -2px -2px 10px #ffffff;
 }
