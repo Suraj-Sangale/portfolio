@@ -6,6 +6,7 @@ const Header = () => {
   const pages = [
     { id: 1, label: "Home", path: "home" },
     { id: 2, label: "About", path: "about" },
+    { id: 5, label: "Projects", path: "projects" },
     { id: 3, label: "Work", path: "work" },
     { id: 4, label: "Contact", path: "contact" },
   ];
@@ -14,7 +15,10 @@ const Header = () => {
     <nav className="fixed top-0 inset-x-0 z-20 backdrop-blur-md">
       <div className="relative container mx-auto px-6 py-5 flex items-center justify-center">
         {/* Logo */}
-        <Link href="/" className="absolute left-[10%] top-1/2 -translate-y-1/2 -translate-x-1/2 ">
+        <Link
+          href="/"
+          className="absolute left-[10%] top-1/2 -translate-y-1/2 -translate-x-1/2 "
+        >
           <Image
             src="/logo.png"
             alt="Logo"
@@ -31,14 +35,14 @@ const Header = () => {
             <Link
               key={item.id}
               href={`#${item.path}`}
-              className="text-white text-sm sm:text-base font-medium hover:text-orange-400 transition"
+              className="text-white text-sm sm:text-base font-medium hover:text-[#007bff] transition"
             >
               {item.label}
             </Link>
           ))}
         </div>
       </div>
-    </nav >
+    </nav>
   );
 };
 
