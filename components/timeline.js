@@ -9,7 +9,7 @@ const Timeline = () => {
   const expData = EXPERIENCEDATA;
   return (
     <div
-      className="container section relative"
+      className="container section relative !mb-16"
       id="work"
     >
       <CustomTitle
