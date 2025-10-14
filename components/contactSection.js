@@ -26,6 +26,7 @@ export default function Contact() {
   const {
     register,
     handleSubmit,
+    trigger,
     formState: { errors },
     resetField,
   } = useForm();
@@ -77,7 +78,17 @@ export default function Contact() {
   };
 
   // Add this helper inside your component (before return)
-  const handleWhatsAppMessage = () => {
+  const handleWhatsAppMessage = async () => {
+    // Run form validation for all fields
+    const isValid = await trigger();
+
+    if (!isValid) {
+      // If validation fails, stop here
+      setShowMsg(true);
+      return;
+    }
+
+    // Validation passed → proceed with WhatsApp message
     const { from_name, from_email, subject, message } = formData;
 
     // Recipient WhatsApp number (use your own number with country code, no "+" sign)
