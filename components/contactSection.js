@@ -92,7 +92,7 @@ export default function Contact() {
     const { from_name, from_email, subject, message } = formData;
 
     // Recipient WhatsApp number (use your own number with country code, no "+" sign)
-    const phoneNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER; // Example: India (+91)
+    const phoneNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "+917039529129"; // Example: India (+91)
 
     // Create message text
     const text = `Hi Suraj,
