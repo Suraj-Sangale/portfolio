@@ -76,6 +76,31 @@ export default function Contact() {
     }
   };
 
+  // Add this helper inside your component (before return)
+  const handleWhatsAppMessage = () => {
+    const { from_name, from_email, subject, message } = formData;
+
+    // Recipient WhatsApp number (use your own number with country code, no "+" sign)
+    const phoneNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER; // Example: India (+91)
+
+    // Create message text
+    const text = `Hi Suraj,
+I want to discuss about - ${subject},
+${message}
+Regards,
+${from_name},
+${from_email}`;
+
+    // Encode the message for URL
+    const encodedText = encodeURIComponent(text);
+
+    // WhatsApp API link
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedText}`;
+
+    // Open in new tab
+    window.open(whatsappUrl, "_blank");
+  };
+
   return (
     <section
       className={`${contactStyles.contact} container ${contactStyles.section}  relative`}
@@ -176,16 +201,29 @@ export default function Contact() {
               {errors?.message?.message}
             </span>
           </div>
-          {/* <div className="flex justify-end items-end"> */}
-          <button
-            className={`text-center ${aboutStyles.styleButton}`}
-            type="submit"
-          >
-            <span className={`${aboutStyles.viewResumeButton}`}>
-              {isLoading ? "Sending..." : "Send Message"}
-            </span>
-          </button>
-          {/* </div> */}
+          <div className="flex justify-between items-end">
+            <button
+              className={`text-center ${aboutStyles.styleButton}`}
+              type="submit"
+            >
+              <span
+                className={`${aboutStyles.viewResumeButton} ${aboutStyles.mail}`}
+              >
+                {isLoading ? "Sending..." : "Send"}
+              </span>
+            </button>
+            <button
+              type="submit"
+              onClick={handleWhatsAppMessage}
+              className={`text-center ${aboutStyles.styleButton} `}
+            >
+              <span
+                className={`${aboutStyles.viewResumeButton}  ${aboutStyles.whatsapp}`}
+              >
+                Send
+              </span>
+            </button>
+          </div>
           {isOpen && showMsg && Object.keys(errors).length == 0 && (
             <>
               <div
