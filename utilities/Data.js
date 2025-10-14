@@ -79,7 +79,7 @@ export const EXPERIENCEDATA = [
     year: "01/2022 - 03/2022",
     title: "Intern at CGI",
     desc: "Frontend Intern",
-    skills: ["HTML", "CSS", "JavaScript", "React", "React router"],
+    skills: ["HTML", "CSS", "JavaScript", "React", "React Router"],
   },
   {
     id: 6,
