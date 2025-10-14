@@ -92,7 +92,8 @@ export default function Contact() {
     const { from_name, from_email, subject, message } = formData;
 
     // Recipient WhatsApp number (use your own number with country code, no "+" sign)
-    const phoneNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "+917039529129"; // Example: India (+91)
+    const phoneNumber =
+      process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "+917039529129"; // Example: India (+91)
 
     // Create message text
     const text = `Hi Suraj,
@@ -114,10 +115,11 @@ ${from_email}`;
 
   return (
     <section
-      className={`${contactStyles.contact} container ${contactStyles.section}  relative`}
+      className={`${contactStyles.contact} container relative !my-20`}
       id="contact"
     >
       <CustomTitle
+        subheading="About"
         mainText="Reach out"
         highlightedText="to me!"
       />
@@ -195,7 +197,9 @@ ${from_email}`;
           </div>
 
           {/* Message */}
-          <div className={contactStyles.contactFormDiv}>
+          <div
+            className={`${contactStyles.contactFormDiv} ${contactStyles.contactFormDivTextarea}`}
+          >
             <textarea
               rows="6"
               {...validation.message}
@@ -206,7 +210,7 @@ ${from_email}`;
               placeholder="Message"
               name="message"
               value={formData.message}
-              className={contactStyles.contactFormInput}
+              className={contactStyles.contactFormArea}
             />
             <span className="text-red-500 absolute top-[3.7rem] left-7">
               {errors?.message?.message}
