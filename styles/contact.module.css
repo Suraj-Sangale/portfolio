@@ -41,13 +41,25 @@
 
 }
 
-.contactFormArea {
-    height: 10.25rem;
-
+/* Textarea specific wrappers should auto-size to content */
+.contactFormDivTextarea {
+    height: auto;
 }
 
+/* Textarea input variant overrides absolute positioning */
 .contactFormArea {
-    resize: none;
+    position: static; /* override absolute */
+    width: 100%;
+    height: 10.25rem;
+    min-height: 10.25rem;
+    box-shadow: var(--shadow);
+    background-color: var(--container-color);
+    color: var(--text-color);
+    border: none;
+    outline: none;
+    border-radius: 1.25rem; /* slightly smaller radius for large field */
+    padding: 0.875rem 1.25rem;
+    resize: vertical; /* allow grow but not overlap */
 }
 
 @media screen and (max-width: 1024px) {
