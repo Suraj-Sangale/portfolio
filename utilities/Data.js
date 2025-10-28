@@ -209,6 +209,42 @@ export const MY_PROJECTS = [
     liveUrl: "https://pointstreampannel.vercel.app/",
   },
   {
+    title: "Linux Tools",
+    isEnable: true,
+    image: [
+      "linuxtools.png",
+      "linuxtools2.png",
+      "linuxtools3.png",
+      "linuxtools4.png",
+    ],
+    liveUrl: "https://linux-support-manager.vercel.app/",
+    description:
+      "Built a comprehensive web-based toolkit tailored for DevOps engineers and system administrators to streamline server troubleshooting and daily operational tasks. The app integrates various diagnostic tools to enhance productivity and simplify common server-side challenges.",
+    keyFeatures: [
+      {
+        id: 1,
+        text: "DNS Checker to quickly verify domain records and identify misconfigurations",
+      },
+      {
+        id: 2,
+        text: "Port Scanner to detect open ports and assess network vulnerabilities",
+      },
+      {
+        id: 3,
+        text: "IP Lookup tool providing geolocation, ISP, and detailed IP data",
+      },
+      {
+        id: 4,
+        text: "Built-in Linux Command Library for instant access to essential terminal commands",
+      },
+      {
+        id: 5,
+        text: "Bonus tools like JSON Formatter, Text Comparator, and Server Diagnostics for enhanced productivity",
+      },
+    ],
+    techStack: ["Next.js", "React", "PHP", "MariaDB", "Node.js"],
+  },
+  {
     title: "Urban Market",
     isEnable: true,
     description:
@@ -256,41 +292,5 @@ export const MY_PROJECTS = [
       "memoMind.png",
     ],
     liveUrl: "https://memo-mind-self.vercel.app",
-  },
-  {
-    title: "Linux Tools",
-    isEnable: true,
-    image: [
-      "linuxtools.png",
-      "linuxtools2.png",
-      "linuxtools3.png",
-      "linuxtools4.png",
-    ],
-    liveUrl: "https://linux-support-manager.vercel.app/",
-    description:
-      "Built a comprehensive web-based toolkit tailored for DevOps engineers and system administrators to streamline server troubleshooting and daily operational tasks. The app integrates various diagnostic tools to enhance productivity and simplify common server-side challenges.",
-    keyFeatures: [
-      {
-        id: 1,
-        text: "DNS Checker to quickly verify domain records and identify misconfigurations",
-      },
-      {
-        id: 2,
-        text: "Port Scanner to detect open ports and assess network vulnerabilities",
-      },
-      {
-        id: 3,
-        text: "IP Lookup tool providing geolocation, ISP, and detailed IP data",
-      },
-      {
-        id: 4,
-        text: "Built-in Linux Command Library for instant access to essential terminal commands",
-      },
-      {
-        id: 5,
-        text: "Bonus tools like JSON Formatter, Text Comparator, and Server Diagnostics for enhanced productivity",
-      },
-    ],
-    techStack: ["Next.js", "React", "PHP", "MariaDB", "Node.js"],
   },
 ];
