@@ -15,7 +15,7 @@ export default function ProjectCard({ project }) {
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
-      setImageLoading(true); // Reset loading state when modal opens
+      // setImageLoading(true); // Reset loading state when modal opens
     } else {
       document.body.style.overflow = "auto";
     }
