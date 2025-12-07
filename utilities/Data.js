@@ -5,49 +5,50 @@ export const resumeLink = "/suraj_sangale_resume.pdf";
 // "https://drive.google.com/file/d/13qMLjG5cUDb8c9ffsAYJon8v5VxU3wy6/view?usp=sharing";
 // sanple
 export const images = [
-	{ id: "02", name: "JavaScript", imgUrl: "https://i.ibb.co/Lhq2sJf/js.png" },
+  { id: "02", name: "JavaScript", imgUrl: "https://i.ibb.co/Lhq2sJf/js.png" },
 
-	{
-		id: "01",
-		name: "Next.js",
-		imgUrl: "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/nextjs-icon.png",
-	},
+  {
+    id: "01",
+    name: "Next.js",
+    imgUrl:
+      "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/nextjs-icon.png",
+  },
 
-	{ id: "01", name: "React", imgUrl: "https://i.ibb.co/Ss4z8Z0/reactpng.png" },
-	{
-		id: "04",
-		name: "Node.js",
-		imgUrl: "https://i.ibb.co/p6YrRtk0/pngwing-com-1.png",
-	},
-	{ id: "10", name: "MySQL", imgUrl: "https://i.ibb.co/XQK5wHP/mysql.png" },
-	{ id: "07", name: "Redis", imgUrl: "https://i.ibb.co/47qry58/redis.webp" },
-	{
-		id: "09",
-		name: "TypeScript",
-		imgUrl: "https://i.ibb.co/HLf7cS5p/type-Script.png",
-	},
-	{
-		id: "11",
-		name: "Socket IO",
-		imgUrl: "https://i.ibb.co/ZRq8gdy8/socket-io.png",
-	},
-	{ id: "05", name: "Mongo DB", imgUrl: "https://i.ibb.co/9qCJLZV/mongo.png" },
-	{ id: "06", name: "strapi", imgUrl: "https://i.ibb.co/cvbt3cN/strapi.png" },
-	{
-		id: "06",
-		name: "Tailwind CSS",
-		imgUrl: "https://i.ibb.co/pWXXdGj/twd.png",
-	},
-	{ id: "07", name: "Material UI", imgUrl: "https://i.ibb.co/ydQfq96/mui.png" },
-	// {
-	//   id: "08",
-	//   name: "Redux",
-	//   imgUrl: "https://i.ibb.co/S7xRXwXf/redux.png",
-	// },
-	// { id: '08', name: 'Bootstrap', imgUrl: 'https://:.ibb.co/9ct0WTx/bootstrap.png' },
+  { id: "01", name: "React", imgUrl: "https://i.ibb.co/Ss4z8Z0/reactpng.png" },
+  {
+    id: "04",
+    name: "Node.js",
+    imgUrl: "https://i.ibb.co/p6YrRtk0/pngwing-com-1.png",
+  },
+  { id: "10", name: "MySQL", imgUrl: "https://i.ibb.co/XQK5wHP/mysql.png" },
+  { id: "07", name: "Redis", imgUrl: "https://i.ibb.co/47qry58/redis.webp" },
+  {
+    id: "09",
+    name: "TypeScript",
+    imgUrl: "https://i.ibb.co/HLf7cS5p/type-Script.png",
+  },
+  {
+    id: "11",
+    name: "Socket IO",
+    imgUrl: "https://i.ibb.co/ZRq8gdy8/socket-io.png",
+  },
+  { id: "05", name: "Mongo DB", imgUrl: "https://i.ibb.co/9qCJLZV/mongo.png" },
+  { id: "06", name: "strapi", imgUrl: "https://i.ibb.co/cvbt3cN/strapi.png" },
+  {
+    id: "06",
+    name: "Tailwind CSS",
+    imgUrl: "https://i.ibb.co/pWXXdGj/twd.png",
+  },
+  { id: "07", name: "Material UI", imgUrl: "https://i.ibb.co/ydQfq96/mui.png" },
+  // {
+  //   id: "08",
+  //   name: "Redux",
+  //   imgUrl: "https://i.ibb.co/S7xRXwXf/redux.png",
+  // },
+  // { id: '08', name: 'Bootstrap', imgUrl: 'https://:.ibb.co/9ct0WTx/bootstrap.png' },
 ];
 export const aboutMeText =
-	"I thrive in environments where creativity and innovation are valued, constantly seeking out new ways to approach problems and deliver impactful solutions. My goal is simple to leverage my skills, experience, and passion to make a meaningful impact in software development. I am a capable team player who can adjust to any difficult circumstance. I can operate effectively both independently and in a group setting.";
+  "I thrive in environments where creativity and innovation are valued, constantly seeking out new ways to approach problems and deliver impactful solutions. My goal is simple to leverage my skills, experience, and passion to make a meaningful impact in software development. I am a capable team player who can adjust to any difficult circumstance. I can operate effectively both independently and in a group setting.";
 
 let graduation = <PiGraduationCapDuotone />;
 let work = <PiBriefcaseLight />;
@@ -55,262 +56,286 @@ let work = <PiBriefcaseLight />;
 // experience  data
 
 export const EXPERIENCEDATA = [
-	{
-		id: 2,
-		category: "education",
-		icon: graduation,
-		year: "2016-2017",
-		title: "HSC",
-		desc: "State Board - 56.31%",
-	},
-	{
-		id: 3,
-		category: "education",
-		icon: graduation,
-		year: "2017-2022",
-		title: "B.E in EXTC",
-		desc: "Mumbai University - 7.35 CGPA",
-	},
-	{
-		id: 5,
-		category: "experience",
-		icon: work,
-		year: "01/2022 - 03/2022",
-		title: "Intern at CGI",
-		desc: "Frontend Intern",
-		skills: ["HTML", "CSS", "JavaScript", "React", "React Router"],
-	},
-	{
-		id: 6,
-		category: "experience",
-		icon: work,
-		year: "07/2022 - 12/2023",
-		title: "Boppo Technologies",
-		desc: "Frontend Developer",
-		skills: ["React", "Redux", "React Native", "Python", "Java"],
-	},
-	{
-		id: 4,
-		category: "experience",
-		icon: work,
-		year: "02/2024 - present",
-		title: "Fortune4 Technologies",
-		desc: "Software Developer",
-		skills: ["Next js", "Node js", "MySQL", "Redis", "Strapi"],
-	},
+  {
+    id: 2,
+    category: "education",
+    icon: graduation,
+    year: "2016-2017",
+    title: "HSC",
+    desc: "State Board - 56.31%",
+  },
+  {
+    id: 3,
+    category: "education",
+    icon: graduation,
+    year: "2017-2022",
+    title: "B.E in EXTC",
+    desc: "Mumbai University - 7.35 CGPA",
+  },
+  {
+    id: 5,
+    category: "experience",
+    icon: work,
+    year: "01/2022 - 03/2022",
+    title: "Intern at CGI",
+    desc: "Frontend Intern",
+    skills: ["HTML", "CSS", "JavaScript", "React", "React Router"],
+  },
+  {
+    id: 6,
+    category: "experience",
+    icon: work,
+    year: "07/2022 - 12/2023",
+    title: "Boppo Technologies",
+    desc: "Frontend Developer",
+    skills: ["React", "Redux", "React Native", "Python", "Java"],
+  },
+  {
+    id: 4,
+    category: "experience",
+    icon: work,
+    year: "02/2024 - present",
+    title: "Fortune4 Technologies",
+    desc: "Software Developer",
+    skills: ["Next js", "Node js", "MySQL", "Redis", "Strapi"],
+  },
 ];
 
 export const newSeoData = {
-	title: "Suraj Sangale | Full Stack Developer | React | Next.js | Node.js Developer",
-	description:
-		"I'm Suraj, a full stack developer building seamless UIs and powerful backends with React, Node.js, and Next.js. Let’s build the future together.",
-	canonical: "https://surajsangale.vercel.app",
-	openGraph: {
-		type: "website",
-		locale: "en_IN",
-		url: "https://surajsangale.vercel.app",
-		site_name: "Suraj Sangale Portfolio",
-		title: "Suraj Sangale | Full Stack Developer",
-		description:
-			"Hi, I'm Suraj — a full stack developer who crafts seamless user experiences and robust backends using modern technologies like React, Node.js, and Next.js. Let’s build the future together.",
-		images: [
-			{
-				url: "https://surajsangale.vercel.app/seoLogo.png",
-				width: 1200,
-				height: 630,
-				alt: "Suraj Sangale Portfolio Preview",
-			},
-		],
-	},
-	twitter: {
-		handle: "@SurajSangale4",
-		site: "@SurajSangale4",
-		cardType: "summary_large_image",
-	},
+  title:
+    "Suraj Sangale | Full Stack Developer | React | Next.js | Node.js Developer",
+  description:
+    "I'm Suraj, a full stack developer building seamless UIs and powerful backends with React, Node.js, and Next.js. Let’s build the future together.",
+  canonical: "https://surajsangale.vercel.app",
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    url: "https://surajsangale.vercel.app",
+    site_name: "Suraj Sangale Portfolio",
+    title: "Suraj Sangale | Full Stack Developer",
+    description:
+      "Hi, I'm Suraj — a full stack developer who crafts seamless user experiences and robust backends using modern technologies like React, Node.js, and Next.js. Let’s build the future together.",
+    images: [
+      {
+        url: "https://surajsangale.vercel.app/seoLogo.png",
+        width: 1200,
+        height: 630,
+        alt: "Suraj Sangale Portfolio Preview",
+      },
+    ],
+  },
+  twitter: {
+    handle: "@SurajSangale4",
+    site: "@SurajSangale4",
+    cardType: "summary_large_image",
+  },
 };
 
 export const MY_PROJECTS = [
-	{
-		title: "Cargo Desk",
-		isEnable: true,
-		description: `CargoDesk is a transport management system designed for managing daily orders, invoices, and vehicle-related documents such as insurance, PUC, and fitness certificates. A key highlight is the Bulk SMS functionality powered by the Twilio SMS API, along with a robust contact management system that supports multiple import methods.`,
-		keyFeatures: [
-			{
-				id: 1,
-				text: "Implemented Bulk SMS sending using Twilio SMS API for marketing.",
-			},
-			{
-				id: 2,
-				text: "Developed a contact management module allowing bulk import from Google Contacts API, CSV, vCard, and manual entry.",
-			},
-			{
-				id: 3,
-				text: "Secured the platform with JWT-based authentication for sign-up and login.",
-			},
-			{
-				id: 4,
-				text: "Utilized MySQL for efficient data storage and retrieval.",
-			},
-			{
-				id: 5,
-				text: "Designed a responsive UI using Material UI, Tailwind CSS, and SCSS for a modern and clean interface.",
-			},
-		],
+  {
+    title: "Cargo Desk",
+    isEnable: true,
+    description: `CargoDesk is a transport management system designed for managing daily orders, invoices, and vehicle-related documents such as insurance, PUC, and fitness certificates. A key highlight is the Bulk SMS functionality powered by the Twilio SMS API, along with a robust contact management system that supports multiple import methods.`,
+    keyFeatures: [
+      {
+        id: 1,
+        text: "Implemented Bulk SMS sending using Twilio SMS API for marketing.",
+      },
+      {
+        id: 2,
+        text: "Developed a contact management module allowing bulk import from Google Contacts API, CSV, vCard, and manual entry.",
+      },
+      {
+        id: 3,
+        text: "Secured the platform with JWT-based authentication for sign-up and login.",
+      },
+      {
+        id: 4,
+        text: "Utilized MySQL for efficient data storage and retrieval.",
+      },
+      {
+        id: 5,
+        text: "Designed a responsive UI using Material UI, Tailwind CSS, and SCSS for a modern and clean interface.",
+      },
+    ],
 
-		techStack: [
-			"Next.js",
-			"Node.js",
-			"MySQL",
-			"Twilio SMS API",
-			"Google Contacts API",
-			"JWT",
-			"Material UI",
-			"Tailwind CSS",
-			"SCSS",
-		],
-		image: [
-			"cargoDesk2.png",
-			"cargoDesk.png",
-			"cargoDesk4.png",
-			"cargoDesk5.png",
-			"cargoDesk3.png",
-		],
-		liveUrl: "https://cargodesk.vercel.app/",
-	},
-	{
-		title: "Point Stream Panel",
-		isEnable: true,
-		description:
-			"A dynamic web-based platform built to streamline the management of sports tournaments, matches, and real-time scoring. Key highlights include match booth setups, referee-based access control, live scoreboard updates from multiple devices, detailed match history with obtained scores, and automated scorecard generation.",
-		keyFeatures: [
-			{
-				id: 1,
-				text: "Blazing-fast performance with Server-Side Rendering (SSR) and Static Site Generation (SSG) using Next.js.",
-			},
-			{
-				id: 2,
-				text: "Robust backend API with JWT authentication, WebSocket-powered real-time communication, and seamless MySQL database integration.",
-			},
-			{
-				id: 3,
-				text: "Real-time multi-referee scoring system with secured role-based access, ensuring accurate and transparent match updates.",
-			},
-		],
-		techStack: ["Next.js", "Tailwind CSS", "Socket.io", "MySQL", "Node.js"],
-		image: ["PSPboard.png", "PSPboard1.png", "PSPboard2.png", "PSPboard4.png", "PSPboard5.png"],
-		liveUrl: "https://pointstreampannel.vercel.app/",
-	},
-	{
-		title: "Linux Tools",
-		isEnable: true,
-		image: ["linuxtools.png", "linuxtools2.png", "linuxtools3.png", "linuxtools4.png"],
-		liveUrl: "https://linux-support-manager.vercel.app/",
-		description:
-			"Built a comprehensive web-based toolkit tailored for DevOps engineers and system administrators to streamline server troubleshooting and daily operational tasks. The app integrates various diagnostic tools to enhance productivity and simplify common server-side challenges.",
-		keyFeatures: [
-			{
-				id: 1,
-				text: "DNS Checker to quickly verify domain records and identify misconfigurations",
-			},
-			{
-				id: 2,
-				text: "Port Scanner to detect open ports and assess network vulnerabilities",
-			},
-			{
-				id: 3,
-				text: "IP Lookup tool providing geolocation, ISP, and detailed IP data",
-			},
-			{
-				id: 4,
-				text: "Built-in Linux Command Library for instant access to essential terminal commands",
-			},
-			{
-				id: 5,
-				text: "Bonus tools like JSON Formatter, Text Comparator, and Server Diagnostics for enhanced productivity",
-			},
-		],
-		techStack: ["Next.js", "React", "PHP", "MariaDB", "Node.js"],
-	},
-	{
-		title: "Tic Tac Toe Game",
-		isEnable: true,
-		description:
-			"A modern, fully interactive Tic Tac Toe game built using Next.js and TypeScript. Designed with smooth animations, responsive UI, and two game modes — Player vs Player and Player vs Computer. Includes winning highlights, ripple effects, and polished glass-morphism design for an engaging user experience. This is a feature-rich Tic Tac Toe game built with Next.js, TypeScript, Tailwind CSS, and Socket.IO. The game supports Single Player mode with an intelligent computer opponent, and Online Multiplayer mode, where two players can join a common room and play in real time.",
-		keyFeatures: [
-			{
-				id: 1,
-				text: "Developed a real-time multiplayer Tic Tac Toe game using Next.js, TypeScript, and Socket.IO.",
-			},
-			{
-				id: 2,
-				text: "Implemented two game modes: Single Player (AI) and Multiplayer (WebSockets).",
-			},
-			{ id: 6, text: "Built real-time room-based matchmaking with instant move syncing." },
-			{
-				id: 3,
-				text: "Built reusable components for X and O icons with SVG animations",
-			},
-			{
-				id: 4,
-				text: "Ensured mobile-first responsive layout using aspect-square and CSS grid",
-			},
-			{ id: 5, text: "Focused on clean TypeScript structure and component organization" },
-		],
+    techStack: [
+      "Next.js",
+      "Node.js",
+      "MySQL",
+      "Twilio SMS API",
+      "Google Contacts API",
+      "JWT",
+      "Material UI",
+      "Tailwind CSS",
+      "SCSS",
+    ],
+    image: [
+      "cargoDesk2.png",
+      "cargoDesk.png",
+      "cargoDesk4.png",
+      "cargoDesk5.png",
+      "cargoDesk3.png",
+    ],
+    liveUrl: "https://cargodesk.vercel.app/",
+  },
+  {
+    title: "Tic Tac Toe Game",
+    isEnable: true,
+    description:
+      "A modern, fully interactive Tic Tac Toe game built using Next.js and TypeScript. Designed with smooth animations, responsive UI, and two game modes — Player vs Player and Player vs Computer. Includes winning highlights, ripple effects, and polished glass-morphism design for an engaging user experience. This is a feature-rich Tic Tac Toe game built with Next.js, TypeScript, Tailwind CSS, and Socket.IO. The game supports Single Player mode with an intelligent computer opponent, and Online Multiplayer mode, where two players can join a common room and play in real time.",
+    keyFeatures: [
+      {
+        id: 1,
+        text: "Developed a real-time multiplayer Tic Tac Toe game using Next.js, TypeScript, and Socket.IO.",
+      },
+      {
+        id: 2,
+        text: "Implemented two game modes: Single Player (AI) and Multiplayer (WebSockets).",
+      },
+      {
+        id: 6,
+        text: "Built real-time room-based matchmaking with instant move syncing.",
+      },
+      {
+        id: 3,
+        text: "Built reusable components for X and O icons with SVG animations",
+      },
+      {
+        id: 4,
+        text: "Ensured mobile-first responsive layout using aspect-square and CSS grid",
+      },
+      {
+        id: 5,
+        text: "Focused on clean TypeScript structure and component organization",
+      },
+    ],
 
-		techStack: [
-			"Next.js",
-			"TypeScript",
-			"Socket.IO / WebSockets",
-			"Tailwind CSS",
-			"Node.js",
-			"Custom CSS Animations",
-			"Vercel",
-		],
-		image: ["UrbanMarket.png", "UrbanMarket2.png", "UrbanMarket4.png"],
-		gitUrl: "",
-		liveUrl: "https://playtictac.vercel.app/",
-	},
-	{
-		title: "Urban Market",
-		isEnable: true,
-		description:
-			"I built a fully responsive clone of Urban Marketplace, a modern e-commerce platform where users can explore a wide variety of products, add items to their cart, and seamlessly place orders.",
-		keyFeatures: [
-			{ id: 1, text: "Modern and responsive UI for smooth product browsing" },
-			{ id: 2, text: "Add to cart and complete checkout functionality" },
-			{
-				id: 3,
-				text: "Built with React.js and Tailwind CSS, deployed on Netlify",
-			},
-			{ id: 1, text: "Modern and responsive UI for smooth product browsing" },
-			{ id: 2, text: "Add to cart and complete checkout functionality" },
-			{
-				id: 3,
-				text: "Built with React.js and Tailwind CSS, deployed on Netlify",
-			},
-		],
+    techStack: [
+      "Next.js",
+      "TypeScript",
+      "Socket.IO / WebSockets",
+      "Tailwind CSS",
+      "Node.js",
+      "Custom CSS Animations",
+      "Vercel",
+    ],
+    image: ["ticTac/1.png", "ticTac/2.png", "ticTac/3.png"],
+    gitUrl: "",
+    liveUrl: "https://playtictac.vercel.app/",
+  },
+  {
+    title: "Linux Tools",
+    isEnable: true,
+    image: [
+      "linuxtools.png",
+      "linuxtools2.png",
+      "linuxtools3.png",
+      "linuxtools4.png",
+    ],
+    liveUrl: "https://linux-support-manager.vercel.app/",
+    description:
+      "Built a comprehensive web-based toolkit tailored for DevOps engineers and system administrators to streamline server troubleshooting and daily operational tasks. The app integrates various diagnostic tools to enhance productivity and simplify common server-side challenges.",
+    keyFeatures: [
+      {
+        id: 1,
+        text: "DNS Checker to quickly verify domain records and identify misconfigurations",
+      },
+      {
+        id: 2,
+        text: "Port Scanner to detect open ports and assess network vulnerabilities",
+      },
+      {
+        id: 3,
+        text: "IP Lookup tool providing geolocation, ISP, and detailed IP data",
+      },
+      {
+        id: 4,
+        text: "Built-in Linux Command Library for instant access to essential terminal commands",
+      },
+      {
+        id: 5,
+        text: "Bonus tools like JSON Formatter, Text Comparator, and Server Diagnostics for enhanced productivity",
+      },
+    ],
+    techStack: ["Next.js", "React", "PHP", "MariaDB", "Node.js"],
+  },
+  {
+    title: "Point Stream Panel",
+    isEnable: true,
+    description:
+      "A dynamic web-based platform built to streamline the management of sports tournaments, matches, and real-time scoring. Key highlights include match booth setups, referee-based access control, live scoreboard updates from multiple devices, detailed match history with obtained scores, and automated scorecard generation.",
+    keyFeatures: [
+      {
+        id: 1,
+        text: "Blazing-fast performance with Server-Side Rendering (SSR) and Static Site Generation (SSG) using Next.js.",
+      },
+      {
+        id: 2,
+        text: "Robust backend API with JWT authentication, WebSocket-powered real-time communication, and seamless MySQL database integration.",
+      },
+      {
+        id: 3,
+        text: "Real-time multi-referee scoring system with secured role-based access, ensuring accurate and transparent match updates.",
+      },
+    ],
+    techStack: ["Next.js", "Tailwind CSS", "Socket.io", "MySQL", "Node.js"],
+    image: [
+      "PSPboard.png",
+      "PSPboard1.png",
+      "PSPboard2.png",
+      "PSPboard4.png",
+      "PSPboard5.png",
+    ],
+    liveUrl: "https://pointstreampannel.vercel.app/",
+  },
+  {
+    title: "Urban Market",
+    isEnable: true,
+    description:
+      "I built a fully responsive clone of Urban Marketplace, a modern e-commerce platform where users can explore a wide variety of products, add items to their cart, and seamlessly place orders.",
+    keyFeatures: [
+      { id: 1, text: "Modern and responsive UI for smooth product browsing" },
+      { id: 2, text: "Add to cart and complete checkout functionality" },
+      {
+        id: 3,
+        text: "Built with React.js and Tailwind CSS, deployed on Netlify",
+      },
+      { id: 1, text: "Modern and responsive UI for smooth product browsing" },
+      { id: 2, text: "Add to cart and complete checkout functionality" },
+      {
+        id: 3,
+        text: "Built with React.js and Tailwind CSS, deployed on Netlify",
+      },
+    ],
 
-		techStack: ["Next.js", "Tailwind CSS", "Node.js"],
-		image: ["UrbanMarket.png", "UrbanMarket2.png", "UrbanMarket4.png"],
-		gitUrl: "https://github.com/Suraj-Sangale/urban-market",
-		liveUrl: "https://urbanmarketplace.netlify.app/home",
-	},
-	{
-		title: "Memo Mind",
-		isEnable: false,
-		description:
-			"A web-based platform designed to enhance memory retention and learning through interactive flashcards and quizzes. Users can create, share, and study flashcards on various topics, making learning engaging and effective.",
-		keyFeatures: [
-			{ id: 1, text: "Create and share flashcards for effective learning" },
-			{ id: 2, text: "Interactive quizzes to reinforce knowledge retention" },
-			{
-				id: 3,
-				text: "User-friendly interface for easy navigation and study",
-			},
-		],
+    techStack: ["Next.js", "Tailwind CSS", "Node.js"],
+    image: ["UrbanMarket.png", "UrbanMarket2.png", "UrbanMarket4.png"],
+    gitUrl: "https://github.com/Suraj-Sangale/urban-market",
+    liveUrl: "https://urbanmarketplace.netlify.app/home",
+  },
+  {
+    title: "Memo Mind",
+    isEnable: false,
+    description:
+      "A web-based platform designed to enhance memory retention and learning through interactive flashcards and quizzes. Users can create, share, and study flashcards on various topics, making learning engaging and effective.",
+    keyFeatures: [
+      { id: 1, text: "Create and share flashcards for effective learning" },
+      { id: 2, text: "Interactive quizzes to reinforce knowledge retention" },
+      {
+        id: 3,
+        text: "User-friendly interface for easy navigation and study",
+      },
+    ],
 
-		techStack: ["Next.js", "Tailwind CSS", "Node.js"],
-		image: ["memoMind.png", "memoMind.png", "memoMind.png", "memoMind.png", "memoMind.png"],
-		liveUrl: "https://memo-mind-self.vercel.app",
-	},
+    techStack: ["Next.js", "Tailwind CSS", "Node.js"],
+    image: [
+      "memoMind.png",
+      "memoMind.png",
+      "memoMind.png",
+      "memoMind.png",
+      "memoMind.png",
+    ],
+    liveUrl: "https://memo-mind-self.vercel.app",
+  },
 ];
