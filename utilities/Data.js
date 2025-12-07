@@ -132,7 +132,43 @@ export const newSeoData = {
 };
 
 export const MY_PROJECTS = [
+ 
   {
+    title: "Linux Tools",
+    isEnable: true,
+    image: [
+      "linuxtools.png",
+      "linuxtools2.png",
+      "linuxtools3.png",
+      "linuxtools4.png",
+    ],
+    liveUrl: "https://linux-support-manager.vercel.app/",
+    description:
+      "Built a comprehensive web-based toolkit tailored for DevOps engineers and system administrators to streamline server troubleshooting and daily operational tasks. The app integrates various diagnostic tools to enhance productivity and simplify common server-side challenges.",
+    keyFeatures: [
+      {
+        id: 1,
+        text: "DNS Checker to quickly verify domain records and identify misconfigurations",
+      },
+      {
+        id: 2,
+        text: "Port Scanner to detect open ports and assess network vulnerabilities",
+      },
+      {
+        id: 3,
+        text: "IP Lookup tool providing geolocation, ISP, and detailed IP data",
+      },
+      {
+        id: 4,
+        text: "Built-in Linux Command Library for instant access to essential terminal commands",
+      },
+      {
+        id: 5,
+        text: "Bonus tools like JSON Formatter, Text Comparator, and Server Diagnostics for enhanced productivity",
+      },
+    ],
+    techStack: ["Next.js", "React", "PHP", "MariaDB", "Node.js"],
+  }, {
     title: "Cargo Desk",
     isEnable: true,
     description: `CargoDesk is a transport management system designed for managing daily orders, invoices, and vehicle-related documents such as insurance, PUC, and fitness certificates. A key highlight is the Bulk SMS functionality powered by the Twilio SMS API, along with a robust contact management system that supports multiple import methods.`,
@@ -180,6 +216,35 @@ export const MY_PROJECTS = [
     liveUrl: "https://cargodesk.vercel.app/",
   },
   {
+    title: "Point Stream Panel",
+    isEnable: true,
+    description:
+      "A dynamic web-based platform built to streamline the management of sports tournaments, matches, and real-time scoring. Key highlights include match booth setups, referee-based access control, live scoreboard updates from multiple devices, detailed match history with obtained scores, and automated scorecard generation.",
+    keyFeatures: [
+      {
+        id: 1,
+        text: "Blazing-fast performance with Server-Side Rendering (SSR) and Static Site Generation (SSG) using Next.js.",
+      },
+      {
+        id: 2,
+        text: "Robust backend API with JWT authentication, WebSocket-powered real-time communication, and seamless MySQL database integration.",
+      },
+      {
+        id: 3,
+        text: "Real-time multi-referee scoring system with secured role-based access, ensuring accurate and transparent match updates.",
+      },
+    ],
+    techStack: ["Next.js", "Tailwind CSS", "Socket.io", "MySQL", "Node.js"],
+    image: [
+      "PSPboard.png",
+      "PSPboard1.png",
+      "PSPboard2.png",
+      "PSPboard4.png",
+      "PSPboard5.png",
+    ],
+    liveUrl: "https://pointstreampannel.vercel.app/",
+  },
+  {
     title: "Tic Tac Toe Game",
     isEnable: true,
     description:
@@ -223,71 +288,6 @@ export const MY_PROJECTS = [
     image: ["ticTac/1.png", "ticTac/2.png", "ticTac/3.png"],
     gitUrl: "",
     liveUrl: "https://playtictac.vercel.app/",
-  },
-  {
-    title: "Linux Tools",
-    isEnable: true,
-    image: [
-      "linuxtools.png",
-      "linuxtools2.png",
-      "linuxtools3.png",
-      "linuxtools4.png",
-    ],
-    liveUrl: "https://linux-support-manager.vercel.app/",
-    description:
-      "Built a comprehensive web-based toolkit tailored for DevOps engineers and system administrators to streamline server troubleshooting and daily operational tasks. The app integrates various diagnostic tools to enhance productivity and simplify common server-side challenges.",
-    keyFeatures: [
-      {
-        id: 1,
-        text: "DNS Checker to quickly verify domain records and identify misconfigurations",
-      },
-      {
-        id: 2,
-        text: "Port Scanner to detect open ports and assess network vulnerabilities",
-      },
-      {
-        id: 3,
-        text: "IP Lookup tool providing geolocation, ISP, and detailed IP data",
-      },
-      {
-        id: 4,
-        text: "Built-in Linux Command Library for instant access to essential terminal commands",
-      },
-      {
-        id: 5,
-        text: "Bonus tools like JSON Formatter, Text Comparator, and Server Diagnostics for enhanced productivity",
-      },
-    ],
-    techStack: ["Next.js", "React", "PHP", "MariaDB", "Node.js"],
-  },
-  {
-    title: "Point Stream Panel",
-    isEnable: true,
-    description:
-      "A dynamic web-based platform built to streamline the management of sports tournaments, matches, and real-time scoring. Key highlights include match booth setups, referee-based access control, live scoreboard updates from multiple devices, detailed match history with obtained scores, and automated scorecard generation.",
-    keyFeatures: [
-      {
-        id: 1,
-        text: "Blazing-fast performance with Server-Side Rendering (SSR) and Static Site Generation (SSG) using Next.js.",
-      },
-      {
-        id: 2,
-        text: "Robust backend API with JWT authentication, WebSocket-powered real-time communication, and seamless MySQL database integration.",
-      },
-      {
-        id: 3,
-        text: "Real-time multi-referee scoring system with secured role-based access, ensuring accurate and transparent match updates.",
-      },
-    ],
-    techStack: ["Next.js", "Tailwind CSS", "Socket.io", "MySQL", "Node.js"],
-    image: [
-      "PSPboard.png",
-      "PSPboard1.png",
-      "PSPboard2.png",
-      "PSPboard4.png",
-      "PSPboard5.png",
-    ],
-    liveUrl: "https://pointstreampannel.vercel.app/",
   },
   {
     title: "Urban Market",
