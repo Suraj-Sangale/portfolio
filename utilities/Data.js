@@ -285,7 +285,7 @@ export const MY_PROJECTS = [
       "Custom CSS Animations",
       "Vercel",
     ],
-    image: ["ticTac/1.png", "ticTac/2.png", "ticTac/3.png"],
+    image: ["ticTac/1.png", "ticTac/2.png", "ticTac/3.png", "ticTac/4.png", "ticTac/5.png"],
     gitUrl: "",
     liveUrl: "https://playtictac.vercel.app/",
   },
