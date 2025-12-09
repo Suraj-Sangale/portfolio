@@ -15,7 +15,7 @@ const Contact = () => {
   const [isSuccess, setIsSuccess] = useState(false);
 
   const onSubmit = async (data) => {
-    console.log('data', data)
+    console.log("data", data);
     try {
       const res = await fetch("/api/sendMail", {
         method: "POST",
@@ -37,10 +37,19 @@ const Contact = () => {
   const closeModal = () => setIsOpen(false);
 
   return (
-    <section className="contact container section" id="contact">
-      <CustomTitle mainText="Reach out" highlightedText="to me!" />
+    <section
+      className="contact container section"
+      id="contact"
+    >
+      <CustomTitle
+        mainText="Reach out"
+        highlightedText="to me!"
+      />
       <div className={`${contactStyles.contactContainer} grid mt-5`}>
-        <form onSubmit={handleSubmit(onSubmit)} className={contactStyles.contactForm}>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className={contactStyles.contactForm}
+        >
           <div className={contactStyles.contactFormGroup}>
             <div className={contactStyles.contactFormDiv}>
               <input
@@ -96,9 +105,12 @@ const Contact = () => {
               <span className="text-red-500">{errors.message.message}</span>
             )}
           </div>
-          <button onClick={()=>console.log("hellll")}>hee</button>
+          <button onClick={() => console.log("hellll")}>hee</button>
 
-          <button type="submit" className="btn cursor-pointer">
+          <button
+            type="submit"
+            className="btn cursor-pointer"
+          >
             {isSubmitting ? "Sending..." : "Send Message"}
           </button>
         </form>
@@ -111,7 +123,9 @@ const Contact = () => {
               {isSuccess ? "Message sent ✅" : "Failed to send ❌"}
             </h2>
             <p className="mt-2">
-              {isSuccess ? "Thank you for reaching out!" : "Please try again later."}
+              {isSuccess
+                ? "Thank you for reaching out!"
+                : "Please try again later."}
             </p>
             <button
               className="mt-4 bg-green-600 px-4 py-2 text-white rounded"
