@@ -132,7 +132,6 @@ export const newSeoData = {
 };
 
 export const MY_PROJECTS = [
- 
   {
     title: "Linux Tools",
     isEnable: true,
@@ -168,7 +167,8 @@ export const MY_PROJECTS = [
       },
     ],
     techStack: ["Next.js", "React", "PHP", "MariaDB", "Node.js"],
-  }, {
+  },
+  {
     title: "Cargo Desk",
     isEnable: true,
     description: `CargoDesk is a transport management system designed for managing daily orders, invoices, and vehicle-related documents such as insurance, PUC, and fitness certificates. A key highlight is the Bulk SMS functionality powered by the Twilio SMS API, along with a robust contact management system that supports multiple import methods.`,
@@ -248,7 +248,7 @@ export const MY_PROJECTS = [
     title: "Tic Tac Toe Game",
     isEnable: true,
     description:
-      "A modern, fully interactive Tic Tac Toe game built using Next.js and TypeScript. Designed with smooth animations, responsive UI, and two game modes — Player vs Player and Player vs Computer. Includes winning highlights, ripple effects, and polished glass-morphism design for an engaging user experience. This is a feature-rich Tic Tac Toe game built with Next.js, TypeScript, Tailwind CSS, and Socket.IO. The game supports Single Player mode with an intelligent computer opponent, and Online Multiplayer mode, where two players can join a common room and play in real time.",
+      "A modern, interactive Tic Tac Toe game built with Next.js, TypeScript, and Tailwind CSS. It features smooth animations, a responsive glass-morphism UI, Single Player mode with an intelligent computer opponent, and Online Multiplayer mode using Socket.IO for real-time gameplay.",
     keyFeatures: [
       {
         id: 1,
@@ -285,7 +285,13 @@ export const MY_PROJECTS = [
       "Custom CSS Animations",
       "Vercel",
     ],
-    image: ["ticTac/1.png", "ticTac/2.png", "ticTac/3.png", "ticTac/4.png", "ticTac/5.png"],
+    image: [
+      "ticTac/1.png",
+      "ticTac/2.png",
+      "ticTac/3.png",
+      "ticTac/4.png",
+      "ticTac/5.png",
+    ],
     gitUrl: "",
     liveUrl: "https://playtictac.vercel.app/",
   },
