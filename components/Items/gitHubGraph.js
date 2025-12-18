@@ -18,10 +18,10 @@ export default function GitHubGraph() {
         setSizeConfig({ blockSize: 10, blockMargin: 2, fontSize: 12 });
       } else if (width < 1024) {
         // Medium screens
-        setSizeConfig({ blockSize: 12, blockMargin: 3, fontSize: 14 });
+        setSizeConfig({ blockSize: 9, blockMargin: 3, fontSize: 14 });
       } else {
         // Large screens
-        setSizeConfig({ blockSize: 14, blockMargin: 4, fontSize: 16 });
+        setSizeConfig({ blockSize: 12, blockMargin: 4, fontSize: 16 });
       }
     };
 
@@ -52,4 +52,3 @@ export default function GitHubGraph() {
     </>
   );
 }
-
