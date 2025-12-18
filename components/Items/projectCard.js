@@ -5,7 +5,9 @@ import React, { useEffect, useState, useRef } from "react";
 import { FaEye, FaGithub, FaCheckCircle } from "react-icons/fa";
 import { IoIosClose } from "react-icons/io";
 import { SwiperSlide } from "swiper/react";
-import projecStyle from "@/styles/projects.module.scss";
+// import projecStyle from "@/styles/projects.module.scss";
+import { CiShare1 } from "react-icons/ci";
+
 
 export default function ProjectCard({ project }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -106,7 +108,7 @@ export default function ProjectCard({ project }) {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <FaEye className="text-gray-700 hover:text-black text-xl" />
+                  <CiShare1 className="text-gray-700 hover:text-black text-xl" />
                 </Link>
               )}
               {project.gitUrl && (
@@ -189,7 +191,18 @@ export default function ProjectCard({ project }) {
 
             {/* Right: Project Details */}
             <div className="w-full md:w-1/2 p-6 overflow-y-auto modal-scrollbar">
-              <h2 className="text-2xl font-bold mb-4">{project.title}</h2>
+              <div className="flex flex-row gap-x-2 items-center mb-4">
+                <h2 className="text-2xl font-bold">{project.title}</h2>
+                {project.liveUrl && (
+                  <Link
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <CiShare1 className="text-gray-700 hover:text-black text-xl" />
+                  </Link>
+                )}
+              </div>
 
               <p className="text-gray-700 text-sm mb-6">
                 {project.description}
