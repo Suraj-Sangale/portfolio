@@ -8,7 +8,6 @@ import { SwiperSlide } from "swiper/react";
 // import projecStyle from "@/styles/projects.module.scss";
 import { CiShare1 } from "react-icons/ci";
 
-
 export default function ProjectCard({ project }) {
   const [isOpen, setIsOpen] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
