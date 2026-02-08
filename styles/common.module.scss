@@ -1,4 +1,4 @@
-@import "./_variable.scss";
+@use "./variable" as *;
 
 .swiper,
 .swiper_navigation {
