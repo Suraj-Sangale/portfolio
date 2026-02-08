@@ -1,5 +1,5 @@
 import React, { useState, useEffect, use } from "react";
-import { aboutMeText, images, resumeLink } from "../utilities/Data";
+import { getAboutData, getPersonalInfo, getSectionTitle } from "@/utilities/getPortfolioData";
 import ResumeModal from "./Items/ResumeModal";
 import CustomTitle from "./Items/CustomTitle";
 import aboutStyles from "../styles/about.module.css";
@@ -10,6 +10,9 @@ import Ingredients from "./resumeSection";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 
 const About = () => {
+  const aboutData = getAboutData();
+  const personalInfo = getPersonalInfo();
+  const sectionTitle = getSectionTitle("about");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
   const query = router.query;
@@ -44,20 +47,20 @@ const About = () => {
         {/* <h2 className="section__title text-white"></h2> */}
 
         <CustomTitle
-          subheading="About"
-          mainText="What I"
-          highlightedText="Do"
+          subheading={sectionTitle.subheading}
+          mainText={sectionTitle.mainText}
+          highlightedText={sectionTitle.highlightedText}
         />
 
         <div className="mx-auto my-8 md:p-8 p-4 bg-gray-200 rounded-lg shadow-md w-88 md:w-10/12">
           <div className="mb-6">
-            <p className="about__description">{aboutMeText}</p>
+            <p className="about__description">{aboutData.text}</p>
             <h2 className="section__subtitle text-slate-800 text-center">
               Skills
             </h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {images.map((item, index) => (
+            {aboutData.skills.map((item, index) => (
               <div
                 key={index}
                 className="icons relative overflow-hidden  flex flex-col justify-center items-center h-22 m-0 rounded-md transition-transform transform duration-500 hover:scale-115"
@@ -110,7 +113,7 @@ const About = () => {
                 setIsModalOpen(false);
                 removeQuery();
               }}
-              resumeLink={resumeLink}
+              resumeLink={personalInfo.resumeLink}
             />
           </div>
         </div>

@@ -1,9 +1,12 @@
 import React from "react";
 import CustomTitle from "./Items/CustomTitle";
 import ProjectCard from "./Items/projectCard";
-import { MY_PROJECTS } from "@/utilities/Data";
+import { getProjects, getSectionTitle } from "@/utilities/getPortfolioData";
 
 export default function Projects() {
+  const projects = getProjects();
+  const sectionTitle = getSectionTitle("projects");
+  
   return (
     <div
       className="section relative"
@@ -11,9 +14,9 @@ export default function Projects() {
     >
       <div className="md:ml-36">
         <CustomTitle
-          subheading="Projects"
-          mainText="What"
-          highlightedText="I've Done"
+          subheading={sectionTitle.subheading}
+          mainText={sectionTitle.mainText}
+          highlightedText={sectionTitle.highlightedText}
         />
       </div>
       {/* <ProjectCard /> */}
@@ -21,7 +24,7 @@ export default function Projects() {
         <div
           className={`flex flex-wrap justify-center gap-8 projectCardWrapper`}
         >
-          {MY_PROJECTS.map((item, index) => (
+          {projects.map((item, index) => (
             <React.Fragment key={index}>
               {item.isEnable && (
                 <ProjectCard

@@ -2,20 +2,21 @@ import React from "react";
 import { BsFillHexagonFill } from "react-icons/bs";
 import ExperienceCard from "./Items/ExperienceCard";
 import CustomTitle from "./Items/CustomTitle";
-import { EXPERIENCEDATA } from "@/utilities/Data";
+import { getExperience, getSectionTitle } from "@/utilities/getPortfolioData";
 import workStyles from "@/styles/work.module.css";
 
 const Timeline = () => {
-  const expData = EXPERIENCEDATA;
+  const expData = getExperience();
+  const sectionTitle = getSectionTitle("work");
   return (
     <div
       className="container section relative !mb-16"
       id="work"
     >
       <CustomTitle
-        subheading="Work"
-        mainText="My"
-        highlightedText="Journey"
+        subheading={sectionTitle.subheading}
+        mainText={sectionTitle.mainText}
+        highlightedText={sectionTitle.highlightedText}
       />
       <div
         className={`${workStyles.cardContainer} flex justify-center items-center mt-8`}

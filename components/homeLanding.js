@@ -7,38 +7,34 @@ import {
   FaInstagram,
 } from "react-icons/fa";
 import homeStyle from "../styles/home.module.css";
-import { getConstant } from "@/utilities/utils";
+import { getSocialLinks, getPersonalInfo } from "@/utilities/getPortfolioData";
 import Image from "next/image";
 import Link from "next/link";
 
+// Icon mapping
+const iconMap = {
+  FaLinkedin: FaLinkedin,
+  FaGithub: FaGithub,
+  FaTwitter: FaTwitter,
+  FaFacebook: FaFacebook,
+  FaInstagram: FaInstagram,
+};
+
 const HomeLanding = () => {
-  const socialLinks = [
-    {
-      url: getConstant("LINKDIN_URL"),
-      icon: <FaLinkedin />,
-      label: "LinkedIn",
-      className: "linkedin",
-    },
-    {
-      url: getConstant("GIT_URL"),
-      className: "github",
-      icon: <FaGithub />,
-      label: "GitHub",
-    },
-    {
-      url: getConstant("TWITTER_URL"),
-      className: "twitter",
-      icon: <FaTwitter />,
-      label: "Twitter",
-    },
-    {
-      url: getConstant("INSTAGRAM_URL"),
-      icon: <FaInstagram />,
-      label: "Instagram",
-      className: "instagram",
-    },
-    { url: getConstant("FB_URL"), icon: <FaFacebook />, label: "Facebook" },
-  ];
+  const personalInfo = getPersonalInfo();
+  const socialLinksData = getSocialLinks();
+
+  const socialLinks = socialLinksData
+    .map((link) => {
+      const IconComponent = iconMap[link.icon] || null;
+      return {
+        url: link.url,
+        icon: IconComponent ? <IconComponent /> : null,
+        label: link.platform,
+        className: link.className || "",
+      };
+    })
+    .filter((link) => link.icon !== null);
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   const handleHover = (url, index) => {
@@ -58,8 +54,8 @@ const HomeLanding = () => {
         >
           <div>
             <Image
-              src="/developer.png"
-              alt="Suraj Sangale"
+              src={personalInfo.profileImage}
+              alt={personalInfo.name}
               height={400}
               width={400}
               loading="lazy"
@@ -67,12 +63,12 @@ const HomeLanding = () => {
           </div>
           <div className="items-center mb-10 md:mb-0">
             <h1 className={`${homeStyle.home__name} text-white`}>
-              Hi, I am Suraj Sangale
+              {personalInfo.greeting} {personalInfo.name}
             </h1>
             <div
               className={`${homeStyle.hoverParentX} hover:decoration-pink-500 text-white`}
             >
-              I am a Software Developer
+              {personalInfo.description}
             </div>
 
             <div className="flex justify-center mt-4 gap-4">

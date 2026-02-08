@@ -1,9 +1,11 @@
+import { getConstant } from "./utils";
+
 export const contactValidation = {
   from_name: {
     required: "Name is required",
     maxLength: {
-      value: 100,
-      message: "Name should be less than 100 characters",
+      value: getConstant("NAME_MAX_LENGTH"),
+      message: `Name should be less than ${getConstant("NAME_MAX_LENGTH")} characters`,
     },
   },
   from_email: {

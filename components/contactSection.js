@@ -2,19 +2,29 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import contactStyles from "../styles/contact.module.css";
 import CustomTitle from "./Items/CustomTitle";
-import { getConstant } from "@/utilities/utils";
+import {
+  getContactData,
+  getSectionTitle,
+  getPersonalInfo,
+} from "@/utilities/getPortfolioData";
 import { contactValidation } from "@/utilities/formValidations";
 import aboutStyles from "../styles/about.module.css";
 import { FaCheckCircle } from "react-icons/fa";
 import { IoWarning } from "react-icons/io5";
+import { getConstant } from "@/utilities/utils";
 
 export default function Contact() {
+  const contactData = getContactData();
+  const sectionTitle = getSectionTitle("contact");
+  const personalInfo = getPersonalInfo();
+
   const defaultFormData = {
     from_name: "",
     from_email: "",
     subject: "",
     message: "",
   };
+  const nameMaxLength = getConstant("NAME_MAX_LENGTH");
 
   const [formData, setFormData] = useState(defaultFormData);
   const [validation, setValidation] = useState({});
@@ -93,10 +103,10 @@ export default function Contact() {
 
     // Recipient WhatsApp number (use your own number with country code, no "+" sign)
     const phoneNumber =
-      process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "+917039529129"; // Example: India (+91)
+      process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || contactData.whatsappNumber;
 
     // Create message text
-    const text = `Hi Suraj,
+    const text = `Hi ${personalInfo.name.split(" ")[0]},
 I want to discuss about - ${subject},
 ${message}
 Regards,
@@ -119,16 +129,13 @@ ${from_email}`;
       id="contact"
     >
       <CustomTitle
-        subheading="Contact"
-        mainText="Reach out"
-        highlightedText="to me!"
+        subheading={sectionTitle.subheading}
+        mainText={sectionTitle.mainText}
+        highlightedText={sectionTitle.highlightedText}
       />
       <div className={`${contactStyles.contactContainer} grid mt-5`}>
         <div className={`${contactStyles.contactInfo}`}>
-          <p className="contact__details text-white">
-            Want to discuss a project or just say hi? My inbox is always open.
-            👋
-          </p>
+          <p className="contact__details text-white">{contactData.message}</p>
         </div>
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -149,7 +156,7 @@ ${from_email}`;
                 value={formData.from_name}
                 className={contactStyles.contactFormInput}
                 autoComplete="off"
-                maxLength={getConstant("MAX_LEN_TEXT")}
+                maxLength={nameMaxLength}
               />
               <span className="text-red-500 absolute top-[3.7rem] left-7">
                 {errors?.from_name?.message}

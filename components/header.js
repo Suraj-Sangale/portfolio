@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import aboutStyles from "../styles/about.module.css";
+import { getNavigation, getPersonalInfo } from "@/utilities/getPortfolioData";
 
 const Header = () => {
   const headerHeight = 80; // keep in sync with --header-height in globals.css
@@ -19,13 +20,8 @@ const Header = () => {
     // }
   };
 
-  const pages = [
-    { id: 1, label: "Home", path: "home" },
-    { id: 2, label: "About", path: "about" },
-    { id: 5, label: "Projects", path: "projects" },
-    { id: 3, label: "Work", path: "work" },
-    { id: 4, label: "Contact", path: "contact" },
-  ];
+  const pages = getNavigation().pages;
+  const personalInfo = getPersonalInfo();
 
   return (
     <nav className="fixed top-0 inset-x-0 z-20 backdrop-blur-md">
@@ -36,7 +32,7 @@ const Header = () => {
           className="absolute left-[10%] top-1/2 -translate-y-1/2 -translate-x-1/2 "
         >
           <Image
-            src="/logo.png"
+            src={personalInfo.logo || "/logo.png"}
             alt="Logo"
             width={48}
             height={48}
