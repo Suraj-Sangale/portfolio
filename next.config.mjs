@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  turbopack: {},
+  // Exclude server-only packages from client bundle
+  serverExternalPackages: ['ioredis'],
   images: {
     remotePatterns: [
       {
