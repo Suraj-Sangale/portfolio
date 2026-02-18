@@ -1,13 +1,12 @@
 import { getPortfolioDataController } from "@/backend/controller/commonController";
-import Header from "@/components/header";
-import HomeWrapper from "@/components/homeWrapper";
+import Layout from "@/components/layout";
+import HomeLanding from "@/components/homeLanding";
 
 export default function Home({ pageData }) {
   return (
-    <>
-      <Header />
-      <HomeWrapper pageData={pageData} />
-    </>
+    <Layout>
+      <HomeLanding />
+    </Layout>
   );
 }
 

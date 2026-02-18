@@ -1,27 +1,29 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 import aboutStyles from "../styles/about.module.css";
 import { getNavigation, getPersonalInfo } from "@/utilities/getPortfolioData";
 
 const Header = () => {
-  const headerHeight = 80; // keep in sync with --header-height in globals.css
-
-  const handleNavClick = (event, targetId) => {
-    event.preventDefault();
-    if (typeof document === "undefined") return;
-    const targetElement = document.getElementById(targetId);
-    if (!targetElement) return;
-    const y =
-      targetElement.getBoundingClientRect().top + window.scrollY - headerHeight;
-    window.scrollTo({ top: y, behavior: "smooth" });
-    // if (history && history.replaceState) {
-    //   history.replaceState(null, "", `#${targetId}`);
-    // }
-  };
-
+  const router = useRouter();
   const pages = getNavigation().pages;
   const personalInfo = getPersonalInfo();
+
+  // Map path to route
+  const getRoute = (path) => {
+    if (path === "home") return "/";
+    return `/${path}`;
+  };
+
+  // Check if current route is active
+  const isActive = (path) => {
+    const route = getRoute(path);
+    if (route === "/") {
+      return router.pathname === "/";
+    }
+    return router.pathname === route;
+  };
 
   return (
     <nav className="fixed top-0 inset-x-0 z-20 backdrop-blur-md">
@@ -43,16 +45,20 @@ const Header = () => {
 
         {/* Menu Positioned at Center-Left (25%) */}
         <div className="flex gap-6">
-          {pages.map((item) => (
-            <div
-              key={item.id}
-              // href={`#${item.path}`}
-              className={`text-white text-sm sm:text-base font-medium hover:text-[#007bff] transition cursor-pointer ${aboutStyles.strokeme}`}
-              onClick={(e) => handleNavClick(e, item.path)}
-            >
-              {item.label}
-            </div>
-          ))}
+          {pages.map((item) => {
+            const route = getRoute(item.path);
+            return (
+              <Link
+                key={item.id}
+                href={route}
+                className={`text-white text-sm sm:text-base font-medium hover:text-[#007bff] transition cursor-pointer ${aboutStyles.strokeme} ${
+                  isActive(item.path) ? "text-[#007bff]" : ""
+                }`}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </div>
       </div>
     </nav>
