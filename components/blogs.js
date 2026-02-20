@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "../styles/blogs.module.css";
+import { postApiData } from "@/utilities/services/apiService";
 
 const BLOG_DATA = [
   {
@@ -48,7 +49,8 @@ const BLOG_DATA = [
     authorInitials: "PM",
     authorName: "Priya Mehta",
     date: "Feb 10, 2026",
-    title: "Building Zero-Downtime Deploys at Scale: Lessons from 3 Years of Pain",
+    title:
+      "Building Zero-Downtime Deploys at Scale: Lessons from 3 Years of Pain",
     excerpt:
       "Blue-green, canary, feature flags — we tried everything. Here's the honest breakdown of what actually worked for our 50-million-user platform and what didn't.",
     views: "9.1k",
@@ -65,7 +67,8 @@ const BLOG_DATA = [
     authorInitials: "RV",
     authorName: "Rohan Verma",
     date: "Feb 6, 2026",
-    title: "From 0 to $1M ARR: The Counter-Intuitive Growth Strategy We Bet Everything On",
+    title:
+      "From 0 to $1M ARR: The Counter-Intuitive Growth Strategy We Bet Everything On",
     excerpt:
       "We ignored conventional wisdom, fired our sales team, and went product-led. Eighteen months later, here's what the data actually showed about that decision.",
     views: "12k",
@@ -82,7 +85,8 @@ const BLOG_DATA = [
     authorInitials: "NK",
     authorName: "Nisha Krishnan",
     date: "Jan 30, 2026",
-    title: "Protein Folding Changed Everything — But Nobody's Talking About What's Next",
+    title:
+      "Protein Folding Changed Everything — But Nobody's Talking About What's Next",
     excerpt:
       "AlphaFold solved a 50-year problem. But the next frontier in computational biology is even more radical, and the implications for medicine are staggering.",
     views: "5.4k",
@@ -110,25 +114,58 @@ const BLOG_DATA = [
 
 // ── SVG icons ──
 const EyeIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={styles.icon}>
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    className={styles.icon}
+  >
     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-    <circle cx="12" cy="12" r="3" />
+    <circle
+      cx="12"
+      cy="12"
+      r="3"
+    />
   </svg>
 );
 
 const HeartIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={styles.icon}>
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    className={styles.icon}
+  >
     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
   </svg>
 );
 
 // ── Single card with 3D tilt logic ──
 function BlogCard({ blog, index }) {
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
+  const stripHtml = (html) => {
+    if (!html) return "";
+    return html.replace(/<[^>]*>/g, "").substring(0, 150) + "...";
+  };
+
   const cardRef = useRef(null);
   const animRef = useRef(null);
   const stateRef = useRef({
-    targetRx: 0, targetRy: 0,
-    currentRx: 0, currentRy: 0,
+    targetRx: 0,
+    targetRy: 0,
+    currentRx: 0,
+    currentRy: 0,
     isHovered: false,
   });
 
@@ -138,15 +175,17 @@ function BlogCard({ blog, index }) {
     const card = cardRef.current;
     if (!card) return;
 
-    const glare   = card.querySelector(`.${styles.cardGlare}`);
-    const tagEl   = card.querySelector(`.${styles.cardTag}`);
-    const rtEl    = card.querySelector(`.${styles.cardReadTime}`);
-    const authEl  = card.querySelector(`.${styles.cardAuthor}`);
+    const glare = card.querySelector(`.${styles.cardGlare}`);
+    const tagEl = card.querySelector(`.${styles.cardTag}`);
+    const rtEl = card.querySelector(`.${styles.cardReadTime}`);
+    const authEl = card.querySelector(`.${styles.cardAuthor}`);
     const titleEl = card.querySelector(`.${styles.cardTitle}`);
-    const excEl   = card.querySelector(`.${styles.cardExcerpt}`);
-    const footEl  = card.querySelector(`.${styles.cardFooter}`);
+    const excEl = card.querySelector(`.${styles.cardExcerpt}`);
+    const footEl = card.querySelector(`.${styles.cardFooter}`);
 
-    function lerp(a, b, t) { return a + (b - a) * t; }
+    function lerp(a, b, t) {
+      return a + (b - a) * t;
+    }
 
     function mapZ(rx, ry, maxZ) {
       const mag = Math.sqrt(rx * rx + ry * ry) / MAX_TILT;
@@ -155,7 +194,11 @@ function BlogCard({ blog, index }) {
 
     function tick() {
       const s = stateRef.current;
-      if (!s.isHovered && Math.abs(s.currentRx) < 0.01 && Math.abs(s.currentRy) < 0.01) {
+      if (
+        !s.isHovered &&
+        Math.abs(s.currentRx) < 0.01 &&
+        Math.abs(s.currentRy) < 0.01
+      ) {
         card.style.transform = "rotateX(0deg) rotateY(0deg)";
         card.classList.add(styles.resting);
         animRef.current = null;
@@ -168,13 +211,14 @@ function BlogCard({ blog, index }) {
 
       card.style.transform = `rotateX(${s.currentRx}deg) rotateY(${s.currentRy}deg)`;
 
-      const zFn = (max) => `translateZ(${mapZ(s.currentRx, s.currentRy, max)}px)`;
-      if (tagEl)   tagEl.style.transform   = zFn(38);
-      if (rtEl)    rtEl.style.transform    = zFn(30);
-      if (authEl)  authEl.style.transform  = zFn(22);
+      const zFn = (max) =>
+        `translateZ(${mapZ(s.currentRx, s.currentRy, max)}px)`;
+      if (tagEl) tagEl.style.transform = zFn(38);
+      if (rtEl) rtEl.style.transform = zFn(30);
+      if (authEl) authEl.style.transform = zFn(22);
       if (titleEl) titleEl.style.transform = zFn(36);
-      if (excEl)   excEl.style.transform   = zFn(16);
-      if (footEl)  footEl.style.transform  = zFn(26);
+      if (excEl) excEl.style.transform = zFn(16);
+      if (footEl) footEl.style.transform = zFn(26);
 
       animRef.current = requestAnimationFrame(tick);
     }
@@ -187,13 +231,13 @@ function BlogCard({ blog, index }) {
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      const nx = (x - rect.width  / 2) / (rect.width  / 2);
+      const nx = (x - rect.width / 2) / (rect.width / 2);
       const ny = (y - rect.height / 2) / (rect.height / 2);
 
-      s.targetRy =  nx * MAX_TILT;
+      s.targetRy = nx * MAX_TILT;
       s.targetRx = -ny * MAX_TILT;
 
-      const mx = (x / rect.width)  * 100;
+      const mx = (x / rect.width) * 100;
       const my = (y / rect.height) * 100;
       if (glare) {
         glare.style.background = `radial-gradient(circle at ${mx}% ${my}%, rgba(255,255,255,0.13) 0%, transparent 65%)`;
@@ -205,25 +249,28 @@ function BlogCard({ blog, index }) {
     function onMouseLeave() {
       const s = stateRef.current;
       s.isHovered = false;
-      s.targetRx  = 0;
-      s.targetRy  = 0;
-      [tagEl, rtEl, authEl, titleEl, excEl, footEl].forEach(el => {
+      s.targetRx = 0;
+      s.targetRy = 0;
+      [tagEl, rtEl, authEl, titleEl, excEl, footEl].forEach((el) => {
         if (el) el.style.transform = "translateZ(0px)";
       });
       if (!animRef.current) animRef.current = requestAnimationFrame(tick);
     }
 
-    card.addEventListener("mousemove",  onMouseMove);
+    card.addEventListener("mousemove", onMouseMove);
     card.addEventListener("mouseleave", onMouseLeave);
     return () => {
-      card.removeEventListener("mousemove",  onMouseMove);
+      card.removeEventListener("mousemove", onMouseMove);
       card.removeEventListener("mouseleave", onMouseLeave);
       if (animRef.current) cancelAnimationFrame(animRef.current);
     };
   }, []);
 
   return (
-    <div className={styles.cardWrap} style={{ animationDelay: `${index * 0.1 + 0.05}s` }}>
+    <div
+      className={styles.cardWrap}
+      style={{ animationDelay: `${index * 0.1 + 0.05}s` }}
+    >
       <div
         ref={cardRef}
         className={`${styles.card} ${styles.resting}`}
@@ -240,11 +287,22 @@ function BlogCard({ blog, index }) {
             className={styles.imgPlaceholder}
             style={{ "--grad": blog.grad }}
           >
-            {blog.emoji}
+            {blog.thumbnail ? (
+              <img
+                src={blog.thumbnail || ""}
+                alt={blog.title}
+                className={styles.cardImg}
+              />
+            ) : (
+              <span className={styles.imgEmoji}>{blog.emoji}</span>
+            )}
           </div>
           <span
             className={styles.cardTag}
-            style={{ background: blog.accent, color: blog.accent === "#f59e0b" ? "#000" : "#fff" }}
+            style={{
+              background: blog.accent,
+              color: blog.accent === "#f59e0b" ? "#000" : "#fff",
+            }}
           >
             {blog.category}
           </span>
@@ -256,23 +314,34 @@ function BlogCard({ blog, index }) {
           <div className={styles.cardAuthor}>
             <div
               className={styles.authorAvatar}
-              style={{ background: blog.accent, boxShadow: `0 0 12px ${blog.accent}`, color: blog.accent === "#f59e0b" ? "#000" : "#fff" }}
+              style={{
+                background: blog.accent,
+                boxShadow: `0 0 12px ${blog.accent}`,
+                color: blog.accent === "#f59e0b" ? "#000" : "#fff",
+              }}
             >
               {blog.authorInitials}
             </div>
             <div className={styles.authorMeta}>
-              <span className={styles.authorName}>{blog.authorName}</span>
+              <span className={styles.authorName}>{blog.author}</span>
               <span className={styles.authorDate}>{blog.date}</span>
             </div>
           </div>
 
           <h2 className={styles.cardTitle}>{blog.title}</h2>
-          <p className={styles.cardExcerpt}>{blog.excerpt}</p>
+          {/* <p className={styles.cardExcerpt}>{blog.excerpt}</p> */}
+          <p className={styles.cardExcerpt}>{stripHtml(blog.description)}</p>
 
           <div className={styles.cardFooter}>
             <div className={styles.cardStats}>
-              <span className={styles.stat}><EyeIcon />{blog.views}</span>
-              <span className={styles.stat}><HeartIcon />{blog.likes}</span>
+              <span className={styles.stat}>
+                <EyeIcon />
+                {blog.views}
+              </span>
+              <span className={styles.stat}>
+                <HeartIcon />
+                {blog.likes}
+              </span>
             </div>
             <a
               href={blog.link}
@@ -290,10 +359,42 @@ function BlogCard({ blog, index }) {
 
 // ── Page component ──
 export default function BlogCards() {
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchBlogs();
+  }, []);
+
+  const fetchBlogs = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await postApiData("GET_MEDIUM_BLOGS");
+      if (response.status && Array.isArray(response.data)) {
+        console.log("response", response);
+        setBlogs(response.data);
+      } else {
+        setError("Failed to fetch blogs");
+      }
+    } catch (err) {
+      console.error("Error fetching blogs:", err);
+      setError("Failed to fetch blogs. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  console.log("blogs", blogs);
+
   return (
     <div className={styles.page}>
       {/* starfield */}
-      <div className={styles.stars} aria-hidden="true" />
+      <div
+        className={styles.stars}
+        aria-hidden="true"
+      />
 
       <div className={styles.inner}>
         <header className={styles.pageHeader}>
@@ -302,8 +403,12 @@ export default function BlogCards() {
         </header>
 
         <div className={styles.cardsGrid}>
-          {BLOG_DATA.map((blog, i) => (
-            <BlogCard key={blog.id} blog={blog} index={i} />
+          {blogs.map((blog, i) => (
+            <BlogCard
+              key={blog.id}
+              blog={blog}
+              index={i}
+            />
           ))}
         </div>
       </div>
