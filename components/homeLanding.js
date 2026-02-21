@@ -7,7 +7,6 @@ import {
   FaInstagram,
 } from "react-icons/fa";
 import homeStyle from "../styles/home.module.css";
-import { getSocialLinks, getPersonalInfo } from "@/utilities/getPortfolioData";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -20,9 +19,9 @@ const iconMap = {
   FaInstagram: FaInstagram,
 };
 
-const HomeLanding = () => {
-  const personalInfo = getPersonalInfo();
-  const socialLinksData = getSocialLinks();
+const HomeLanding = ({ pageData }) => {
+  const personalInfo = pageData.personal || {};
+  const socialLinksData = pageData.socialLinks || [];
 
   const socialLinks = socialLinksData
     .map((link) => {

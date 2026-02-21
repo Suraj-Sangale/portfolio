@@ -1,11 +1,15 @@
 import { getPortfolioDataController } from "@/backend/controller/commonController";
 import Layout from "@/components/layout";
 import HomeLanding from "@/components/homeLanding";
+import ScrollReveal from "@/components/ScrollReveal";
+import HomeWrapper from "@/components/homeWrapper";
 
 export default function Home({ pageData }) {
   return (
     <Layout>
-      <HomeLanding />
+      {/* <HomeLanding pageData={pageData} /> */}
+      {/* <ScrollReveal /> */}
+      <HomeWrapper pageData={pageData} />
     </Layout>
   );
 }
@@ -13,7 +17,7 @@ export default function Home({ pageData }) {
 export const getServerSideProps = async () => {
   // const pageData = await fetch("http://localhost:3000/api/portfolio").then((res) => res.json());
   const cacheKey = "portfolio:all";
-  const pageData = {};
+  let pageData = {};
 
   const [homePageData] = await Promise.all([
     getPortfolioDataController(cacheKey),
@@ -21,7 +25,7 @@ export const getServerSideProps = async () => {
 
   // console.log("homePageData", homePageData);
   if (homePageData.status) {
-    pageData.homePageData = homePageData.data;
+    pageData = { ...homePageData.data };
   }
 
   return {
