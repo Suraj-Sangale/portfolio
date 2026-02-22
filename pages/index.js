@@ -1,7 +1,5 @@
 import { getPortfolioDataController } from "@/backend/controller/commonController";
 import Layout from "@/components/layout";
-import HomeLanding from "@/components/homeLanding";
-import ScrollReveal from "@/components/ScrollReveal";
 import HomeWrapper from "@/components/homeWrapper";
 
 export default function Home({ pageData }) {
