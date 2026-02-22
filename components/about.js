@@ -1,5 +1,9 @@
 import React, { useState, useEffect, use } from "react";
-import { getAboutData, getPersonalInfo, getSectionTitle } from "@/utilities/getPortfolioData";
+import {
+  getAboutData,
+  getPersonalInfo,
+  getSectionTitle,
+} from "@/utilities/getPortfolioData";
 import ResumeModal from "./Items/ResumeModal";
 import CustomTitle from "./Items/CustomTitle";
 import aboutStyles from "../styles/about.module.css";
