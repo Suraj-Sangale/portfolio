@@ -96,9 +96,7 @@ export default function ScrollReveal({ text, accentWords }) {
   return (
     <div className="scollable">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400&display=swap');
-        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-        html { overflow-x: hidden; }
+        
         @keyframes drop {
           0%   { transform: scaleY(0); transform-origin: top; }
           45%  { transform: scaleY(1); transform-origin: top; }
