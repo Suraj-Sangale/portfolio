@@ -42,15 +42,54 @@
   ],
   "navigation": {
     "pages": [
-      { "id": 1, "label": "Home", "path": "home" },
-      { "id": 2, "label": "About", "path": "about" },
-      { "id": 5, "label": "Projects", "path": "projects" },
-      { "id": 3, "label": "Work", "path": "work" },
-      { "id": 4, "label": "Contact", "path": "contact" }
+      {
+        "id": 1,
+        "label": "Home",
+        "path": "home"
+      },
+      {
+        "id": 2,
+        "label": "About",
+        "path": "about"
+      },
+      {
+        "id": 5,
+        "label": "Projects",
+        "path": "projects"
+      },
+      {
+        "id": 3,
+        "label": "Work",
+        "path": "work"
+      },
+      {
+        "id": 4,
+        "label": "Blogs",
+        "path": "blogs"
+      },
+      {
+        "id": 5,
+        "label": "Contact",
+        "path": "contact"
+      }
     ]
   },
   "about": {
     "text": "I thrive in environments where creativity and innovation are valued, constantly seeking out new ways to approach problems and deliver impactful solutions. My goal is simple to leverage my skills, experience, and passion to make a meaningful impact in software development. I am a capable team player who can adjust to any difficult circumstance. I can operate effectively both independently and in a group setting.",
+    "accentWords": [
+      "creativity",
+      "innovation",
+      "impactful",
+      "solutions",
+      "meaningful",
+      "impact",
+      "software",
+      "development",
+      "capable",
+      "team",
+      "player",
+      "independently"
+    ],
     "skills": [
       {
         "id": "02",
