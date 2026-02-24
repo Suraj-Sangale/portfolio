@@ -5,7 +5,7 @@ import Projects from "@/components/projects";
 export default function ProjectsPage({ pageData }) {
   return (
     <Layout>
-      <Projects />
+      <Projects pageData={pageData} />
     </Layout>
   );
 }
