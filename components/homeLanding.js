@@ -9,6 +9,7 @@ import {
 import homeStyle from "../styles/home.module.css";
 import Image from "next/image";
 import Link from "next/link";
+import SocialIcons from "./home/socialIcons";
 
 // Icon mapping
 const iconMap = {
@@ -23,17 +24,17 @@ const HomeLanding = ({ pageData }) => {
   const personalInfo = pageData.personal || {};
   const socialLinksData = pageData.socialLinks || [];
 
-  const socialLinks = socialLinksData
-    .map((link) => {
-      const IconComponent = iconMap[link.icon] || null;
-      return {
-        url: link.url,
-        icon: IconComponent ? <IconComponent /> : null,
-        label: link.platform,
-        className: link.className || "",
-      };
-    })
-    .filter((link) => link.icon !== null);
+  // const socialLinks = socialLinksData
+  //   .map((link) => {
+  //     const IconComponent = iconMap[link.icon] || null;
+  //     return {
+  //       url: link.url,
+  //       icon: IconComponent ? <IconComponent /> : null,
+  //       label: link.platform,
+  //       className: link.className || "",
+  //     };
+  //   })
+  //   .filter((link) => link.icon !== null);
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   const handleHover = (url, index) => {
@@ -70,8 +71,8 @@ const HomeLanding = ({ pageData }) => {
               {personalInfo.description}
             </div>
 
-            <div className="flex justify-center mt-4 gap-4">
-              {socialLinks.map((link, index) => (
+            <div className="flex justify-center mt-4 gap-4 w-[22rem] md:w-[38rem]">
+              {/* {socialLinks.map((link, index) => (
                 <Link
                   key={index}
                   href={link.url}
@@ -95,7 +96,8 @@ const HomeLanding = ({ pageData }) => {
                     Copied!
                   </span>
                 </Link>
-              ))}
+              ))} */}
+              <SocialIcons socialLinks={socialLinksData} />
             </div>
           </div>
         </div>

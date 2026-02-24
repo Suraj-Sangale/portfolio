@@ -3,9 +3,11 @@ import CustomTitle from "./Items/CustomTitle";
 import ProjectCard from "./Items/projectCard";
 import { getProjects, getSectionTitle } from "@/utilities/getPortfolioData";
 
-export default function Projects() {
-  const projects = getProjects();
-  const sectionTitle = getSectionTitle("projects");
+export default function Projects({ pageData }) {
+  // const projects = getProjects(pageData);
+  // const sectionTitle = getSectionTitle("projects", pageData);
+  const projects = pageData?.projectsData || [];
+  const sectionTitle = pageData?.sections?.projects || {};
   
   return (
     <div

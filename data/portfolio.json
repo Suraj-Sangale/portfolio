@@ -10,34 +10,106 @@
   },
   "socialLinks": [
     {
-      "platform": "LinkedIn",
-      "url": "https://www.linkedin.com/in/suraj-sangale",
-      "icon": "FaLinkedin",
-      "className": "linkedin"
+      "id": "twitter",
+      "label": "Twitter",
+      "href": "https://twitter.com/SurajSangale4",
+      "disabled": false
     },
     {
-      "platform": "GitHub",
-      "url": "https://github.com/Suraj-Sangale",
-      "icon": "FaGithub",
-      "className": "github"
+      "id": "instagram",
+      "label": "Instagram",
+      "href": "https://www.instagram.com/____suraj____",
+      "disabled": false
     },
     {
-      "platform": "Twitter",
-      "url": "https://twitter.com/SurajSangale4",
-      "icon": "FaTwitter",
-      "className": "twitter"
+      "id": "youtube",
+      "label": "YouTube",
+      "href": "https://youtube.com",
+      "disabled": true
     },
     {
-      "platform": "Instagram",
-      "url": "https://www.instagram.com/____suraj____",
-      "icon": "FaInstagram",
-      "className": "instagram"
+      "id": "github",
+      "label": "GitHub",
+      "href": "https://github.com",
+      "disabled": false
     },
     {
-      "platform": "Facebook",
-      "url": "https://m.facebook.com/profile.php/?id=100009445972401",
-      "icon": "FaFacebook",
-      "className": "facebook"
+      "id": "linkedin",
+      "label": "LinkedIn",
+      "href": "https://linkedin.com",
+      "disabled": false
+    },
+    {
+      "id": "discord",
+      "label": "Discord",
+      "href": "https://discord.com",
+      "disabled": true
+    },
+    {
+      "id": "tiktok",
+      "label": "TikTok",
+      "href": "https://tiktok.com",
+      "disabled": true
+    },
+    {
+      "id": "whatsapp",
+      "label": "WhatsApp",
+      "href": "https://whatsapp.com",
+      "disabled": false
+    },
+    {
+      "id": "telegram",
+      "label": "Telegram",
+      "href": "https://telegram.org",
+      "disabled": true
+    },
+    {
+      "id": "reddit",
+      "label": "Reddit",
+      "href": "https://reddit.com",
+      "disabled": true
+    },
+    {
+      "id": "twitch",
+      "label": "Twitch",
+      "href": "https://twitch.tv",
+      "disabled": true
+    },
+    {
+      "id": "spotify",
+      "label": "Spotify",
+      "href": "https://spotify.com",
+      "disabled": true
+    },
+    {
+      "id": "dribbble",
+      "label": "Dribbble",
+      "href": "https://dribbble.com",
+      "disabled": true
+    },
+    {
+      "id": "stackoverflow",
+      "label": "Stack Overflow",
+      "href": "https://stackoverflow.com",
+      "disabled": true
+    },
+    {
+      "id": "email",
+      "label": "Email",
+      "href": "mailto:hello@example.com",
+      "disabled": false
+    },
+    {
+      "id": "facebook",
+      "label": "Facebook",
+      "href": "https://facebook.com",
+      "disabled": false
+    },
+    {
+      "id": "medium",
+      "label": "Medium",
+      "href": "https://medium.com",
+      "disabled": false
     }
   ],
   "navigation": {
