@@ -16,7 +16,6 @@ export const getServerSideProps = async () => {
 
   try {
     const workData = await getPortfolioDataController(cacheKey, "work");
-    console.log("workData", workData);
     if (workData?.status) {
       pageData.workData = workData.data;
     }
