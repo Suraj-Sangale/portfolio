@@ -6,152 +6,121 @@
     "description": "I am a Software Developer",
     "profileImage": "/developer.png",
     "logo": "/logo.png",
-    "resumeLink": "/suraj_sangale_resume.pdf"
-  },
-  "socialLinks": [
-    {
-      "id": "twitter",
-      "label": "Twitter",
-      "href": "https://twitter.com/SurajSangale4",
-      "disabled": false
-    },
-    {
-      "id": "instagram",
-      "label": "Instagram",
-      "href": "https://www.instagram.com/____suraj____",
-      "disabled": false
-    },
-    {
-      "id": "youtube",
-      "label": "YouTube",
-      "href": "https://youtube.com",
-      "disabled": true
-    },
-    {
-      "id": "github",
-      "label": "GitHub",
-      "href": "https://github.com",
-      "disabled": false
-    },
-    {
-      "id": "linkedin",
-      "label": "LinkedIn",
-      "href": "https://linkedin.com",
-      "disabled": false
-    },
-    {
-      "id": "discord",
-      "label": "Discord",
-      "href": "https://discord.com",
-      "disabled": true
-    },
-    {
-      "id": "tiktok",
-      "label": "TikTok",
-      "href": "https://tiktok.com",
-      "disabled": true
-    },
-    {
-      "id": "whatsapp",
-      "label": "WhatsApp",
-      "href": "https://whatsapp.com",
-      "disabled": false
-    },
-    {
-      "id": "telegram",
-      "label": "Telegram",
-      "href": "https://telegram.org",
-      "disabled": true
-    },
-    {
-      "id": "reddit",
-      "label": "Reddit",
-      "href": "https://reddit.com",
-      "disabled": true
-    },
-    {
-      "id": "twitch",
-      "label": "Twitch",
-      "href": "https://twitch.tv",
-      "disabled": true
-    },
-    {
-      "id": "spotify",
-      "label": "Spotify",
-      "href": "https://spotify.com",
-      "disabled": true
-    },
-    {
-      "id": "dribbble",
-      "label": "Dribbble",
-      "href": "https://dribbble.com",
-      "disabled": true
-    },
-    {
-      "id": "stackoverflow",
-      "label": "Stack Overflow",
-      "href": "https://stackoverflow.com",
-      "disabled": true
-    },
-    {
-      "id": "email",
-      "label": "Email",
-      "href": "mailto:hello@example.com",
-      "disabled": false
-    },
-    {
-      "id": "facebook",
-      "label": "Facebook",
-      "href": "https://facebook.com",
-      "disabled": false
-    },
-    {
-      "id": "medium",
-      "label": "Medium",
-      "href": "https://medium.com",
-      "disabled": false
-    }
-  ],
-  "navigation": {
-    "pages": [
+    "resumeLink": "/suraj_sangale_resume.pdf",
+    "heading": "Home",
+    "subheading": "",
+    "mainText": "",
+    "highlightedText": "",
+    "socialLinks": [
       {
-        "id": 1,
-        "label": "Home",
-        "path": "home"
+        "id": "twitter",
+        "label": "Twitter",
+        "href": "https://twitter.com/SurajSangale4",
+        "disabled": false
       },
       {
-        "id": 2,
-        "label": "About",
-        "path": "about"
+        "id": "instagram",
+        "label": "Instagram",
+        "href": "https://www.instagram.com/____suraj____",
+        "disabled": false
       },
       {
-        "id": 5,
-        "label": "Projects",
-        "path": "projects"
+        "id": "youtube",
+        "label": "YouTube",
+        "href": "https://youtube.com",
+        "disabled": true
       },
       {
-        "id": 3,
-        "label": "Work",
-        "path": "work"
+        "id": "github",
+        "label": "GitHub",
+        "href": "https://github.com",
+        "disabled": false
       },
       {
-        "id": 4,
-        "label": "Blogs",
-        "path": "blogs"
+        "id": "linkedin",
+        "label": "LinkedIn",
+        "href": "https://linkedin.com",
+        "disabled": false
       },
       {
-        "id": 5,
-        "label": "Contact",
-        "path": "contact"
+        "id": "discord",
+        "label": "Discord",
+        "href": "https://discord.com",
+        "disabled": true
       },
       {
-        "id": 6,
-        "label": "Location Tracker",
-        "path": "locations"
+        "id": "tiktok",
+        "label": "TikTok",
+        "href": "https://tiktok.com",
+        "disabled": true
+      },
+      {
+        "id": "whatsapp",
+        "label": "WhatsApp",
+        "href": "https://whatsapp.com",
+        "disabled": false
+      },
+      {
+        "id": "telegram",
+        "label": "Telegram",
+        "href": "https://telegram.org",
+        "disabled": true
+      },
+      {
+        "id": "reddit",
+        "label": "Reddit",
+        "href": "https://reddit.com",
+        "disabled": true
+      },
+      {
+        "id": "twitch",
+        "label": "Twitch",
+        "href": "https://twitch.tv",
+        "disabled": true
+      },
+      {
+        "id": "spotify",
+        "label": "Spotify",
+        "href": "https://spotify.com",
+        "disabled": true
+      },
+      {
+        "id": "dribbble",
+        "label": "Dribbble",
+        "href": "https://dribbble.com",
+        "disabled": true
+      },
+      {
+        "id": "stackoverflow",
+        "label": "Stack Overflow",
+        "href": "https://stackoverflow.com",
+        "disabled": true
+      },
+      {
+        "id": "email",
+        "label": "Email",
+        "href": "mailto:hello@example.com",
+        "disabled": false
+      },
+      {
+        "id": "facebook",
+        "label": "Facebook",
+        "href": "https://facebook.com",
+        "disabled": false
+      },
+      {
+        "id": "medium",
+        "label": "Medium",
+        "href": "https://medium.com",
+        "disabled": false
       }
     ]
   },
   "about": {
+    "heading": "About",
+    "subheading": "About",
+    "mainText": "What I",
+    "highlightedText": "Do",
     "text": "I thrive in environments where creativity and innovation are valued, constantly seeking out new ways to approach problems and deliver impactful solutions. My goal is simple to leverage my skills, experience, and passion to make a meaningful impact in software development. I am a capable team player who can adjust to any difficult circumstance. I can operate effectively both independently and in a group setting.",
     "accentWords": [
       "creativity",
@@ -230,290 +199,324 @@
       }
     ]
   },
-  "experience": [
-    {
-      "id": 2,
-      "category": "education",
-      "iconType": "graduation",
-      "year": "2016-2017",
-      "title": "HSC",
-      "desc": "State Board - 56.31%"
-    },
-    {
-      "id": 3,
-      "category": "education",
-      "iconType": "graduation",
-      "year": "2017-2022",
-      "title": "B.E in EXTC",
-      "desc": "Mumbai University - 7.35 CGPA"
-    },
-    {
-      "id": 5,
-      "category": "experience",
-      "iconType": "work",
-      "year": "01/2022 - 03/2022",
-      "title": "Intern at CGI",
-      "desc": "Frontend Intern",
-      "skills": ["HTML", "CSS", "JavaScript", "React", "React Router"]
-    },
-    {
-      "id": 6,
-      "category": "experience",
-      "iconType": "work",
-      "year": "07/2022 - 12/2023",
-      "title": "Boppo Technologies",
-      "desc": "Frontend Developer",
-      "skills": ["React", "Redux", "React Native", "Python", "Java"]
-    },
-    {
-      "id": 4,
-      "category": "experience",
-      "iconType": "work",
-      "year": "02/2024 - present",
-      "title": "Fortune4 Technologies",
-      "desc": "Software Developer",
-      "skills": ["Next js", "Node js", "MySQL", "Redis", "Strapi"]
-    }
-  ],
-  "projects": [
-    {
-      "title": "Linux Tools",
-      "isEnable": true,
-      "image": [
-        "linuxtools.png",
-        "linuxtools2.png",
-        "linuxtools3.png",
-        "linuxtools4.png"
-      ],
-      "liveUrl": "https://linux-support-manager.vercel.app/",
-      "description": "Built a comprehensive web-based toolkit tailored for DevOps engineers and system administrators to streamline server troubleshooting and daily operational tasks. The app integrates various diagnostic tools to enhance productivity and simplify common server-side challenges.",
-      "keyFeatures": [
-        {
-          "id": 1,
-          "text": "DNS Checker to quickly verify domain records and identify misconfigurations"
-        },
-        {
-          "id": 2,
-          "text": "Port Scanner to detect open ports and assess network vulnerabilities"
-        },
-        {
-          "id": 3,
-          "text": "IP Lookup tool providing geolocation, ISP, and detailed IP data"
-        },
-        {
-          "id": 4,
-          "text": "Built-in Linux Command Library for instant access to essential terminal commands"
-        },
-        {
-          "id": 5,
-          "text": "Bonus tools like JSON Formatter, Text Comparator, and Server Diagnostics for enhanced productivity"
-        }
-      ],
-      "techStack": ["Next.js", "React", "PHP", "MariaDB", "Node.js"]
-    },
-    {
-      "title": "Cargo Desk",
-      "isEnable": true,
-      "description": "CargoDesk is a transport management system designed for managing daily orders, invoices, and vehicle-related documents such as insurance, PUC, and fitness certificates. A key highlight is the Bulk SMS functionality powered by the Twilio SMS API, along with a robust contact management system that supports multiple import methods.",
-      "keyFeatures": [
-        {
-          "id": 1,
-          "text": "Implemented Bulk SMS sending using Twilio SMS API for marketing."
-        },
-        {
-          "id": 2,
-          "text": "Developed a contact management module allowing bulk import from Google Contacts API, CSV, vCard, and manual entry."
-        },
-        {
-          "id": 3,
-          "text": "Secured the platform with JWT-based authentication for sign-up and login."
-        },
-        {
-          "id": 4,
-          "text": "Utilized MySQL for efficient data storage and retrieval."
-        },
-        {
-          "id": 5,
-          "text": "Designed a responsive UI using Material UI, Tailwind CSS, and SCSS for a modern and clean interface."
-        }
-      ],
-      "techStack": [
-        "Next.js",
-        "Node.js",
-        "MySQL",
-        "Twilio SMS API",
-        "Google Contacts API",
-        "JWT",
-        "Material UI",
-        "Tailwind CSS",
-        "SCSS"
-      ],
-      "image": [
-        "cargoDesk2.png",
-        "cargoDesk.png",
-        "cargoDesk4.png",
-        "cargoDesk5.png",
-        "cargoDesk3.png"
-      ],
-      "liveUrl": "https://cargodesk.vercel.app/"
-    },
-    {
-      "title": "Point Stream Panel",
-      "isEnable": true,
-      "description": "A dynamic web-based platform built to streamline the management of sports tournaments, matches, and real-time scoring. Key highlights include match booth setups, referee-based access control, live scoreboard updates from multiple devices, detailed match history with obtained scores, and automated scorecard generation.",
-      "keyFeatures": [
-        {
-          "id": 1,
-          "text": "Blazing-fast performance with Server-Side Rendering (SSR) and Static Site Generation (SSG) using Next.js."
-        },
-        {
-          "id": 2,
-          "text": "Robust backend API with JWT authentication, WebSocket-powered real-time communication, and seamless MySQL database integration."
-        },
-        {
-          "id": 3,
-          "text": "Real-time multi-referee scoring system with secured role-based access, ensuring accurate and transparent match updates."
-        }
-      ],
-      "techStack": ["Next.js", "Tailwind CSS", "Socket.io", "MySQL", "Node.js"],
-      "image": [
-        "PSPboard.png",
-        "PSPboard1.png",
-        "PSPboard2.png",
-        "PSPboard4.png",
-        "PSPboard5.png"
-      ],
-      "liveUrl": "https://pointstreampannel.vercel.app/"
-    },
-    {
-      "title": "Tic Tac Toe Game",
-      "isEnable": true,
-      "description": "A modern, interactive Tic Tac Toe game built with Next.js, TypeScript, and Tailwind CSS. It features smooth animations, a responsive glass-morphism UI, Single Player mode with an intelligent computer opponent, and Online Multiplayer mode using Socket.IO for real-time gameplay.",
-      "keyFeatures": [
-        {
-          "id": 1,
-          "text": "Developed a real-time multiplayer Tic Tac Toe game using Next.js, TypeScript, and Socket.IO."
-        },
-        {
-          "id": 2,
-          "text": "Implemented two game modes: Single Player (AI) and Multiplayer (WebSockets)."
-        },
-        {
-          "id": 6,
-          "text": "Built real-time room-based matchmaking with instant move syncing."
-        },
-        {
-          "id": 3,
-          "text": "Built reusable components for X and O icons with SVG animations"
-        },
-        {
-          "id": 4,
-          "text": "Ensured mobile-first responsive layout using aspect-square and CSS grid"
-        },
-        {
-          "id": 5,
-          "text": "Focused on clean TypeScript structure and component organization"
-        }
-      ],
-      "techStack": [
-        "Next.js",
-        "TypeScript",
-        "Socket.IO / WebSockets",
-        "Tailwind CSS",
-        "Node.js",
-        "Custom CSS Animations",
-        "Vercel"
-      ],
-      "image": [
-        "ticTac/1.png",
-        "ticTac/2.png",
-        "ticTac/3.png",
-        "ticTac/4.png",
-        "ticTac/5.png"
-      ],
-      "gitUrl": "",
-      "liveUrl": "https://playtictac.vercel.app/"
-    },
-    {
-      "title": "Urban Market",
-      "isEnable": true,
-      "description": "I built a fully responsive clone of Urban Marketplace, a modern e-commerce platform where users can explore a wide variety of products, add items to their cart, and seamlessly place orders.",
-      "keyFeatures": [
-        {
-          "id": 1,
-          "text": "Modern and responsive UI for smooth product browsing"
-        },
-        {
-          "id": 2,
-          "text": "Add to cart and complete checkout functionality"
-        },
-        {
-          "id": 3,
-          "text": "Built with React.js and Tailwind CSS, deployed on Netlify"
-        }
-      ],
-      "techStack": ["Next.js", "Tailwind CSS", "Node.js"],
-      "image": ["UrbanMarket.png", "UrbanMarket2.png", "UrbanMarket4.png"],
-      "gitUrl": "https://github.com/Suraj-Sangale/urban-market",
-      "liveUrl": "https://urbanmarketplace.netlify.app/home"
-    },
-    {
-      "title": "Memo Mind",
-      "isEnable": false,
-      "description": "A web-based platform designed to enhance memory retention and learning through interactive flashcards and quizzes. Users can create, share, and study flashcards on various topics, making learning engaging and effective.",
-      "keyFeatures": [
-        {
-          "id": 1,
-          "text": "Create and share flashcards for effective learning"
-        },
-        {
-          "id": 2,
-          "text": "Interactive quizzes to reinforce knowledge retention"
-        },
-        {
-          "id": 3,
-          "text": "User-friendly interface for easy navigation and study"
-        }
-      ],
-      "techStack": ["Next.js", "Tailwind CSS", "Node.js"],
-      "image": [
-        "memoMind.png",
-        "memoMind.png",
-        "memoMind.png",
-        "memoMind.png",
-        "memoMind.png"
-      ],
-      "liveUrl": "https://memo-mind-self.vercel.app"
-    }
-  ],
+  "projects": {
+    "heading": "Projects",
+    "subheading": "Projects",
+    "mainText": "What",
+    "highlightedText": "I've Done",
+    "projectList": [
+      {
+        "title": "Linux Tools",
+        "isEnable": true,
+        "image": [
+          "linuxtools.png",
+          "linuxtools2.png",
+          "linuxtools3.png",
+          "linuxtools4.png"
+        ],
+        "liveUrl": "https://linux-support-manager.vercel.app/",
+        "description": "Built a comprehensive web-based toolkit tailored for DevOps engineers and system administrators to streamline server troubleshooting and daily operational tasks. The app integrates various diagnostic tools to enhance productivity and simplify common server-side challenges.",
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "DNS Checker to quickly verify domain records and identify misconfigurations"
+          },
+          {
+            "id": 2,
+            "text": "Port Scanner to detect open ports and assess network vulnerabilities"
+          },
+          {
+            "id": 3,
+            "text": "IP Lookup tool providing geolocation, ISP, and detailed IP data"
+          },
+          {
+            "id": 4,
+            "text": "Built-in Linux Command Library for instant access to essential terminal commands"
+          },
+          {
+            "id": 5,
+            "text": "Bonus tools like JSON Formatter, Text Comparator, and Server Diagnostics for enhanced productivity"
+          }
+        ],
+        "techStack": ["Next.js", "React", "PHP", "MariaDB", "Node.js"]
+      },
+      {
+        "title": "Cargo Desk",
+        "isEnable": true,
+        "description": "CargoDesk is a transport management system designed for managing daily orders, invoices, and vehicle-related documents such as insurance, PUC, and fitness certificates. A key highlight is the Bulk SMS functionality powered by the Twilio SMS API, along with a robust contact management system that supports multiple import methods.",
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "Implemented Bulk SMS sending using Twilio SMS API for marketing."
+          },
+          {
+            "id": 2,
+            "text": "Developed a contact management module allowing bulk import from Google Contacts API, CSV, vCard, and manual entry."
+          },
+          {
+            "id": 3,
+            "text": "Secured the platform with JWT-based authentication for sign-up and login."
+          },
+          {
+            "id": 4,
+            "text": "Utilized MySQL for efficient data storage and retrieval."
+          },
+          {
+            "id": 5,
+            "text": "Designed a responsive UI using Material UI, Tailwind CSS, and SCSS for a modern and clean interface."
+          }
+        ],
+        "techStack": [
+          "Next.js",
+          "Node.js",
+          "MySQL",
+          "Twilio SMS API",
+          "Google Contacts API",
+          "JWT",
+          "Material UI",
+          "Tailwind CSS",
+          "SCSS"
+        ],
+        "image": [
+          "cargoDesk2.png",
+          "cargoDesk.png",
+          "cargoDesk4.png",
+          "cargoDesk5.png",
+          "cargoDesk3.png"
+        ],
+        "liveUrl": "https://cargodesk.vercel.app/"
+      },
+      {
+        "title": "Point Stream Panel",
+        "isEnable": true,
+        "description": "A dynamic web-based platform built to streamline the management of sports tournaments, matches, and real-time scoring. Key highlights include match booth setups, referee-based access control, live scoreboard updates from multiple devices, detailed match history with obtained scores, and automated scorecard generation.",
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "Blazing-fast performance with Server-Side Rendering (SSR) and Static Site Generation (SSG) using Next.js."
+          },
+          {
+            "id": 2,
+            "text": "Robust backend API with JWT authentication, WebSocket-powered real-time communication, and seamless MySQL database integration."
+          },
+          {
+            "id": 3,
+            "text": "Real-time multi-referee scoring system with secured role-based access, ensuring accurate and transparent match updates."
+          }
+        ],
+        "techStack": [
+          "Next.js",
+          "Tailwind CSS",
+          "Socket.io",
+          "MySQL",
+          "Node.js"
+        ],
+        "image": [
+          "PSPboard.png",
+          "PSPboard1.png",
+          "PSPboard2.png",
+          "PSPboard4.png",
+          "PSPboard5.png"
+        ],
+        "liveUrl": "https://pointstreampannel.vercel.app/"
+      },
+      {
+        "title": "Tic Tac Toe Game",
+        "isEnable": true,
+        "description": "A modern, interactive Tic Tac Toe game built with Next.js, TypeScript, and Tailwind CSS. It features smooth animations, a responsive glass-morphism UI, Single Player mode with an intelligent computer opponent, and Online Multiplayer mode using Socket.IO for real-time gameplay.",
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "Developed a real-time multiplayer Tic Tac Toe game using Next.js, TypeScript, and Socket.IO."
+          },
+          {
+            "id": 2,
+            "text": "Implemented two game modes: Single Player (AI) and Multiplayer (WebSockets)."
+          },
+          {
+            "id": 6,
+            "text": "Built real-time room-based matchmaking with instant move syncing."
+          },
+          {
+            "id": 3,
+            "text": "Built reusable components for X and O icons with SVG animations"
+          },
+          {
+            "id": 4,
+            "text": "Ensured mobile-first responsive layout using aspect-square and CSS grid"
+          },
+          {
+            "id": 5,
+            "text": "Focused on clean TypeScript structure and component organization"
+          }
+        ],
+        "techStack": [
+          "Next.js",
+          "TypeScript",
+          "Socket.IO / WebSockets",
+          "Tailwind CSS",
+          "Node.js",
+          "Custom CSS Animations",
+          "Vercel"
+        ],
+        "image": [
+          "ticTac/1.png",
+          "ticTac/2.png",
+          "ticTac/3.png",
+          "ticTac/4.png",
+          "ticTac/5.png"
+        ],
+        "gitUrl": "",
+        "liveUrl": "https://playtictac.vercel.app/"
+      },
+      {
+        "title": "Urban Market",
+        "isEnable": true,
+        "description": "I built a fully responsive clone of Urban Marketplace, a modern e-commerce platform where users can explore a wide variety of products, add items to their cart, and seamlessly place orders.",
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "Modern and responsive UI for smooth product browsing"
+          },
+          {
+            "id": 2,
+            "text": "Add to cart and complete checkout functionality"
+          },
+          {
+            "id": 3,
+            "text": "Built with React.js and Tailwind CSS, deployed on Netlify"
+          }
+        ],
+        "techStack": ["Next.js", "Tailwind CSS", "Node.js"],
+        "image": ["UrbanMarket.png", "UrbanMarket2.png", "UrbanMarket4.png"],
+        "gitUrl": "https://github.com/Suraj-Sangale/urban-market",
+        "liveUrl": "https://urbanmarketplace.netlify.app/home"
+      },
+      {
+        "title": "Memo Mind",
+        "isEnable": false,
+        "description": "A web-based platform designed to enhance memory retention and learning through interactive flashcards and quizzes. Users can create, share, and study flashcards on various topics, making learning engaging and effective.",
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "Create and share flashcards for effective learning"
+          },
+          {
+            "id": 2,
+            "text": "Interactive quizzes to reinforce knowledge retention"
+          },
+          {
+            "id": 3,
+            "text": "User-friendly interface for easy navigation and study"
+          }
+        ],
+        "techStack": ["Next.js", "Tailwind CSS", "Node.js"],
+        "image": [
+          "memoMind.png",
+          "memoMind.png",
+          "memoMind.png",
+          "memoMind.png",
+          "memoMind.png"
+        ],
+        "liveUrl": "https://memo-mind-self.vercel.app"
+      }
+    ]
+  },
+  "work": {
+    "heading": "Work",
+    "subheading": "Work",
+    "mainText": "My",
+    "highlightedText": "Journey",
+    "experience": [
+      {
+        "id": 2,
+        "category": "education",
+        "iconType": "graduation",
+        "year": "2016-2017",
+        "title": "HSC",
+        "desc": "State Board - 56.31%"
+      },
+      {
+        "id": 3,
+        "category": "education",
+        "iconType": "graduation",
+        "year": "2017-2022",
+        "title": "B.E in EXTC",
+        "desc": "Mumbai University - 7.35 CGPA"
+      },
+      {
+        "id": 5,
+        "category": "experience",
+        "iconType": "work",
+        "year": "01/2022 - 03/2022",
+        "title": "Intern at CGI",
+        "desc": "Frontend Intern",
+        "skills": ["HTML", "CSS", "JavaScript", "React", "React Router"]
+      },
+      {
+        "id": 6,
+        "category": "experience",
+        "iconType": "work",
+        "year": "07/2022 - 12/2023",
+        "title": "Boppo Technologies",
+        "desc": "Frontend Developer",
+        "skills": ["React", "Redux", "React Native", "Python", "Java"]
+      },
+      {
+        "id": 4,
+        "category": "experience",
+        "iconType": "work",
+        "year": "02/2024 - present",
+        "title": "Fortune4 Technologies",
+        "desc": "Software Developer",
+        "skills": ["Next js", "Node js", "MySQL", "Redis", "Strapi"]
+      }
+    ]
+  },
   "contact": {
+    "heading": "Contact",
+    "subheading": "Contact",
+    "mainText": "Reach out",
+    "highlightedText": "to me!",
     "message": "Want to discuss a project or just say hi? My inbox is always open. 👋"
   },
-  "sections": {
-    "home": {
-      "subheading": "",
-      "mainText": "",
-      "highlightedText": ""
-    },
-    "about": {
-      "subheading": "About",
-      "mainText": "What I",
-      "highlightedText": "Do"
-    },
-    "projects": {
-      "subheading": "Projects",
-      "mainText": "What",
-      "highlightedText": "I've Done"
-    },
-    "work": {
-      "subheading": "Work",
-      "mainText": "My",
-      "highlightedText": "Journey"
-    },
-    "contact": {
-      "subheading": "Contact",
-      "mainText": "Reach out",
-      "highlightedText": "to me!"
-    }
+  "headerOptions": {
+    "pages": [
+      {
+        "id": 1,
+        "label": "Home",
+        "path": "home"
+      },
+      {
+        "id": 2,
+        "label": "About",
+        "path": "about"
+      },
+      {
+        "id": 5,
+        "label": "Projects",
+        "path": "projects"
+      },
+      {
+        "id": 3,
+        "label": "Work",
+        "path": "work"
+      },
+      {
+        "id": 4,
+        "label": "Blogs",
+        "path": "blogs"
+      },
+      {
+        "id": 5,
+        "label": "Contact",
+        "path": "contact"
+      },
+      {
+        "id": 6,
+        "label": "Location Tracker",
+        "path": "locations"
+      }
+    ]
   }
 }
