@@ -1,14 +1,12 @@
 import React from "react";
 import CustomTitle from "./Items/CustomTitle";
 import ProjectCard from "./Items/projectCard";
-import { getProjects, getSectionTitle } from "@/utilities/getPortfolioData";
 
 export default function Projects({ pageData }) {
   // const projects = getProjects(pageData);
-  // const sectionTitle = getSectionTitle("projects", pageData);
-  const projects = pageData?.projectsData || [];
+  const { projectsData } = pageData || {};
   const sectionTitle = pageData?.sections?.projects || {};
-  
+
   return (
     <div
       className="section relative"
@@ -16,9 +14,9 @@ export default function Projects({ pageData }) {
     >
       <div className="md:ml-36">
         <CustomTitle
-          subheading={sectionTitle.subheading}
-          mainText={sectionTitle.mainText}
-          highlightedText={sectionTitle.highlightedText}
+          subheading={projectsData.subheading}
+          mainText={projectsData.mainText}
+          highlightedText={projectsData.highlightedText}
         />
       </div>
       {/* <ProjectCard /> */}
@@ -26,16 +24,17 @@ export default function Projects({ pageData }) {
         <div
           className={`flex flex-wrap justify-center gap-8 projectCardWrapper`}
         >
-          {projects.map((item, index) => (
-            <React.Fragment key={index}>
-              {item.isEnable && (
-                <ProjectCard
-                  key={index}
-                  project={item}
-                />
-              )}
-            </React.Fragment>
-          ))}
+          {projectsData?.projectList?.length > 0 &&
+            projectsData?.projectList?.map((item, index) => (
+              <React.Fragment key={index}>
+                {item.isEnable && (
+                  <ProjectCard
+                    key={index}
+                    project={item}
+                  />
+                )}
+              </React.Fragment>
+            ))}
         </div>
       </div>
     </div>

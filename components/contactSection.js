@@ -2,20 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import contactStyles from "../styles/contact.module.css";
 import CustomTitle from "./Items/CustomTitle";
-import {
-  getContactData,
-  getSectionTitle,
-  getPersonalInfo,
-} from "@/utilities/getPortfolioData";
+import { getPersonalInfo } from "@/utilities/getPortfolioData";
 import { contactValidation } from "@/utilities/formValidations";
 import aboutStyles from "../styles/about.module.css";
 import { FaCheckCircle } from "react-icons/fa";
 import { IoWarning } from "react-icons/io5";
 import { getConstant } from "@/utilities/utils";
 
-export default function Contact() {
-  const contactData = getContactData();
-  const sectionTitle = getSectionTitle("contact");
+export default function Contact({ pageData }) {
+  const contactData = pageData;
   const personalInfo = getPersonalInfo();
 
   const defaultFormData = {
@@ -129,13 +124,15 @@ ${from_email}`;
       id="contact"
     >
       <CustomTitle
-        subheading={sectionTitle.subheading}
-        mainText={sectionTitle.mainText}
-        highlightedText={sectionTitle.highlightedText}
+        subheading={contactData?.subheading || ""}
+        mainText={contactData?.mainText || ""}
+        highlightedText={contactData?.highlightedText || ""}
       />
       <div className={`${contactStyles.contactContainer} grid mt-5`}>
         <div className={`${contactStyles.contactInfo}`}>
-          <p className="contact__details text-white">{contactData.message}</p>
+          <p className="contact__details text-white">
+            {contactData?.message || ""}
+          </p>
         </div>
         <form
           onSubmit={handleSubmit(onSubmit)}

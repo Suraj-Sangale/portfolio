@@ -1,22 +1,17 @@
 import React, { useState, useEffect, use } from "react";
-import {
-  getAboutData,
-  getPersonalInfo,
-  getSectionTitle,
-} from "@/utilities/getPortfolioData";
+import { getAboutData } from "@/utilities/getPortfolioData";
 import ResumeModal from "./Items/ResumeModal";
 import CustomTitle from "./Items/CustomTitle";
 import aboutStyles from "../styles/about.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import GitHubGraph from "./Items/gitHubGraph";
-import Ingredients from "./resumeSection";
-import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
+// import Ingredients from "./resumeSection";
+// import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 
-const About = () => {
-  const aboutData = getAboutData();
-  const personalInfo = getPersonalInfo();
-  const sectionTitle = getSectionTitle("about");
+const About = ({ pageData }) => {
+  const { aboutData } = pageData;
+  console.log("aboutData", aboutData);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
   const query = router.query;
@@ -51,36 +46,37 @@ const About = () => {
         {/* <h2 className="section__title text-white"></h2> */}
 
         <CustomTitle
-          subheading={sectionTitle.subheading}
-          mainText={sectionTitle.mainText}
-          highlightedText={sectionTitle.highlightedText}
+          subheading={aboutData?.subheading || ""}
+          mainText={aboutData?.mainText || ""}
+          highlightedText={aboutData?.highlightedText || ""}
         />
 
         <div className="mx-auto my-8 md:p-8 p-4 bg-gray-200 rounded-lg shadow-md w-88 md:w-10/12">
           <div className="mb-6">
-            <p className="about__description">{aboutData.text}</p>
+            <p className="about__description">{aboutData?.text}</p>
             <h2 className="section__subtitle text-slate-800 text-center">
               Skills
             </h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {aboutData.skills.map((item, index) => (
-              <div
-                key={index}
-                className="icons relative overflow-hidden  flex flex-col justify-center items-center h-22 m-0 rounded-md transition-transform transform duration-500 hover:scale-115"
-              >
-                <Image
-                  src={item.imgUrl}
-                  alt={item.name}
-                  className="max-w-full object-cover"
-                  style={{ maxHeight: "72%", maxWidth: "100%" }}
-                  width={50}
-                  height={50}
-                  loading="lazy"
-                />
-                <p className="mb-1 text-center text-sm">{item.name}</p>
-              </div>
-            ))}
+            {aboutData?.skills?.length > 0 &&
+              aboutData?.skills.map((item, index) => (
+                <div
+                  key={index}
+                  className="icons relative overflow-hidden  flex flex-col justify-center items-center h-22 m-0 rounded-md transition-transform transform duration-500 hover:scale-115"
+                >
+                  <Image
+                    src={item.imgUrl}
+                    alt={item.name}
+                    className="max-w-full object-cover"
+                    style={{ maxHeight: "72%", maxWidth: "100%" }}
+                    width={50}
+                    height={50}
+                    loading="lazy"
+                  />
+                  <p className="mb-1 text-center text-sm">{item.name}</p>
+                </div>
+              ))}
           </div>
 
           {/* <a
@@ -117,7 +113,7 @@ const About = () => {
                 setIsModalOpen(false);
                 removeQuery();
               }}
-              resumeLink={personalInfo.resumeLink}
+              resumeLink={aboutData?.resumeLink}
             />
           </div>
         </div>

@@ -5,7 +5,7 @@ import Timeline from "@/components/timeline";
 export default function WorkPage({ pageData }) {
   return (
     <Layout>
-      <Timeline />
+      <Timeline pageData={pageData} />
     </Layout>
   );
 }
@@ -15,7 +15,8 @@ export const getServerSideProps = async () => {
   const pageData = {};
 
   try {
-    const workData = await getPortfolioDataController(cacheKey, "experience");
+    const workData = await getPortfolioDataController(cacheKey, "work");
+    console.log("workData", workData);
     if (workData?.status) {
       pageData.workData = workData.data;
     }
@@ -29,4 +30,3 @@ export const getServerSideProps = async () => {
     },
   };
 };
-

@@ -91,7 +91,7 @@ export const getAboutData = () => portfolioData.about;
 export const getExperience = () => portfolioData.experience;
 export const getProjects = () => portfolioData.projects;
 export const getContactData = () => portfolioData.contact;
-export const getSectionTitles = () => portfolioData.sections;
+// export const getSectionTitles = () => portfolioData.sections;
 export const getSeoData = () => portfolioData.seo;
 export const getSectionTitle = (sectionName) => {
   return portfolioData.sections[sectionName] || {};

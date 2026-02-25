@@ -5,7 +5,7 @@ import About from "@/components/about";
 export default function AboutPage({ pageData }) {
   return (
     <Layout>
-      <About />
+      <About pageData={pageData} />
     </Layout>
   );
 }
@@ -29,4 +29,3 @@ export const getServerSideProps = async () => {
     },
   };
 };
-

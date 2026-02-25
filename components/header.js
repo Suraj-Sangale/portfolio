@@ -7,7 +7,8 @@ import { getNavigation, getPersonalInfo } from "@/utilities/getPortfolioData";
 
 const Header = () => {
   const router = useRouter();
-  const pages = getNavigation().pages;
+  const headerOptions = getNavigation();
+  const { pages = [] } = headerOptions || {};
   const personalInfo = getPersonalInfo();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -40,20 +41,22 @@ const Header = () => {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex gap-6">
-            {pages.map((item) => {
-              const route = getRoute(item.path);
-              return (
-                <Link
-                  key={item.id}
-                  href={route}
-                  className={`text-white text-sm sm:text-base font-medium hover:text-[#007bff] transition cursor-pointer ${aboutStyles.strokeme} ${
-                    isActive(item.path) ? "text-[#007bff]" : ""
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
+            {pages &&
+              pages?.length > 0 &&
+              pages.map((item) => {
+                const route = getRoute(item.path);
+                return (
+                  <Link
+                    key={item.id}
+                    href={route}
+                    className={`text-white text-sm sm:text-base font-medium hover:text-[#007bff] transition cursor-pointer ${aboutStyles.strokeme} ${
+                      isActive(item.path) ? "text-[#007bff]" : ""
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
           </div>
 
           {/* Hamburger Button */}
@@ -104,26 +107,27 @@ const Header = () => {
           pointerEvents: menuOpen ? "auto" : "none",
         }}
       >
-        {pages.map((item, index) => {
-          const route = getRoute(item.path);
-          return (
-            <Link
-              key={item.id}
-              href={route}
-              onClick={() => setMenuOpen(false)}
-              className={`text-white text-2xl font-semibold hover:text-[#007bff] transition-colors cursor-pointer ${aboutStyles.strokeme} ${
-                isActive(item.path) ? "text-[#007bff]" : ""
-              }`}
-              style={{
-                transition: `opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1) ${index * 60}ms, transform 0.4s cubic-bezier(0.23, 1, 0.32, 1) ${index * 60}ms`,
-                opacity: menuOpen ? 1 : 0,
-                transform: menuOpen ? "translateY(0)" : "translateY(10px)",
-              }}
-            >
-              {item.label}
-            </Link>
-          );
-        })}
+        {pages?.length > 0 &&
+          pages.map((item, index) => {
+            const route = getRoute(item.path);
+            return (
+              <Link
+                key={item.id}
+                href={route}
+                onClick={() => setMenuOpen(false)}
+                className={`text-white text-2xl font-semibold hover:text-[#007bff] transition-colors cursor-pointer ${aboutStyles.strokeme} ${
+                  isActive(item.path) ? "text-[#007bff]" : ""
+                }`}
+                style={{
+                  transition: `opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1) ${index * 60}ms, transform 0.4s cubic-bezier(0.23, 1, 0.32, 1) ${index * 60}ms`,
+                  opacity: menuOpen ? 1 : 0,
+                  transform: menuOpen ? "translateY(0)" : "translateY(10px)",
+                }}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
       </div>
     </>
   );
