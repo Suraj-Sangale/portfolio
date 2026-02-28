@@ -2,15 +2,7 @@ import { getPortfolioDataController } from "@/backend/controller/commonControlle
 import Layout from "@/components/layout";
 import ContactSection from "@/components/contactSection";
 
-export default function ContactPage({ pageDataa }) {
-  const pageData = {
-    heading: "Contact",
-    subheading: "Contact",
-    mainText: "Reach out",
-    highlightedText: "to me!",
-    message:
-      "Want to discuss a project or just say hi? My inbox is always open. 👋",
-  };
+export default function ContactPage({ pageData }) {
   return (
     <Layout>
       <ContactSection pageData={pageData} />

@@ -63,17 +63,44 @@ export default function Contact({ pageData }) {
   const onSubmit = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch("/api/sendMail", {
+      // Save to Supabase messages table
+      const supabaseRes = await fetch("/api/messages/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          name: formData.from_name,
+          email: formData.from_email,
+          message: formData.message || formData.subject || "",
+        }),
       });
 
-      const result = await res.json();
-      setIsSuccess(result.success);
+      const supabaseResult = await supabaseRes.json();
+
+      // Also try to send email (optional - keep existing functionality)
+      let emailSuccess = false;
+      try {
+        const emailRes = await fetch("/api/sendMail", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+        const emailResult = await emailRes.json();
+        emailSuccess = emailResult.success;
+      } catch (emailError) {
+        console.warn(
+          "Email sending failed, but message saved to database:",
+          emailError,
+        );
+      }
+
+      // Consider it successful if Supabase save worked
+      setIsSuccess(supabaseResult.success || supabaseResult.data);
       setIsOpen(true);
-      if (result.success) resetSelectedForm();
+      if (supabaseResult.success || supabaseResult.data) {
+        resetSelectedForm();
+      }
     } catch (error) {
+      console.error("Error submitting form:", error);
       setIsSuccess(false);
       setIsOpen(true);
     } finally {

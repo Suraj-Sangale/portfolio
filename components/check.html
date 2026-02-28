@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Scroll Effect</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #060608;
+    --accent: #e8ff4a;
+    --text: #f0ede8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 10vw, 9rem);
+    letter-spacing: 0.06em;
+    line-height: 1;
+    color: var(--accent);
+    text-align: center;
+  }
+
+  .hero p {
+    font-size: 1rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(240,237,232,0.45);
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .5rem;
+    font-size: .7rem;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.3);
+    animation: bob 2s ease-in-out infinite;
+  }
+
+  .scroll-hint::after {
+    content: '';
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(232,255,74,.6), transparent);
+  }
+
+  @keyframes bob {
+    0%,100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* ── SCENE WRAPPER ── */
+  .scene-section {
+    min-height: 300vh;
+    position: relative;
+  }
+
+  .sticky-wrap {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 900px;
+    overflow: hidden;
+  }
+
+  /* ── SUBJECT ── */
+  .subject {
+    position: relative;
+    width: clamp(220px, 40vw, 420px);
+    aspect-ratio: 3/4;
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: transform 0.05s linear;
+  }
+
+  .subject .card-face {
+    width: 100%;
+    height: 100%;
+    border-radius: 18px;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    box-shadow:
+      0 80px 120px rgba(0,0,0,.8),
+      0 0 0 1px rgba(255,255,255,.06) inset;
+  }
+
+  /* Glowing orb inside card */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    pointer-events: none;
+  }
+  .orb-1 {
+    width: 60%;
+    aspect-ratio: 1;
+    background: radial-gradient(circle, #e8ff4a55, transparent 70%);
+    top: -10%; left: 10%;
+  }
+  .orb-2 {
+    width: 80%;
+    aspect-ratio: 1;
+    background: radial-gradient(circle, #4af0ff33, transparent 70%);
+    bottom: -20%; right: -10%;
+  }
+
+  /* Geometric figure */
+  .figure {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cube-svg {
+    width: 55%;
+    height: auto;
+    filter: drop-shadow(0 0 30px rgba(232,255,74,.35));
+    animation: spin-slow 12s linear infinite;
+  }
+
+  @keyframes spin-slow {
+    from { transform: rotateY(0deg) rotateX(15deg); }
+    to { transform: rotateY(360deg) rotateX(15deg); }
+  }
+
+  /* Card label */
+  .card-label {
+    position: absolute;
+    bottom: 2rem;
+    left: 1.5rem;
+    right: 1.5rem;
+  }
+  .card-label .tag {
+    font-size: .65rem;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: .3rem;
+  }
+  .card-label .name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: .05em;
+    line-height: 1;
+  }
+
+  /* Shine overlay */
+  .shine {
+    position: absolute;
+    inset: 0;
+    border-radius: 18px;
+    background: linear-gradient(
+      135deg,
+      rgba(255,255,255,.15) 0%,
+      transparent 50%,
+      rgba(255,255,255,.03) 100%
+    );
+    pointer-events: none;
+  }
+
+  /* ── FLOATING SIDE ELEMENTS ── */
+  .floater {
+    position: absolute;
+    border: 1px solid rgba(232,255,74,.18);
+    border-radius: 50%;
+    will-change: transform;
+  }
+  .floater-1 { width: 200px; height: 200px; top: 15%; left: 5%; }
+  .floater-2 { width: 120px; height: 120px; bottom: 20%; right: 8%; }
+  .floater-3 { width: 60px; height: 60px; top: 40%; right: 18%; background: rgba(232,255,74,.04); }
+
+  /* ── PROGRESS LABELS ── */
+  .progress-label {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    font-size: .7rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.3);
+    z-index: 10;
+  }
+  .progress-label span {
+    color: var(--accent);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: .05em;
+    display: block;
+  }
+
+  /* ── AFTER SCENE ── */
+  .end-section {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 4rem 2rem;
+  }
+
+  .end-section h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 6vw, 5rem);
+    letter-spacing: .06em;
+    color: rgba(240,237,232,.15);
+    text-align: center;
+  }
+
+  /* grid lines bg */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(232,255,74,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,255,74,.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-label">Scroll Progress<span id="prog">0%</span></div>
+
+<!-- HERO -->
+<section class="hero">
+  <p>Interactive 3D Experience</p>
+  <h1>DEPTH<br>IN MOTION</h1>
+  <div class="scroll-hint">Scroll</div>
+</section>
+
+<!-- 3D SCROLL SCENE -->
+<section class="scene-section" id="scene">
+  <div class="sticky-wrap">
+
+    <!-- floating rings -->
+    <div class="floater floater-1" id="f1"></div>
+    <div class="floater floater-2" id="f2"></div>
+    <div class="floater floater-3" id="f3"></div>
+
+    <!-- MAIN SUBJECT -->
+    <div class="subject" id="subject">
+      <div class="card-face">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="figure">
+          <!-- SVG 3D Cube -->
+          <svg class="cube-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Top face -->
+            <polygon points="100,20 160,55 100,90 40,55" fill="rgba(232,255,74,0.7)" stroke="rgba(232,255,74,0.9)" stroke-width="1"/>
+            <!-- Right face -->
+            <polygon points="160,55 160,130 100,165 100,90" fill="rgba(180,220,30,0.45)" stroke="rgba(232,255,74,0.7)" stroke-width="1"/>
+            <!-- Left face -->
+            <polygon points="40,55 100,90 100,165 40,130" fill="rgba(100,140,10,0.35)" stroke="rgba(232,255,74,0.5)" stroke-width="1"/>
+            <!-- Edge lines -->
+            <line x1="100" y1="90" x2="100" y2="165" stroke="rgba(232,255,74,0.6)" stroke-width="1"/>
+            <!-- Inner glow lines -->
+            <polygon points="100,35 148,62 100,89 52,62" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>
+          </svg>
+        </div>
+        <div class="card-label">
+          <div class="tag">3D · Scroll · Motion</div>
+          <div class="name">PARALLAX<br>OBJECT</div>
+        </div>
+        <div class="shine"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- END -->
+<section class="end-section">
+  <h2>Keep scrolling to explore</h2>
+  <h2>more dimensions</h2>
+</section>
+
+<script>
+  const subject = document.getElementById('subject');
+  const scene   = document.getElementById('scene');
+  const prog    = document.getElementById('prog');
+  const f1      = document.getElementById('f1');
+  const f2      = document.getElementById('f2');
+  const f3      = document.getElementById('f3');
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  function onScroll() {
+    const rect      = scene.getBoundingClientRect();
+    const sceneH    = scene.offsetHeight - window.innerHeight;
+    const scrolled  = -rect.top;
+    const p         = Math.max(0, Math.min(1, scrolled / sceneH)); // 0 → 1
+
+    // progress label
+    prog.textContent = Math.round(p * 100) + '%';
+
+    // ── 3D transform on subject ──
+    // Phase 1 (0–0.35): fly in from below + initial tilt
+    // Phase 2 (0.35–0.65): rotate / spin
+    // Phase 3 (0.65–1): recede into depth + tilt out
+
+    let translateZ, rotateX, rotateY, translateY, scale;
+
+    if (p < 0.35) {
+      const t = p / 0.35;
+      translateZ = lerp(-400, 0, easeOut(t));
+      translateY = lerp(200, 0, easeOut(t));
+      rotateX    = lerp(45, 0, easeOut(t));
+      rotateY    = lerp(-25, 0, easeOut(t));
+      scale      = lerp(0.6, 1, easeOut(t));
+    } else if (p < 0.65) {
+      const t = (p - 0.35) / 0.30;
+      translateZ = lerp(0, 60, Math.sin(t * Math.PI));
+      translateY = 0;
+      rotateX    = lerp(0, 12, Math.sin(t * Math.PI * 2));
+      rotateY    = lerp(0, 360, t);
+      scale      = lerp(1, 1.08, Math.sin(t * Math.PI));
+    } else {
+      const t = (p - 0.65) / 0.35;
+      translateZ = lerp(60, -600, easeIn(t));
+      translateY = lerp(0, -150, easeIn(t));
+      rotateX    = lerp(0, -35, easeIn(t));
+      rotateY    = lerp(360, 400, t);
+      scale      = lerp(1.08, 0.3, easeIn(t));
+    }
+
+    subject.style.transform = `
+      translateY(${translateY}px)
+      translateZ(${translateZ}px)
+      rotateX(${rotateX}deg)
+      rotateY(${rotateY}deg)
+      scale(${scale})
+    `;
+
+    // opacity fade
+    if (p > 0.75) {
+      subject.style.opacity = 1 - (p - 0.75) / 0.25;
+    } else if (p < 0.05) {
+      subject.style.opacity = p / 0.05;
+    } else {
+      subject.style.opacity = 1;
+    }
+
+    // ── Floaters parallax ──
+    f1.style.transform = `translate(${p * -80}px, ${p * 120}px) rotate(${p * 180}deg)`;
+    f2.style.transform = `translate(${p * 60}px, ${p * -80}px) rotate(${-p * 220}deg)`;
+    f3.style.transform = `translate(${p * -40}px, ${p * 60}px) scale(${1 + p * 0.5})`;
+  }
+
+  function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+  function easeIn(t)  { return t * t * t; }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll(); // init
+</script>
+</body>
+</html>
