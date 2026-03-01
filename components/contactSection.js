@@ -8,8 +8,10 @@ import aboutStyles from "../styles/about.module.css";
 import { FaCheckCircle } from "react-icons/fa";
 import { IoWarning } from "react-icons/io5";
 import { getConstant } from "@/utilities/utils";
+import { useRouter } from "next/router";
+import { postApiData } from "@/utilities/services/apiService";
 
-export default function Contact({ pageData }) {
+export default function ContactSection({ pageData }) {
   const contactData = pageData;
   const personalInfo = getPersonalInfo();
 
@@ -28,12 +30,16 @@ export default function Contact({ pageData }) {
   const [isSuccess, setIsSuccess] = useState(false);
   const [showMsg, setShowMsg] = useState(false);
 
+  const router = useRouter();
+  const { query } = router;
+
   const {
     register,
     handleSubmit,
     trigger,
     formState: { errors },
     resetField,
+    reset,
   } = useForm();
 
   useEffect(() => {
@@ -79,12 +85,14 @@ export default function Contact({ pageData }) {
       // Also try to send email (optional - keep existing functionality)
       let emailSuccess = false;
       try {
-        const emailRes = await fetch("/api/sendMail", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        });
-        const emailResult = await emailRes.json();
+        const emailResult = await postApiData("SEND_MAIL", formData);
+
+        // const emailRes = await fetch("/api/sendMail", {
+        //   method: "POST",
+        //   headers: { "Content-Type": "application/json" },
+        //   body: JSON.stringify(formData),
+        // });
+        // const emailResult = await emailRes.json();
         emailSuccess = emailResult.success;
       } catch (emailError) {
         console.warn(
@@ -144,6 +152,19 @@ ${from_email}`;
     // Open in new tab
     window.open(whatsappUrl, "_blank");
   };
+  useEffect(() => {
+    if (query?.autofill === "true") {
+      const autoFillData = {
+        from_name: "Suraj Sangale",
+        from_email: "suraj@example.com",
+        subject: "Project Discussion",
+        message: "Hi, I want to discuss a new project with you.",
+      };
+
+      setFormData(autoFillData); // update your local state
+      reset(autoFillData); // update react-hook-form values
+    }
+  }, [query.autofill]);
 
   return (
     <section

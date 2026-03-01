@@ -6,6 +6,12 @@ export default async function handler(req, res) {
 
   const { from_name, from_email, subject, message } = req.body;
 
+  const response = { status: false, message: "" };
+
+  if (!from_name || !from_email || !subject || !message) {
+    response.message = "All fields are required.";
+    return res.status(400).json(response);
+  }
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -103,8 +109,13 @@ export default async function handler(req, res) {
 
   try {
     await transporter.sendMail(mailOptions);
-    res.status(200).json({ success: true });
+
+    response.status = true;
+    response.message = `Message sent successfully sent from ${from_email}`;
+    res.status(200).json(response);
   } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
+    response.status = false;
+    response.message = "Failed to send message.";
+    res.status(500).json(response);
   }
 }
