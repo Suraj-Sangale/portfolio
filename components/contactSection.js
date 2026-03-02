@@ -67,51 +67,54 @@ export default function ContactSection({ pageData }) {
   };
 
   const onSubmit = async () => {
+    if (isLoading) return;
+
     setIsLoading(true);
+    setIsSuccess(false);
+
     try {
       const payload = {
-        name: formData.from_name,
-        email: formData.from_email,
-        message: formData.message || formData.subject || "",
+        name: formData.from_name?.trim(),
+        email: formData.from_email?.trim(),
+        message: formData.message?.trim() || formData.subject?.trim() || "",
       };
-      // Save to Supabase messages table
-      const supabaseResult = await postApiData("MESSAGES_CREATE", payload);
 
-      // Also try to send email (optional - keep existing functionality)
-      let emailSuccess = false;
-      try {
-        const emailResult = await postApiData("SEND_MAIL", formData);
+      if (!payload.name || !payload.email) {
+        throw new Error("Name and Email are required.");
+      }
 
-        // const emailRes = await fetch("/api/sendMail", {
-        //   method: "POST",
-        //   headers: { "Content-Type": "application/json" },
-        //   body: JSON.stringify(formData),
-        // });
-        // const emailResult = await emailRes.json();
-        emailSuccess = emailResult.success;
-      } catch (emailError) {
-        console.warn(
-          "Email sending failed, but message saved to database:",
-          emailError,
+      /* ================================
+       Run both APIs in parallel
+    ================================== */
+
+      const [supabaseResponse, emailResponse] = await Promise.all([
+        postApiData("MESSAGES_CREATE", payload),
+        postApiData("SEND_MAIL", formData),
+      ]);
+
+      // Check DB success first (main priority)
+      if (!supabaseResponse || supabaseResponse.error) {
+        throw new Error(
+          supabaseResponse?.error?.message || "Failed to save message.",
         );
       }
 
-      // Consider it successful if Supabase save worked
-      setIsSuccess(supabaseResult.status || supabaseResult.data);
-      setIsOpen(true);
-      if (supabaseResult.status || supabaseResult.data) {
-        resetSelectedForm();
+      // Email failure shouldn't break submission
+      if (!emailResponse?.success) {
+        console.warn("Email sending failed.");
       }
+
+      setIsSuccess(true);
+      resetSelectedForm();
     } catch (error) {
-      console.error("Error submitting form:", error);
+      console.error("Form submission error:", error);
       setIsSuccess(false);
-      setIsOpen(true);
     } finally {
+      setIsOpen(true);
       setShowMsg(true);
       setIsLoading(false);
     }
   };
-
   // Add this helper inside your component (before return)
   const handleWhatsAppMessage = async () => {
     // Run form validation for all fields
