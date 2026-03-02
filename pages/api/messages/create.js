@@ -1,5 +1,7 @@
 import { getServerSupabaseClient } from "@/lib/supabaseClient";
 
+const response = { status: false, message: "" };
+
 /**
  * API route to create a new message in Supabase
  * POST /api/messages/create
@@ -10,24 +12,22 @@ export default async function handler(req, res) {
   }
 
   try {
-    console.log("req.body", req.body);
     // req.body { name: 'ajskas', email: 'surajdsangale@gmail.com', message: 'ojojj' }
     const { name, email, message } = req.body;
 
     // Validate input
     if (!name || !email || !message) {
-      return res.status(400).json({
-        error: "Missing required fields",
-        details: "Name, email, and message are required",
-      });
+      response.error = "Missing required fields";
+      response.message = "Name, email, and message are required";
+      return res.status(400).json(response);
     }
 
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      return res.status(400).json({
-        error: "Invalid email format",
-      });
+      response.error = "Invalid email format";
+      response.message = "Please provide a valid email address";
+      return res.status(400).json(response);
     }
 
     const supabase = getServerSupabaseClient(req, res);
@@ -47,22 +47,19 @@ export default async function handler(req, res) {
 
     if (error) {
       console.error("Supabase error:", error);
-      return res.status(500).json({
-        error: "Failed to save message",
-        details: error.message,
-      });
+      response.error = "Failed to save message";
+      response.message = error.message;
+      return res.status(500).json(response);
     }
 
-    return res.status(201).json({
-      success: true,
-      message: "Message saved successfully",
-      data,
-    });
+    response.status = true;
+    response.message = "Message saved successfully";
+    response.data = data;
+    return res.status(200).json(response);
   } catch (error) {
     console.error("Unexpected error:", error);
-    return res.status(500).json({
-      error: "Internal server error",
-      details: error.message,
-    });
+    response.error = "Internal server error";
+    response.message = error.message;
+    return res.status(500).json(response);
   }
 }

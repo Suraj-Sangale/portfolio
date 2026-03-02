@@ -69,18 +69,13 @@ export default function ContactSection({ pageData }) {
   const onSubmit = async () => {
     setIsLoading(true);
     try {
+      const payload = {
+        name: formData.from_name,
+        email: formData.from_email,
+        message: formData.message || formData.subject || "",
+      };
       // Save to Supabase messages table
-      const supabaseRes = await fetch("/api/messages/create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.from_name,
-          email: formData.from_email,
-          message: formData.message || formData.subject || "",
-        }),
-      });
-
-      const supabaseResult = await supabaseRes.json();
+      const supabaseResult = await postApiData("MESSAGES_CREATE", payload);
 
       // Also try to send email (optional - keep existing functionality)
       let emailSuccess = false;
@@ -102,9 +97,9 @@ export default function ContactSection({ pageData }) {
       }
 
       // Consider it successful if Supabase save worked
-      setIsSuccess(supabaseResult.success || supabaseResult.data);
+      setIsSuccess(supabaseResult.status || supabaseResult.data);
       setIsOpen(true);
-      if (supabaseResult.success || supabaseResult.data) {
+      if (supabaseResult.status || supabaseResult.data) {
         resetSelectedForm();
       }
     } catch (error) {
