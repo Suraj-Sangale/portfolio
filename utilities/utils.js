@@ -11,3 +11,10 @@ export const toSnakeCase = (text) => {
     .toLowerCase()
     .replace(/\s+/g, "_");
 };
+
+export function convertToUpperCase(text) {
+  if (typeof text !== "string") {
+    throw new Error("Input must be a string");
+  }
+  return text.toUpperCase();
+}
