@@ -129,6 +129,12 @@ export default function DashboardWrapper() {
                   View Messages
                 </a>
                 <a
+                  href="/admin/page-builder"
+                  className="block px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 text-center"
+                >
+                  View Pages
+                </a>
+                <a
                   href="/contact"
                   className="block px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 text-center"
                 >
