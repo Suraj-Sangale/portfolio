@@ -205,6 +205,7 @@ export const CommonTable = ({
   setSelected,
   searchTerm = "",
   rowsPerPageOptions = [],
+  onClickRefreshRedis = () => {},
 }) => {
   const defaultRowsPerPage = [5, 10, 25];
   const rowsPerPageOpts =
@@ -374,6 +375,26 @@ export const CommonTable = ({
                               title="Edit"
                             >
                               <FiEdit className="inline-block cursor-pointer" />
+                            </button>
+                          </TableCell>
+                        );
+                      }
+
+                      if (headCell.id === "refreshRedis") {
+                        return (
+                          <TableCell
+                            key={headCell.id}
+                            align="left"
+                          >
+                            <button
+                              className="mx-2 text-yellow-500 hover:text-yellow-600"
+                              onClick={(event) => {
+                                event.stopPropagation();
+                                onClickRefreshRedis(row.key_name);
+                              }}
+                              title="Refresh Redis"
+                            >
+                              Refresh Redis
                             </button>
                           </TableCell>
                         );

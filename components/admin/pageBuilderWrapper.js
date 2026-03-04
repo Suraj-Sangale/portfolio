@@ -109,6 +109,19 @@ export default function PageBuilderWrapper() {
     setDataModal(true);
     setIsEdit(true);
   };
+  const onClickRefreshRedis = async (id) => {
+    // const selectedItem = pagesData.find((item) => item.id == id);
+    console.log("id", id);
+
+    // setModalData({
+    //   id: selectedItem.id,
+    //   key_name: selectedItem.key_name,
+    //   content_json: selectedItem.content_json,
+    // });
+
+    // setDataModal(true);
+    // setIsEdit(true);
+  };
 
   return (
     <>
@@ -162,6 +175,7 @@ export default function PageBuilderWrapper() {
                 onClickDelete={() => {}}
                 isFilterApplied={false}
                 searchTerm={""}
+                onClickRefreshRedis={onClickRefreshRedis}
               />
             </div>
           )}

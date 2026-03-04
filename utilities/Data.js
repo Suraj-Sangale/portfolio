@@ -373,4 +373,10 @@ export const pageBuilderHeadCells = [
     disablePadding: false,
     label: "Action",
   },
+  {
+    id: "refreshRedis",
+    numeric: false,
+    disablePadding: false,
+    label: "Redis",
+  },
 ];
