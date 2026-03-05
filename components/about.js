@@ -40,7 +40,7 @@ const About = ({ pageData }) => {
   return (
     <>
       <div
-        className="about container section relative"
+        className="about container relative !my-20"
         id="about"
       >
         {/* <h2 className="section__title text-white"></h2> */}

@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 import { postApiData } from "@/utilities/services/apiService";
 
 export default function ContactSection({ pageData }) {
-  const contactData = pageData;
+  const { contactData } = pageData;
   const personalInfo = getPersonalInfo();
 
   const defaultFormData = {
