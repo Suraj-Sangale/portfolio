@@ -390,7 +390,7 @@ export const CommonTable = ({
                               className="mx-2 text-yellow-500 hover:text-yellow-600"
                               onClick={(event) => {
                                 event.stopPropagation();
-                                onClickRefreshRedis(row.key_name);
+                                onClickRefreshRedis(row);
                               }}
                               title="Refresh Redis"
                             >

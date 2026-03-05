@@ -6,6 +6,7 @@ import { CommonTable } from "../common/commonTable";
 import { pageBuilderHeadCells } from "@/utilities/Data";
 import CommonModal from "../common/commonModal";
 import PageDataForm from "./pageDataForm";
+import { postApiData } from "@/utilities/services/apiService";
 
 export default function PageBuilderWrapper() {
   const router = useRouter();
@@ -17,6 +18,8 @@ export default function PageBuilderWrapper() {
   const [modalData, setModalData] = useState({});
   const [isEdit, setIsEdit] = useState(false);
   const [dataModal, setDataModal] = useState(false);
+  const [refreshRedisModal, setRefreshRedisModal] = useState(false);
+  const [dataToRefresh, setDataToRefresh] = useState(null);
 
   useEffect(() => {
     const checkAuthAndLoad = async () => {
@@ -109,18 +112,19 @@ export default function PageBuilderWrapper() {
     setDataModal(true);
     setIsEdit(true);
   };
-  const onClickRefreshRedis = async (id) => {
-    // const selectedItem = pagesData.find((item) => item.id == id);
-    console.log("id", id);
-
-    // setModalData({
-    //   id: selectedItem.id,
-    //   key_name: selectedItem.key_name,
-    //   content_json: selectedItem.content_json,
-    // });
-
-    // setDataModal(true);
-    // setIsEdit(true);
+  const onClickRefreshRedis = async (data) => {
+    console.log("data", data);
+    setDataToRefresh(data);
+    setRefreshRedisModal(true);
+  };
+  const handleRefreshRedisKey = async () => {
+    // setRedis(dataToRefresh.key_name, dataToRefresh.content_json);
+    const payload = {
+      key: dataToRefresh.key_name,
+      data: dataToRefresh.content_json,
+    };
+    const response = await postApiData("REFRESH_REDIS_KEY", payload);
+    console.log("response o    f refresh redis", response);
   };
 
   return (
@@ -195,6 +199,46 @@ export default function PageBuilderWrapper() {
           // setPagesList={setPagesList}
           // contactsList={contactsList}
         />
+      </CommonModal>
+      <CommonModal
+        modalTitle={"Refresh Redis Cache"}
+        modalOpen={refreshRedisModal}
+        setModalOpen={setRefreshRedisModal}
+        modalSize={"w-11/12 md:w-4/6"}
+      >
+        <div className="p-6">
+          <h2 className="text-xl font-semibold text-gray-700 mb-4">
+            Are you sure you want to refresh the Redis cache for
+            <span className="font-bold text-indigo-600">
+              {" "}
+              {dataToRefresh?.key_name}
+            </span>
+            ?
+          </h2>
+          <p className="text-gray-600 mb-4">
+            This will clear the cache for the selected page and refresh it from
+            the database.
+          </p>
+
+          <div className="flex justify-end gap-4">
+            <button
+              onClick={() => setRefreshRedisModal(false)}
+              className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700"
+            >
+              Cancel
+            </button>
+
+            <button
+              onClick={() => {
+                // Call your function to refresh Redis cache here
+               handleRefreshRedisKey();
+              }}
+              className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+            >
+              Refresh Cache
+            </button>
+          </div>
+        </div>
       </CommonModal>
     </>
   );
