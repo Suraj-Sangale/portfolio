@@ -373,7 +373,6 @@ export default function BlogCards() {
       setError(null);
       const response = await postApiData("GET_MEDIUM_BLOGS");
       if (response.status && Array.isArray(response.data)) {
-        console.log("response", response);
         setBlogs(response.data);
       } else {
         setError("Failed to fetch blogs");
@@ -386,7 +385,6 @@ export default function BlogCards() {
     }
   };
 
-  console.log("blogs", blogs);
 
   return (
     <div className={styles.page}>

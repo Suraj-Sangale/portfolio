@@ -8,9 +8,11 @@ import aboutStyles from "../styles/about.module.css";
 import { FaCheckCircle } from "react-icons/fa";
 import { IoWarning } from "react-icons/io5";
 import { getConstant } from "@/utilities/utils";
+import { useRouter } from "next/router";
+import { postApiData } from "@/utilities/services/apiService";
 
-export default function Contact({ pageData }) {
-  const contactData = pageData;
+export default function ContactSection({ pageData }) {
+  const { contactData } = pageData;
   const personalInfo = getPersonalInfo();
 
   const defaultFormData = {
@@ -28,12 +30,16 @@ export default function Contact({ pageData }) {
   const [isSuccess, setIsSuccess] = useState(false);
   const [showMsg, setShowMsg] = useState(false);
 
+  const router = useRouter();
+  const { query } = router;
+
   const {
     register,
     handleSubmit,
     trigger,
     formState: { errors },
     resetField,
+    reset,
   } = useForm();
 
   useEffect(() => {
@@ -61,27 +67,54 @@ export default function Contact({ pageData }) {
   };
 
   const onSubmit = async () => {
-    setIsLoading(true);
-    try {
-      const res = await fetch("/api/sendMail", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+    if (isLoading) return;
 
-      const result = await res.json();
-      setIsSuccess(result.success);
-      setIsOpen(true);
-      if (result.success) resetSelectedForm();
+    setIsLoading(true);
+    setIsSuccess(false);
+
+    try {
+      const payload = {
+        name: formData.from_name?.trim(),
+        email: formData.from_email?.trim(),
+        message: formData.message?.trim() || formData.subject?.trim() || "",
+      };
+
+      if (!payload.name || !payload.email) {
+        throw new Error("Name and Email are required.");
+      }
+
+      /* ================================
+       Run both APIs in parallel
+    ================================== */
+
+      const [supabaseResponse, emailResponse] = await Promise.all([
+        postApiData("MESSAGES_CREATE", payload),
+        postApiData("SEND_MAIL", formData),
+      ]);
+
+      // Check DB success first (main priority)
+      if (!supabaseResponse || supabaseResponse.error) {
+        throw new Error(
+          supabaseResponse?.error?.message || "Failed to save message.",
+        );
+      }
+
+      // Email failure shouldn't break submission
+      if (!emailResponse?.success) {
+        console.warn("Email sending failed.");
+      }
+
+      setIsSuccess(true);
+      resetSelectedForm();
     } catch (error) {
+      console.error("Form submission error:", error);
       setIsSuccess(false);
-      setIsOpen(true);
     } finally {
+      setIsOpen(true);
       setShowMsg(true);
       setIsLoading(false);
     }
   };
-
   // Add this helper inside your component (before return)
   const handleWhatsAppMessage = async () => {
     // Run form validation for all fields
@@ -117,6 +150,19 @@ ${from_email}`;
     // Open in new tab
     window.open(whatsappUrl, "_blank");
   };
+  useEffect(() => {
+    if (query?.autofill === "true") {
+      const autoFillData = {
+        from_name: "Suraj Sangale",
+        from_email: "suraj@example.com",
+        subject: "Project Discussion",
+        message: "Hi, I want to discuss a new project with you.",
+      };
+
+      setFormData(autoFillData); // update your local state
+      reset(autoFillData); // update react-hook-form values
+    }
+  }, [query.autofill]);
 
   return (
     <section

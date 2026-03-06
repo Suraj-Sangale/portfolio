@@ -9,7 +9,7 @@ export default function Projects({ pageData }) {
 
   return (
     <div
-      className="section relative"
+      className="relative my-20"
       id="projects"
     >
       <div className="md:ml-36">

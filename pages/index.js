@@ -21,7 +21,6 @@ export const getServerSideProps = async () => {
     getPortfolioDataController(cacheKey),
   ]);
 
-  // console.log("homePageData", homePageData);
   if (homePageData.status) {
     pageData = { ...homePageData.data };
   }

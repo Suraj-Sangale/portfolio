@@ -91,7 +91,6 @@ export function postSiteApiData(
       apiCall
         .then((response) => {
           const responseData = response.json();
-          // console.log("response", responseData);
           resolve(responseData);
         })
         .catch((error) => {

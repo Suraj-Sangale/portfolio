@@ -345,3 +345,38 @@ export const MY_PROJECTS = [
     liveUrl: "https://memo-mind-self.vercel.app",
   },
 ];
+
+export const pageBuilderHeadCells = [
+  {
+    id: "id",
+    numeric: false,
+    disablePadding: false,
+    label: "Sr. No.",
+  },
+  {
+    id: "key_name",
+    numeric: false,
+    disablePadding: false,
+    label: "Key Name",
+  },
+
+  {
+    id: "content_json",
+    numeric: false,
+    disablePadding: false,
+    stringify: true,
+    label: "Content JSON",
+  },
+  {
+    id: "action",
+    numeric: false,
+    disablePadding: false,
+    label: "Action",
+  },
+  {
+    id: "refreshRedis",
+    numeric: false,
+    disablePadding: false,
+    label: "Redis",
+  },
+];

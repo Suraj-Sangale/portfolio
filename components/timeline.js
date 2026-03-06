@@ -9,7 +9,7 @@ const Timeline = ({ pageData }) => {
 
   return (
     <div
-      className="container section relative !mb-16"
+      className="container relative !my-20"
       id="work"
     >
       <CustomTitle
