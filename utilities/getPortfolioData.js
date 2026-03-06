@@ -18,7 +18,6 @@ export const getSeoData = () => portfolioData.seo;
 
 // Get specific section title
 // export const getSectionTitle = (sectionName) => {
-//   console.log('sectionName', sectionName)
 //   return portfolioData.sections?.[sectionName] || {};
 // };
 

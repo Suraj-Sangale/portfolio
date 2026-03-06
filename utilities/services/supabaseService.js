@@ -17,7 +17,6 @@ export const fetchTableData = async ({
       throw new Error(error.message || "Failed to fetch data");
     }
 
-    console.log("data", error, data, filterType);
     let filteredData = data || [];
 
     /* ================================
@@ -98,7 +97,6 @@ export const updateTableData = async ({
       .match(match)
       .select(select);
 
-    console.log("data", data, error);
     if (error) throw new Error(error.message || "Failed to update data");
 
     return { status: true, data };
@@ -125,7 +123,6 @@ export const updateTableData = async ({
 // });
 
 // if (result.status) {
-//   console.log("Updated row:", result.data);
 // } else {
 //   console.error("Error:", result.error);
 // }

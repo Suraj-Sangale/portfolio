@@ -11,7 +11,6 @@ import GitHubGraph from "./Items/gitHubGraph";
 
 const About = ({ pageData }) => {
   const { aboutData } = pageData;
-  console.log("aboutData", aboutData);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
   const query = router.query;

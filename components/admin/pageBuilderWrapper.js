@@ -44,7 +44,6 @@ export default function PageBuilderWrapper() {
       tableName: "content_master",
       filterType: filter,
     });
-    console.log("response", response);
 
     if (!response.success) {
       setError(response.error);
@@ -90,7 +89,6 @@ export default function PageBuilderWrapper() {
   }
   const onClickEdit = async (id) => {
     const selectedItem = pagesData.find((item) => item.id == id);
-    console.log("selectedItem", selectedItem);
     // {
     // "id": 1,
     // "created_at": "2026-03-03T03:08:58.367569+00:00",
@@ -113,7 +111,6 @@ export default function PageBuilderWrapper() {
     setIsEdit(true);
   };
   const onClickRefreshRedis = async (data) => {
-    console.log("data", data);
     setDataToRefresh(data);
     setRefreshRedisModal(true);
   };
@@ -124,8 +121,8 @@ export default function PageBuilderWrapper() {
       data: dataToRefresh.content_json,
     };
     const response = await postApiData("REFRESH_REDIS_KEY", payload);
-    console.log("response o    f refresh redis", response);
   };
+  
 
   return (
     <>
@@ -149,10 +146,10 @@ export default function PageBuilderWrapper() {
                   Back to Dashboard
                 </a>
                 <button
-                  onClick={fetchMessages}
+                  onClick={AddNewSection}
                   className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
                 >
-                  Refresh
+                  Add New
                 </button>
               </div>
             </div>
@@ -231,7 +228,7 @@ export default function PageBuilderWrapper() {
             <button
               onClick={() => {
                 // Call your function to refresh Redis cache here
-               handleRefreshRedisKey();
+                handleRefreshRedisKey();
               }}
               className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
             >

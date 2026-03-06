@@ -114,7 +114,6 @@ export default function ConfigForm({
       });
 
       if (result.status) {
-        console.log("Updated row:", result.data);
         setSubmitStatus("success");
       } else {
         console.error("Error:", result.error);
