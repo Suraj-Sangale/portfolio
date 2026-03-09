@@ -187,3 +187,37 @@ export const addNewIntoTable = async ({ tableName, payload, select = "*" }) => {
     return respose;
   }
 };
+
+export const deleteFromTable = async ({ tableName, payload }) => {
+  const response = { status: false, data: null, error: null };
+
+  try {
+    if (!tableName) {
+      response.message = "tableName required";
+      return response;
+    }
+
+    if (!payload || !payload.ids || !payload.ids.length) {
+      response.message = "payload.ids required";
+      return response;
+    }
+
+    const { data, error } = await supabase
+      .from(tableName)
+      .delete()
+      .in("id", payload.ids)
+      .select("*");
+
+    if (error) {
+      response.message = error.message;
+      return response;
+    }
+
+    response.status = true;
+    response.data = data;
+    return response;
+  } catch (error) {
+    response.message = error.message;
+    return response;
+  }
+};

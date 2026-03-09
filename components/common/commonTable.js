@@ -157,7 +157,7 @@ function EnhancedTableToolbar({
           >
             {numSelected == 1 && (
               <button
-                // className={commonStyle.editButton}
+                className={"mx-2 text-blue-500 hover:text-blue-600 text-lg "}
                 onClick={() => onClickEdit(selectedItems[0])}
                 style={{ marginRight: "10px" }}
               >
@@ -165,7 +165,7 @@ function EnhancedTableToolbar({
               </button>
             )}
             <button
-              // className={commonStyle.deleteButton}
+              className={"mx-2 text-red-500 hover:text-red-600 text-lg "}
               onClick={() => onClickDelete(selectedItems[0])}
             >
               Delete

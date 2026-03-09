@@ -1,7 +1,10 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
-import { fetchTableData } from "@/utilities/services/supabaseService";
+import {
+  deleteFromTable,
+  fetchTableData,
+} from "@/utilities/services/supabaseService";
 import { CommonTable } from "../common/commonTable";
 import { pageBuilderHeadCells } from "@/utilities/Data";
 import CommonModal from "../common/commonModal";
@@ -20,6 +23,10 @@ export default function PageBuilderWrapper() {
   const [dataModalOpen, setDataModalOpen] = useState(false);
   const [refreshRedisModal, setRefreshRedisModal] = useState(false);
   const [dataToRefresh, setDataToRefresh] = useState(null);
+  const [deleteApiError, setDeleteApiError] = useState("");
+  const [deleteConfirmationPopupOpen, setDeleteConfirmationPopupOpen] =
+    useState(false);
+  const [idToDelete, setIdToDelete] = useState(null);
 
   useEffect(() => {
     const checkAuthAndLoad = async () => {
@@ -128,6 +135,24 @@ export default function PageBuilderWrapper() {
     setIsEdit(false);
   };
 
+  const handleDeletePage = async (item) => {
+    const apiPayload = {
+      tableName: "content_master",
+      payload: { ids: selected },
+    };
+    const response = await deleteFromTable(apiPayload);
+    if (response.status) {
+      setPagesData((prev) =>
+        prev.filter((item) => !selected.includes(item.id)),
+      );
+      setSelected([]);
+      setDeleteConfirmationPopupOpen(false);
+    } else {
+      setDeleteApiError(
+        response.message || "Failed to delete page(s). Please try again.",
+      );
+    }
+  };
   return (
     <>
       <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -177,7 +202,7 @@ export default function PageBuilderWrapper() {
                 onClickEdit={onClickEdit}
                 selected={selected}
                 setSelected={setSelected}
-                onClickDelete={() => {}}
+                onClickDelete={setDeleteConfirmationPopupOpen}
                 isFilterApplied={false}
                 searchTerm={""}
                 onClickRefreshRedis={onClickRefreshRedis}
@@ -240,6 +265,59 @@ export default function PageBuilderWrapper() {
               Refresh Cache
             </button>
           </div>
+        </div>
+      </CommonModal>
+      <CommonModal
+        modalTitle={"Confirm Deletion"}
+        modalOpen={deleteConfirmationPopupOpen}
+        setModalOpen={setDeleteConfirmationPopupOpen}
+        modalSize={"w-11/12 md:w-4/6"}
+      >
+        <div className="p-6">
+          <h2 className="text-xl font-semibold text-gray-700 mb-4">
+            Are you sure you want to delete selected item?
+          </h2>
+          <p className="text-gray-600 mb-4">
+            This action cannot be undone. Please confirm if you want to proceed
+            with deleting this page.
+          </p>
+          <p className="text-lg font-medium  mb-4">
+            selected page:{" "}
+            <span className="font-bold text-red-600">
+              {/* {pagesData.filter((item) => item.id == idToDelete)[0]?.key_name} */}
+              {selected.length > 0 &&
+                selected.map((id, i) => {
+                  const item = pagesData.filter((item) => item.id == id)[0];
+                  return (
+                    <React.Fragment key={id}>
+                      {item?.key_name}
+                      {i < selected.length - 1 && ", "}
+                    </React.Fragment>
+                  );
+                })}
+            </span>
+          </p>
+
+          <div className="flex justify-end gap-4">
+            <button
+              onClick={() => setDeleteConfirmationPopupOpen(false)}
+              className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700"
+            >
+              Cancel
+            </button>
+
+            <button
+              onClick={() => handleDeletePage()}
+              className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+            >
+              Delete Page
+            </button>
+          </div>
+          {deleteApiError && (
+            <div className="bg-red-50 border border-red-400 text-red-700 px-4 py-3 rounded mt-4">
+              <p>{deleteApiError}</p>
+            </div>
+          )}
         </div>
       </CommonModal>
     </>
