@@ -17,7 +17,7 @@ export default function PageBuilderWrapper() {
   const [selected, setSelected] = useState([]);
   const [modalData, setModalData] = useState({});
   const [isEdit, setIsEdit] = useState(false);
-  const [dataModal, setDataModal] = useState(false);
+  const [dataModalOpen, setDataModalOpen] = useState(false);
   const [refreshRedisModal, setRefreshRedisModal] = useState(false);
   const [dataToRefresh, setDataToRefresh] = useState(null);
 
@@ -107,7 +107,7 @@ export default function PageBuilderWrapper() {
       content_json: selectedItem.content_json,
     });
 
-    setDataModal(true);
+    setDataModalOpen(true);
     setIsEdit(true);
   };
   const onClickRefreshRedis = async (data) => {
@@ -122,7 +122,11 @@ export default function PageBuilderWrapper() {
     };
     const response = await postApiData("REFRESH_REDIS_KEY", payload);
   };
-  
+
+  const AddNewSection = () => {
+    setDataModalOpen(true);
+    setIsEdit(false);
+  };
 
   return (
     <>
@@ -185,14 +189,15 @@ export default function PageBuilderWrapper() {
 
       <CommonModal
         modalTitle={isEdit ? "Edit Page Data" : "Add New Page Data"}
-        modalOpen={dataModal}
-        setModalOpen={setDataModal}
+        modalOpen={dataModalOpen}
+        setModalOpen={setDataModalOpen}
         modalSize={"w-11/12 md:w-4/6"}
       >
         <PageDataForm
           isEdit={isEdit}
           modalData={modalData}
-          setContactModal={setDataModal}
+          setDataModalOpen={setDataModalOpen}
+          setPagesData={setPagesData}
           // setPagesList={setPagesList}
           // contactsList={contactsList}
         />

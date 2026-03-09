@@ -1,4 +1,7 @@
-import { updateTableData } from "@/utilities/services/supabaseService";
+import {
+  addNewIntoTable,
+  updateTableData,
+} from "@/utilities/services/supabaseService";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
@@ -32,6 +35,8 @@ export default function ConfigForm({
   isEdit = false,
   modalData = null,
   onCloseModal,
+  setPagesData = () => {},
+  setDataModalOpen = () => {},
 }) {
   const [formData, setFormData] = useState(
     isEdit ? normalizeModalData(modalData) : DEFAULT_FORM_DATA,
@@ -106,16 +111,44 @@ export default function ConfigForm({
         description: data.description.trim(),
         content_json: data.content_json,
       });
-
-      const result = await updateTableData({
-        tableName: "content_master",
-        match: { id: modalData?.id },
-        payload,
-      });
+      let apiCall;
+      if (isEdit) {
+        apiCall = updateTableData({
+          tableName: "content_master",
+          match: { id: modalData?.id },
+          payload,
+        });
+      } else {
+        apiCall = addNewIntoTable({
+          tableName: "content_master",
+          payload,
+        });
+      }
+      const result = await apiCall;
+      console.log("result", result);
 
       if (result.status) {
         setSubmitStatus("success");
+        if (isEdit) {
+          // Update the specific item in pagesData
+          setPagesData((prev) =>
+            prev.map((item) =>
+              item.id === modalData.id ? { ...item, ...payload } : item,
+            ),
+          );
+        } else {
+          // Add the new item to pagesData
+          setPagesData((prev) => [
+            ...prev,
+            { id: result.data?.[0].id, ...payload },
+          ]);
+        }
+        setApiError("");
+
+        setDataModalOpen(false);
       } else {
+        setSubmitStatus("error");
+        setApiError(result.message || "Unexpected error. Please try again.");
         console.error("Error:", result.error);
       }
 
@@ -362,9 +395,9 @@ export default function ConfigForm({
             <div className="mb-6 flex items-start gap-3 rounded-lg border border-rose-500/30 bg-rose-500/10 px-4 py-3">
               <span className="mt-0.5 text-rose-400">✕</span>
               <div>
-                <p className="text-sm font-medium text-rose-300">
+                {/* <p className="text-sm font-medium text-rose-300">
                   Submission failed
-                </p>
+                </p> */}
                 <p className="text-xs text-rose-400 mt-0.5">{apiError}</p>
               </div>
             </div>
