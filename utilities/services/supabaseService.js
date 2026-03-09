@@ -148,3 +148,76 @@ export const updateTableData = async ({
 //   payload: { key_name: "app.feature.newName" },
 //   select: "id, key_name, updated_at", // return only these cols
 // });
+
+export const addNewIntoTable = async ({ tableName, payload, select = "*" }) => {
+  const respose = { status: false, error: null, data: null };
+  try {
+    console.log("first", { tableName, payload, select });
+    // Validation
+    if (!tableName) {
+      console.log("second");
+      respose.message = "tableName is required";
+      return respose;
+    }
+    if (!payload || !Object.keys(payload).length) {
+      console.log("third");
+      respose.message = "payload must have at least one field";
+      return respose;
+    }
+
+    const { data, error } = await supabase
+      .from(tableName)
+      .insert(payload)
+      .select(select);
+
+    if (error) {
+      console.log("fourth", error);
+      respose.message = error.message || "Failed to add data";
+      return respose;
+    }
+
+    console.log("fifth", data);
+    respose.status = true;
+    respose.data = data;
+    return respose;
+  } catch (error) {
+    console.log("sixth", error);
+    console.error("Supabase add error:", error);
+    respose.message = error.message || "Something went wrong";
+    return respose;
+  }
+};
+
+export const deleteFromTable = async ({ tableName, payload }) => {
+  const response = { status: false, data: null, error: null };
+
+  try {
+    if (!tableName) {
+      response.message = "tableName required";
+      return response;
+    }
+
+    if (!payload || !payload.ids || !payload.ids.length) {
+      response.message = "payload.ids required";
+      return response;
+    }
+
+    const { data, error } = await supabase
+      .from(tableName)
+      .delete()
+      .in("id", payload.ids)
+      .select("*");
+
+    if (error) {
+      response.message = error.message;
+      return response;
+    }
+
+    response.status = true;
+    response.data = data;
+    return response;
+  } catch (error) {
+    response.message = error.message;
+    return response;
+  }
+};
