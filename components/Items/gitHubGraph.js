@@ -30,9 +30,9 @@ export default function GitHubGraph() {
       if (width < 640) {
         setSizeConfig({ blockSize: 9, blockMargin: 2, fontSize: 11 });
       } else if (width < 1024) {
-        setSizeConfig({ blockSize: 10, blockMargin: 3, fontSize: 13 });
+        setSizeConfig({ blockSize: 5, blockMargin: 3, fontSize: 13 });
       } else {
-        setSizeConfig({ blockSize: 13, blockMargin: 4, fontSize: 14 });
+        setSizeConfig({ blockSize: 10, blockMargin: 4, fontSize: 14 });
       }
     };
     handleResize();
