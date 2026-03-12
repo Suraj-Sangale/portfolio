@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VOIDWALKER — Into The Deep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Raleway:ital,wght@0,100;0,200;0,300;1,100;1,200&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<style>
+/* ── Reset & Root ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --void:    #00000a;
+  --deep:    #02020f;
+  --nebula1: #0a0025;
+  --nebula2: #001a3a;
+  --cyan:    #00ffe7;
+  --violet:  #7b2fff;
+  --rose:    #ff2d6b;
+  --gold:    #ffcc44;
+  --white:   #e8eeff;
+  --dim:     #5a6080;
+  --font-hero: 'Bebas Neue', sans-serif;
+  --font-body: 'Raleway', sans-serif;
+  --font-mono: 'Share Tech Mono', monospace;
+}
+
+html { background: var(--void); overflow-x: hidden; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--void);
+  color: var(--white);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── Custom Cursor ── */
+#cur { position:fixed; width:8px; height:8px; border-radius:50%; background:var(--cyan); pointer-events:none; z-index:9999; transform:translate(-50%,-50%); mix-blend-mode:screen; transition: width .2s, height .2s; }
+#cur-trail { position:fixed; width:28px; height:28px; border-radius:50%; border:1px solid rgba(0,255,231,.3); pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:width .3s,height .3s; }
+
+/* ── Canvas ── */
+#c {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ── Scroll Container ── */
+#page { position:relative; z-index:10; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 200;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 24px 48px;
+  mix-blend-mode: screen;
+}
+.n-logo {
+  font-family: var(--font-hero);
+  font-size: 1.4rem;
+  letter-spacing: 0.3em;
+  color: var(--cyan);
+  text-shadow: 0 0 20px var(--cyan);
+}
+.n-links { display:flex; gap:36px; list-style:none; }
+.n-links a {
+  font-family: var(--font-mono);
+  font-size: .6rem;
+  letter-spacing:.22em;
+  color: rgba(232,238,255,.5);
+  text-decoration:none;
+  text-transform:uppercase;
+  transition: color .3s, text-shadow .3s;
+}
+.n-links a:hover { color:var(--cyan); text-shadow:0 0 10px var(--cyan); }
+
+/* ── SECTION BASE ── */
+section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 80px 48px;
+  overflow: hidden;
+}
+
+/* ── SECTION 1: HERO ── */
+#s1 { min-height: 300vh; justify-content: flex-start; padding-top: 30vh; }
+
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: .6rem;
+  letter-spacing: .5em;
+  color: var(--cyan);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: rise 1.4s .5s ease forwards;
+  text-shadow: 0 0 12px var(--cyan);
+}
+
+.hero-title {
+  font-family: var(--font-hero);
+  font-size: clamp(5rem, 16vw, 14rem);
+  line-height: .9;
+  letter-spacing: .04em;
+  text-align: center;
+  color: var(--white);
+  text-shadow:
+    0 0 80px rgba(123,47,255,.6),
+    0 0 160px rgba(0,255,231,.2);
+  opacity: 0;
+  animation: rise 1.6s .7s ease forwards;
+}
+
+.hero-title .accent { color: var(--cyan); }
+.hero-title .dim-line {
+  display: block;
+  font-style: normal;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(232,238,255,.25);
+}
+
+.hero-sub {
+  margin-top: 32px;
+  font-size: .7rem;
+  font-weight: 200;
+  letter-spacing: .25em;
+  color: rgba(232,238,255,.45);
+  text-align: center;
+  text-transform: uppercase;
+  max-width: 440px;
+  line-height: 2.4;
+  opacity: 0;
+  animation: rise 1.4s 1.1s ease forwards;
+}
+
+/* Scroll bar indicator */
+.scroll-bar {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  opacity: 0;
+  animation: rise 1s 1.8s ease forwards;
+}
+.scroll-bar span { font-family:var(--font-mono); font-size:.5rem; letter-spacing:.3em; color:var(--dim); text-transform:uppercase; }
+.scroll-bar-line { width:1px; height:70px; background:linear-gradient(var(--cyan),transparent); animation:drip 2s ease-in-out infinite; }
+@keyframes drip { 0%,100%{transform:scaleY(1);opacity:.5} 50%{transform:scaleY(.4);opacity:1} }
+
+/* ── SECTION 2: WARP ZONE ── */
+#s2 { background: transparent; }
+
+.warp-label {
+  font-family: var(--font-mono);
+  font-size: .55rem;
+  letter-spacing: .5em;
+  color: var(--violet);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  text-shadow: 0 0 14px var(--violet);
+}
+
+.warp-heading {
+  font-family: var(--font-hero);
+  font-size: clamp(3rem, 9vw, 8rem);
+  line-height: .92;
+  text-align: center;
+  color: var(--white);
+  text-shadow: 0 0 60px rgba(123,47,255,.5);
+}
+
+.warp-heading .hi { color: var(--violet); }
+
+.stat-row {
+  display: flex; gap: 60px; margin-top: 64px;
+  flex-wrap: wrap; justify-content: center;
+}
+.stat {
+  text-align: center;
+  opacity: 0;
+  transform: translateY(30px);
+}
+.stat-num {
+  font-family: var(--font-hero);
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  color: var(--cyan);
+  text-shadow: 0 0 30px var(--cyan);
+  line-height: 1;
+}
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: .55rem;
+  letter-spacing: .3em;
+  color: var(--dim);
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+
+/* ── SECTION 3: NEBULA ── */
+#s3 {
+  background: transparent;
+  gap: 80px;
+}
+
+.nebula-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2px;
+  width: 100%;
+  max-width: 1100px;
+}
+
+.nebula-card {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: #05051a;
+  border: 1px solid rgba(255,255,255,.04);
+  cursor: none;
+  opacity: 0;
+  transform: scale(.92);
+  transition: transform .6s cubic-bezier(.16,1,.3,1);
+}
+.nebula-card:hover { transform: scale(1.03) !important; z-index: 10; }
+
+/* Procedural nebula backgrounds via CSS */
+.nebula-card:nth-child(1) { background: radial-gradient(ellipse at 30% 40%, #1a0050 0%, #000 60%), radial-gradient(ellipse at 80% 70%, #003060 0%, transparent 50%); }
+.nebula-card:nth-child(2) { background: radial-gradient(ellipse at 70% 30%, #400020 0%, #000 60%), radial-gradient(ellipse at 20% 80%, #200040 0%, transparent 50%); }
+.nebula-card:nth-child(3) { background: radial-gradient(ellipse at 50% 50%, #002030 0%, #000 60%), radial-gradient(ellipse at 80% 20%, #001840 0%, transparent 50%); }
+.nebula-card:nth-child(4) { background: radial-gradient(ellipse at 20% 60%, #003020 0%, #000 60%), radial-gradient(ellipse at 70% 30%, #001a30 0%, transparent 50%); }
+.nebula-card:nth-child(5) { background: radial-gradient(ellipse at 60% 70%, #2a0040 0%, #000 60%), radial-gradient(ellipse at 30% 20%, #000830 0%, transparent 50%); }
+.nebula-card:nth-child(6) { background: radial-gradient(ellipse at 40% 40%, #1a1a00 0%, #000 60%), radial-gradient(ellipse at 80% 80%, #300010 0%, transparent 50%); }
+
+.nebula-card .stars-canvas {
+  position:absolute; inset:0; width:100%; height:100%;
+}
+.card-label {
+  position: absolute; bottom: 20px; left: 20px;
+  font-family: var(--font-mono);
+  font-size: .55rem;
+  letter-spacing: .3em;
+  color: rgba(232,238,255,.5);
+  text-transform: uppercase;
+}
+.card-glow {
+  position: absolute; inset: 0;
+  opacity: 0;
+  transition: opacity .4s ease;
+}
+.nebula-card:nth-child(1) .card-glow { background: radial-gradient(circle at 50% 50%, rgba(0,255,231,.08), transparent 70%); }
+.nebula-card:nth-child(2) .card-glow { background: radial-gradient(circle at 50% 50%, rgba(255,45,107,.08), transparent 70%); }
+.nebula-card:nth-child(3) .card-glow { background: radial-gradient(circle at 50% 50%, rgba(123,47,255,.08), transparent 70%); }
+.nebula-card:nth-child(4) .card-glow { background: radial-gradient(circle at 50% 50%, rgba(255,204,68,.08), transparent 70%); }
+.nebula-card:nth-child(5) .card-glow { background: radial-gradient(circle at 50% 50%, rgba(0,255,231,.08), transparent 70%); }
+.nebula-card:nth-child(6) .card-glow { background: radial-gradient(circle at 50% 50%, rgba(255,45,107,.08), transparent 70%); }
+.nebula-card:hover .card-glow { opacity: 1; }
+
+.nebula-card .card-num {
+  position: absolute; top: 20px; right: 20px;
+  font-family: var(--font-hero);
+  font-size: 1.8rem;
+  color: rgba(255,255,255,.07);
+  line-height:1;
+}
+
+/* ── SECTION 4: TIMELINE ── */
+#s4 { min-height: 150vh; background: transparent; padding: 120px 80px; }
+
+.timeline-head {
+  text-align: center; margin-bottom: 100px;
+}
+.timeline-head h2 {
+  font-family: var(--font-hero);
+  font-size: clamp(3rem, 8vw, 7rem);
+  line-height: .9;
+  color: var(--white);
+  text-shadow: 0 0 60px rgba(255,45,107,.4);
+}
+.timeline-head h2 em { color: var(--rose); font-style: normal; }
+
+.timeline {
+  position: relative;
+  max-width: 900px;
+  width: 100%;
+}
+/* Central line */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%; top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--cyan), var(--violet), var(--rose), transparent);
+  transform: translateX(-50%);
+}
+
+.t-item {
+  display: flex;
+  width: 100%;
+  margin-bottom: 80px;
+  position: relative;
+  opacity: 0;
+  transition: opacity .6s, transform .6s;
+}
+.t-item:nth-child(odd)  { justify-content: flex-end; transform: translateX(60px); }
+.t-item:nth-child(even) { justify-content: flex-start; transform: translateX(-60px); }
+
+.t-content {
+  width: 42%;
+  padding: 28px;
+  border: 1px solid rgba(255,255,255,.06);
+  background: rgba(255,255,255,.02);
+  backdrop-filter: blur(8px);
+  position: relative;
+}
+.t-item:nth-child(odd) .t-content  { margin-right: 48px; }
+.t-item:nth-child(even) .t-content { margin-left: 48px; }
+
+/* Dot on line */
+.t-dot {
+  position: absolute;
+  left: 50%; top: 28px;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 16px currentColor;
+}
+.t-item:nth-child(1) .t-dot { background: var(--cyan); color: var(--cyan); }
+.t-item:nth-child(2) .t-dot { background: var(--violet); color: var(--violet); }
+.t-item:nth-child(3) .t-dot { background: var(--rose); color: var(--rose); }
+.t-item:nth-child(4) .t-dot { background: var(--gold); color: var(--gold); }
+
+.t-year {
+  font-family: var(--font-hero);
+  font-size: 2.2rem;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+.t-item:nth-child(1) .t-year { color: var(--cyan); }
+.t-item:nth-child(2) .t-year { color: var(--violet); }
+.t-item:nth-child(3) .t-year { color: var(--rose); }
+.t-item:nth-child(4) .t-year { color: var(--gold); }
+
+.t-title {
+  font-family: var(--font-body);
+  font-weight: 200;
+  font-size: .95rem;
+  letter-spacing: .08em;
+  color: var(--white);
+  margin-bottom: 10px;
+}
+.t-body {
+  font-family: var(--font-mono);
+  font-size: .6rem;
+  line-height: 2;
+  color: var(--dim);
+  letter-spacing: .05em;
+}
+
+/* ── SECTION 5: CTA ── */
+#s5 { min-height: 100vh; }
+
+.cta-wrap { text-align: center; max-width: 800px; }
+
+.cta-pre {
+  font-family: var(--font-mono);
+  font-size: .6rem;
+  letter-spacing: .5em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  text-shadow: 0 0 12px var(--gold);
+}
+
+.cta-big {
+  font-family: var(--font-hero);
+  font-size: clamp(4rem, 12vw, 11rem);
+  line-height: .88;
+  color: var(--white);
+  margin-bottom: 48px;
+  text-shadow:
+    0 0 80px rgba(255,204,68,.35),
+    0 0 160px rgba(0,255,231,.15);
+}
+.cta-big span { display: block; }
+.cta-big .out { color: transparent; -webkit-text-stroke: 1px rgba(232,238,255,.3); }
+.cta-big .hi  { color: var(--gold); }
+
+.btn-group { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+
+.btn {
+  display: inline-block;
+  padding: 16px 52px;
+  font-family: var(--font-mono);
+  font-size: .6rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: none;
+  position: relative; overflow: hidden;
+  transition: color .4s;
+}
+.btn-primary {
+  background: var(--cyan);
+  color: var(--void);
+  border: 1px solid var(--cyan);
+  box-shadow: 0 0 40px rgba(0,255,231,.3);
+}
+.btn-primary:hover { box-shadow: 0 0 80px rgba(0,255,231,.6); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--white);
+  border: 1px solid rgba(232,238,255,.2);
+}
+.btn-ghost::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(255,255,255,.05);
+  transform: translateX(-101%);
+  transition: transform .4s cubic-bezier(.77,0,.175,1);
+}
+.btn-ghost:hover::before { transform: translateX(0); }
+
+/* ── FOOTER ── */
+footer {
+  padding: 40px 48px;
+  border-top: 1px solid rgba(255,255,255,.05);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.f-logo { font-family:var(--font-hero); font-size:1.2rem; letter-spacing:.4em; color:var(--dim); }
+.f-copy { font-family:var(--font-mono); font-size:.5rem; letter-spacing:.15em; color:rgba(90,96,128,.4); }
+
+/* ── KEYFRAMES ── */
+@keyframes rise { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── REVEAL ── */
+.reveal { opacity: 0; transform: translateY(40px); }
+.reveal-scale { opacity: 0; transform: scale(.9); }
+.reveal-left  { opacity: 0; transform: translateX(-50px); }
+.reveal-right { opacity: 0; transform: translateX(50px); }
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  nav { padding:18px 20px; }
+  .n-links { display:none; }
+  section { padding:60px 20px; }
+  .nebula-grid { grid-template-columns:1fr 1fr; }
+  .timeline::before { left:20px; }
+  .t-item { flex-direction:column; }
+  .t-item:nth-child(odd), .t-item:nth-child(even) { justify-content:flex-start; transform:translateX(0); }
+  .t-content { width:80%; margin-left:44px !important; margin-right:0 !important; }
+  .t-dot { left:20px; }
+  .stat-row { gap:32px; }
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-trail"></div>
+
+<!-- THREE.JS FIXED CANVAS -->
+<canvas id="c"></canvas>
+
+<!-- NAV -->
+<nav>
+  <div class="n-logo">VOIDWALKER</div>
+  <ul class="n-links">
+    <li><a href="#">Cosmos</a></li>
+    <li><a href="#">Nebulae</a></li>
+    <li><a href="#">Timeline</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE -->
+<div id="page">
+
+  <!-- ═══════════════════════════
+       S1 — HERO
+  ═══════════════════════════ -->
+  <section id="s1">
+    <p class="hero-eyebrow">00 — Enter the void</p>
+    <h1 class="hero-title">
+      <span class="dim-line">BEYOND</span>
+      VOID<span class="accent">WALKER</span>
+    </h1>
+    <p class="hero-sub">A journey through space, time, and the spaces in between</p>
+    <div class="scroll-bar">
+      <span>Scroll to travel</span>
+      <div class="scroll-bar-line"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════
+       S2 — WARP
+  ═══════════════════════════ -->
+  <section id="s2">
+    <p class="warp-label reveal">01 — Warp Metrics</p>
+    <h2 class="warp-heading reveal">
+      LIGHT<br/><span class="hi">YEARS</span><br/>AHEAD
+    </h2>
+    <div class="stat-row">
+      <div class="stat">
+        <div class="stat-num">4.2</div>
+        <div class="stat-label">Light Years to Proxima</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">93B</div>
+        <div class="stat-label">Observable Universe (ly)</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Parallel Realities</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════
+       S3 — NEBULA GRID
+  ═══════════════════════════ -->
+  <section id="s3">
+    <div class="reveal" style="text-align:center; margin-bottom:60px;">
+      <p style="font-family:var(--font-mono);font-size:.55rem;letter-spacing:.5em;color:var(--rose);text-transform:uppercase;margin-bottom:16px;text-shadow:0 0 12px var(--rose);">02 — Nebula Catalog</p>
+      <h2 style="font-family:var(--font-hero);font-size:clamp(2.5rem,7vw,6rem);line-height:.9;text-shadow:0 0 60px rgba(255,45,107,.4);">THE <em style="color:var(--rose);font-style:normal">KNOWN</em><br/>UNIVERSE</h2>
+    </div>
+    <div class="nebula-grid">
+      <div class="nebula-card"><canvas class="stars-canvas"></canvas><div class="card-glow"></div><div class="card-num">01</div><div class="card-label">Andromeda rift</div></div>
+      <div class="nebula-card"><canvas class="stars-canvas"></canvas><div class="card-glow"></div><div class="card-num">02</div><div class="card-label">Crimson Veil</div></div>
+      <div class="nebula-card"><canvas class="stars-canvas"></canvas><div class="card-glow"></div><div class="card-num">03</div><div class="card-label">Azure Hollow</div></div>
+      <div class="nebula-card"><canvas class="stars-canvas"></canvas><div class="card-glow"></div><div class="card-num">04</div><div class="card-label">Emerald Drift</div></div>
+      <div class="nebula-card"><canvas class="stars-canvas"></canvas><div class="card-glow"></div><div class="card-num">05</div><div class="card-label">Violet Cradle</div></div>
+      <div class="nebula-card"><canvas class="stars-canvas"></canvas><div class="card-glow"></div><div class="card-num">06</div><div class="card-label">Amber Shore</div></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════
+       S4 — TIMELINE
+  ═══════════════════════════ -->
+  <section id="s4">
+    <div class="timeline-head reveal">
+      <p style="font-family:var(--font-mono);font-size:.55rem;letter-spacing:.5em;color:var(--gold);text-transform:uppercase;margin-bottom:16px;text-shadow:0 0 12px var(--gold);">03 — Temporal Log</p>
+      <h2>THE <em>HISTORY</em><br/>OF NOTHING</h2>
+    </div>
+    <div class="timeline">
+      <div class="t-item">
+        <div class="t-dot"></div>
+        <div class="t-content">
+          <div class="t-year">T–0</div>
+          <div class="t-title">The Singularity Ignites</div>
+          <div class="t-body">All of space, time, matter, and energy compressed into an infinitely dense point. Temperature exceeds all known scales. Physics breaks down.</div>
+        </div>
+      </div>
+      <div class="t-item">
+        <div class="t-dot"></div>
+        <div class="t-content">
+          <div class="t-year">T+380K</div>
+          <div class="t-title">The First Light</div>
+          <div class="t-body">Photons decouple from matter. The universe becomes transparent for the first time. Cosmic Microwave Background radiation fills all space.</div>
+        </div>
+      </div>
+      <div class="t-item">
+        <div class="t-dot"></div>
+        <div class="t-content">
+          <div class="t-year">T+1B</div>
+          <div class="t-title">Galaxies Coalesce</div>
+          <div class="t-body">Gravity pulls diffuse hydrogen into towering filaments. The first galaxies ignite. Quasars blaze at the centres of proto-galactic halos.</div>
+        </div>
+      </div>
+      <div class="t-item">
+        <div class="t-dot"></div>
+        <div class="t-content">
+          <div class="t-year">NOW</div>
+          <div class="t-title">You Are Here</div>
+          <div class="t-body">13.8 billion years later. Stardust assembled into a conscious observer, sitting at a screen, scrolling through the cosmos.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════
+       S5 — CTA
+  ═══════════════════════════ -->
+  <section id="s5">
+    <div class="cta-wrap">
+      <p class="cta-pre reveal">04 — Begin your journey</p>
+      <div class="cta-big reveal">
+        <span class="out">ENTER</span>
+        <span>THE</span>
+        <span class="hi">VOID</span>
+      </div>
+      <div class="btn-group reveal">
+        <a href="#" class="btn btn-primary">Launch Mission</a>
+        <a href="#" class="btn btn-ghost">View Logs</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="f-logo">VOIDWALKER</div>
+    <div class="f-copy">© 2025 — All coordinates relative</div>
+  </footer>
+
+</div><!-- /page -->
+
+<script>
+/* ╔══════════════════════════════════════╗
+   ║  CUSTOM CURSOR                        ║
+   ╚══════════════════════════════════════╝ */
+const cur = document.getElementById('cur');
+const trail = document.getElementById('cur-trail');
+let mx=0,my=0,tx=0,ty=0;
+document.addEventListener('mousemove', e=>{ mx=e.clientX; my=e.clientY; cur.style.left=mx+'px'; cur.style.top=my+'px'; });
+(function loopTrail(){ tx+=(mx-tx)*.1; ty+=(my-ty)*.1; trail.style.left=tx+'px'; trail.style.top=ty+'px'; requestAnimationFrame(loopTrail); })();
+document.querySelectorAll('a,.nebula-card,.btn').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ cur.style.width='18px'; cur.style.height='18px'; trail.style.width='52px'; trail.style.height='52px'; });
+  el.addEventListener('mouseleave',()=>{ cur.style.width='8px'; cur.style.height='8px'; trail.style.width='28px'; trail.style.height='28px'; });
+});
+
+/* ╔══════════════════════════════════════╗
+   ║  THREE.JS SCENE                       ║
+   ╚══════════════════════════════════════╝ */
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({ canvas, alpha:true, antialias:true });
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setSize(innerWidth,innerHeight);
+renderer.setClearColor(0x000000,0);
+
+const scene  = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.01, 1000);
+camera.position.set(0,0,5);
+
+/* ── Lighting ── */
+scene.add(new THREE.AmbientLight(0x111122,1));
+const light1 = new THREE.PointLight(0x00ffe7, 4, 40); light1.position.set(0,0,3); scene.add(light1);
+const light2 = new THREE.PointLight(0x7b2fff, 3, 30); light2.position.set(-5,3,-5); scene.add(light2);
+const light3 = new THREE.PointLight(0xff2d6b, 2, 25); light3.position.set(5,-3,-8); scene.add(light3);
+
+/* ── TUNNEL of rings ── */
+const rings = [];
+const RING_COUNT = 60;
+for(let i=0;i<RING_COUNT;i++){
+  const t = i/RING_COUNT;
+  const radius = 2.5 + Math.sin(t*Math.PI*4)*0.4;
+  const geo = new THREE.TorusGeometry(radius, 0.008 + t*0.004, 8, 80);
+  const hue = (t*360 + 180) % 360;
+  const mat = new THREE.MeshBasicMaterial({
+    color: new THREE.Color(`hsl(${hue},90%,60%)`),
+    transparent:true,
+    opacity: 0.35 + t*0.2
+  });
+  const ring = new THREE.Mesh(geo,mat);
+  ring.position.z = -i * 1.6;
+  ring.rotation.x = Math.random()*0.4 - 0.2;
+  ring.rotation.y = Math.random()*0.4 - 0.2;
+  scene.add(ring);
+  rings.push(ring);
+}
+
+/* ── STAR FIELD (3 layers) ── */
+function makeStars(count, spread, size, color){
+  const geo = new THREE.BufferGeometry();
+  const pos = new Float32Array(count*3);
+  for(let i=0;i<count;i++){
+    pos[i*3]   = (Math.random()-.5)*spread;
+    pos[i*3+1] = (Math.random()-.5)*spread*.6;
+    pos[i*3+2] = (Math.random()-.5)*120 - 30;
+  }
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  const mat = new THREE.PointsMaterial({ size, color, transparent:true, opacity:.8, sizeAttenuation:true });
+  return new THREE.Points(geo,mat);
+}
+const stars1 = makeStars(2200, 120, 0.035, 0xffffff);
+const stars2 = makeStars(800,  80,  0.055, 0x00ffe7);
+const stars3 = makeStars(400,  60,  0.07,  0x7b2fff);
+scene.add(stars1,stars2,stars3);
+
+/* ── FLOATING GEOMETRIES ── */
+const floaters = [];
+const geoTypes = [
+  new THREE.OctahedronGeometry(0.18),
+  new THREE.TetrahedronGeometry(0.22),
+  new THREE.IcosahedronGeometry(0.15),
+  new THREE.DodecahedronGeometry(0.16),
+];
+const fColors = [0x00ffe7, 0x7b2fff, 0xff2d6b, 0xffcc44];
+
+for(let i=0;i<34;i++){
+  const geo = geoTypes[i%4].clone();
+  const wire = new THREE.WireframeGeometry(geo);
+  const mat = new THREE.LineBasicMaterial({
+    color: fColors[i%4],
+    transparent:true,
+    opacity: 0.5 + Math.random()*0.3
+  });
+  const obj = new THREE.LineSegments(wire,mat);
+  obj.position.set(
+    (Math.random()-.5)*16,
+    (Math.random()-.5)*10,
+    -Math.random()*90 - 2
+  );
+  obj.userData.speed = { rx: Math.random()*.008, ry: Math.random()*.006, rz:Math.random()*.004, drift: Math.random()*.003 };
+  scene.add(obj);
+  floaters.push(obj);
+}
+
+/* ── NEBULA PARTICLES (large blobs) ── */
+function makeNebula(count, cx, cy, cz, spreadR, spreadZ, col){
+  const geo = new THREE.BufferGeometry();
+  const pos = new Float32Array(count*3);
+  for(let i=0;i<count;i++){
+    const a=Math.random()*Math.PI*2, r=Math.random()*spreadR;
+    pos[i*3]   = cx + Math.cos(a)*r;
+    pos[i*3+1] = cy + Math.sin(a)*r*.6;
+    pos[i*3+2] = cz + (Math.random()-.5)*spreadZ;
+  }
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  const mat = new THREE.PointsMaterial({ size:0.06, color:col, transparent:true, opacity:0.18, sizeAttenuation:true });
+  return new THREE.Points(geo,mat);
+}
+scene.add(
+  makeNebula(600, -3, 1.5, -20, 5, 8, 0x7b2fff),
+  makeNebula(500,  4,-1.2, -38, 4, 6, 0x00ffe7),
+  makeNebula(700,  0,  0,  -60, 6,10, 0xff2d6b),
+  makeNebula(400, -5, 2,   -80, 5, 8, 0xffcc44)
+);
+
+/* ╔══════════════════════════════════════╗
+   ║  GSAP SCROLL TRIGGERS                 ║
+   ╚══════════════════════════════════════╝ */
+gsap.registerPlugin(ScrollTrigger);
+
+/* Camera flies through the tunnel on scroll */
+let camZ = 5;
+let camRotX = 0, camRotY = 0;
+let tunnelProgress = 0; // 0..1 through entire page
+
+ScrollTrigger.create({
+  trigger:'#page',
+  start:'top top',
+  end:'bottom bottom',
+  scrub:1.5,
+  onUpdate(self){
+    const p = self.progress;
+    tunnelProgress = p;
+
+    /* z travel: camera moves from +5 to -90 */
+    camZ = 5 - p * 95;
+
+    /* gentle waving as we fly */
+    camRotX = Math.sin(p * Math.PI * 3) * 0.06;
+    camRotY = Math.sin(p * Math.PI * 2) * 0.04;
+
+    /* spin rings to create warp effect */
+    rings.forEach((r,i)=>{
+      r.rotation.z = p * Math.PI * 2 + i * 0.1;
+    });
+
+    /* star stretch effect — scale z to simulate motion blur */
+    const stretch = 1 + p * 2.5;
+    stars1.scale.z = stretch;
+    stars2.scale.z = stretch * 1.2;
+    stars3.scale.z = stretch * 0.8;
+  }
+});
+
+/* Section 2 stats count-up */
+gsap.utils.toArray('.stat').forEach((el,i)=>{
+  gsap.to(el,{
+    opacity:1, y:0, duration:1, delay:i*.15, ease:'power3.out',
+    scrollTrigger:{ trigger:'#s2', start:'top 70%', toggleActions:'play none none reverse' }
+  });
+});
+
+/* Section 3 card reveals */
+gsap.utils.toArray('.nebula-card').forEach((el,i)=>{
+  gsap.to(el,{
+    opacity:1, scale:1, duration:1, delay:i*.08, ease:'power2.out',
+    scrollTrigger:{ trigger:'#s3', start:'top 75%', toggleActions:'play none none reverse' }
+  });
+});
+
+/* Section 4 timeline items */
+gsap.utils.toArray('.t-item').forEach((el,i)=>{
+  const dir = i%2===0 ? 1 : -1;
+  gsap.to(el,{
+    opacity:1, x:0, duration:1, ease:'power3.out',
+    scrollTrigger:{ trigger:el, start:'top 80%', toggleActions:'play none none reverse' }
+  });
+});
+
+/* Generic reveals */
+gsap.utils.toArray('.reveal').forEach(el=>{
+  gsap.fromTo(el,
+    { opacity:0, y:40 },
+    { opacity:1, y:0, duration:1.2, ease:'power3.out',
+      scrollTrigger:{ trigger:el, start:'top 82%', toggleActions:'play none none reverse' }
+    }
+  );
+});
+
+/* ╔══════════════════════════════════════╗
+   ║  RENDER LOOP                          ║
+   ╚══════════════════════════════════════╝ */
+let time = 0;
+let mouseDX = 0, mouseDY = 0;
+
+document.addEventListener('mousemove', e=>{
+  mouseDX = (e.clientX/innerWidth  - .5) * 0.15;
+  mouseDY = (e.clientY/innerHeight - .5) * 0.1;
+});
+
+function tick(){
+  requestAnimationFrame(tick);
+  time += 0.008;
+
+  /* Camera */
+  camera.position.z += (camZ - camera.position.z) * 0.06;
+  camera.position.x += (mouseDX - camera.position.x) * 0.04;
+  camera.position.y += (-mouseDY - camera.position.y) * 0.04;
+  camera.rotation.x += (camRotX - camera.rotation.x) * 0.05;
+  camera.rotation.y += (camRotY - camera.rotation.y) * 0.05;
+
+  /* Floaters rotate & drift */
+  floaters.forEach((f,i)=>{
+    f.rotation.x += f.userData.speed.rx;
+    f.rotation.y += f.userData.speed.ry;
+    f.rotation.z += f.userData.speed.rz;
+    f.position.x += Math.sin(time + i) * f.userData.speed.drift;
+    f.position.y += Math.cos(time * .7 + i) * f.userData.speed.drift * 0.6;
+  });
+
+  /* Light dance */
+  light1.position.x = Math.sin(time*.8)*3;
+  light1.position.y = Math.cos(time*.6)*2;
+  light2.position.x = Math.cos(time*.5)*4;
+  light2.position.y = Math.sin(time*.4)*3;
+  light3.position.x = Math.sin(time*.3)*5;
+  light3.position.y = Math.cos(time*.7)*3;
+
+  /* Slowly spin star layers */
+  stars1.rotation.z = time * 0.01;
+  stars2.rotation.z = -time * 0.015;
+  stars3.rotation.z = time * 0.008;
+
+  renderer.render(scene, camera);
+}
+tick();
+
+/* ╔══════════════════════════════════════╗
+   ║  MINI STAR CANVAS for cards           ║
+   ╚══════════════════════════════════════╝ */
+document.querySelectorAll('.stars-canvas').forEach(c=>{
+  const w = c.offsetWidth || 300, h = c.offsetHeight || 300;
+  c.width=w; c.height=h;
+  const ctx=c.getContext('2d');
+  const dots=[];
+  for(let i=0;i<80;i++) dots.push({ x:Math.random()*w, y:Math.random()*h, r:.5+Math.random()*1.2, o:Math.random() });
+  function drawCard(){
+    ctx.clearRect(0,0,w,h);
+    dots.forEach(d=>{
+      d.o+=.008; if(d.o>1) d.o=0;
+      ctx.beginPath(); ctx.arc(d.x,d.y,d.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(255,255,255,${d.o*.8})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(drawCard);
+  }
+  drawCard();
+});
+
+/* ╔══════════════════════════════════════╗
+   ║  RESIZE                               ║
+   ╚══════════════════════════════════════╝ */
+window.addEventListener('resize',()=>{
+  camera.aspect=innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth,innerHeight);
+  ScrollTrigger.refresh();
+});
+</script>
+</body>
+</html>
