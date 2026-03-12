@@ -204,7 +204,7 @@ img {
 
 /* WebKit-based browsers (Chrome, Edge, Safari) */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
   /* Adjust scrollbar width */
 }
 
@@ -215,12 +215,11 @@ img {
 
 ::-webkit-scrollbar-thumb {
   /* background: #2ed5ff;  */
-  background: linear-gradient(#4cc6ff, #c52ce4);
-  border-radius: 20px;
+  /* background: linear-gradient(#4cc6ff, #c52ce4); */
   /* Rounded scrollbar */
-  border: 2px solid #1a1038;
+  border: 1px solid #1a1038;
   /* Creates spacing effect */
-  border-radius: 5px;
+  border-radius: 50px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
