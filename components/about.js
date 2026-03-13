@@ -4,6 +4,7 @@ import CustomTitle from "./Items/CustomTitle";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import GitHubGraph from "./Items/gitHubGraph";
+import CommonModal from "./common/commonModal";
 
 const About = ({ pageData }) => {
   const { aboutData } = pageData;
@@ -466,6 +467,23 @@ const About = ({ pageData }) => {
         }}
         resumeLink={aboutData?.resumeLink}
       />
+
+      <CommonModal
+        // modalTitle={isEdit ? "Edit Page Data" : "Add New Page Data"}
+        modalOpen={isModalOpen}
+        setModalOpen={setIsModalOpen}
+        modalSize={"w-11/12 md:w-4/6 bg-black/40  backdrop-blur-lg"}
+        isDarkMode
+      >
+        <ResumeModal
+          show={isModalOpen}
+          onClose={() => {
+            setIsModalOpen(false);
+            removeQuery();
+          }}
+          resumeLink={aboutData?.resumeLink}
+        />
+      </CommonModal>
     </>
   );
 };

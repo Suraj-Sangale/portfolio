@@ -9,6 +9,7 @@ export default function CommonModal({
   handleBackButtonClick,
   showBackButton,
   modalSize = "w-11/12 md:w-[32%]",
+  isDarkMode = false,
 }) {
   const toggleModal = () => {
     setModalOpen(!modalOpen);
@@ -43,7 +44,7 @@ export default function CommonModal({
           onClick={handleBackdropClick}
         >
           <div
-            className={`bg-white rounded-lg shadow-lg ${modalSize} mx-auto`}
+            className={`${!isDarkMode ? "bg-white" : ""} rounded-lg shadow-lg ${modalSize} mx-auto`}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
