@@ -4,7 +4,12 @@ import HomeWrapper from "@/components/homeWrapper";
 import DevFolio from "@/components/home/devFolio";
 
 export default function Home({ pageData }) {
-  return <DevFolio />;
+  return (
+    <>
+      {/* <HomeWrapper pageData={pageData} /> */}
+      <DevFolio pageData={pageData} />
+    </>
+  );
 }
 
 export const getServerSideProps = async () => {

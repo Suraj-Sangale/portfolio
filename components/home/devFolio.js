@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import Header from "../header";
+import SocialIcons from "./socialIcons";
 
 const styles = `
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@100;200;300;400&family=Space+Mono:ital@0;1&display=swap');
@@ -123,7 +124,7 @@ section{min-height:100vh;display:flex;flex-direction:column;align-items:center;j
 .h-timeline{display:flex;gap:0;width:100%;max-width:1200px;position:relative;margin-top:20px;}
 .h-timeline::before{content:'';position:absolute;top:28px;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--c1),var(--c3),var(--c2),var(--c4));}
 .ht-item{flex:1;padding-top:68px;padding-right:32px;position:relative;opacity:0;transform:translateY(30px);}
-.ht-dot{position:absolute;top:20px;left:0;width:18px;height:18px;border-radius:50%;border:2px solid currentColor;background:var(--bg);transform:translateY(-50%) translateX(-1px);}
+.ht-dot{position:absolute;top:28px;left:0;width:18px;height:18px;border-radius:50%;border:2px solid currentColor;background:var(--bg);transform:translateY(-50%) translateX(-1px);}
 .ht-dot::after{content:'';position:absolute;top:50%;left:50%;width:8px;height:8px;border-radius:50%;background:currentColor;transform:translate(-50%,-50%);box-shadow:0 0 10px currentColor;}
 .ht-item:nth-child(1) .ht-dot,.ht-item:nth-child(1) .ht-yr{color:var(--c1)}.ht-item:nth-child(2) .ht-dot,.ht-item:nth-child(2) .ht-yr{color:var(--c3)}.ht-item:nth-child(3) .ht-dot,.ht-item:nth-child(3) .ht-yr{color:var(--c2)}.ht-item:nth-child(4) .ht-dot,.ht-item:nth-child(4) .ht-yr{color:var(--c4)}.ht-item:nth-child(5) .ht-dot,.ht-item:nth-child(5) .ht-yr{color:var(--c5)}
 .ht-yr{font-family:var(--fh);font-size:1.8rem;margin-bottom:10px;line-height:1}
@@ -193,7 +194,7 @@ const portfolioData = {
       { label: "Node.js", cls: "rb-m" },
       { label: "JavaScript", cls: "rb-a" },
     ],
-    tagline: "Engineering interfaces & systems that scale",
+    tagline: "On the way, Building something that changes the game",
     hud: [
       { label: "STATUS", value: "◉ OPEN TO WORK" },
       { label: "EXP", value: "3+ YRS" },
@@ -391,7 +392,7 @@ const portfolioData = {
   },
 
   footer: {
-    logo: "DEV.FOLIO",
+    logo: "SURAJ SANGALE",
     links: [
       { label: "GitHub", href: "#" },
       { label: "LinkedIn", href: "#" },
@@ -401,7 +402,7 @@ const portfolioData = {
   },
 };
 
-export default function DevFolio() {
+export default function DevFolio({ pageData }) {
   const canvasRef = useRef(null);
   const commitRef = useRef(null);
   const dotRef = useRef(null);
@@ -410,6 +411,8 @@ export default function DevFolio() {
   const myRef = useRef(0);
   const gxRef = useRef(0);
   const gyRef = useRef(0);
+
+  const socialLinksData = pageData.socialLinks || [];
 
   useEffect(() => {
     // Inject styles
@@ -943,21 +946,23 @@ export default function DevFolio() {
             {hero.firstName}
             <span className="hero-accent">{hero.lastName}</span>
           </h1>
+
           <div className="hero-roles">
-            {hero.badges.map((b) => (
+            {/* {hero.badges.map((b) => (
               <span
-                key={b.label}
-                className={`role-badge ${b.cls}`}
+              key={b.label}
+              className={`role-badge ${b.cls}`}
               >
-                {b.label}
+              {b.label}
               </span>
-            ))}
+              ))} */}
           </div>
           <div className="hero-sub-wrap">
             <div className="hero-line"></div>
             <p className="hero-sub">{hero.tagline}</p>
             <div className="hero-line-r"></div>
           </div>
+          <SocialIcons socialLinks={socialLinksData} />
           <div className="hud">
             {hero.hud.map((h) => (
               <div
@@ -1129,7 +1134,7 @@ export default function DevFolio() {
               <span className="l3">TOGETHER</span>
             </div>
             <div className="contact-chips">
-              {contact.chips.map((c) => (
+              {/* {contact.chips.map((c) => (
                 <a
                   key={c.label}
                   href={c.href}
@@ -1137,7 +1142,7 @@ export default function DevFolio() {
                 >
                   {c.label}
                 </a>
-              ))}
+              ))} */}
             </div>
             <div className="btn-row">
               {contact.buttons.map((b) => (
