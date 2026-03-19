@@ -25,7 +25,7 @@ const Header = () => {
 
   return (
     <>
-      <nav className="fixed top-0 inset-x-0 z-20 backdrop-blur-md">
+      <nav className="fixed top-0 inset-x-0 z-20 backdrop-blur-sm">
         <div className="relative container mx-auto px-6 py-5 flex items-center justify-between">
           {/* Logo */}
           <Link href="/">

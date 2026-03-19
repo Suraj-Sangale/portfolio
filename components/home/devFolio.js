@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import Header from "../header";
 
 const styles = `
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@100;200;300;400&family=Space+Mono:ital@0;1&display=swap');
@@ -911,7 +912,7 @@ export default function DevFolio() {
       ></canvas>
 
       {/* ── NAV ── */}
-      <nav>
+      {/* <nav>
         <div className="nav-logo">{nav.logo}</div>
         <div className="nav-r">
           {nav.links.map((l) => (
@@ -929,7 +930,8 @@ export default function DevFolio() {
             <span>{nav.cta.label}</span>
           </a>
         </div>
-      </nav>
+      </nav> */}
+      <Header />
 
       <div id="page">
         {/* ── S1 HERO ── */}
