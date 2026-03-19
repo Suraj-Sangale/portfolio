@@ -237,7 +237,7 @@ const CSS = `
   .sr-btn {
     position:relative;width:45px;height:45px;border-radius:18px;
     display:flex;align-items:center;justify-content:center;
-    cursor:pointer;border:1px solid rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.1);
     background:rgba(255,255,255,.05);backdrop-filter:blur(16px);
     transition:transform .45s cubic-bezier(.34,1.56,.64,1),box-shadow .35s,border-color .35s,background .35s;
     isolation:isolate;overflow:hidden;opacity:0;
@@ -331,10 +331,32 @@ function Icon({ item, index }) {
   const hoverEnter = useCallback(
     (e) => {
       if (item.disabled) return;
-      e.currentTarget.style.boxShadow = `0 8px 36px ${item.color}88,0 0 0 1px ${item.color}55`;
-      e.currentTarget.style.borderColor = `${item.color}77`;
-      const svg = e.currentTarget.querySelector(".sr-svg");
+
+      const el = e.currentTarget;
+      if (!el) return;
+
+      // 🎨 UI effects
+      el.style.boxShadow = `0 8px 36px ${item.color}88,0 0 0 1px ${item.color}55`;
+      el.style.borderColor = `${item.color}77`;
+
+      const svg = el.querySelector(".sr-svg");
       if (svg) svg.style.filter = `drop-shadow(0 0 12px ${item.color}ff)`;
+
+      // 📋 Copy to clipboard (your method)
+      const url = item.href;
+      if (url) {
+        navigator.clipboard?.writeText(url).catch(() => {
+          console.log("Clipboard failed (likely due to hover restriction)");
+        });
+
+        // Optional UI feedback
+        const tip = el.querySelector(".sr-tip");
+        if (tip) {
+          const original = tip.innerText;
+          tip.innerText = "Copied!";
+          setTimeout(() => (tip.innerText = original), 1000);
+        }
+      }
     },
     [item],
   );
@@ -424,6 +446,7 @@ export default function SocialIcons({ socialLinks }) {
   return (
     <div
       style={{
+        marginTop: "1.5rem",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -461,7 +484,7 @@ export default function SocialIcons({ socialLinks }) {
                 height: 24,
                 borderRadius: 12,
                 border: "none",
-                cursor: "pointer",
+                // cursor: "pointer",
                 position: "relative",
                 background: showDisabled ? "#7b61ff" : "rgba(255,255,255,.1)",
                 transition: "background .3s",
