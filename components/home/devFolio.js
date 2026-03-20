@@ -38,7 +38,7 @@ nav::after{content:'';position:absolute;bottom:0;left:52px;right:52px;height:1px
 #page{position:relative;z-index:10}
 section{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding:100px 60px;overflow:hidden;}
 
-#s1{min-height:250vh;justify-content:flex-start;padding-top:28vh;gap:0}
+#s1{min-height:200vh;justify-content:flex-start;padding-top:28vh;gap:0}
 .glitch{position:relative;font-family:var(--fh);font-size:clamp(4rem,14vw,12rem);line-height:.85;letter-spacing:.03em;color:var(--txt);text-align:center;filter:drop-shadow(0 0 40px rgba(0,245,255,.3));opacity:0;animation:heroIn 1.8s .3s cubic-bezier(.16,1,.3,1) forwards;}
 .glitch::before,.glitch::after{content:attr(data-text);position:absolute;top:1.4px;left:3px;width:100%;height:100%;font-family:var(--fh);font-size:inherit;line-height:inherit;letter-spacing:inherit;text-align:center;}
 .glitch::before{color:var(--c2);clip-path:polygon(0 30%,100% 30%,100% 50%,0 50%);animation:glitch1 4s infinite;transform:translateX(-3px);}
