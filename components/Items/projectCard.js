@@ -7,11 +7,13 @@ import { IoIosClose } from "react-icons/io";
 import { SwiperSlide } from "swiper/react";
 // import projecStyle from "@/styles/projects.module.scss";
 import { CiShare1 } from "react-icons/ci";
+import { useRouter } from "next/router";
 
-export default function ProjectCard({ project }) {
+export default function ProjectCard({ project, isDefaultOpen }) {
   const [isOpen, setIsOpen] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
   const modalRef = useRef(null);
+  const router = useRouter();
 
   useEffect(() => {
     if (isOpen) {
@@ -31,6 +33,13 @@ export default function ProjectCard({ project }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
 
+  // ✅ Open modal if slug matches
+  useEffect(() => {
+    if (isDefaultOpen) {
+      setIsOpen(true);
+    }
+  }, [isDefaultOpen]);
+
   const carouselOptions = {
     slidesPerView: 1,
     loop: true,
@@ -49,6 +58,15 @@ export default function ProjectCard({ project }) {
 
   // Prevent modal opening on click of Swiper controls
   const handleSwiperClick = (e) => e.stopPropagation();
+
+  const handleClose = () => {
+    setIsOpen(false);
+
+    // remove slug from URL
+    router.replace({ pathname: router.pathname, query: {} }, undefined, {
+      shallow: true,
+    });
+  };
 
   return (
     <>
@@ -151,7 +169,7 @@ export default function ProjectCard({ project }) {
           >
             {/* Close Button */}
             <div className="absolute w-7 h-7 bg-gray-600 rounded-2xl top-4 right-4 text-gray-100 text-2xl md:top-6 md:right-6 z-50 flex items-center justify-center cursor-pointer">
-              <button onClick={() => setIsOpen(false)}>
+              <button onClick={handleClose}>
                 <IoIosClose />
               </button>
             </div>
