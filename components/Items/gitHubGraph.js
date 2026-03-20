@@ -1,9 +1,10 @@
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import GitHubCalendar from "react-github-calendar";
 
 export default function GitHubGraph() {
   const currentYear = new Date().getFullYear();
-  const [selectedYear, setSelectedYear] = useState(currentYear);
+  const [selectedYear, setSelectedYear] = useState(2025);
   const [loaded, setLoaded] = useState(false);
   const [sizeConfig, setSizeConfig] = useState({
     blockSize: 13,
@@ -11,7 +12,7 @@ export default function GitHubGraph() {
     fontSize: 14,
   });
 
-  const years = Array.from({ length: 5 }, (_, i) => currentYear - i);
+  const years = Array.from({ length: 4 }, (_, i) => currentYear - i);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoaded(true), 100);
@@ -248,7 +249,12 @@ export default function GitHubGraph() {
             </div>
             <div>
               <div className="gh-title">Contributions</div>
-              <div className="gh-username">@Suraj-Sangale</div>
+              <Link
+                href={"https://github.com/Suraj-Sangale"}
+                className="gh-username"
+              >
+                @Suraj-Sangale
+              </Link>
             </div>
           </div>
 
