@@ -172,6 +172,234 @@ footer{padding:36px 52px;border-top:1px solid rgba(255,255,255,.05);display:flex
 }
 `;
 
+const portfolioData = {
+  nav: {
+    logo: "DEV",
+    links: [
+      { label: "Stack", href: "#s2" },
+      { label: "Projects", href: "#s3" },
+      { label: "Journey", href: "#s5" },
+    ],
+    cta: { label: "Hire Me", href: "#s6" },
+  },
+
+  hero: {
+    firstName: "SURAJ",
+    lastName: "SANGALE",
+    badges: [
+      { label: "React", cls: "rb-c" },
+      { label: "Next.js", cls: "rb-v" },
+      { label: "Node.js", cls: "rb-m" },
+      { label: "JavaScript", cls: "rb-a" },
+    ],
+    tagline: "Engineering interfaces & systems that scale",
+    hud: [
+      { label: "STATUS", value: "◉ OPEN TO WORK" },
+      { label: "EXP", value: "3+ YRS" },
+      { label: "STACK", value: "MERN + NEXT" },
+      { label: "COMMITS", value: "0000", ref: true },
+    ],
+    commitTarget: 2847,
+  },
+
+  stats: [
+    { value: "12", suffix: "+", cls: "c", label: "Projects Shipped" },
+    { value: "3", suffix: "yrs", cls: "m", label: "Professional Experience" },
+    { value: "99", suffix: "%", cls: "v", label: "Lighthouse Score Target" },
+    { value: "∞", suffix: "", cls: "a", label: "Coffee-Driven Commits" },
+  ],
+
+  projects: [
+    {
+      num: "01",
+      icon: "⚡",
+      iconCls: "ic",
+      sizeCls: "b1",
+      titleGradient: "gw-c",
+      titleWord: "SaaS",
+      titleRest: "Dashboard Platform",
+      body: "A full-stack multi-tenant SaaS platform with real-time analytics, role-based access control, and a dynamic dashboard builder. Handles 10k+ concurrent users with sub-100ms response times via Redis caching and optimized Next.js SSR pipelines.",
+      tags: [
+        { label: "Next.js", cls: "btag-c" },
+        { label: "Node.js", cls: "btag-m" },
+        { label: "PostgreSQL", cls: "btag-v" },
+        { label: "Redis", cls: "btag-a" },
+        { label: "Prisma", cls: "btag-g" },
+      ],
+      orb: "orb-c",
+    },
+    {
+      num: "02",
+      icon: "🛒",
+      iconCls: "im",
+      sizeCls: "b2",
+      titleGradient: "gw-m",
+      titleWord: "E-Commerce",
+      titleRest: "Engine",
+      body: "Headless commerce with Stripe payments, inventory management, and SSG product pages hitting perfect Core Web Vitals.",
+      tags: [
+        { label: "React", cls: "btag-c" },
+        { label: "Stripe API", cls: "btag-m" },
+        { label: "MongoDB", cls: "btag-v" },
+      ],
+    },
+    {
+      num: "03",
+      icon: "💬",
+      iconCls: "iv",
+      sizeCls: "b3",
+      titleGradient: "gw-v",
+      titleWord: "Real-Time",
+      titleRest: "Chat App",
+      body: "WebSocket-powered messaging with end-to-end encryption, file uploads, and presence indicators at scale.",
+      tags: [
+        { label: "Socket.io", cls: "btag-c" },
+        { label: "Node.js", cls: "btag-v" },
+        { label: "JWT", cls: "btag-a" },
+      ],
+    },
+    {
+      num: "04",
+      icon: "🤖",
+      iconCls: "ia",
+      sizeCls: "b4",
+      titleGradient: "gw-a",
+      titleWord: "AI",
+      titleRest: "Integration",
+      newline: true,
+      body: "LLM-powered content generation pipeline with streaming responses, prompt engineering, and usage metering.",
+      tags: [
+        { label: "OpenAI API", cls: "btag-a" },
+        { label: "Next.js", cls: "btag-c" },
+      ],
+    },
+    {
+      num: "05",
+      icon: "🔐",
+      iconCls: "ic",
+      sizeCls: "b5",
+      titleGradient: "gw-c",
+      titleWord: "Auth",
+      titleRest: "Microservice",
+      newline: true,
+      body: "OAuth 2.0 + JWT auth system with refresh token rotation, device fingerprinting, and rate limiting.",
+      tags: [
+        { label: "Express", cls: "btag-m" },
+        { label: "OAuth", cls: "btag-v" },
+      ],
+    },
+    {
+      num: "06",
+      icon: "📊",
+      iconCls: "ig",
+      sizeCls: "b6",
+      titleGradient: "gw-g",
+      titleWord: "DevOps",
+      titleRest: "Pipeline",
+      newline: true,
+      body: "CI/CD with GitHub Actions, Docker containerization, and automated deployment to AWS with zero-downtime rolling updates.",
+      tags: [
+        { label: "Docker", cls: "btag-g" },
+        { label: "AWS", cls: "btag-a" },
+      ],
+    },
+  ],
+
+  marqueeRow1: [
+    { label: "REACT", lit: "lit" },
+    { label: "✦" },
+    { label: "NEXT.JS" },
+    { label: "✦" },
+    { label: "NODE", lit: "lit2" },
+    { label: "✦" },
+    { label: "EXPRESS" },
+    { label: "✦" },
+    { label: "JAVASCRIPT", lit: "lit" },
+    { label: "✦" },
+    { label: "TYPESCRIPT" },
+    { label: "✦" },
+    { label: "MONGODB", lit: "lit3" },
+    { label: "✦" },
+    { label: "POSTGRES" },
+    { label: "✦" },
+  ],
+
+  marqueeRow2: [
+    { label: "REDUX", lit: "lit2" },
+    { label: "◈" },
+    { label: "TAILWIND" },
+    { label: "◈" },
+    { label: "PRISMA", lit: "lit" },
+    { label: "◈" },
+    { label: "REDIS" },
+    { label: "◈" },
+    { label: "DOCKER", lit: "lit3" },
+    { label: "◈" },
+    { label: "GITHUB ACTIONS" },
+    { label: "◈" },
+    { label: "AWS", lit: "lit2" },
+    { label: "◈" },
+    { label: "GRAPHQL" },
+    { label: "◈" },
+  ],
+
+  journey: [
+    {
+      yr: "2021",
+      name: "First Commit",
+      desc: "Started with HTML, CSS, vanilla JS. Built my first React app and caught the bug. No turning back.",
+    },
+    {
+      yr: "2022",
+      name: "Backend Unlocked",
+      desc: "Dove into Node.js, Express, MongoDB. Shipped first REST APIs and fell in love with server-side architecture.",
+    },
+    {
+      yr: "2023",
+      name: "Next.js Era",
+      desc: "Adopted Next.js full-time. Mastered SSR, ISR, App Router. First production SaaS product launched.",
+    },
+    {
+      yr: "2024",
+      name: "Scale & Systems",
+      desc: "PostgreSQL, Redis, Docker, CI/CD. Engineering for performance, reliability, and real-world traffic.",
+    },
+    {
+      yr: "Now",
+      name: "You Found Me",
+      desc: "Building ambitious products. Open to contracts, full-time roles, and interesting collaborations.",
+    },
+  ],
+
+  contact: {
+    chips: [
+      { label: "✉ hello@yourdev.io", href: "mailto:hello@yourdev.io" },
+      { label: "◈ GitHub", href: "https://github.com" },
+      { label: "◈ LinkedIn", href: "https://linkedin.com" },
+      { label: "◈ Twitter / X", href: "https://twitter.com" },
+    ],
+    buttons: [
+      {
+        label: "Start a Project",
+        href: "mailto:hello@yourdev.io",
+        cls: "glowbtn-primary",
+      },
+      { label: "Download CV", href: "#", cls: "glowbtn-outline" },
+    ],
+    note: "Available for freelance · full-time · collab",
+  },
+
+  footer: {
+    logo: "DEV.FOLIO",
+    links: [
+      { label: "GitHub", href: "#" },
+      { label: "LinkedIn", href: "#" },
+      { label: "Resume", href: "#" },
+    ],
+    copy: "© 2025 — Crafted in React, Next.js & raw ambition",
+  },
+};
+
 export default function DevFolio() {
   const canvasRef = useRef(null);
   const commitRef = useRef(null);
@@ -260,7 +488,7 @@ export default function DevFolio() {
       // ── COMMIT COUNTER ──
       const counterEl = commitRef.current;
       let count = 0,
-        target = 2847;
+        target = portfolioData.hero.commitTarget;
       setTimeout(() => {
         const interval = setInterval(() => {
           count += Math.ceil((target - count) / 12);
@@ -631,6 +859,39 @@ export default function DevFolio() {
     return () => cleanup();
   }, []);
 
+  const {
+    nav,
+    hero,
+    stats,
+    projects,
+    marqueeRow1,
+    marqueeRow2,
+    journey,
+    contact,
+    footer,
+  } = portfolioData;
+
+  const renderMarqueeItem = (item, i, symbol) =>
+    item.label === symbol ? (
+      <span
+        key={i}
+        className="marquee-item"
+      >
+        <span>{symbol}</span>
+      </span>
+    ) : (
+      <span
+        key={i}
+        className={`marquee-item ${item.lit || ""}`}
+      >
+        {item.label}
+      </span>
+    );
+
+  // Duplicate rows once for seamless infinite loop
+  const row1 = [...marqueeRow1, ...marqueeRow1];
+  const row2 = [...marqueeRow2, ...marqueeRow2];
+
   return (
     <>
       <div
@@ -649,17 +910,23 @@ export default function DevFolio() {
         ref={canvasRef}
       ></canvas>
 
+      {/* ── NAV ── */}
       <nav>
-        <div className="nav-logo">DEV</div>
+        <div className="nav-logo">{nav.logo}</div>
         <div className="nav-r">
-          <a href="#s2">Stack</a>
-          <a href="#s3">Projects</a>
-          <a href="#s5">Journey</a>
+          {nav.links.map((l) => (
+            <a
+              key={l.label}
+              href={l.href}
+            >
+              {l.label}
+            </a>
+          ))}
           <a
-            href="#s6"
+            href={nav.cta.href}
             className="nav-btn"
           >
-            <span>Hire Me</span>
+            <span>{nav.cta.label}</span>
           </a>
         </div>
       </nav>
@@ -671,40 +938,39 @@ export default function DevFolio() {
             className="glitch"
             data-text=""
           >
-            SURAJ<span className="hero-accent">SANGALE</span>
+            {hero.firstName}
+            <span className="hero-accent">{hero.lastName}</span>
           </h1>
           <div className="hero-roles">
-            <span className="role-badge rb-c">React</span>
-            <span className="role-badge rb-v">Next.js</span>
-            <span className="role-badge rb-m">Node.js</span>
-            <span className="role-badge rb-a">JavaScript</span>
+            {hero.badges.map((b) => (
+              <span
+                key={b.label}
+                className={`role-badge ${b.cls}`}
+              >
+                {b.label}
+              </span>
+            ))}
           </div>
           <div className="hero-sub-wrap">
             <div className="hero-line"></div>
-            <p className="hero-sub">
-              Engineering interfaces & systems that scale
-            </p>
+            <p className="hero-sub">{hero.tagline}</p>
             <div className="hero-line-r"></div>
           </div>
           <div className="hud">
-            <div className="hud-item">
-              STATUS <span className="hud-val">◉ OPEN TO WORK</span>
-            </div>
-            <div className="hud-item">
-              EXP <span className="hud-val">3+ YRS</span>
-            </div>
-            <div className="hud-item">
-              STACK <span className="hud-val">MERN + NEXT</span>
-            </div>
-            <div className="hud-item">
-              COMMITS{" "}
-              <span
-                className="hud-val"
-                ref={commitRef}
+            {hero.hud.map((h) => (
+              <div
+                key={h.label}
+                className="hud-item"
               >
-                0000
-              </span>
-            </div>
+                {h.label}{" "}
+                <span
+                  className="hud-val"
+                  ref={h.ref ? commitRef : null}
+                >
+                  {h.value}
+                </span>
+              </div>
+            ))}
           </div>
           <div className="scroll-pulse">
             <div className="pulse-circle"></div>
@@ -727,28 +993,20 @@ export default function DevFolio() {
             </h2>
           </div>
           <div className="stats-band">
-            <div className="stat-cell">
-              <div className="stat-big c">
-                12<span style={{ fontSize: ".5em" }}>+</span>
+            {stats.map((s) => (
+              <div
+                key={s.label}
+                className="stat-cell"
+              >
+                <div className={`stat-big ${s.cls}`}>
+                  {s.value}
+                  {s.suffix && (
+                    <span style={{ fontSize: ".5em" }}>{s.suffix}</span>
+                  )}
+                </div>
+                <div className="stat-lbl">{s.label}</div>
               </div>
-              <div className="stat-lbl">Projects Shipped</div>
-            </div>
-            <div className="stat-cell">
-              <div className="stat-big m">
-                3<span style={{ fontSize: ".5em" }}>yrs</span>
-              </div>
-              <div className="stat-lbl">Professional Experience</div>
-            </div>
-            <div className="stat-cell">
-              <div className="stat-big v">
-                99<span style={{ fontSize: ".5em" }}>%</span>
-              </div>
-              <div className="stat-lbl">Lighthouse Score Target</div>
-            </div>
-            <div className="stat-cell">
-              <div className="stat-big a">∞</div>
-              <div className="stat-lbl">Coffee-Driven Commits</div>
-            </div>
+            ))}
           </div>
           <div className="tech-orbit rv-s">
             <div className="orbit-ring"></div>
@@ -775,112 +1033,38 @@ export default function DevFolio() {
             </h2>
           </div>
           <div className="bento-grid">
-            <div className="bento b1">
-              <div className="bento-num">01</div>
-              <div className="bento-icon ic">⚡</div>
-              <div className="bento-title">
-                <span className="gw-c">SaaS</span>
-                <br />
-                Dashboard Platform
+            {projects.map((p) => (
+              <div
+                key={p.num}
+                className={`bento ${p.sizeCls}`}
+              >
+                <div className="bento-num">{p.num}</div>
+                <div className={`bento-icon ${p.iconCls}`}>{p.icon}</div>
+                <div className="bento-title">
+                  <span className={p.titleGradient}>{p.titleWord}</span>
+                  {p.newline ? (
+                    <>
+                      <br />
+                      {p.titleRest}
+                    </>
+                  ) : (
+                    <> {p.titleRest}</>
+                  )}
+                </div>
+                <div className="bento-body">{p.body}</div>
+                <div className="bento-tags">
+                  {p.tags.map((t) => (
+                    <span
+                      key={t.label}
+                      className={`btag ${t.cls}`}
+                    >
+                      {t.label}
+                    </span>
+                  ))}
+                </div>
+                {p.orb && <div className={`bento-orb ${p.orb}`}></div>}
               </div>
-              <div className="bento-body">
-                A full-stack multi-tenant SaaS platform with real-time
-                analytics, role-based access control, and a dynamic dashboard
-                builder. Handles 10k+ concurrent users with sub-100ms response
-                times via Redis caching and optimized Next.js SSR pipelines.
-              </div>
-              <div className="bento-tags">
-                <span className="btag btag-c">Next.js</span>
-                <span className="btag btag-m">Node.js</span>
-                <span className="btag btag-v">PostgreSQL</span>
-                <span className="btag btag-a">Redis</span>
-                <span className="btag btag-g">Prisma</span>
-              </div>
-              <div className="bento-orb orb-c"></div>
-            </div>
-            <div className="bento b2">
-              <div className="bento-num">02</div>
-              <div className="bento-icon im">🛒</div>
-              <div className="bento-title">
-                <span className="gw-m">E-Commerce</span> Engine
-              </div>
-              <div className="bento-body">
-                Headless commerce with Stripe payments, inventory management,
-                and SSG product pages hitting perfect Core Web Vitals.
-              </div>
-              <div className="bento-tags">
-                <span className="btag btag-c">React</span>
-                <span className="btag btag-m">Stripe API</span>
-                <span className="btag btag-v">MongoDB</span>
-              </div>
-            </div>
-            <div className="bento b3">
-              <div className="bento-num">03</div>
-              <div className="bento-icon iv">💬</div>
-              <div className="bento-title">
-                <span className="gw-v">Real-Time</span> Chat App
-              </div>
-              <div className="bento-body">
-                WebSocket-powered messaging with end-to-end encryption, file
-                uploads, and presence indicators at scale.
-              </div>
-              <div className="bento-tags">
-                <span className="btag btag-c">Socket.io</span>
-                <span className="btag btag-v">Node.js</span>
-                <span className="btag btag-a">JWT</span>
-              </div>
-            </div>
-            <div className="bento b4">
-              <div className="bento-num">04</div>
-              <div className="bento-icon ia">🤖</div>
-              <div className="bento-title">
-                <span className="gw-a">AI</span>
-                <br />
-                Integration
-              </div>
-              <div className="bento-body">
-                LLM-powered content generation pipeline with streaming
-                responses, prompt engineering, and usage metering.
-              </div>
-              <div className="bento-tags">
-                <span className="btag btag-a">OpenAI API</span>
-                <span className="btag btag-c">Next.js</span>
-              </div>
-            </div>
-            <div className="bento b5">
-              <div className="bento-num">05</div>
-              <div className="bento-icon ic">🔐</div>
-              <div className="bento-title">
-                <span className="gw-c">Auth</span>
-                <br />
-                Microservice
-              </div>
-              <div className="bento-body">
-                OAuth 2.0 + JWT auth system with refresh token rotation, device
-                fingerprinting, and rate limiting.
-              </div>
-              <div className="bento-tags">
-                <span className="btag btag-m">Express</span>
-                <span className="btag btag-v">OAuth</span>
-              </div>
-            </div>
-            <div className="bento b6">
-              <div className="bento-num">06</div>
-              <div className="bento-icon ig">📊</div>
-              <div className="bento-title">
-                <span className="gw-g">DevOps</span>
-                <br />
-                Pipeline
-              </div>
-              <div className="bento-body">
-                CI/CD with GitHub Actions, Docker containerization, and
-                automated deployment to AWS with zero-downtime rolling updates.
-              </div>
-              <div className="bento-tags">
-                <span className="btag btag-g">Docker</span>
-                <span className="btag btag-a">AWS</span>
-              </div>
-            </div>
+            ))}
           </div>
         </section>
 
@@ -888,63 +1072,7 @@ export default function DevFolio() {
         <section id="s4">
           <div className="marquee-wrap">
             <div className="marquee-track">
-              {[
-                "REACT",
-                "✦",
-                "NEXT.JS",
-                "✦",
-                "NODE",
-                "✦",
-                "EXPRESS",
-                "✦",
-                "JAVASCRIPT",
-                "✦",
-                "TYPESCRIPT",
-                "✦",
-                "MONGODB",
-                "✦",
-                "POSTGRES",
-                "✦",
-                "REACT",
-                "✦",
-                "NEXT.JS",
-                "✦",
-                "NODE",
-                "✦",
-                "EXPRESS",
-                "✦",
-                "JAVASCRIPT",
-                "✦",
-                "TYPESCRIPT",
-                "✦",
-                "MONGODB",
-                "✦",
-                "POSTGRES",
-                "✦",
-              ].map((item, i) => {
-                const litItems = {
-                  REACT: "lit",
-                  NODE: "lit2",
-                  JAVASCRIPT: "lit",
-                  MONGODB: "lit3",
-                };
-                const isSymbol = item === "✦";
-                return isSymbol ? (
-                  <span
-                    key={i}
-                    className="marquee-item"
-                  >
-                    <span>✦</span>
-                  </span>
-                ) : (
-                  <span
-                    key={i}
-                    className={`marquee-item ${litItems[item] || ""}`}
-                  >
-                    {item}
-                  </span>
-                );
-              })}
+              {row1.map((item, i) => renderMarqueeItem(item, i, "✦"))}
             </div>
           </div>
           <div
@@ -952,59 +1080,7 @@ export default function DevFolio() {
             style={{ borderTop: "none", marginTop: "3px" }}
           >
             <div className="marquee-track rev">
-              {[
-                "REDUX",
-                "◈",
-                "TAILWIND",
-                "◈",
-                "PRISMA",
-                "◈",
-                "REDIS",
-                "◈",
-                "DOCKER",
-                "◈",
-                "GITHUB ACTIONS",
-                "◈",
-                "AWS",
-                "◈",
-                "GRAPHQL",
-                "◈",
-                "REDUX",
-                "◈",
-                "TAILWIND",
-                "◈",
-                "PRISMA",
-                "◈",
-                "REDIS",
-                "◈",
-                "DOCKER",
-                "◈",
-                "GITHUB ACTIONS",
-                "◈",
-              ].map((item, i) => {
-                const litItems = {
-                  REDUX: "lit2",
-                  PRISMA: "lit",
-                  DOCKER: "lit3",
-                  AWS: "lit2",
-                };
-                const isSymbol = item === "◈";
-                return isSymbol ? (
-                  <span
-                    key={i}
-                    className="marquee-item"
-                  >
-                    <span>◈</span>
-                  </span>
-                ) : (
-                  <span
-                    key={i}
-                    className={`marquee-item ${litItems[item] || ""}`}
-                  >
-                    {item}
-                  </span>
-                );
-              })}
+              {row2.map((item, i) => renderMarqueeItem(item, i, "◈"))}
             </div>
           </div>
         </section>
@@ -1022,33 +1098,7 @@ export default function DevFolio() {
             </h2>
           </div>
           <div className="h-timeline">
-            {[
-              {
-                yr: "2021",
-                name: "First Commit",
-                desc: "Started with HTML, CSS, vanilla JS. Built my first React app and caught the bug. No turning back.",
-              },
-              {
-                yr: "2022",
-                name: "Backend Unlocked",
-                desc: "Dove into Node.js, Express, MongoDB. Shipped first REST APIs and fell in love with server-side architecture.",
-              },
-              {
-                yr: "2023",
-                name: "Next.js Era",
-                desc: "Adopted Next.js full-time. Mastered SSR, ISR, App Router. First production SaaS product launched.",
-              },
-              {
-                yr: "2024",
-                name: "Scale & Systems",
-                desc: "PostgreSQL, Redis, Docker, CI/CD. Engineering for performance, reliability, and real-world traffic.",
-              },
-              {
-                yr: "Now",
-                name: "You Found Me",
-                desc: "Building ambitious products. Open to contracts, full-time roles, and interesting collaborations.",
-              },
-            ].map((item) => (
+            {journey.map((item) => (
               <div
                 key={item.yr}
                 className="ht-item"
@@ -1077,61 +1127,44 @@ export default function DevFolio() {
               <span className="l3">TOGETHER</span>
             </div>
             <div className="contact-chips">
-              <a
-                href="mailto:hello@yourdev.io"
-                className="chip"
-              >
-                ✉ hello@yourdev.io
-              </a>
-              <a
-                href="https://github.com"
-                className="chip"
-              >
-                ◈ GitHub
-              </a>
-              <a
-                href="https://linkedin.com"
-                className="chip"
-              >
-                ◈ LinkedIn
-              </a>
-              <a
-                href="https://twitter.com"
-                className="chip"
-              >
-                ◈ Twitter / X
-              </a>
+              {contact.chips.map((c) => (
+                <a
+                  key={c.label}
+                  href={c.href}
+                  className="chip"
+                >
+                  {c.label}
+                </a>
+              ))}
             </div>
             <div className="btn-row">
-              <a
-                href="mailto:hello@yourdev.io"
-                className="glowbtn glowbtn-primary"
-              >
-                Start a Project
-              </a>
-              <a
-                href="#"
-                className="glowbtn glowbtn-outline"
-              >
-                Download CV
-              </a>
+              {contact.buttons.map((b) => (
+                <a
+                  key={b.label}
+                  href={b.href}
+                  className={`glowbtn ${b.cls}`}
+                >
+                  {b.label}
+                </a>
+              ))}
             </div>
-            <p className="cta-note">
-              Available for freelance · full-time · collab
-            </p>
+            <p className="cta-note">{contact.note}</p>
           </div>
         </section>
 
         <footer>
-          <div className="fl">DEV.FOLIO</div>
+          <div className="fl">{footer.logo}</div>
           <div className="fm-links">
-            <a href="#">GitHub</a>
-            <a href="#">LinkedIn</a>
-            <a href="#">Resume</a>
+            {footer.links.map((l) => (
+              <a
+                key={l.label}
+                href={l.href}
+              >
+                {l.label}
+              </a>
+            ))}
           </div>
-          <div className="fr">
-            © 2025 — Crafted in React, Next.js & raw ambition
-          </div>
+          <div className="fr">{footer.copy}</div>
         </footer>
       </div>
     </>
