@@ -1,15 +1,10 @@
 import { getPortfolioDataController } from "@/backend/controller/commonController";
 import Layout from "@/components/layout";
 import HomeWrapper from "@/components/homeWrapper";
+import DevFolio from "@/components/home/devFolio";
 
 export default function Home({ pageData }) {
-  return (
-    <Layout>
-      {/* <HomeLanding pageData={pageData} /> */}
-      {/* <ScrollReveal /> */}
-      <HomeWrapper pageData={pageData} />
-    </Layout>
-  );
+  return <DevFolio />;
 }
 
 export const getServerSideProps = async () => {
