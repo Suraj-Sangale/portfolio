@@ -93,8 +93,8 @@ section{min-height:100vh;display:flex;flex-direction:column;align-items:center;j
 
 #s3{padding:120px 52px;align-items:center}
 .bento-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:auto;gap:3px;width:100%;max-width:1200px;margin-top:60px;}
-.bento{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);padding:40px;position:relative;overflow:hidden;transition:border-color .4s,transform .5s cubic-bezier(.16,1,.3,1),background .4s;opacity:0;transform:translateY(30px) scale(.97);}
-.bento:hover{border-color:rgba(0,245,255,.25);background:rgba(0,245,255,.03);transform:translateY(-4px) scale(1.01) !important;z-index:5;}
+.bento{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);padding:40px;position:relative;overflow:hidden;transition:border-color .4s,transform .5s cubic-bezier(.16,1,.3,1),background .4s;opacity:0;transform:translateY(30px) scale(.97);  backdrop-filter:blur(0.5px);}
+.bento:hover{border-color:rgba(0,245,255,.25);background:rgba(0,245,255,.03);transform:translateY(-4px) scale(1.01) !important;z-index:5; backdrop-filter:blur(20px);}
 .bento::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,245,255,.5),transparent);opacity:0;transition:opacity .4s;}
 .bento:hover::before{opacity:1}
 .b1{grid-column:span 7;grid-row:span 2;min-height:320px}.b2{grid-column:span 5;min-height:155px}.b3{grid-column:span 5;min-height:155px}.b4{grid-column:span 4;min-height:200px}.b5{grid-column:span 4;min-height:200px}.b6{grid-column:span 4;min-height:200px}
@@ -964,10 +964,10 @@ export default function DevFolio({ pageData }) {
               </div>
             ))}
           </div>
-          <div className="scroll-pulse">
+          {/* <div className="scroll-pulse">
             <div className="pulse-circle"></div>
             <p className="scroll-txt">Scroll to explore</p>
-          </div>
+          </div> */}
         </section>
 
         {/* ── S2 STACK ── */}
