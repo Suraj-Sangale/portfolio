@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import Header from "../header";
 import SocialIcons from "./socialIcons";
+import Link from "next/link";
 
 const styles = `
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@100;200;300;400&family=Space+Mono:ital@0;1&display=swap');
@@ -220,6 +221,8 @@ const portfolioData = {
       titleGradient: "gw-c",
       titleWord: "Linux",
       titleRest: "Tools",
+      slug: "linux-tools",
+
       body: "Web-based DevOps toolkit with DNS checker, port scanner, IP lookup, and command utilities to simplify server troubleshooting.",
       tags: [
         { label: "Next.js", cls: "btag-c" },
@@ -236,6 +239,8 @@ const portfolioData = {
       titleGradient: "gw-m",
       titleWord: "Cargo",
       titleRest: "Desk",
+      slug: "cargo-desk",
+
       body: "Transport management system with bulk SMS (Twilio), contact import, JWT authentication, and document tracking.",
       tags: [
         { label: "Next.js", cls: "btag-c" },
@@ -252,6 +257,8 @@ const portfolioData = {
       titleGradient: "gw-v",
       titleWord: "Point Stream",
       titleRest: "Panel",
+      slug: "point-stream-panel",
+
       body: "Real-time sports scoring system with WebSocket multi-referee input and live scoreboard updates.",
       tags: [
         { label: "Next.js", cls: "btag-c" },
@@ -264,6 +271,8 @@ const portfolioData = {
       icon: "🎮",
       iconCls: "ia",
       sizeCls: "b4",
+      slug: "tic-tac-toe-game",
+
       titleGradient: "gw-a",
       titleWord: "Tic Tac Toe",
       titleRest: "Game",
@@ -282,6 +291,8 @@ const portfolioData = {
       titleGradient: "gw-c",
       titleWord: "Urban",
       titleRest: "Market",
+      slug: "urban-market",
+
       body: "Responsive e-commerce UI with cart and checkout functionality.",
       tags: [
         { label: "React", cls: "btag-c" },
@@ -344,7 +355,10 @@ const portfolioData = {
     chips: [
       { label: "✉ hello@example.com", href: "mailto:hello@example.com" },
       { label: "◈ GitHub", href: "https://github.com/Suraj-Sangale" },
-      { label: "◈ LinkedIn", href: "https://www.linkedin.com/in/suraj-sangale/" },
+      {
+        label: "◈ LinkedIn",
+        href: "https://www.linkedin.com/in/suraj-sangale/",
+      },
       { label: "◈ Twitter", href: "https://twitter.com/SurajSangale4" },
     ],
     buttons: [
@@ -1012,7 +1026,8 @@ export default function DevFolio({ pageData }) {
           </div>
           <div className="bento-grid">
             {projects.map((p) => (
-              <div
+              <Link
+                href={`/projects?slug=${p.slug}`}
                 key={p.num}
                 className={`bento ${p.sizeCls}`}
               >
@@ -1041,7 +1056,7 @@ export default function DevFolio({ pageData }) {
                   ))}
                 </div>
                 {p.orb && <div className={`bento-orb ${p.orb}`}></div>}
-              </div>
+              </Link>
             ))}
           </div>
         </section>
