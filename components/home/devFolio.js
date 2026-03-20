@@ -58,7 +58,7 @@ section{min-height:100vh;display:flex;flex-direction:column;align-items:center;j
 .hero-sub{font-family:var(--fm);font-size:.65rem;letter-spacing:.3em;color:rgba(226,234,255,.4);text-transform:uppercase;}
 .hero-line-r{width:80px;height:1px;background:linear-gradient(90deg,var(--c1),transparent)}
 .hud{position:absolute;bottom:80px;left:0;right:0;display:flex;justify-content:space-between;padding:0 52px;opacity:0;animation:heroIn 1s 1.6s ease forwards;}
-.hud-item{font-family:var(--fm);font-size:.5rem;letter-spacing:.2em;color:var(--dim);text-transform:uppercase}
+.hud-item{font-family:var(--fm);font-size:14px;letter-spacing:.2em;color:var(--dim);text-transform:uppercase}
 .hud-val{color:var(--c1);text-shadow:0 0 8px var(--c1)}
 .scroll-pulse{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:heroIn 1s 2s ease forwards;}
 .pulse-circle{width:36px;height:36px;border-radius:50%;border:1px solid rgba(0,245,255,.3);display:flex;align-items:center;justify-content:center;animation:pulseRing 2.5s ease-in-out infinite;}
@@ -90,7 +90,7 @@ section{min-height:100vh;display:flex;flex-direction:column;align-items:center;j
 .tech-dot{position:absolute;width:44px;height:44px;border-radius:50%;background:rgba(0,3,8,.8);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-family:var(--fm);color:var(--dim);letter-spacing:.05em;transition:all .3s;box-shadow:0 0 14px rgba(0,0,0,.5);}
 .tech-dot:hover{color:var(--c1);border-color:var(--c1);box-shadow:0 0 16px rgba(0,245,255,.3);transform:scale(1.2)}
 
-#s3{padding:120px 52px;align-items:stretch}
+#s3{padding:120px 52px;align-items:center}
 .bento-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:auto;gap:3px;width:100%;max-width:1200px;margin-top:60px;}
 .bento{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);padding:40px;position:relative;overflow:hidden;transition:border-color .4s,transform .5s cubic-bezier(.16,1,.3,1),background .4s;opacity:0;transform:translateY(30px) scale(.97);}
 .bento:hover{border-color:rgba(0,245,255,.25);background:rgba(0,245,255,.03);transform:translateY(-4px) scale(1.01) !important;z-index:5;}
@@ -176,13 +176,13 @@ footer{padding:36px 52px;border-top:1px solid rgba(255,255,255,.05);display:flex
 
 const portfolioData = {
   nav: {
-    logo: "DEV",
+    logo: "SS",
     links: [
-      { label: "Stack", href: "#s2" },
-      { label: "Projects", href: "#s3" },
-      { label: "Journey", href: "#s5" },
+      { label: "About", href: "#about" },
+      { label: "Projects", href: "#projects" },
+      { label: "Work", href: "#work" },
     ],
-    cta: { label: "Hire Me", href: "#s6" },
+    cta: { label: "Hire Me", href: "#contact" },
   },
 
   hero: {
@@ -194,7 +194,7 @@ const portfolioData = {
       { label: "Node.js", cls: "rb-m" },
       { label: "JavaScript", cls: "rb-a" },
     ],
-    tagline: "On the way, Building something that changes the game",
+    tagline: "On the way, building something that solves real-world problems",
     hud: [
       { label: "STATUS", value: "◉ OPEN TO WORK" },
       { label: "EXP", value: "3+ YRS" },
@@ -205,104 +205,88 @@ const portfolioData = {
   },
 
   stats: [
-    { value: "12", suffix: "+", cls: "c", label: "Projects Shipped" },
+    { value: "5", suffix: "+", cls: "c", label: "Projects Shipped" },
     { value: "3", suffix: "yrs", cls: "m", label: "Professional Experience" },
-    { value: "99", suffix: "%", cls: "v", label: "Lighthouse Score Target" },
-    { value: "∞", suffix: "", cls: "a", label: "Coffee-Driven Commits" },
+    { value: "99", suffix: "%", cls: "v", label: "Performance Focus" },
+    { value: "∞", suffix: "", cls: "a", label: "Learning Mindset" },
   ],
 
   projects: [
     {
       num: "01",
-      icon: "⚡",
+      icon: "🛠",
       iconCls: "ic",
       sizeCls: "b1",
       titleGradient: "gw-c",
-      titleWord: "SaaS",
-      titleRest: "Dashboard Platform",
-      body: "A full-stack multi-tenant SaaS platform with real-time analytics, role-based access control, and a dynamic dashboard builder. Handles 10k+ concurrent users with sub-100ms response times via Redis caching and optimized Next.js SSR pipelines.",
+      titleWord: "Linux",
+      titleRest: "Tools",
+      body: "Web-based DevOps toolkit with DNS checker, port scanner, IP lookup, and command utilities to simplify server troubleshooting.",
       tags: [
         { label: "Next.js", cls: "btag-c" },
+        { label: "React", cls: "btag-v" },
         { label: "Node.js", cls: "btag-m" },
-        { label: "PostgreSQL", cls: "btag-v" },
-        { label: "Redis", cls: "btag-a" },
-        { label: "Prisma", cls: "btag-g" },
+        { label: "MariaDB", cls: "btag-a" },
       ],
-      orb: "orb-c",
     },
     {
       num: "02",
-      icon: "🛒",
+      icon: "🚚",
       iconCls: "im",
       sizeCls: "b2",
       titleGradient: "gw-m",
-      titleWord: "E-Commerce",
-      titleRest: "Engine",
-      body: "Headless commerce with Stripe payments, inventory management, and SSG product pages hitting perfect Core Web Vitals.",
+      titleWord: "Cargo",
+      titleRest: "Desk",
+      body: "Transport management system with bulk SMS (Twilio), contact import, JWT authentication, and document tracking.",
       tags: [
-        { label: "React", cls: "btag-c" },
-        { label: "Stripe API", cls: "btag-m" },
-        { label: "MongoDB", cls: "btag-v" },
+        { label: "Next.js", cls: "btag-c" },
+        { label: "Node.js", cls: "btag-m" },
+        { label: "MySQL", cls: "btag-v" },
+        { label: "Twilio", cls: "btag-a" },
       ],
     },
     {
       num: "03",
-      icon: "💬",
+      icon: "🏆",
       iconCls: "iv",
       sizeCls: "b3",
       titleGradient: "gw-v",
-      titleWord: "Real-Time",
-      titleRest: "Chat App",
-      body: "WebSocket-powered messaging with end-to-end encryption, file uploads, and presence indicators at scale.",
+      titleWord: "Point Stream",
+      titleRest: "Panel",
+      body: "Real-time sports scoring system with WebSocket multi-referee input and live scoreboard updates.",
       tags: [
-        { label: "Socket.io", cls: "btag-c" },
-        { label: "Node.js", cls: "btag-v" },
-        { label: "JWT", cls: "btag-a" },
+        { label: "Next.js", cls: "btag-c" },
+        { label: "Socket.io", cls: "btag-m" },
+        { label: "MySQL", cls: "btag-v" },
       ],
     },
     {
       num: "04",
-      icon: "🤖",
+      icon: "🎮",
       iconCls: "ia",
       sizeCls: "b4",
       titleGradient: "gw-a",
-      titleWord: "AI",
-      titleRest: "Integration",
-      newline: true,
-      body: "LLM-powered content generation pipeline with streaming responses, prompt engineering, and usage metering.",
+      titleWord: "Tic Tac Toe",
+      titleRest: "Game",
+      body: "Real-time multiplayer game with Socket.IO, AI mode, and animated UI built with TypeScript.",
       tags: [
-        { label: "OpenAI API", cls: "btag-a" },
         { label: "Next.js", cls: "btag-c" },
+        { label: "TypeScript", cls: "btag-m" },
+        { label: "Socket.IO", cls: "btag-v" },
       ],
     },
     {
       num: "05",
-      icon: "🔐",
+      icon: "🛍",
       iconCls: "ic",
       sizeCls: "b5",
       titleGradient: "gw-c",
-      titleWord: "Auth",
-      titleRest: "Microservice",
-      newline: true,
-      body: "OAuth 2.0 + JWT auth system with refresh token rotation, device fingerprinting, and rate limiting.",
+      titleWord: "Urban",
+      titleRest: "Market",
+      body: "Responsive e-commerce UI with cart and checkout functionality.",
       tags: [
-        { label: "Express", cls: "btag-m" },
-        { label: "OAuth", cls: "btag-v" },
-      ],
-    },
-    {
-      num: "06",
-      icon: "📊",
-      iconCls: "ig",
-      sizeCls: "b6",
-      titleGradient: "gw-g",
-      titleWord: "DevOps",
-      titleRest: "Pipeline",
-      newline: true,
-      body: "CI/CD with GitHub Actions, Docker containerization, and automated deployment to AWS with zero-downtime rolling updates.",
-      tags: [
-        { label: "Docker", cls: "btag-g" },
-        { label: "AWS", cls: "btag-a" },
+        { label: "React", cls: "btag-c" },
+        { label: "Tailwind", cls: "btag-m" },
+        { label: "Node.js", cls: "btag-v" },
       ],
     },
   ],
@@ -314,79 +298,66 @@ const portfolioData = {
     { label: "✦" },
     { label: "NODE", lit: "lit2" },
     { label: "✦" },
-    { label: "EXPRESS" },
-    { label: "✦" },
     { label: "JAVASCRIPT", lit: "lit" },
     { label: "✦" },
-    { label: "TYPESCRIPT" },
+    { label: "MYSQL" },
     { label: "✦" },
-    { label: "MONGODB", lit: "lit3" },
-    { label: "✦" },
-    { label: "POSTGRES" },
-    { label: "✦" },
+    { label: "REDIS", lit: "lit3" },
   ],
 
   marqueeRow2: [
-    { label: "REDUX", lit: "lit2" },
+    { label: "TAILWIND", lit: "lit2" },
     { label: "◈" },
-    { label: "TAILWIND" },
+    { label: "MATERIAL UI" },
     { label: "◈" },
-    { label: "PRISMA", lit: "lit" },
+    { label: "STRAPI", lit: "lit" },
     { label: "◈" },
-    { label: "REDIS" },
+    { label: "SOCKET.IO" },
     { label: "◈" },
-    { label: "DOCKER", lit: "lit3" },
-    { label: "◈" },
-    { label: "GITHUB ACTIONS" },
-    { label: "◈" },
-    { label: "AWS", lit: "lit2" },
-    { label: "◈" },
-    { label: "GRAPHQL" },
-    { label: "◈" },
+    { label: "MONGODB", lit: "lit3" },
   ],
 
   journey: [
     {
-      yr: "2021",
-      name: "First Commit",
-      desc: "Started with HTML, CSS, vanilla JS. Built my first React app and caught the bug. No turning back.",
-    },
-    {
       yr: "2022",
-      name: "Backend Unlocked",
-      desc: "Dove into Node.js, Express, MongoDB. Shipped first REST APIs and fell in love with server-side architecture.",
+      name: "Started Career",
+      desc: "Frontend intern at CGI working with React and modern web technologies.",
     },
     {
-      yr: "2023",
-      name: "Next.js Era",
-      desc: "Adopted Next.js full-time. Mastered SSR, ISR, App Router. First production SaaS product launched.",
+      yr: "2022-2023",
+      name: "Frontend Developer",
+      desc: "Worked at Boppo Technologies building React and React Native applications.",
     },
     {
       yr: "2024",
-      name: "Scale & Systems",
-      desc: "PostgreSQL, Redis, Docker, CI/CD. Engineering for performance, reliability, and real-world traffic.",
+      name: "Software Developer",
+      desc: "Currently at Fortune4 Technologies working on Next.js, Node.js, MySQL, and Redis.",
     },
     {
       yr: "Now",
-      name: "You Found Me",
-      desc: "Building ambitious products. Open to contracts, full-time roles, and interesting collaborations.",
+      name: "Growing & Building",
+      desc: "Building scalable products and exploring real-time systems and performance optimization.",
     },
   ],
 
   contact: {
     chips: [
-      { label: "✉ hello@yourdev.io", href: "mailto:hello@yourdev.io" },
-      { label: "◈ GitHub", href: "https://github.com" },
-      { label: "◈ LinkedIn", href: "https://linkedin.com" },
-      { label: "◈ Twitter / X", href: "https://twitter.com" },
+      { label: "✉ hello@example.com", href: "mailto:hello@example.com" },
+      { label: "◈ GitHub", href: "https://github.com/Suraj-Sangale" },
+      { label: "◈ LinkedIn", href: "https://www.linkedin.com/in/suraj-sangale/" },
+      { label: "◈ Twitter", href: "https://twitter.com/SurajSangale4" },
     ],
     buttons: [
       {
         label: "Start a Project",
-        href: "mailto:hello@yourdev.io",
+        href: "mailto:hello@example.com",
         cls: "glowbtn-primary",
       },
-      { label: "Download CV", href: "#", cls: "glowbtn-outline" },
+      {
+        label: "Download CV",
+        href: "/suraj_sangale_resume.pdf",
+        cls: "glowbtn-outline",
+      },
     ],
     note: "Available for freelance · full-time · collab",
   },
@@ -394,11 +365,11 @@ const portfolioData = {
   footer: {
     logo: "SURAJ SANGALE",
     links: [
-      { label: "GitHub", href: "#" },
-      { label: "LinkedIn", href: "#" },
-      { label: "Resume", href: "#" },
+      { label: "GitHub", href: "https://github.com/Suraj-Sangale" },
+      { label: "LinkedIn", href: "https://www.linkedin.com/in/suraj-sangale/" },
+      { label: "Resume", href: "/suraj_sangale_resume.pdf" },
     ],
-    copy: "© 2025 — Crafted in React, Next.js & raw ambition",
+    copy: "© 2026 — Crafted in React, Next.js & raw ambition",
   },
 };
 
