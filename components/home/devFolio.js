@@ -215,20 +215,19 @@ const portfolioData = {
   projects: [
     {
       num: "01",
-      icon: "🛠",
-      iconCls: "ic",
+      icon: "🏆",
+      iconCls: "iv",
       sizeCls: "b1",
-      titleGradient: "gw-c",
-      titleWord: "Linux",
-      titleRest: "Tools",
-      slug: "linux-tools",
+      titleGradient: "gw-v",
+      titleWord: "Point Stream",
+      titleRest: "Panel",
+      slug: "point-stream-panel",
 
-      body: "Web-based DevOps toolkit with DNS checker, port scanner, IP lookup, and command utilities to simplify server troubleshooting.",
+      body: "Real-time sports scoring system with WebSocket multi-referee input and live scoreboard updates.",
       tags: [
         { label: "Next.js", cls: "btag-c" },
-        { label: "React", cls: "btag-v" },
-        { label: "Node.js", cls: "btag-m" },
-        { label: "MariaDB", cls: "btag-a" },
+        { label: "Socket.io", cls: "btag-m" },
+        { label: "MySQL", cls: "btag-v" },
       ],
     },
     {
@@ -251,26 +250,27 @@ const portfolioData = {
     },
     {
       num: "03",
-      icon: "🏆",
-      iconCls: "iv",
+      icon: "🛠",
+      iconCls: "ic",
       sizeCls: "b3",
-      titleGradient: "gw-v",
-      titleWord: "Point Stream",
-      titleRest: "Panel",
-      slug: "point-stream-panel",
+      titleGradient: "gw-c",
+      titleWord: "Linux",
+      titleRest: "Tools",
+      slug: "linux-tools",
 
-      body: "Real-time sports scoring system with WebSocket multi-referee input and live scoreboard updates.",
+      body: "Web-based DevOps toolkit with DNS checker, port scanner, IP lookup, and command utilities to simplify server troubleshooting.",
       tags: [
         { label: "Next.js", cls: "btag-c" },
-        { label: "Socket.io", cls: "btag-m" },
-        { label: "MySQL", cls: "btag-v" },
+        { label: "React", cls: "btag-v" },
+        { label: "Node.js", cls: "btag-m" },
+        { label: "MariaDB", cls: "btag-a" },
       ],
     },
     {
       num: "04",
       icon: "🎮",
       iconCls: "ia",
-      sizeCls: "b4",
+      sizeCls: "b2",
       slug: "tic-tac-toe-game",
 
       titleGradient: "gw-a",
@@ -287,7 +287,7 @@ const portfolioData = {
       num: "05",
       icon: "🛍",
       iconCls: "ic",
-      sizeCls: "b5",
+      sizeCls: "b2",
       titleGradient: "gw-c",
       titleWord: "Urban",
       titleRest: "Market",
@@ -364,7 +364,7 @@ const portfolioData = {
     buttons: [
       {
         label: "Start a Project",
-        href: "mailto:hello@example.com",
+        href: "/contact",
         cls: "glowbtn-primary",
       },
       {
