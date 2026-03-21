@@ -514,8 +514,8 @@
       },
       {
         "id": 6,
-        "label": "Location Tracker",
-        "path": "locations"
+        "label": "Quick Tools",
+        "path": "quick_tools"
       }
     ]
   }

@@ -1,3 +1,4 @@
+import Header from "@/components/header";
 import "@/styles/globals.css";
 import { newSeoData } from "@/utilities/Data";
 import { DefaultSeo } from "next-seo";
@@ -15,6 +16,7 @@ export default function App({ Component, pageProps }) {
   return (
     <>
       <DefaultSeo {...newSeoData} />
+      <Header />
       <Component
         className={nunito.className}
         {...pageProps}

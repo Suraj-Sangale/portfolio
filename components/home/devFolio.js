@@ -729,7 +729,7 @@ export default function DevFolio({ pageData }) {
           </a>
         </div>
       </nav> */}
-      <Header />
+      {/* <Header /> */}
 
       <div id="page">
         {/* ── S1 HERO ── */}
