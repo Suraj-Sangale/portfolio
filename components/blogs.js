@@ -3,114 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "../styles/blogs.module.css";
 import { postApiData } from "@/utilities/services/apiService";
-
-const BLOG_DATA = [
-  {
-    id: 1,
-    accent: "#6366f1",
-    emoji: "🧠",
-    grad: "linear-gradient(135deg,#6366f1,#06b6d4)",
-    category: "AI & ML",
-    readTime: "8 min read",
-    authorInitials: "AK",
-    authorName: "Arjun Kapoor",
-    date: "Feb 18, 2026",
-    title: "The Hidden Architecture Behind Modern LLMs You Never See",
-    excerpt:
-      "Transformers are everywhere — but almost nobody talks about what actually makes attention mechanisms tick at the hardware level, and why it matters for the next generation of models.",
-    views: "4.2k",
-    likes: "238",
-    link: "#",
-  },
-  {
-    id: 2,
-    accent: "#f43f5e",
-    emoji: "🎨",
-    grad: "linear-gradient(135deg,#f43f5e,#fb923c)",
-    category: "Design",
-    readTime: "5 min read",
-    authorInitials: "SR",
-    authorName: "Sneha Rao",
-    date: "Feb 14, 2026",
-    title: "Why Depth Cues Are the Most Underused Tool in UI Design",
-    excerpt:
-      "Shadows, parallax, and layered z-axis thinking can transform a flat interface into something that feels genuinely physical — without a single line of 3D code.",
-    views: "6.7k",
-    likes: "415",
-    link: "#",
-  },
-  {
-    id: 3,
-    accent: "#10b981",
-    emoji: "⚙️",
-    grad: "linear-gradient(135deg,#10b981,#0ea5e9)",
-    category: "Engineering",
-    readTime: "12 min read",
-    authorInitials: "PM",
-    authorName: "Priya Mehta",
-    date: "Feb 10, 2026",
-    title:
-      "Building Zero-Downtime Deploys at Scale: Lessons from 3 Years of Pain",
-    excerpt:
-      "Blue-green, canary, feature flags — we tried everything. Here's the honest breakdown of what actually worked for our 50-million-user platform and what didn't.",
-    views: "9.1k",
-    likes: "581",
-    link: "#",
-  },
-  {
-    id: 4,
-    accent: "#f59e0b",
-    emoji: "🚀",
-    grad: "linear-gradient(135deg,#f59e0b,#ef4444)",
-    category: "Startup",
-    readTime: "6 min read",
-    authorInitials: "RV",
-    authorName: "Rohan Verma",
-    date: "Feb 6, 2026",
-    title:
-      "From 0 to $1M ARR: The Counter-Intuitive Growth Strategy We Bet Everything On",
-    excerpt:
-      "We ignored conventional wisdom, fired our sales team, and went product-led. Eighteen months later, here's what the data actually showed about that decision.",
-    views: "12k",
-    likes: "762",
-    link: "#",
-  },
-  {
-    id: 5,
-    accent: "#a855f7",
-    emoji: "🧬",
-    grad: "linear-gradient(135deg,#a855f7,#ec4899)",
-    category: "Science",
-    readTime: "10 min read",
-    authorInitials: "NK",
-    authorName: "Nisha Krishnan",
-    date: "Jan 30, 2026",
-    title:
-      "Protein Folding Changed Everything — But Nobody's Talking About What's Next",
-    excerpt:
-      "AlphaFold solved a 50-year problem. But the next frontier in computational biology is even more radical, and the implications for medicine are staggering.",
-    views: "5.4k",
-    likes: "319",
-    link: "#",
-  },
-  {
-    id: 6,
-    accent: "#06b6d4",
-    emoji: "🌐",
-    grad: "linear-gradient(135deg,#06b6d4,#3b82f6)",
-    category: "Web3",
-    readTime: "7 min read",
-    authorInitials: "DS",
-    authorName: "Dev Shah",
-    date: "Jan 25, 2026",
-    title: "The Quiet Revolution in Zero-Knowledge Proofs Nobody's Noticed Yet",
-    excerpt:
-      "ZK proofs went from academic curiosity to real infrastructure in two years. Here's the technical breakdown of why this changes privacy on the internet forever.",
-    views: "3.8k",
-    likes: "204",
-    link: "#",
-  },
-];
+import CustomTitle from "./Items/CustomTitle";
 
 // ── SVG icons ──
 const EyeIcon = () => (
@@ -372,6 +265,33 @@ export default function BlogCards() {
       setLoading(true);
       setError(null);
       const response = await postApiData("GET_MEDIUM_BLOGS");
+      //       sampleResposne ={
+      //     "status": true,
+      //     "data": [
+      //         {
+      //             "title": "Understanding ES6: The JavaScript Upgrade That Changed Everything",
+      //             "pubDate": "2026-02-16 16:11:45",
+      //             "link": "https://medium.com/@surajsangle00/understanding-es6-the-javascript-upgrade-that-changed-everything-9d1c2611acb4?source=rss-785c80f302e1------2",
+      //             "guid": "https://medium.com/p/9d1c2611acb4",
+      //             "author": "Suraj sangle",
+      //             "thumbnail": "https://cdn-images-1.medium.com/max/1024/1*p2Dps-oqMuOPrIHHA6bJKg.png",
+      //             "description": "\n<figure><img alt=\"\" src=\"https://cdn-images-1.medium.com/max/1024/1*p2Dps-oqMuOPrIHHA6bJKg.png\"></figure><p>ES6 (ECMAScript 2015) introduced modern JavaScript features like arrow functions, destructuring, spread operators, and modules that make code cleaner and more efficient.<br> It transformed JavaScript into a more powerful, readable, and maintainable language for building scalable web applications.</p>\n<figure><img alt=\"\" src=\"https://cdn-images-1.medium.com/max/299/0*LOVdsZZMN3HSCzs8\"><figcaption>JavaScript ES</figcaption></figure><h3>① Variable Declation typres <strong>— </strong>let and const (Block Scope)</h3>\n<p>Before ES6, we only had var, which caused scope issues.</p>\n<pre>let year = 2000;<br>const greet = \"Hello World\";<br><br>console.log(year);      // 2000<br>console.log(greet);  // Hello World</pre>\n<h3>② Arrow Functions (=&gt;)</h3>\n<p>Shorter function syntax.</p>\n<p>❌ Old way:</p>\n<pre>function add(a, b) {<br>  return a + b;<br>}</pre>\n<p>✅ ES6 way:</p>\n<pre>const add = (a, b) =&gt; a + b;</pre>\n<p>Bonus: Arrow functions don’t have their own this.</p>\n<p>Perfect for React &amp; Next.js projects.</p>\n<h3>③ Template Literals</h3>\n<p>No more string concatenation madness.</p>\n<p>❌ Old way:</p>\n<pre>console.log(\"Hello \" + name + \", welcome!\");</pre>\n<p>✅ ES6 way:</p>\n<pre>console.log(`Hello ${name}, welcome!`);</pre>\n<p>Much cleaner and readable.</p>\n<h3>④ Destructuring</h3>\n<p>Extract values easily from objects or arrays</p>\n<pre>const user = {<br>  name: \"Suraj\",<br>  role: \"Developer\"<br>};</pre>\n<pre>const { name, role } = user;</pre>\n<p>Used heavily in:</p>\n<ul>\n<li>React props</li>\n<li>API responses</li>\n<li>Function parameters</li>\n</ul>\n<h3>⑤ Spread Operator (…)</h3>\n<p>Copy or merge arrays/objects easily.</p>\n<pre>const arr1 = [1, 2];<br>const arr2 = [...arr1, 3, 4];</pre>\n<pre>console.log(arr2);<br>// [1, 2, 3, 4]</pre>\n<p>For objects:</p>\n<pre>const user = { name: \"Suraj\" };<br>const updatedUser = { ...user, role: \"Developer\" };</pre>\n<p>Super useful in state management.</p>\n<h3>⑥ Default Parameters</h3>\n<pre>const greet = (name = \"Guest\") =&gt; {<br>  console.log(`Hello ${name}`);<br>};</pre>\n<p>Cleaner than checking manually.</p>\n<h3>⑦ Modules (import / export)</h3>\n<p>Before ES6 → messy script files.</p>\n<p>Now:</p>\n<pre>// math.js<br>export const add = (a, b) =&gt; a + b;</pre>\n<pre>// app.js<br>import { add } from \"./math\";</pre>\n<img src=\"https://medium.com/_/stat?event=post.clientViewed&amp;referrerSource=full_rss&amp;postId=9d1c2611acb4\" width=\"1\" height=\"1\" alt=\"\">\n",
+      //             "content": "\n<figure><img alt=\"\" src=\"https://cdn-images-1.medium.com/max/1024/1*p2Dps-oqMuOPrIHHA6bJKg.png\"></figure><p>ES6 (ECMAScript 2015) introduced modern JavaScript features like arrow functions, destructuring, spread operators, and modules that make code cleaner and more efficient.<br> It transformed JavaScript into a more powerful, readable, and maintainable language for building scalable web applications.</p>\n<figure><img alt=\"\" src=\"https://cdn-images-1.medium.com/max/299/0*LOVdsZZMN3HSCzs8\"><figcaption>JavaScript ES</figcaption></figure><h3>① Variable Declation typres <strong>— </strong>let and const (Block Scope)</h3>\n<p>Before ES6, we only had var, which caused scope issues.</p>\n<pre>let year = 2000;<br>const greet = \"Hello World\";<br><br>console.log(year);      // 2000<br>console.log(greet);  // Hello World</pre>\n<h3>② Arrow Functions (=&gt;)</h3>\n<p>Shorter function syntax.</p>\n<p>❌ Old way:</p>\n<pre>function add(a, b) {<br>  return a + b;<br>}</pre>\n<p>✅ ES6 way:</p>\n<pre>const add = (a, b) =&gt; a + b;</pre>\n<p>Bonus: Arrow functions don’t have their own this.</p>\n<p>Perfect for React &amp; Next.js projects.</p>\n<h3>③ Template Literals</h3>\n<p>No more string concatenation madness.</p>\n<p>❌ Old way:</p>\n<pre>console.log(\"Hello \" + name + \", welcome!\");</pre>\n<p>✅ ES6 way:</p>\n<pre>console.log(`Hello ${name}, welcome!`);</pre>\n<p>Much cleaner and readable.</p>\n<h3>④ Destructuring</h3>\n<p>Extract values easily from objects or arrays</p>\n<pre>const user = {<br>  name: \"Suraj\",<br>  role: \"Developer\"<br>};</pre>\n<pre>const { name, role } = user;</pre>\n<p>Used heavily in:</p>\n<ul>\n<li>React props</li>\n<li>API responses</li>\n<li>Function parameters</li>\n</ul>\n<h3>⑤ Spread Operator (…)</h3>\n<p>Copy or merge arrays/objects easily.</p>\n<pre>const arr1 = [1, 2];<br>const arr2 = [...arr1, 3, 4];</pre>\n<pre>console.log(arr2);<br>// [1, 2, 3, 4]</pre>\n<p>For objects:</p>\n<pre>const user = { name: \"Suraj\" };<br>const updatedUser = { ...user, role: \"Developer\" };</pre>\n<p>Super useful in state management.</p>\n<h3>⑥ Default Parameters</h3>\n<pre>const greet = (name = \"Guest\") =&gt; {<br>  console.log(`Hello ${name}`);<br>};</pre>\n<p>Cleaner than checking manually.</p>\n<h3>⑦ Modules (import / export)</h3>\n<p>Before ES6 → messy script files.</p>\n<p>Now:</p>\n<pre>// math.js<br>export const add = (a, b) =&gt; a + b;</pre>\n<pre>// app.js<br>import { add } from \"./math\";</pre>\n<img src=\"https://medium.com/_/stat?event=post.clientViewed&amp;referrerSource=full_rss&amp;postId=9d1c2611acb4\" width=\"1\" height=\"1\" alt=\"\">\n",
+      //             "enclosure": {},
+      //             "categories": [],
+      //             "authorInitials": "M",
+      //             "accent": "#06b6d4",
+      //             "emoji": "🌐",
+      //             "grad": "linear-gradient(135deg,#06b6d4,#3b82f6)",
+      //             "category": "Web3",
+      //             "readTime": "7 min read",
+      //             "date": "Jan 25, 2026",
+      //             "views": "3.8k",
+      //             "likes": "204"
+      //         }
+      //     ],
+      //     "message": "Medium posts fetched successfully"
+      // }
       if (response.status && Array.isArray(response.data)) {
         setBlogs(response.data);
       } else {
@@ -385,7 +305,6 @@ export default function BlogCards() {
     }
   };
 
-
   return (
     <div className={styles.page}>
       {/* starfield */}
@@ -395,10 +314,15 @@ export default function BlogCards() {
       />
 
       <div className={styles.inner}>
-        <header className={styles.pageHeader}>
-          <p className={styles.eyebrow}>Latest Writings</p>
+        <CustomTitle
+          subheading={"Blogs"}
+          mainText={"Thoughts & "}
+          highlightedText={"Articles"}
+        />
+        {/* <header className={styles.pageHeader}>
+           <p className={styles.eyebrow}>Latest Writings</p> 
           <h1 className={styles.pageTitle}>Thoughts &amp; Articles</h1>
-        </header>
+        </header>*/}
 
         <div className={styles.cardsGrid}>
           {blogs.map((blog, i) => (
