@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 const TOOLS = [
   {
     id: 1,
-    href: "tools/json-validator.html",
+    href: "tool/json_validator",
     accent: "var(--accent-2)",
     tags: ["data", "dev"],
     featured: true,
@@ -16,7 +16,7 @@ const TOOLS = [
   },
   {
     id: 2,
-    href: "tools/location-tracker.html",
+    href: "locations",
     accent: "var(--accent-1)",
     tags: ["location"],
     icon: "📍",
