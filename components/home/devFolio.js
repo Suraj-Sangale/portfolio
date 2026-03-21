@@ -365,6 +365,7 @@ const portfolioData = {
     { label: "SOCKET.IO" },
     { label: "◈" },
     { label: "MONGODB", lit: "lit3" },
+    { label: "◈" },
   ],
 
   journey: [
