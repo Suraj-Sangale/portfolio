@@ -93,7 +93,7 @@ section{min-height:100vh;display:flex;flex-direction:column;align-items:center;j
 
 #s3{padding:120px 52px;align-items:center}
 .bento-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:auto;gap:3px;width:100%;max-width:1200px;margin-top:60px;}
-.bento{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);padding:40px;position:relative;overflow:hidden;transition:border-color .4s,transform .5s cubic-bezier(.16,1,.3,1),background .4s;opacity:0;transform:translateY(30px) scale(.97);  backdrop-filter:blur(0.5px);}
+.bento{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);padding:40px;position:relative;overflow:hidden;transition:border-color .4s,transform .5s cubic-bezier(.16,1,.3,1),background .4s;opacity:0;transform:translateY(30px) scale(.97);  backdrop-filter:blur(1px);}
 .bento:hover{border-color:rgba(0,245,255,.25);background:rgba(0,245,255,.03);transform:translateY(-4px) scale(1.01) !important;z-index:5; backdrop-filter:blur(20px);}
 .bento::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,245,255,.5),transparent);opacity:0;transition:opacity .4s;}
 .bento:hover::before{opacity:1}
@@ -172,6 +172,28 @@ footer{padding:36px 52px;border-top:1px solid rgba(255,255,255,.05);display:flex
   .cta-container{padding:60px 24px}
   footer{flex-direction:column;gap:20px;text-align:center}
   .tech-orbit{display:none}
+}.bento-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 12px 0;
+}
+
+.bento-features li {
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: rgba(226, 234, 255, 0.5);
+  padding-left: 14px;
+  position: relative;
+}
+
+.bento-features li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--c1);
+  opacity: 0.6;
 }
 `;
 
@@ -200,14 +222,14 @@ const portfolioData = {
       { label: "STATUS", value: "◉ OPEN TO WORK" },
       { label: "EXP", value: "3+ YRS" },
       { label: "STACK", value: "MERN + NEXT" },
-      { label: "COMMITS", value: "0000", ref: true },
+      // { label: "COMMITS", value: "0000", ref: true },
     ],
     commitTarget: 2847,
   },
 
   stats: [
-    { value: "5", suffix: "+", cls: "c", label: "Projects Shipped" },
-    { value: "3", suffix: "yrs", cls: "m", label: "Professional Experience" },
+    { value: "10", suffix: "+", cls: "c", label: "Projects Shipped" },
+    { value: "3", suffix: "+ yrs", cls: "m", label: "Professional Experience" },
     { value: "99", suffix: "%", cls: "v", label: "Performance Focus" },
     { value: "∞", suffix: "", cls: "a", label: "Learning Mindset" },
   ],
@@ -224,6 +246,20 @@ const portfolioData = {
       slug: "point-stream-panel",
 
       body: "Real-time sports scoring system with WebSocket multi-referee input and live scoreboard updates.",
+      keyFeatures: [
+        {
+          id: 1,
+          text: "Blazing-fast performance with Server-Side Rendering (SSR) and Static Site Generation (SSG) using Next.js.",
+        },
+        {
+          id: 2,
+          text: "Robust backend API with JWT authentication, WebSocket-powered real-time communication, and seamless MySQL database integration.",
+        },
+        {
+          id: 3,
+          text: "Real-time multi-referee scoring system with secured role-based access, ensuring accurate and transparent match updates.",
+        },
+      ],
       tags: [
         { label: "Next.js", cls: "btag-c" },
         { label: "Socket.io", cls: "btag-m" },
@@ -313,7 +349,10 @@ const portfolioData = {
     { label: "✦" },
     { label: "MYSQL" },
     { label: "✦" },
-    { label: "REDIS", lit: "lit3" },
+    { label: "REDIS", lit: "lit3" }, 
+    { label: "✦" },
+    { label: "MARIADB", lit: "lit4" },
+    { label: "✦" }, 
   ],
 
   marqueeRow2: [
@@ -1045,6 +1084,14 @@ export default function DevFolio({ pageData }) {
                   )}
                 </div>
                 <div className="bento-body">{p.body}</div>
+
+                {p.keyFeatures?.length > 0 && (
+                  <ul className="bento-features">
+                    {p.keyFeatures.map((feature) => (
+                      <li key={feature.id}>{feature.text}</li>
+                    ))}
+                  </ul>
+                )}
                 <div className="bento-tags">
                   {p.tags.map((t) => (
                     <span
