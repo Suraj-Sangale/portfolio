@@ -24,7 +24,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--txt);overflow-x:hidd
 #scanlines{position:fixed;inset:0;z-index:3;pointer-events:none;opacity:.025;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,1) 2px,rgba(255,255,255,1) 3px);}
 #vignette{position:fixed;inset:0;z-index:4;pointer-events:none;background:radial-gradient(ellipse at 50% 50%,transparent 55%,rgba(0,3,8,.85) 100%);}
 
-nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:22px 52px;}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:15px 52px;}
 nav::after{content:'';position:absolute;bottom:0;left:52px;right:52px;height:1px;background:linear-gradient(90deg,transparent,rgba(0,245,255,.3),transparent);}
 .nav-logo{font-family:var(--fh);font-size:1.8rem;letter-spacing:.2em;background:linear-gradient(135deg,var(--c1),var(--c3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 16px rgba(0,245,255,.5));}
 .nav-r{display:flex;gap:36px;align-items:center}
@@ -197,236 +197,6 @@ footer{padding:36px 52px;border-top:1px solid rgba(255,255,255,.05);display:flex
 }
 `;
 
-const portfolioData = {
-  nav: {
-    logo: "SS",
-    links: [
-      { label: "About", href: "#about" },
-      { label: "Projects", href: "#projects" },
-      { label: "Work", href: "#work" },
-    ],
-    cta: { label: "Hire Me", href: "#contact" },
-  },
-
-  hero: {
-    firstName: "SURAJ",
-    lastName: "SANGALE",
-    badges: [
-      { label: "React", cls: "rb-c" },
-      { label: "Next.js", cls: "rb-v" },
-      { label: "Node.js", cls: "rb-m" },
-      { label: "JavaScript", cls: "rb-a" },
-    ],
-    tagline: "On the way, building something that solves real-world problems",
-    hud: [
-      { label: "STATUS", value: "◉ OPEN TO WORK" },
-      { label: "EXP", value: "3+ YRS" },
-      { label: "STACK", value: "MERN + NEXT" },
-      // { label: "COMMITS", value: "0000", ref: true },
-    ],
-    commitTarget: 2847,
-  },
-
-  stats: [
-    { value: "10", suffix: "+", cls: "c", label: "Projects Shipped" },
-    { value: "3", suffix: "+ yrs", cls: "m", label: "Professional Experience" },
-    { value: "99", suffix: "%", cls: "v", label: "Performance Focus" },
-    { value: "∞", suffix: "", cls: "a", label: "Learning Mindset" },
-  ],
-
-  projects: [
-    {
-      num: "01",
-      icon: "🏆",
-      iconCls: "iv",
-      sizeCls: "b1",
-      titleGradient: "gw-v",
-      titleWord: "Point Stream",
-      titleRest: "Panel",
-      slug: "point-stream-panel",
-
-      body: "Real-time sports scoring system with WebSocket multi-referee input and live scoreboard updates.",
-      keyFeatures: [
-        {
-          id: 1,
-          text: "Blazing-fast performance with Server-Side Rendering (SSR) and Static Site Generation (SSG) using Next.js.",
-        },
-        {
-          id: 2,
-          text: "Robust backend API with JWT authentication, WebSocket-powered real-time communication, and seamless MySQL database integration.",
-        },
-        {
-          id: 3,
-          text: "Real-time multi-referee scoring system with secured role-based access, ensuring accurate and transparent match updates.",
-        },
-      ],
-      tags: [
-        { label: "Next.js", cls: "btag-c" },
-        { label: "Socket.io", cls: "btag-m" },
-        { label: "MySQL", cls: "btag-v" },
-      ],
-    },
-    {
-      num: "02",
-      icon: "🚚",
-      iconCls: "im",
-      sizeCls: "b2",
-      titleGradient: "gw-m",
-      titleWord: "Cargo",
-      titleRest: "Desk",
-      slug: "cargo-desk",
-
-      body: "Transport management system with bulk SMS (Twilio), contact import, JWT authentication, and document tracking.",
-      tags: [
-        { label: "Next.js", cls: "btag-c" },
-        { label: "Node.js", cls: "btag-m" },
-        { label: "MySQL", cls: "btag-v" },
-        { label: "Twilio", cls: "btag-a" },
-      ],
-    },
-    {
-      num: "03",
-      icon: "🛠",
-      iconCls: "ic",
-      sizeCls: "b3",
-      titleGradient: "gw-c",
-      titleWord: "Linux",
-      titleRest: "Tools",
-      slug: "linux-tools",
-
-      body: "Web-based DevOps toolkit with DNS checker, port scanner, IP lookup, and command utilities to simplify server troubleshooting.",
-      tags: [
-        { label: "Next.js", cls: "btag-c" },
-        { label: "React", cls: "btag-v" },
-        { label: "Node.js", cls: "btag-m" },
-        { label: "MariaDB", cls: "btag-a" },
-      ],
-    },
-    {
-      num: "04",
-      icon: "🎮",
-      iconCls: "ia",
-      sizeCls: "b2",
-      slug: "tic-tac-toe-game",
-
-      titleGradient: "gw-a",
-      titleWord: "Tic Tac Toe",
-      titleRest: "Game",
-      body: "Real-time multiplayer game with Socket.IO, AI mode, and animated UI built with TypeScript.",
-      tags: [
-        { label: "Next.js", cls: "btag-c" },
-        { label: "TypeScript", cls: "btag-m" },
-        { label: "Socket.IO", cls: "btag-v" },
-      ],
-    },
-    {
-      num: "05",
-      icon: "🛍",
-      iconCls: "ic",
-      sizeCls: "b2",
-      titleGradient: "gw-c",
-      titleWord: "Urban",
-      titleRest: "Market",
-      slug: "urban-market",
-
-      body: "Responsive e-commerce UI with cart and checkout functionality.",
-      tags: [
-        { label: "React", cls: "btag-c" },
-        { label: "Tailwind", cls: "btag-m" },
-        { label: "Node.js", cls: "btag-v" },
-      ],
-    },
-  ],
-
-  marqueeRow1: [
-    { label: "REACT", lit: "lit" },
-    { label: "✦" },
-    { label: "NEXT.JS" },
-    { label: "✦" },
-    { label: "NODE", lit: "lit2" },
-    { label: "✦" },
-    { label: "JAVASCRIPT", lit: "lit" },
-    { label: "✦" },
-    { label: "MYSQL" },
-    { label: "✦" },
-    { label: "REDIS", lit: "lit3" }, 
-    { label: "✦" },
-    { label: "MARIADB", lit: "lit4" },
-    { label: "✦" }, 
-  ],
-
-  marqueeRow2: [
-    { label: "TAILWIND", lit: "lit2" },
-    { label: "◈" },
-    { label: "MATERIAL UI" },
-    { label: "◈" },
-    { label: "STRAPI", lit: "lit" },
-    { label: "◈" },
-    { label: "SOCKET.IO" },
-    { label: "◈" },
-    { label: "MONGODB", lit: "lit3" },
-    { label: "◈" },
-  ],
-
-  journey: [
-    {
-      yr: "2022",
-      name: "Started Career",
-      desc: "Frontend intern at CGI working with React and modern web technologies.",
-    },
-    {
-      yr: "2022-2023",
-      name: "Frontend Developer",
-      desc: "Worked at Boppo Technologies building React and React Native applications.",
-    },
-    {
-      yr: "2024",
-      name: "Software Developer",
-      desc: "Currently at Fortune4 Technologies working on Next.js, Node.js, MySQL, and Redis.",
-    },
-    {
-      yr: "Now",
-      name: "Growing & Building",
-      desc: "Building scalable products and exploring real-time systems and performance optimization.",
-    },
-  ],
-
-  contact: {
-    chips: [
-      { label: "✉ hello@example.com", href: "mailto:hello@example.com" },
-      { label: "◈ GitHub", href: "https://github.com/Suraj-Sangale" },
-      {
-        label: "◈ LinkedIn",
-        href: "https://www.linkedin.com/in/suraj-sangale/",
-      },
-      { label: "◈ Twitter", href: "https://twitter.com/SurajSangale4" },
-    ],
-    buttons: [
-      {
-        label: "Start a Project",
-        href: "/contact",
-        cls: "glowbtn-primary",
-      },
-      {
-        label: "Download CV",
-        href: "/suraj_sangale_resume.pdf",
-        cls: "glowbtn-outline",
-      },
-    ],
-    note: "Available for freelance · full-time · collab",
-  },
-
-  footer: {
-    logo: "SURAJ SANGALE",
-    links: [
-      { label: "GitHub", href: "https://github.com/Suraj-Sangale" },
-      { label: "LinkedIn", href: "https://www.linkedin.com/in/suraj-sangale/" },
-      { label: "Resume", href: "/suraj_sangale_resume.pdf" },
-    ],
-    copy: "© 2026 — Crafted in React, Next.js & raw ambition",
-  },
-};
-
 export default function DevFolio({ pageData }) {
   const canvasRef = useRef(null);
   const commitRef = useRef(null);
@@ -437,7 +207,7 @@ export default function DevFolio({ pageData }) {
   const gxRef = useRef(0);
   const gyRef = useRef(0);
 
-  const socialLinksData = pageData.socialLinks || [];
+  const { newData = {}, socialLinksData = [] } = pageData;
 
   useEffect(() => {
     // Inject styles
@@ -517,7 +287,7 @@ export default function DevFolio({ pageData }) {
       // ── COMMIT COUNTER ──
       const counterEl = commitRef.current;
       let count = 0,
-        target = portfolioData.hero.commitTarget;
+        target = newData.hero.commitTarget;
       setTimeout(() => {
         const interval = setInterval(() => {
           count += Math.ceil((target - count) / 12);
@@ -898,7 +668,7 @@ export default function DevFolio({ pageData }) {
     journey,
     contact,
     footer,
-  } = portfolioData;
+  } = newData;
 
   const renderMarqueeItem = (item, i, symbol) =>
     item.label === symbol ? (
