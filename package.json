@@ -15,7 +15,7 @@
     "@mui/material": "^7.3.8",
     "@mui/utils": "^7.3.8",
     "@supabase/supabase-js": "^2.98.0",
-    "framer-motion": "^12.23.6",
+    "framer-motion": "^12.38.0",
     "ioredis": "^5.9.2",
     "moment": "^2.30.1",
     "next": "^16.0.7",
