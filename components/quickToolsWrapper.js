@@ -38,7 +38,7 @@ const TOOLS = [
   },
   {
     id: 4,
-    href: "tools/base64.html",
+    href: "tool/base_64_coder",
     accent: "var(--accent-4)",
     tags: ["dev", "text"],
     icon: "🔐",
@@ -82,7 +82,7 @@ const TOOLS = [
   },
   {
     id: 8,
-    href: "tools/regex.html",
+    href: "tool/regex_tester",
     accent: "var(--accent-2)",
     tags: ["dev", "text"],
     icon: "⚡",
