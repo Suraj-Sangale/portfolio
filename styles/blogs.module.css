@@ -196,7 +196,7 @@
 .imgPlaceholder::before {
   content: '';
   position: absolute; inset: 0;
-  background: var(--grad);
+  /* background: var(--grad); */
   opacity: 0.35;
 }
 .imgPlaceholder::after {

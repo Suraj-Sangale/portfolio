@@ -190,15 +190,17 @@ function BlogCard({ blog, index }) {
               <span className={styles.imgEmoji}>{blog.emoji}</span>
             )}
           </div>
-          <span
-            className={styles.cardTag}
-            style={{
-              background: blog.accent,
-              color: blog.accent === "#f59e0b" ? "#000" : "#fff",
-            }}
-          >
-            {blog.category}
-          </span>
+          {blog.categories?.length > 0 && (
+            <span
+              className={styles.cardTag}
+              style={{
+                background: blog.accent,
+                color: blog.accent === "#f59e0b" ? "#000" : "#fff",
+              }}
+            >
+              {blog.categories?.[0]}
+            </span>
+          )}
           <span className={styles.cardReadTime}>{blog.readTime}</span>
         </div>
 

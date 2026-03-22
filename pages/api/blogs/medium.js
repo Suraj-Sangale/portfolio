@@ -47,19 +47,45 @@ export default async function handler(req, res) {
       const match = content.match(/<img[^>]+src="([^">]+)"/);
       return match ? match[1] : null;
     };
-    const posts = data.items.map((item) => ({
-      ...item,
-      authorInitials: "M",
-      thumbnail: extractImage(item.content),
-      accent: "#06b6d4",
-      emoji: "🌐",
-      grad: "linear-gradient(135deg,#06b6d4,#3b82f6)",
-      category: "Web3",
-      readTime: "7 min read",
-      date: "Jan 25, 2026",
-      views: "3.8k",
-      likes: "204",
-    }));
+    const styles = [
+      {
+        accent: "#06b6d4",
+        emoji: "🌐",
+        grad: "linear-gradient(135deg,#06b6d4,#3b82f6)",
+      },
+      {
+        accent: "#f59e0b",
+        emoji: "⚡",
+        grad: "linear-gradient(135deg,#f59e0b,#ef4444)",
+      },
+      {
+        accent: "#10b981",
+        emoji: "🚀",
+        grad: "linear-gradient(135deg,#10b981,#22c55e)",
+      },
+      {
+        accent: "#8b5cf6",
+        emoji: "💡",
+        grad: "linear-gradient(135deg,#8b5cf6,#ec4899)",
+      },
+      {
+        accent: "#ef4444",
+        emoji: "🔥",
+        grad: "linear-gradient(135deg,#ef4444,#f97316)",
+      },
+    ];
+    const posts = data.items.map((item, index) => {
+      const style = styles[index % styles.length];
+
+      return {
+        ...item,
+        authorInitials: "S",
+        thumbnail: extractImage(item.content),
+        accent: style.accent,
+        emoji: style.emoji,
+        grad: style.grad,
+      };
+    });
 
     respoonse.status = true;
     respoonse.data = posts;
