@@ -1,59 +1,47 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 /**
  * Fires once on page mount.
- * 1. Asks browser for GPS coords (user must accept permission prompt).
- * 2. POSTs coords + page context to /api/track-location.
- * 3. Server resolves IP geo + UA info and stores everything in Supabase.
- *
- * @param {object}  [options]
- * @param {boolean} [options.requireGps=false]  If true, skips the API call when
- *                                               the user denies location permission.
+ * Only calls the API if the user grants location permission and coords are available.
+ * If permission is denied or GPS is unavailable — does nothing.
  */
-export function useTrackLocation({ requireGps = false } = {}) {
+export function useTrackLocation() {
   useEffect(() => {
     let cancelled = false;
 
-    async function track(coords = {}) {
-      if (cancelled) return;
-      try {
-        await fetch('/api/track-location', {
-          method:  'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            ...coords,
-            page_path: window.location.pathname + window.location.search,
-            referrer:  document.referrer || null,
-          }),
-        });
-      } catch (err) {
-        // Silently fail — tracking should never break the page
-        console.warn('[useTrackLocation] failed to send:', err);
-      }
-    }
-
-    if (!navigator.geolocation) {
-      // Browser doesn't support GPS — still track IP + UA
-      if (!requireGps) track();
-      return;
-    }
+    if (!navigator.geolocation) return;
 
     navigator.geolocation.getCurrentPosition(
-      // ✅ User accepted
+      // ✅ Only fires when coords are successfully retrieved
       (position) => {
-        track({
-          latitude:  position.coords.latitude,
-          longitude: position.coords.longitude,
-          accuracy:  position.coords.accuracy,
+        if (cancelled) return;
+
+        const { latitude, longitude, accuracy } = position.coords;
+
+        // Guard: skip if coords are somehow null/zero
+        if (!latitude || !longitude) return;
+
+        fetch("/api/track-location", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            latitude,
+            longitude,
+            accuracy,
+            page_path: window.location.pathname + window.location.search,
+            referrer: document.referrer || null,
+          }),
+        }).catch((err) => {
+          console.warn("[useTrackLocation] failed to send:", err);
         });
       },
-      // ❌ User denied or error
-      () => {
-        if (!requireGps) track(); // Still capture IP + UA without coords
-      },
-      { timeout: 8000, maximumAge: 60_000 }
+      // ❌ User denied or error — do nothing
+      () => {},
+      { timeout: 8000, maximumAge: 60_000 },
     );
 
-    return () => { cancelled = true; };
-  }, []); // Intentionally empty — fires once per page mount
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 }
