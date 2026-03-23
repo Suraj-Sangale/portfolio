@@ -42,7 +42,7 @@ const TOOLS = [
     accent: "var(--accent-4)",
     tags: ["dev", "text"],
     icon: "🔐",
-    tag: "Dev · Text",
+    tag: "Dev · Text ",
     title: "Base64 Encode / Decode",
     desc: "Encode any string or file to Base64 and decode it back. Handles UTF-8, files, and data URIs seamlessly.",
     badges: ["encode", "decode"],

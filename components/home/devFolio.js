@@ -2,8 +2,9 @@ import { useEffect, useRef } from "react";
 import Header from "../header";
 import SocialIcons from "./socialIcons";
 import Link from "next/link";
+import { trackEvent } from "@/utilities/analytics";
 
-const styles = `
+const styles = ` 
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@100;200;300;400&family=Space+Mono:ital@0;1&display=swap');
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -774,6 +775,12 @@ export default function DevFolio({ pageData }) {
               </div>
             ))}
           </div>
+
+          <button
+            onClick={() => trackEvent("Portfolio", "Click", "Contact Button")}
+          >
+            Event
+          </button>
           {/* <div className="scroll-pulse">
             <div className="pulse-circle"></div>
             <p className="scroll-txt">Scroll to explore</p>
