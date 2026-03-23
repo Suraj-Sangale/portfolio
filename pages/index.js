@@ -1,5 +1,5 @@
 import { getPortfolioDataController } from "@/backend/controller/commonController";
-import DevFolio from "@/components/home/devFolio";
+import HomeWrapper from "@/components/homeWrapper";
 import { useTrackPageActivity } from "@/hooks/useTrackPageActivity";
 
 export default function Home({ pageData }) {
@@ -7,8 +7,7 @@ export default function Home({ pageData }) {
 
   return (
     <>
-      {/* <HomeWrapper pageData={pageData} /> */}
-      <DevFolio pageData={pageData} />
+      <HomeWrapper pageData={pageData} />
     </>
   );
 }

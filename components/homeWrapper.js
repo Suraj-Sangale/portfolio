@@ -6,8 +6,11 @@ import Projects from "./projects";
 import ContactSection from "./contactSection";
 import ImageCarousel from "./imageCarousel";
 import ScrollReveal from "./ScrollReveal";
+import DevFolio from "./home/devFolio";
+import { useTrackLocation } from "@/hooks/useTrackLocation";
 
 export default function HomeWrapper({ pageData }) {
+   useTrackLocation();   
   return (
     <>
       {/* <div className="bg-animation">
@@ -16,12 +19,13 @@ export default function HomeWrapper({ pageData }) {
         <div id="stars3"></div>
         <div id="stars4"></div>
         </div> */}
-      <HomeLanding pageData={pageData} />
+      {/* <HomeLanding pageData={pageData} />
       <ScrollReveal
         text={pageData?.about?.text || ""}
         accentWords={pageData?.about?.accentWords || []}
       />
-      <ImageCarousel images={pageData?.about?.skills || []} />
+      <ImageCarousel images={pageData?.about?.skills || []} /> */}
+      <DevFolio pageData={pageData} />
 
       {/* <About /> */}
       {/* <Projects /> */}
