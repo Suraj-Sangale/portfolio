@@ -1,8 +1,11 @@
 import { getPortfolioDataController } from "@/backend/controller/commonController";
 import Layout from "@/components/layout";
 import About from "@/components/about";
+import { useTrackPageActivity } from "@/hooks/useTrackPageActivity";
 
 export default function AboutPage({ pageData }) {
+  useTrackPageActivity("about");
+
   return (
     <Layout>
       <About pageData={pageData} />

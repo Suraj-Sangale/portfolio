@@ -1,8 +1,11 @@
 import { getPortfolioDataController } from "@/backend/controller/commonController";
 import Layout from "@/components/layout";
 import Timeline from "@/components/timeline";
+import { useTrackPageActivity } from "@/hooks/useTrackPageActivity";
 
 export default function WorkPage({ pageData }) {
+  useTrackPageActivity("work");
+
   return (
     <Layout>
       <Timeline pageData={pageData} />

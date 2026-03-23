@@ -1,8 +1,11 @@
 import { getPortfolioDataController } from "@/backend/controller/commonController";
 import Layout from "@/components/layout";
 import Projects from "@/components/projects";
+import { useTrackPageActivity } from "@/hooks/useTrackPageActivity";
 
 export default function ProjectsPage({ pageData }) {
+  useTrackPageActivity("projects");
+
   return (
     <Layout>
       <Projects pageData={pageData} />

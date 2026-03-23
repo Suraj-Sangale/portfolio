@@ -1,9 +1,10 @@
 import { getPortfolioDataController } from "@/backend/controller/commonController";
-import Layout from "@/components/layout";
-import HomeWrapper from "@/components/homeWrapper";
 import DevFolio from "@/components/home/devFolio";
+import { useTrackPageActivity } from "@/hooks/useTrackPageActivity";
 
 export default function Home({ pageData }) {
+  useTrackPageActivity("home");
+
   return (
     <>
       {/* <HomeWrapper pageData={pageData} /> */}

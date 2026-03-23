@@ -1,8 +1,11 @@
 import { getPortfolioDataController } from "@/backend/controller/commonController";
 import Layout from "@/components/layout";
 import ContactSection from "@/components/contactSection";
+import { useTrackPageActivity } from "@/hooks/useTrackPageActivity";
 
 export default function ContactPage({ pageData }) {
+  useTrackPageActivity("contact");
+
   return (
     <Layout>
       <ContactSection pageData={pageData} />
