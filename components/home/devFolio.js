@@ -208,7 +208,7 @@ export default function DevFolio({ pageData }) {
   const gxRef = useRef(0);
   const gyRef = useRef(0);
 
-  const { newData = {}, socialLinksData = [] } = pageData;
+  const { newData = {}, socialLinks = [] } = pageData;
 
   useEffect(() => {
     // Inject styles
@@ -758,7 +758,7 @@ export default function DevFolio({ pageData }) {
             <p className="hero-sub">{hero.tagline}</p>
             <div className="hero-line-r"></div>
           </div>
-          <SocialIcons socialLinks={socialLinksData} />
+          <SocialIcons socialLinks={socialLinks} />
           <div className="hud">
             {hero.hud.map((h) => (
               <div
@@ -776,11 +776,11 @@ export default function DevFolio({ pageData }) {
             ))}
           </div>
 
-          <button
+          {/* <button
             onClick={() => trackEvent("Portfolio", "Click", "Contact Button")}
           >
             Event
-          </button>
+          </button> */}
           {/* <div className="scroll-pulse">
             <div className="pulse-circle"></div>
             <p className="scroll-txt">Scroll to explore</p>
