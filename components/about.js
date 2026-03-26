@@ -5,9 +5,11 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import GitHubGraph from "./Items/gitHubGraph";
 import CommonModal from "./common/commonModal";
+import { processImageSrc } from "@/utilities/utils";
 
 const About = ({ pageData }) => {
   const { aboutData } = pageData;
+  // const aboutData = 
   console.log("aboutData", aboutData);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -129,7 +131,7 @@ const About = ({ pageData }) => {
             0 0 0 1px rgba(255,255,255,0.04) inset,
             0 32px 80px rgba(0,0,0,0.28),
             0 2px 0 rgba(255,255,255,0.08) inset;
-          margin-top: 52px;
+          margin-top: 32px;
           overflow: hidden;
         }
 
@@ -210,7 +212,7 @@ const About = ({ pageData }) => {
 
         .skills-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
           gap: 10px;
         }
 
@@ -218,11 +220,11 @@ const About = ({ pageData }) => {
           background: rgba(255,255,255,0.05);
           border: 1px solid rgba(255,255,255,0.1);
           border-radius: 14px;
-          padding: 16px 8px 12px;
+          padding: 10px 5px 9px;
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 9px;
+          gap: 15px;
           cursor: default;
           transition: all 0.25s cubic-bezier(.22,1,.36,1);
           position: relative;
@@ -253,8 +255,8 @@ const About = ({ pageData }) => {
         .skill-img-wrap {
           position: relative;
           z-index: 1;
-          width: 36px;
-          height: 36px;
+          width: 50px;
+          height: 50px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -262,7 +264,7 @@ const About = ({ pageData }) => {
 
         .skill-name {
           font-family: 'DM Mono', monospace;
-          font-size: 9.5px;
+          font-size: 12px;
           color: rgba(255,255,255,0.45);
           text-align: center;
           letter-spacing: 0.3px;
@@ -386,11 +388,22 @@ const About = ({ pageData }) => {
         id="about"
       >
         <div className={`about-container ${mounted ? "mounted" : ""}`}>
-          <CustomTitle
-            subheading={aboutData?.subheading || ""}
-            mainText={aboutData?.mainText || ""}
-            highlightedText={aboutData?.highlightedText || ""}
-          />
+          <di className="flex items-center justify-between flex-wrap gap-6">
+            <CustomTitle
+              subheading={aboutData?.subheading || ""}
+              mainText={aboutData?.mainText || ""}
+              highlightedText={aboutData?.highlightedText || ""}
+            />
+            <button
+              className="resume-btn"
+              onClick={() => setIsModalOpen(true)}
+            >
+              <svg viewBox="0 0 16 16">
+                <path d="M4 0h5.5L14 4.5V14a2 2 0 01-2 2H4a2 2 0 01-2-2V2a2 2 0 012-2zm5 0v4h4L9 0zM4 7a1 1 0 000 2h8a1 1 0 000-2H4zm0 3a1 1 0 000 2h5a1 1 0 000-2H4z" />
+              </svg>
+              <span>View Résumé</span>
+            </button>
+          </di>
 
           <div className="glass-card">
             {/* Bio */}
@@ -415,8 +428,8 @@ const About = ({ pageData }) => {
                         <Image
                           src={item.imgUrl}
                           alt={item.name}
-                          width={36}
-                          height={36}
+                          width={50}
+                          height={50}
                           loading="lazy"
                           style={{ objectFit: "contain" }}
                         />
