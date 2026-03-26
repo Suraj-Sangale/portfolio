@@ -18,3 +18,24 @@ export function convertToUpperCase(text) {
   }
   return text.toUpperCase();
 }
+
+export const processImageSrc = (
+  imageSrc,
+  useOptimizedPath = false,
+  width = false,
+  height = false,
+) => {
+  if (
+    typeof imageSrc == "string" &&
+    !imageSrc.startsWith("https://") &&
+    !imageSrc.startsWith("http://")
+  ) {
+    // if (imageSrc.startsWith("/")) {
+    //   imageSrc = imageSrc.replace("/", "");
+    // }
+
+    imageSrc = process.env.NEXT_PUBLIC_BASE_URL + imageSrc;
+  }
+
+  return imageSrc;
+};
