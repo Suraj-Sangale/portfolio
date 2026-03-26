@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   turbopack: {},
   // Exclude server-only packages from client bundle
-  serverExternalPackages: ['ioredis'],
+  serverExternalPackages: ["ioredis"],
   images: {
     remotePatterns: [
       {
@@ -28,6 +28,18 @@ const nextConfig = {
         protocol: "https",
         hostname: "uxwing.com",
         port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "surajsangale.vercel.app",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "3000", // or your dev port
         pathname: "/**",
       },
     ],
