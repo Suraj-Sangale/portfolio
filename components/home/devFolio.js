@@ -116,7 +116,7 @@ export default function DevFolio({ pageData }) {
         { label: "TS", r: 130, angle: 288 },
         { label: "Mongo", r: 80, angle: 30 },
         { label: "PG", r: 80, angle: 150 },
-        { label: "Redis", r: 80, angle: 270 },
+        { label: "Redis", r: 80, angle: 290 },
       ];
       const orbit = document.querySelector(".tech-orbit");
       if (orbit) {
@@ -125,8 +125,8 @@ export default function DevFolio({ pageData }) {
           el.className = "tech-dot";
           el.textContent = t.label;
           const rad = (t.angle * Math.PI) / 180;
-          el.style.left = 170 + Math.cos(rad) * t.r - 22 + "px";
-          el.style.top = 170 + Math.sin(rad) * t.r - 22 + "px";
+          el.style.left = 180 + Math.cos(rad) * t.r - 22 + "px";
+          el.style.top = 180 + Math.sin(rad) * t.r - 22 + "px";
           el.style.position = "absolute";
           orbit.appendChild(el);
         });
@@ -1493,7 +1493,13 @@ section {
   width: 110px;
   height: 110px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(0, 245, 255, .15), rgba(116, 0, 255, .08), transparent);
+  background: radial-gradient(
+  circle,
+  rgba(0, 245, 255, 0.15),
+  rgba(116, 0, 255, 0.08)
+);
+backdrop-filter: blur(3px);
+-webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(0, 245, 255, .2);
   display: flex;
   align-items: center;
@@ -1507,8 +1513,8 @@ section {
 
 .tech-dot {
   position: absolute;
-  width: 44px;
-  height: 44px;
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
   background: rgba(0, 3, 8, .8);
   border: 1px solid rgba(255, 255, 255, .1);
