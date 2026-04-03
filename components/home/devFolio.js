@@ -3,7 +3,7 @@ import Header from "../header";
 import SocialIcons from "./socialIcons";
 import Link from "next/link";
 import { trackEvent } from "@/utilities/analytics";
-
+import TechOrbitPlayground from "./techorbitplayground";
 
 export default function DevFolio({ pageData }) {
   const canvasRef = useRef(null);
@@ -108,6 +108,16 @@ export default function DevFolio({ pageData }) {
       }, 1800);
 
       // ── TECH ORBIT DOTS ──
+      // const techs = [
+      //   { label: "React", r: 130, angle: 0, left: "7.3627px", top: "217.172px" },
+      //   { label: "Next", r: 130, angle: 72, left: "217.172px", top: "7.3627px" },
+      //   { label: "Node", r: 130, angle: 144, left: "217.172px", top: "249.412px" },
+      //   { label: "JS", r: 130, angle: 216, left: "217.172px", top: "7.3627px" },
+      //   { label: "TS", r: 130, angle: 288, left: "217.172px", top: "7.3627px" },
+      //   { label: "Mongo", r: 80, angle: 30, left: "231px", top: "1px" },
+      //   { label: "PG", r: 80, angle: 150, left: "278px", top: "190px" },
+      //   { label: "Redis", r: 80, angle: 290, left: "180px", top: "100px" },
+      // ];
       const techs = [
         { label: "React", r: 130, angle: 0 },
         { label: "Next", r: 130, angle: 72 },
@@ -116,7 +126,7 @@ export default function DevFolio({ pageData }) {
         { label: "TS", r: 130, angle: 288 },
         { label: "Mongo", r: 80, angle: 30 },
         { label: "PG", r: 80, angle: 150 },
-        { label: "Redis", r: 80, angle: 290 },
+        { label: "Redis", r: 80, angle: 270 },
       ];
       const orbit = document.querySelector(".tech-orbit");
       if (orbit) {
@@ -125,8 +135,10 @@ export default function DevFolio({ pageData }) {
           el.className = "tech-dot";
           el.textContent = t.label;
           const rad = (t.angle * Math.PI) / 180;
-          el.style.left = 180 + Math.cos(rad) * t.r - 22 + "px";
-          el.style.top = 180 + Math.sin(rad) * t.r - 22 + "px";
+          el.style.left = t.left
+            ? t.left
+            : 180 + Math.cos(rad) * t.r - 22 + "px";
+          el.style.top = t.top ? t.top : 180 + Math.sin(rad) * t.r - 22 + "px";
           el.style.position = "absolute";
           orbit.appendChild(el);
         });
@@ -566,22 +578,6 @@ export default function DevFolio({ pageData }) {
             <div className="hero-line-r"></div>
           </div>
           <SocialIcons socialLinks={socialLinks} />
-          <div className="hud">
-            {hero.hud.map((h) => (
-              <div
-                key={h.label}
-                className="hud-item"
-              >
-                {h.label}{" "}
-                <span
-                  className="hud-val"
-                  ref={h.ref ? commitRef : null}
-                >
-                  {h.value}
-                </span>
-              </div>
-            ))}
-          </div>
 
           {/* <button
             onClick={() => trackEvent("Portfolio", "Click", "Contact Button")}
@@ -592,8 +588,23 @@ export default function DevFolio({ pageData }) {
             <div className="pulse-circle"></div>
             <p className="scroll-txt">Scroll to explore</p>
           </div> */}
-        </section>
-
+        </section>{" "}
+        <div className="hud">
+          {hero.hud.map((h) => (
+            <div
+              key={h.label}
+              className="hud-item"
+            >
+              {h.label}{" "}
+              <span
+                className="hud-val"
+                ref={h.ref ? commitRef : null}
+              >
+                {h.value}
+              </span>
+            </div>
+          ))}
+        </div>
         {/* ── S2 STACK ── */}
         <section id="s2">
           <div
@@ -635,7 +646,7 @@ export default function DevFolio({ pageData }) {
             </div>
           </div>
         </section>
-
+        {/* <TechOrbitPlayground /> */}
         {/* ── S3 PROJECTS ── */}
         <section id="s3">
           <div
@@ -692,7 +703,6 @@ export default function DevFolio({ pageData }) {
             ))}
           </div>
         </section>
-
         {/* ── S4 MARQUEE ── */}
         <section id="s4">
           <div className="marquee-wrap">
@@ -709,7 +719,6 @@ export default function DevFolio({ pageData }) {
             </div>
           </div>
         </section>
-
         {/* ── S5 JOURNEY ── */}
         <section id="s5">
           <div
@@ -736,7 +745,6 @@ export default function DevFolio({ pageData }) {
             ))}
           </div>
         </section>
-
         {/* ── S6 CONTACT ── */}
         <section id="s6">
           <div className="cta-container rv-s">
@@ -776,7 +784,6 @@ export default function DevFolio({ pageData }) {
             <p className="cta-note">{contact.note}</p>
           </div>
         </section>
-
         <footer>
           <div className="fl">{footer.logo}</div>
           <div className="fm-links">
@@ -795,7 +802,6 @@ export default function DevFolio({ pageData }) {
     </>
   );
 }
-
 
 const styles = ` 
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@100;200;300;400&family=Space+Mono:ital@0;1&display=swap');
@@ -1017,7 +1023,7 @@ section {
 }
 
 #s1 {
-  min-height: 200vh;
+  min-height: 180vh;
   justify-content: flex-start;
   padding-top: 28vh;
   gap: 0
@@ -1221,8 +1227,8 @@ section {
 }
 
 .hud {
-  position: absolute;
-  bottom: 80px;
+  // position: absolute;
+  margin-top: 80px;
   left: 0;
   right: 0;
   display: flex;
@@ -2293,6 +2299,12 @@ footer {
   .tech-orbit {
     display: none
   }
+  
+  .hud {
+  padding: 0 2px;
+  opacity: 0;
+  animation: heroIn 1s 1.6s ease forwards;
+}
 }
 
 .bento-features {
