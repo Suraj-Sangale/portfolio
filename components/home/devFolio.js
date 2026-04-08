@@ -667,7 +667,7 @@ export default function DevFolio({ pageData }) {
                 className={`bento ${p.sizeCls}`}
               >
                 <div className="bento-num">{p.num}</div>
-                <div className={`bento-icon ${p.iconCls}`}>{p.icon}</div>
+                {/* <div className={`bento-icon ${p.iconCls}`}>{p.icon}</div> */}
                 <div className="bento-title">
                   <span className={p.titleGradient}>{p.titleWord}</span>
                   {p.newline ? (
@@ -732,7 +732,7 @@ export default function DevFolio({ pageData }) {
             </h2>
           </div>
           <div className="h-timeline">
-            {journey.map((item) => (
+            {journey.reverse().map((item) => (
               <div
                 key={item.yr}
                 className="ht-item"
@@ -1929,11 +1929,12 @@ backdrop-filter: blur(3px);
 .ht-item:nth-child(4) .ht-yr {
   color: var(--c4)
 }
-
+  
 .ht-item:nth-child(5) .ht-dot,
 .ht-item:nth-child(5) .ht-yr {
-  color: var(--c5)
+  color: var(--c1)
 }
+
 
 .ht-yr {
   font-family: var(--fh);
