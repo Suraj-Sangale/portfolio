@@ -451,17 +451,17 @@ export default function DevFolio({ pageData }) {
       };
       window.addEventListener("resize", onResize);
 
-      document.querySelectorAll(".bento").forEach((card) => {
-        card.addEventListener("mousemove", (e) => {
-          const r = card.getBoundingClientRect();
-          const x = (e.clientX - r.left) / r.width - 0.5,
-            y = (e.clientY - r.top) / r.height - 0.5;
-          card.style.transform = `translateY(-4px) scale(1.01) rotateX(${-y * 6}deg) rotateY(${x * 6}deg)`;
-        });
-        card.addEventListener("mouseleave", () => {
-          card.style.transform = "";
-        });
-      });
+      // document.querySelectorAll(".bento").forEach((card) => {
+      //   card.addEventListener("mousemove", (e) => {
+      //     const r = card.getBoundingClientRect();
+      //     const x = (e.clientX - r.left) / r.width - 0.5,
+      //       y = (e.clientY - r.top) / r.height - 0.5;
+      //     // card.style.transform = `translateY(-4px) scale(1.01) rotateX(${-y * 6}deg) rotateY(${x * 6}deg)`;
+      //   });
+      //   card.addEventListener("mouseleave", () => {
+      //     card.style.transform = "";
+      //   });
+      // });
 
       cleanup = () => {
         cancelAnimationFrame(rafId);
@@ -1676,9 +1676,9 @@ backdrop-filter: blur(3px);
 .bento-body {
   font-family: var(--fb);
   font-weight: 200;
-  font-size: .8rem;
+  font-size: .9rem;
   line-height: 1.9;
-  color: rgba(226, 234, 255, .45);
+  color: rgba(226, 234, 255, 0.96);
   letter-spacing: .03em;
 }
 
@@ -1715,9 +1715,10 @@ backdrop-filter: blur(3px);
 
 .btag {
   font-family: var(--fm);
-  font-size: .42rem;
+  font-size: .58rem;
+  font-weight: 600;
   letter-spacing: .18em;
-  padding: 4px 10px;
+  padding: 8px 13px;
   border: 1px solid rgba(255, 255, 255, .08);
   color: var(--dim);
   text-transform: uppercase;
@@ -2317,9 +2318,9 @@ footer {
 }
 
 .bento-features li {
-  font-size: 0.6rem;
+  font-size: .9rem;
   letter-spacing: 0.1em;
-  color: rgba(226, 234, 255, 0.5);
+  color: rgba(226, 234, 255, 0.7);
   padding-left: 14px;
   position: relative;
 }
