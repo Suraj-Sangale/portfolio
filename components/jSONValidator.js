@@ -8,11 +8,11 @@ const STYLES = `
     --bg:       #07080a;
     --surface:  #0f1115;
     --surface2: #13161d;
-    --border:   rgba(255,255,255,0.06);
+    --border:  #565656;
     --border2:  rgba(255,255,255,0.12);
     --text:     #e8eaf0;
-    --muted:    #636878;
-    --muted2:   #8a90a8;
+    --muted:    #9ecbff;
+    --muted2:   #40B5E3;
     --accent:   #4d7cff;
     --accent-g: #00e5a0;
     --accent-r: #ff6b6b;
