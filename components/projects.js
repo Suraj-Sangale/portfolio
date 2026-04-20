@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import CustomTitle from "./Items/CustomTitle";
 import ProjectCard from "./Items/projectCard";
 import { useRouter } from "next/router";
+import { FilterSwitch } from "./Items/filterSwitch";
 
 export default function Projects({ pageData }) {
   // const projects = getProjects(pageData);
@@ -14,6 +15,20 @@ export default function Projects({ pageData }) {
   console.log("slug", slug);
 
   const activeSlug = slug;
+  const projectsData1 = [
+    { id: 1, name: "Portfolio", type: "personal" },
+    { id: 2, name: "Client Dashboard", type: "professional" },
+    { id: 3, name: "Blog App", type: "personal" },
+    { id: 4, name: "Company Website", type: "professional" },
+  ];
+
+  const [filter, setFilter] = useState("all");
+
+  const filteredProjects =
+    filter === "all"
+      ? projectsData1
+      : projectsData1.filter((p) => p.type === filter);
+
   return (
     <div
       className="relative my-20"
@@ -25,6 +40,11 @@ export default function Projects({ pageData }) {
           mainText={projectsData.mainText}
           highlightedText={projectsData.highlightedText}
         />
+
+        <div style={{ padding: "40px" }}>
+          <FilterSwitch />
+
+        </div>
       </div>
       {/* <ProjectCard /> */}
       <div className="m-[4%] ">
