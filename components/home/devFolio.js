@@ -6,399 +6,506 @@ import { trackEvent } from "@/utilities/analytics";
 import TechOrbitPlayground from "./techorbitplayground";
 
 export default function DevFolio({ pageData }) {
-  pageData =  {newData:{
-  "nav": {
-    "logo": "SS",
-    "links": [
-      {
-        "label": "About",
-        "href": "#about"
+  pageData = {
+    newData: {
+      nav: {
+        logo: "SS",
+        links: [
+          {
+            label: "About",
+            href: "#about",
+          },
+          {
+            label: "Projects",
+            href: "#projects",
+          },
+          {
+            label: "Work",
+            href: "#work",
+          },
+        ],
+        cta: {
+          label: "Hire Me",
+          href: "#contact",
+        },
       },
-      {
-        "label": "Projects",
-        "href": "#projects"
+      hero: {
+        firstName: "SURAJ",
+        lastName: "SANGALE",
+        badges: [
+          {
+            label: "React",
+            cls: "rb-c",
+          },
+          {
+            label: "Next.js",
+            cls: "rb-v",
+          },
+          {
+            label: "Node.js",
+            cls: "rb-m",
+          },
+          {
+            label: "JavaScript",
+            cls: "rb-a",
+          },
+        ],
+        tagline:
+          "On the way, building something that solves real-world problems",
+        hud: [
+          {
+            label: "STATUS",
+            value: "◉ OPEN TO WORK",
+          },
+          {
+            label: "EXP",
+            value: "3+ YRS",
+          },
+          {
+            label: "STACK",
+            value: "MERN + NEXT",
+          },
+        ],
+        commitTarget: 2847,
       },
-      {
-        "label": "Work",
-        "href": "#work"
-      }
-    ],
-    "cta": {
-      "label": "Hire Me",
-      "href": "#contact"
-    }
-  },
-  "hero": {
-    "firstName": "SURAJ",
-    "lastName": "SANGALE",
-    "badges": [
-      {
-        "label": "React",
-        "cls": "rb-c"
-      },
-      {
-        "label": "Next.js",
-        "cls": "rb-v"
-      },
-      {
-        "label": "Node.js",
-        "cls": "rb-m"
-      },
-      {
-        "label": "JavaScript",
-        "cls": "rb-a"
-      }
-    ],
-    "tagline": "On the way, building something that solves real-world problems",
-    "hud": [
-      {
-        "label": "STATUS",
-        "value": "◉ OPEN TO WORK"
-      },
-      {
-        "label": "EXP",
-        "value": "3+ YRS"
-      },
-      {
-        "label": "STACK",
-        "value": "MERN + NEXT"
-      }
-    ],
-    "commitTarget": 2847
-  },
-  "stats": [
-    {
-      "value": "10",
-      "suffix": "+",
-      "cls": "c",
-      "label": "Projects Shipped"
-    },
-    {
-      "value": "3",
-      "suffix": "+ yrs",
-      "cls": "m",
-      "label": "Professional Experience"
-    },
-    {
-      "value": "99",
-      "suffix": "%",
-      "cls": "v",
-      "label": "Performance Focus"
-    },
-    {
-      "value": "∞",
-      "suffix": "",
-      "cls": "a",
-      "label": "Learning Mindset"
-    }
-  ],
-  "projects": [
-    {
-      "num": "01",
-      "icon": "🏆",
-      "iconCls": "iv",
-      "sizeCls": "b1",
-      "titleGradient": "gw-v",
-      "titleWord": "Point Stream",
-      "titleRest": "Panel",
-      "slug": "point-stream-panel",
-      "body": "Real-time sports scoring system with WebSocket multi-referee input and live scoreboard updates.",
-      "keyFeatures": [
+      stats: [
         {
-          "id": 1,
-          "text": "Blazing-fast performance with Server-Side Rendering (SSR) and Static Site Generation (SSG) using Next.js."
+          value: "10",
+          suffix: "+",
+          cls: "c",
+          label: "Projects Shipped",
         },
         {
-          "id": 2,
-          "text": "Robust backend API with JWT authentication, WebSocket-powered real-time communication, and seamless MySQL database integration."
+          value: "3",
+          suffix: "+ yrs",
+          cls: "m",
+          label: "Professional Experience",
         },
         {
-          "id": 3,
-          "text": "Real-time multi-referee scoring system with secured role-based access, ensuring accurate and transparent match updates."
-        }
+          value: "99",
+          suffix: "%",
+          cls: "v",
+          label: "Performance Focus",
+        },
+        {
+          value: "∞",
+          suffix: "",
+          cls: "a",
+          label: "Learning Mindset",
+        },
       ],
-      "tags": [
+      projects: [
         {
-          "label": "Next.js",
-          "cls": "btag-c"
+          num: "01",
+          icon: "🏆",
+          iconCls: "iv",
+          sizeCls: "b1",
+          titleGradient: "gw-v",
+          titleWord: "Point Stream",
+          titleRest: "Panel",
+          slug: "point-stream-panel",
+          body: "Real-time sports scoring system with WebSocket multi-referee input and live scoreboard updates.",
+          keyFeatures: [
+            {
+              id: 1,
+              text: "Blazing-fast performance with Server-Side Rendering (SSR) and Static Site Generation (SSG) using Next.js.",
+            },
+            {
+              id: 2,
+              text: "Robust backend API with JWT authentication, WebSocket-powered real-time communication, and seamless MySQL database integration.",
+            },
+            {
+              id: 3,
+              text: "Real-time multi-referee scoring system with secured role-based access, ensuring accurate and transparent match updates.",
+            },
+          ],
+          tags: [
+            {
+              label: "Next.js",
+              cls: "btag-c",
+            },
+            {
+              label: "Socket.io",
+              cls: "btag-m",
+            },
+            {
+              label: "MySQL",
+              cls: "btag-v",
+            },
+          ],
         },
         {
-          "label": "Socket.io",
-          "cls": "btag-m"
+          num: "02",
+          icon: "🚚",
+          iconCls: "im",
+          sizeCls: "b2",
+          titleGradient: "gw-m",
+          titleWord: "Cargo",
+          titleRest: "Desk",
+          slug: "cargo-desk",
+          body: "Transport management system with bulk SMS (Twilio), contact import, JWT authentication, and document tracking.",
+          tags: [
+            {
+              label: "Next.js",
+              cls: "btag-c",
+            },
+            {
+              label: "Node.js",
+              cls: "btag-m",
+            },
+            {
+              label: "MySQL",
+              cls: "btag-v",
+            },
+            {
+              label: "Twilio",
+              cls: "btag-a",
+            },
+          ],
         },
         {
-          "label": "MySQL",
-          "cls": "btag-v"
-        }
-      ]
-    },
-    {
-      "num": "02",
-      "icon": "🚚",
-      "iconCls": "im",
-      "sizeCls": "b2",
-      "titleGradient": "gw-m",
-      "titleWord": "Cargo",
-      "titleRest": "Desk",
-      "slug": "cargo-desk",
-      "body": "Transport management system with bulk SMS (Twilio), contact import, JWT authentication, and document tracking.",
-      "tags": [
-        {
-          "label": "Next.js",
-          "cls": "btag-c"
+          num: "03",
+          icon: "🛠",
+          iconCls: "ic",
+          sizeCls: "b3",
+          titleGradient: "gw-c",
+          titleWord: "Linux",
+          titleRest: "Tools",
+          slug: "linux-tools",
+          body: "Web-based DevOps toolkit with DNS checker, port scanner, IP lookup, and command utilities to simplify server troubleshooting.",
+          tags: [
+            {
+              label: "Next.js",
+              cls: "btag-c",
+            },
+            {
+              label: "React",
+              cls: "btag-v",
+            },
+            {
+              label: "Node.js",
+              cls: "btag-m",
+            },
+            {
+              label: "MariaDB",
+              cls: "btag-a",
+            },
+          ],
         },
         {
-          "label": "Node.js",
-          "cls": "btag-m"
+          num: "04",
+          icon: "🎮",
+          iconCls: "ia",
+          sizeCls: "b2",
+          slug: "tic-tac-toe-game",
+          titleGradient: "gw-a",
+          titleWord: "Tic Tac Toe",
+          titleRest: "Game",
+          body: "Real-time multiplayer game with Socket.IO, AI mode, and animated UI built with TypeScript.",
+          tags: [
+            {
+              label: "Next.js",
+              cls: "btag-c",
+            },
+            {
+              label: "TypeScript",
+              cls: "btag-m",
+            },
+            {
+              label: "Socket.IO",
+              cls: "btag-v",
+            },
+          ],
         },
         {
-          "label": "MySQL",
-          "cls": "btag-v"
+          num: "05",
+          icon: "🛍",
+          iconCls: "ic",
+          sizeCls: "b2",
+          titleGradient: "gw-c",
+          titleWord: "Urban",
+          titleRest: "Market",
+          slug: "urban-market",
+          body: "Responsive e-commerce UI with cart and checkout functionality.",
+          tags: [
+            {
+              label: "React",
+              cls: "btag-c",
+            },
+            {
+              label: "Tailwind",
+              cls: "btag-m",
+            },
+            {
+              label: "Node.js",
+              cls: "btag-v",
+            },
+          ],
+        },
+      ],
+      marqueeRow1: [
+        {
+          label: "REACT",
+          lit: "lit",
         },
         {
-          "label": "Twilio",
-          "cls": "btag-a"
-        }
-      ]
-    },
-    {
-      "num": "03",
-      "icon": "🛠",
-      "iconCls": "ic",
-      "sizeCls": "b3",
-      "titleGradient": "gw-c",
-      "titleWord": "Linux",
-      "titleRest": "Tools",
-      "slug": "linux-tools",
-      "body": "Web-based DevOps toolkit with DNS checker, port scanner, IP lookup, and command utilities to simplify server troubleshooting.",
-      "tags": [
-        {
-          "label": "Next.js",
-          "cls": "btag-c"
+          label: "✦",
         },
         {
-          "label": "React",
-          "cls": "btag-v"
+          label: "NEXT.JS",
         },
         {
-          "label": "Node.js",
-          "cls": "btag-m"
+          label: "✦",
         },
         {
-          "label": "MariaDB",
-          "cls": "btag-a"
-        }
-      ]
-    },
-    {
-      "num": "04",
-      "icon": "🎮",
-      "iconCls": "ia",
-      "sizeCls": "b2",
-      "slug": "tic-tac-toe-game",
-      "titleGradient": "gw-a",
-      "titleWord": "Tic Tac Toe",
-      "titleRest": "Game",
-      "body": "Real-time multiplayer game with Socket.IO, AI mode, and animated UI built with TypeScript.",
-      "tags": [
-        {
-          "label": "Next.js",
-          "cls": "btag-c"
+          label: "NODE",
+          lit: "lit2",
         },
         {
-          "label": "TypeScript",
-          "cls": "btag-m"
+          label: "✦",
         },
         {
-          "label": "Socket.IO",
-          "cls": "btag-v"
-        }
-      ]
-    },
-    {
-      "num": "05",
-      "icon": "🛍",
-      "iconCls": "ic",
-      "sizeCls": "b2",
-      "titleGradient": "gw-c",
-      "titleWord": "Urban",
-      "titleRest": "Market",
-      "slug": "urban-market",
-      "body": "Responsive e-commerce UI with cart and checkout functionality.",
-      "tags": [
-        {
-          "label": "React",
-          "cls": "btag-c"
+          label: "JAVASCRIPT",
+          lit: "lit",
         },
         {
-          "label": "Tailwind",
-          "cls": "btag-m"
+          label: "✦",
         },
         {
-          "label": "Node.js",
-          "cls": "btag-v"
-        }
-      ]
-    }
-  ],
-  "marqueeRow1": [
-    {
-      "label": "REACT",
-      "lit": "lit"
+          label: "MYSQL",
+        },
+        {
+          label: "✦",
+        },
+        {
+          label: "REDIS",
+          lit: "lit3",
+        },
+        {
+          label: "✦",
+        },
+        {
+          label: "MARIADB",
+          lit: "lit4",
+        },
+        {
+          label: "✦",
+        },
+      ],
+      marqueeRow2: [
+        {
+          label: "TAILWIND",
+          lit: "lit2",
+        },
+        {
+          label: "◈",
+        },
+        {
+          label: "MATERIAL UI",
+        },
+        {
+          label: "◈",
+        },
+        {
+          label: "STRAPI",
+          lit: "lit",
+        },
+        {
+          label: "◈",
+        },
+        {
+          label: "SOCKET.IO",
+        },
+        {
+          label: "◈",
+        },
+        {
+          label: "MONGODB",
+          lit: "lit3",
+        },
+        {
+          label: "◈",
+        },
+      ],
+      journey: [
+        {
+          yr: "2022",
+          name: "Started Career",
+          desc: "Frontend intern at CGI working with React and modern web technologies.",
+        },
+        {
+          yr: "2022-2023",
+          name: "Frontend Developer",
+          desc: "Worked at Boppo Technologies building React and React Native applications.",
+        },
+        {
+          yr: "2024",
+          name: "Software Developer",
+          desc: "Currently at Fortune4 Technologies working on Next.js, Node.js, MySQL, and Redis.",
+        },
+        {
+          yr: "Now",
+          name: "Growing & Building",
+          desc: "Building scalable products and exploring real-time systems and performance optimization.",
+        },
+      ],
+      contact: {
+        chips: [
+          {
+            label: "✉ hello@example.com",
+            href: "mailto:hello@example.com",
+          },
+          {
+            label: "◈ GitHub",
+            href: "https://github.com/Suraj-Sangale",
+          },
+          {
+            label: "◈ LinkedIn",
+            href: "https://www.linkedin.com/in/suraj-sangale/",
+          },
+          {
+            label: "◈ Twitter",
+            href: "https://twitter.com/SurajSangale4",
+          },
+        ],
+        buttons: [
+          {
+            label: "Start a Project",
+            href: "/contact",
+            cls: "glowbtn-primary",
+          },
+          {
+            label: "Download CV",
+            href: "/suraj_sangale_resume.pdf",
+            cls: "glowbtn-outline",
+          },
+        ],
+        note: "Available for freelance · full-time · collab",
+      },
+      footer: {
+        logo: "SURAJ SANGALE",
+        links: [
+          {
+            label: "GitHub",
+            href: "https://github.com/Suraj-Sangale",
+          },
+          {
+            label: "LinkedIn",
+            href: "https://www.linkedin.com/in/suraj-sangale/",
+          },
+          {
+            label: "Resume",
+            href: "/suraj_sangale_resume.pdf",
+          },
+        ],
+        copy: "© 2026 — Crafted in React, Next.js & raw ambition",
+      },
     },
-    {
-      "label": "✦"
-    },
-    {
-      "label": "NEXT.JS"
-    },
-    {
-      "label": "✦"
-    },
-    {
-      "label": "NODE",
-      "lit": "lit2"
-    },
-    {
-      "label": "✦"
-    },
-    {
-      "label": "JAVASCRIPT",
-      "lit": "lit"
-    },
-    {
-      "label": "✦"
-    },
-    {
-      "label": "MYSQL"
-    },
-    {
-      "label": "✦"
-    },
-    {
-      "label": "REDIS",
-      "lit": "lit3"
-    },
-    {
-      "label": "✦"
-    },
-    {
-      "label": "MARIADB",
-      "lit": "lit4"
-    },
-    {
-      "label": "✦"
-    }
-  ],
-  "marqueeRow2": [
-    {
-      "label": "TAILWIND",
-      "lit": "lit2"
-    },
-    {
-      "label": "◈"
-    },
-    {
-      "label": "MATERIAL UI"
-    },
-    {
-      "label": "◈"
-    },
-    {
-      "label": "STRAPI",
-      "lit": "lit"
-    },
-    {
-      "label": "◈"
-    },
-    {
-      "label": "SOCKET.IO"
-    },
-    {
-      "label": "◈"
-    },
-    {
-      "label": "MONGODB",
-      "lit": "lit3"
-    },
-    {
-      "label": "◈"
-    }
-  ],
-  "journey": [
-    {
-      "yr": "2022",
-      "name": "Started Career",
-      "desc": "Frontend intern at CGI working with React and modern web technologies."
-    },
-    {
-      "yr": "2022-2023",
-      "name": "Frontend Developer",
-      "desc": "Worked at Boppo Technologies building React and React Native applications."
-    },
-    {
-      "yr": "2024",
-      "name": "Software Developer",
-      "desc": "Currently at Fortune4 Technologies working on Next.js, Node.js, MySQL, and Redis."
-    },
-    {
-      "yr": "Now",
-      "name": "Growing & Building",
-      "desc": "Building scalable products and exploring real-time systems and performance optimization."
-    }
-  ],
-  "contact": {
-    "chips": [
+    socialLinks: [
       {
-        "label": "✉ hello@example.com",
-        "href": "mailto:hello@example.com"
+        id: "twitter",
+        label: "Twitter",
+        href: "https://twitter.com/SurajSangale4",
+        disabled: false,
       },
       {
-        "label": "◈ GitHub",
-        "href": "https://github.com/Suraj-Sangale"
+        id: "instagram",
+        label: "Instagram",
+        href: "https://www.instagram.com/____suraj____",
+        disabled: false,
       },
       {
-        "label": "◈ LinkedIn",
-        "href": "https://www.linkedin.com/in/suraj-sangale/"
+        id: "youtube",
+        label: "YouTube",
+        href: "https://youtube.com",
+        disabled: true,
       },
       {
-        "label": "◈ Twitter",
-        "href": "https://twitter.com/SurajSangale4"
-      }
+        id: "github",
+        label: "GitHub",
+        href: "https://github.com",
+        disabled: false,
+      },
+      {
+        id: "linkedin",
+        label: "LinkedIn",
+        href: "https://linkedin.com",
+        disabled: false,
+      },
+      {
+        id: "discord",
+        label: "Discord",
+        href: "https://discord.com",
+        disabled: true,
+      },
+      {
+        id: "tiktok",
+        label: "TikTok",
+        href: "https://tiktok.com",
+        disabled: true,
+      },
+      {
+        id: "whatsapp",
+        label: "WhatsApp",
+        href: "https://whatsapp.com",
+        disabled: false,
+      },
+      {
+        id: "telegram",
+        label: "Telegram",
+        href: "https://telegram.org",
+        disabled: true,
+      },
+      {
+        id: "reddit",
+        label: "Reddit",
+        href: "https://reddit.com",
+        disabled: true,
+      },
+      {
+        id: "twitch",
+        label: "Twitch",
+        href: "https://twitch.tv",
+        disabled: true,
+      },
+      {
+        id: "spotify",
+        label: "Spotify",
+        href: "https://spotify.com",
+        disabled: true,
+      },
+      {
+        id: "dribbble",
+        label: "Dribbble",
+        href: "https://dribbble.com",
+        disabled: true,
+      },
+      {
+        id: "stackoverflow",
+        label: "Stack Overflow",
+        href: "https://stackoverflow.com",
+        disabled: true,
+      },
+      {
+        id: "email",
+        label: "Email",
+        href: "mailto:hello@example.com",
+        disabled: false,
+      },
+      {
+        id: "facebook",
+        label: "Facebook",
+        href: "https://facebook.com",
+        disabled: false,
+      },
+      {
+        id: "medium",
+        label: "Medium",
+        href: "https://medium.com",
+        disabled: false,
+      },
     ],
-    "buttons": [
-      {
-        "label": "Start a Project",
-        "href": "/contact",
-        "cls": "glowbtn-primary"
-      },
-      {
-        "label": "Download CV",
-        "href": "/suraj_sangale_resume.pdf",
-        "cls": "glowbtn-outline"
-      }
-    ],
-    "note": "Available for freelance · full-time · collab"
-  },
-  "footer": {
-    "logo": "SURAJ SANGALE",
-    "links": [
-      {
-        "label": "GitHub",
-        "href": "https://github.com/Suraj-Sangale"
-      },
-      {
-        "label": "LinkedIn",
-        "href": "https://www.linkedin.com/in/suraj-sangale/"
-      },
-      {
-        "label": "Resume",
-        "href": "/suraj_sangale_resume.pdf"
-      }
-    ],
-    "copy": "© 2026 — Crafted in React, Next.js & raw ambition"
-  }
-}}
+  };
   const canvasRef = useRef(null);
   const commitRef = useRef(null);
   const dotRef = useRef(null);
