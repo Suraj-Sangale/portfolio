@@ -206,6 +206,440 @@
     "highlightedText": "I've Done",
     "projectList": [
       {
+        "title": "Linux Toolddds",
+        "isEnable": true,
+        "image": [
+          "linuxtools.png",
+          "linuxtools2.png",
+          "linuxtools3.png",
+          "linuxtools4.png"
+        ],
+        "liveUrl": "https://linux-support-manager.vercel.app/",
+        "description": "Built a comprehensive web-based toolkit tailored for DevOps engineers and system administrators to streamline server troubleshooting and daily operational tasks. The app integrates various diagnostic tools to enhance productivity and simplify common server-side challenges.",
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "DNS Checker to quickly verify domain records and identify misconfigurations"
+          },
+          {
+            "id": 2,
+            "text": "Port Scanner to detect open ports and assess network vulnerabilities"
+          },
+          {
+            "id": 3,
+            "text": "IP Lookup tool providing geolocation, ISP, and detailed IP data"
+          },
+          {
+            "id": 4,
+            "text": "Built-in Linux Command Library for instant access to essential terminal commands"
+          },
+          {
+            "id": 5,
+            "text": "Bonus tools like JSON Formatter, Text Comparator, and Server Diagnostics for enhanced productivity"
+          }
+        ],
+        "techStack": ["Next.js", "React", "PHP", "MariaDB", "Node.js"]
+      },
+      {
+        "title": "Cargo Desk",
+        "isEnable": true,
+        "description": "CargoDesk is a transport management system designed for managing daily orders, invoices, and vehicle-related documents such as insurance, PUC, and fitness certificates. A key highlight is the Bulk SMS functionality powered by the Twilio SMS API, along with a robust contact management system that supports multiple import methods.",
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "Implemented Bulk SMS sending using Twilio SMS API for marketing."
+          },
+          {
+            "id": 2,
+            "text": "Developed a contact management module allowing bulk import from Google Contacts API, CSV, vCard, and manual entry."
+          },
+          {
+            "id": 3,
+            "text": "Secured the platform with JWT-based authentication for sign-up and login."
+          },
+          {
+            "id": 4,
+            "text": "Utilized MySQL for efficient data storage and retrieval."
+          },
+          {
+            "id": 5,
+            "text": "Designed a responsive UI using Material UI, Tailwind CSS, and SCSS for a modern and clean interface."
+          }
+        ],
+        "techStack": [
+          "Next.js",
+          "Node.js",
+          "MySQL",
+          "Twilio SMS API",
+          "Google Contacts API",
+          "JWT",
+          "Material UI",
+          "Tailwind CSS",
+          "SCSS"
+        ],
+        "image": [
+          "cargoDesk2.png",
+          "cargoDesk.png",
+          "cargoDesk4.png",
+          "cargoDesk5.png",
+          "cargoDesk3.png"
+        ],
+        "liveUrl": "https://cargodesk.vercel.app/"
+      },
+      {
+        "title": "Point Stream Panel",
+        "isEnable": true,
+        "description": "A dynamic web-based platform built to streamline the management of sports tournaments, matches, and real-time scoring. Key highlights include match booth setups, referee-based access control, live scoreboard updates from multiple devices, detailed match history with obtained scores, and automated scorecard generation.",
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "Blazing-fast performance with Server-Side Rendering (SSR) and Static Site Generation (SSG) using Next.js."
+          },
+          {
+            "id": 2,
+            "text": "Robust backend API with JWT authentication, WebSocket-powered real-time communication, and seamless MySQL database integration."
+          },
+          {
+            "id": 3,
+            "text": "Real-time multi-referee scoring system with secured role-based access, ensuring accurate and transparent match updates."
+          }
+        ],
+        "techStack": [
+          "Next.js",
+          "Tailwind CSS",
+          "Socket.io",
+          "MySQL",
+          "Node.js"
+        ],
+        "image": [
+          "PSPboard.png",
+          "PSPboard1.png",
+          "PSPboard2.png",
+          "PSPboard4.png",
+          "PSPboard5.png"
+        ],
+        "liveUrl": "https://pointstreampannel.vercel.app/"
+      },
+      {
+        "title": "Tic Tac Toe Game",
+        "isEnable": true,
+        "description": "A modern, interactive Tic Tac Toe game built with Next.js, TypeScript, and Tailwind CSS. It features smooth animations, a responsive glass-morphism UI, Single Player mode with an intelligent computer opponent, and Online Multiplayer mode using Socket.IO for real-time gameplay.",
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "Developed a real-time multiplayer Tic Tac Toe game using Next.js, TypeScript, and Socket.IO."
+          },
+          {
+            "id": 2,
+            "text": "Implemented two game modes: Single Player (AI) and Multiplayer (WebSockets)."
+          },
+          {
+            "id": 6,
+            "text": "Built real-time room-based matchmaking with instant move syncing."
+          },
+          {
+            "id": 3,
+            "text": "Built reusable components for X and O icons with SVG animations"
+          },
+          {
+            "id": 4,
+            "text": "Ensured mobile-first responsive layout using aspect-square and CSS grid"
+          },
+          {
+            "id": 5,
+            "text": "Focused on clean TypeScript structure and component organization"
+          }
+        ],
+        "techStack": [
+          "Next.js",
+          "TypeScript",
+          "Socket.IO / WebSockets",
+          "Tailwind CSS",
+          "Node.js",
+          "Custom CSS Animations",
+          "Vercel"
+        ],
+        "image": [
+          "ticTac/1.png",
+          "ticTac/2.png",
+          "ticTac/3.png",
+          "ticTac/4.png",
+          "ticTac/5.png"
+        ],
+        "gitUrl": "",
+        "liveUrl": "https://playtictac.vercel.app/"
+      },
+      {
+        "title": "Urban Market",
+        "isEnable": true,
+        "description": "I built a fully responsive clone of Urban Marketplace, a modern e-commerce platform where users can explore a wide variety of products, add items to their cart, and seamlessly place orders.",
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "Modern and responsive UI for smooth product browsing"
+          },
+          {
+            "id": 2,
+            "text": "Add to cart and complete checkout functionality"
+          },
+          {
+            "id": 3,
+            "text": "Built with React.js and Tailwind CSS, deployed on Netlify"
+          }
+        ],
+        "techStack": ["Next.js", "Tailwind CSS", "Node.js"],
+        "image": ["UrbanMarket.png", "UrbanMarket2.png", "UrbanMarket4.png"],
+        "gitUrl": "https://github.com/Suraj-Sangale/urban-market",
+        "liveUrl": "https://urbanmarketplace.netlify.app/home"
+      },
+      {
+        "title": "Memo Mind",
+        "isEnable": false,
+        "description": "A web-based platform designed to enhance memory retention and learning through interactive flashcards and quizzes. Users can create, share, and study flashcards on various topics, making learning engaging and effective.",
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "Create and share flashcards for effective learning"
+          },
+          {
+            "id": 2,
+            "text": "Interactive quizzes to reinforce knowledge retention"
+          },
+          {
+            "id": 3,
+            "text": "User-friendly interface for easy navigation and study"
+          }
+        ],
+        "techStack": ["Next.js", "Tailwind CSS", "Node.js"],
+        "image": [
+          "memoMind.png",
+          "memoMind.png",
+          "memoMind.png",
+          "memoMind.png",
+          "memoMind.png"
+        ],
+        "liveUrl": "https://memo-mind-self.vercel.app"
+      },
+
+      {
+        "title": "Titan Eye Plus",
+        "isEnable": true,
+        "description": "A leading eyewear e-commerce platform developed for Titan Eye Plus, offering seamless product discovery, online eye-care solutions, and a modern shopping experience. The platform focuses on performance, scalability, SEO, and responsive design.",
+        "type": "professional",
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "Built scalable frontend applications using Next.js and React.js"
+          },
+          {
+            "id": 2,
+            "text": "Integrated Magento services for product catalog and order management"
+          },
+          {
+            "id": 3,
+            "text": "Optimized Core Web Vitals using Redis caching and performance enhancements"
+          },
+          {
+            "id": 4,
+            "text": "Developed reusable and responsive UI components using SCSS"
+          },
+          {
+            "id": 5,
+            "text": "Implemented API integrations and automation scripts for testing"
+          }
+        ],
+        "techStack": [
+          "Next.js",
+          "React.js",
+          "Node.js",
+          "Redis",
+          "SCSS",
+          "Magento"
+        ],
+        "image": [
+          "titanEyePlus1.png",
+          "titanEyePlus2.png",
+          "titanEyePlus3.png"
+        ],
+        "liveUrl": "https://www.titaneyeplus.com"
+      },
+      {
+        "title": "Fastrack Eyewear",
+        "isEnable": true,
+        "description": "An e-commerce eyewear platform for Fastrack, designed to deliver a fast, engaging, and mobile-friendly shopping experience for fashion-conscious customers. The platform emphasizes performance, SEO, and modern UI design.",
+        "type": "professional",
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "Developed modern and responsive storefront experiences using Next.js"
+          },
+          {
+            "id": 2,
+            "text": "Integrated Magento backend services for product and inventory management"
+          },
+          {
+            "id": 3,
+            "text": "Implemented performance optimizations to improve page speed and user experience"
+          },
+          {
+            "id": 4,
+            "text": "Built reusable UI components and maintained design consistency across pages"
+          },
+          {
+            "id": 5,
+            "text": "Ensured SEO optimization and cross-device compatibility"
+          }
+        ],
+        "techStack": [
+          "Next.js",
+          "React.js",
+          "Node.js",
+          "Redis",
+          "SCSS",
+          "Magento"
+        ],
+        "image": [
+          "fastrackEyewear1.png",
+          "fastrackEyewear2.png",
+          "fastrackEyewear3.png"
+        ],
+        "liveUrl": "https://fastrackeyewear.com"
+      },
+      {
+        "title": "Runway Sunglasses",
+        "isEnable": true,
+        "description": "A premium sunglasses showcase platform under House of Titan that allows users to explore various eyewear collections and submit inquiries. The project emphasizes modern design, performance, SEO, and responsive user experiences.",
+        "type": "professional",
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "Designed modern and responsive UI using React.js and Next.js"
+          },
+          {
+            "id": 2,
+            "text": "Developed backend services with Node.js and Redis caching"
+          },
+          {
+            "id": 3,
+            "text": "Implemented SEO best practices for improved search visibility"
+          },
+          {
+            "id": 4,
+            "text": "Ensured smooth experience across desktop, tablet, and mobile devices"
+          }
+        ],
+        "techStack": ["React.js", "Next.js", "Node.js", "Redis", "SASS"],
+        "image": [
+          "runwaySunglasses1.png",
+          "runwaySunglasses2.png",
+          "runwaySunglasses3.png"
+        ],
+        "liveUrl": "https://runwaysunglasses.com"
+      },
+      {
+        "title": "Frame Expert",
+        "isEnable": true,
+        "description": "An in-store smart recommendation system deployed across Titan Eye Plus outlets in India. The application captures facial measurements and recommends suitable eyewear using virtual try-on technology and intelligent fitting algorithms.",
+        "type": "professional",
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "Built smart frame recommendation system for Titan Eye Plus stores"
+          },
+          {
+            "id": 2,
+            "text": "Integrated Virtual Try-On (VTO) and IndiFit calculator"
+          },
+          {
+            "id": 3,
+            "text": "Implemented React Camera for face scanning and measurements"
+          },
+          {
+            "id": 4,
+            "text": "Enabled barcode scanning and product identification"
+          },
+          {
+            "id": 5,
+            "text": "Integrated Salesforce and SAP APIs for data management"
+          }
+        ],
+        "techStack": [
+          "React.js",
+          "Node.js",
+          "Salesforce API",
+          "SAP API",
+          "React Camera"
+        ],
+        "image": ["frameExpert1.png", "frameExpert2.png", "frameExpert3.png"],
+        "liveUrl": ""
+      },
+      {
+        "title": "Bollywood MDB",
+        "isEnable": true,
+        "description": "A Bollywood entertainment portal that aggregates trending movie news, celebrity updates, and industry insights from multiple trusted sources into a single engaging platform.",
+        "type": "professional",
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "Developed dynamic news feed for Bollywood content"
+          },
+          {
+            "id": 2,
+            "text": "Integrated content from multiple reliable news sources"
+          },
+          {
+            "id": 3,
+            "text": "Collaborated with backend teams for seamless data integration"
+          },
+          {
+            "id": 4,
+            "text": "Resolved front-end issues and improved user experience"
+          }
+        ],
+        "techStack": ["React.js", "Next.js", "JavaScript", "CSS"],
+        "image": [
+          "bollywoodMdb1.png",
+          "bollywoodMdb2.png",
+          "bollywoodMdb3.png"
+        ],
+        "liveUrl": ""
+      },
+      {
+        "title": "Insight GURU",
+        "isEnable": true,
+        "description": "A comprehensive examination portal admin panel used to manage exams, student data, results, and related academic operations through a responsive and user-friendly dashboard.",
+        "type": "professional",
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "Developed responsive admin dashboard using React.js"
+          },
+          {
+            "id": 2,
+            "text": "Implemented state management using Redux"
+          },
+          {
+            "id": 3,
+            "text": "Built reusable UI components with Material-UI"
+          },
+          {
+            "id": 4,
+            "text": "Integrated backend APIs to display examination and student data"
+          }
+        ],
+        "techStack": ["React.js", "Redux", "Material-UI", "REST API"],
+        "image": ["insightGuru1.png", "insightGuru2.png", "insightGuru3.png"],
+        "liveUrl": ""
+      }
+    ]
+  },
+  "projectsOld": {
+    "heading": "Projects",
+    "subheading": "Projects",
+    "mainText": "What",
+    "highlightedText": "I've Done",
+    "projectList": [
+      {
         "title": "Linux Tools",
         "isEnable": true,
         "image": [

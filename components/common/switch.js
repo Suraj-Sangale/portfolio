@@ -1,22 +1,24 @@
-import React, { useState, useRef } from 'react';
-import styled from 'styled-components';
+import React, { useState, useRef } from "react";
+import styled from "styled-components";
 
-const Switch = () => {
+const Switch = ({ onChange, labels = [] }) => {
   const [state, setState] = useState(0); // 0=All, 1=Personal, 2=Professional
   const [pressed, setPressed] = useState(false);
   const animating = useRef(false);
   const startX = useRef(null);
 
-  const labels = ['All', 'Personal', 'Professional'];
-  const btnPositions = ['5%', '30%', '55%'];
-  const leftWidths   = ['0px', '36%', '72%'];
-  const rightWidths  = ['72%', '36%', '0px'];
+  const btnPositions = ["5%", "30%", "55%"];
+  const leftWidths = ["0px", "36%", "72%"];
+  const rightWidths = ["72%", "36%", "0px"];
 
   const goTo = (next) => {
     if (animating.current || next === state) return;
     animating.current = true;
     setState(next);
-    setTimeout(() => { animating.current = false; }, 720);
+    onChange(next);
+    setTimeout(() => {
+      animating.current = false;
+    }, 720);
   };
 
   const handleSwitchMouseDown = (e) => {
@@ -46,7 +48,7 @@ const Switch = () => {
   };
 
   return (
-    <StyledWrapper style={{marginRight:"15rem" }}>
+    <StyledWrapper style={{ marginRight: "15rem" }}>
       <div className="switchContainer">
         <div
           className="switch"
@@ -57,43 +59,54 @@ const Switch = () => {
           onTouchEnd={handleTouchEnd}
         >
           {/* Left indicator — clip grows from left */}
-          <div className="clip left" style={{ width: leftWidths[state] }}>
+          <div
+            className="clip left"
+            style={{ width: leftWidths[state] }}
+          >
             <div
               className="indicator right-ind"
               style={{
-                 boxShadow: state === 0
-                  ? 'inset 0 0 5px hsl(220deg 20% 15%/100%), inset 20px 20px 10px hsl(220deg 20% 15%/100%), inset 20px 20px 15px hsl(220deg 20% 45%/100%)'
-                  : 'inset 0 0 2px hsl(220deg 20% 15%/60%), inset 0 0 3px 2px hsl(220deg 20% 15%/60%), inset 0 0 5px 2px hsl(220deg 20% 45%/60%)',
-              
-                }}
-            />
-          </div>
-
-          {/* Right indicator — clip shrinks toward right, pill stays right-anchored */}
-          <div className="clip right" style={{ width: rightWidths[state] }}>
-            <div
-              className="indicator  left-ind"
-              style={{
-               boxShadow: state === 2
-                  ? 'inset 0 0 5px hsl(22deg 20% 15%/100%), inset 20px 20px 10px hsl(22deg 20% 15%/100%), inset 20px 20px 15px hsl(22deg 20% 45%/100%)'
-                  : 'inset 0 0 2px hsl(22deg 20% 15%/60%), inset 0 0 3px 2px hsl(22deg 20% 15%/60%), inset 0 0 5px 2px hsl(22deg 20% 45%/60%)',
+                boxShadow:
+                  state === 0
+                    ? "inset 0 0 5px hsl(220deg 20% 15%/100%), inset 20px 20px 10px hsl(220deg 20% 15%/100%), inset 20px 20px 15px hsl(220deg 20% 45%/100%)"
+                    : "inset 0 0 2px hsl(220deg 20% 15%/60%), inset 0 0 3px 2px hsl(220deg 20% 15%/60%), inset 0 0 5px 2px hsl(220deg 20% 45%/60%)",
               }}
             />
           </div>
 
-          <div className={`button ${pressed ? 'pressed' : ''}`} style={{ left: btnPositions[state] }} />
+          {/* Right indicator — clip shrinks toward right, pill stays right-anchored */}
+          <div
+            className="clip right"
+            style={{ width: rightWidths[state] }}
+          >
+            <div
+              className="indicator  left-ind"
+              style={{
+                boxShadow:
+                  state === 2
+                    ? "inset 0 0 5px hsl(22deg 20% 15%/100%), inset 20px 20px 10px hsl(22deg 20% 15%/100%), inset 20px 20px 15px hsl(22deg 20% 45%/100%)"
+                    : "inset 0 0 2px hsl(22deg 20% 15%/60%), inset 0 0 3px 2px hsl(22deg 20% 15%/60%), inset 0 0 5px 2px hsl(22deg 20% 45%/60%)",
+              }}
+            />
+          </div>
+
+          <div
+            className={`button ${pressed ? "pressed" : ""}`}
+            style={{ left: btnPositions[state] }}
+          />
         </div>
 
         <div className="labels">
-          {labels.map((lbl, i) => (
-            <span
-              key={lbl}
-              className={`label ${state === i ? 'active' : ''}`}
-              onClick={() => goTo(i)}
-            >
-              {lbl}
-            </span>
-          ))}
+          {labels &&
+            labels.map((lbl, i) => (
+              <span
+                key={lbl.id}
+                className={`label ${state === i ? "active" : ""}`}
+                onClick={() => goTo(i)}
+              >
+                {lbl.label}
+              </span>
+            ))}
         </div>
       </div>
     </StyledWrapper>
@@ -123,7 +136,7 @@ const StyledWrapper = styled.div`
     // width: var(--width);
     //   height: calc(var(--width) / 2.5);
     width: 15rem;
-  height: 3.6rem;
+    height: 3.6rem;
     border-radius: var(--width);
     box-shadow:
       inset 10px 10px 10px hsl(var(--hue) 20% 80%),
@@ -187,7 +200,9 @@ const StyledWrapper = styled.div`
       hsl(var(--hue) 20% 95%) 40%,
       hsl(var(--hue) 20% 65%) 70%
     );
-    transition: left var(--duration) var(--easing), transform 0.15s ease;
+    transition:
+      left var(--duration) var(--easing),
+      transform 0.15s ease;
     box-shadow:
       2px 2px 3px hsl(var(--hue) 18% 50% / 80%),
       2px 2px 6px hsl(var(--hue) 18% 50% / 40%),
@@ -199,7 +214,7 @@ const StyledWrapper = styled.div`
   }
   .button::before,
   .button::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 10%;
     width: 41%;
@@ -238,14 +253,16 @@ const StyledWrapper = styled.div`
     color: #d3d3d3;
     opacity: 0.7;
     cursor: pointer;
-    transition: color 0.35s ease, opacity 0.35s ease, transform 0.35s ease;
+    transition:
+      color 0.35s ease,
+      opacity 0.35s ease,
+      transform 0.35s ease;
   }
   .label.active {
     color: #fff;
     opacity: 1;
     transform: scale(1.08);
     font-weight: 600;
-
   }
 `;
 
