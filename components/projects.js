@@ -3,6 +3,7 @@ import CustomTitle from "./Items/CustomTitle";
 import ProjectCard from "./Items/projectCard";
 import { useRouter } from "next/router";
 import { FilterSwitch } from "./Items/filterSwitch";
+import Switch from "./common/switch";
 
 export default function Projects({ pageData }) {
   // const projects = getProjects(pageData);
@@ -35,16 +36,17 @@ export default function Projects({ pageData }) {
       id="projects"
     >
       <div className="md:ml-36">
-        <CustomTitle
-          subheading={projectsData.subheading}
-          mainText={projectsData.mainText}
-          highlightedText={projectsData.highlightedText}
-        />
-
-        <div style={{ padding: "40px" }}>
-          <FilterSwitch />
-
+        <div className="flex flex-row justify-between ">
+          <CustomTitle
+            subheading={projectsData.subheading}
+            mainText={projectsData.mainText}
+            highlightedText={projectsData.highlightedText}
+          />
+          <Switch />
         </div>
+        {/* <div style={{ padding: "40px" }}>
+          <FilterSwitch />
+        </div> */}
       </div>
       {/* <ProjectCard /> */}
       <div className="m-[4%] ">
