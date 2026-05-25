@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
 
-const Switch = ({ onChange, labels = [] }) => {
+const Switch = ({ onChange = () => {}, labels = [] }) => {
   const [state, setState] = useState(0); // 0=All, 1=Personal, 2=Professional
   const [pressed, setPressed] = useState(false);
   const animating = useRef(false);

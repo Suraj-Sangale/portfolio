@@ -30,6 +30,13 @@ export default function Projects({ pageData }) {
       ? projectsData1
       : projectsData1.filter((p) => p.type === filter);
 
+  const onChangeFilter = (index) => {
+    if (index === 0) setFilter("all");
+    else if (index === 1) setFilter("personal");
+    else if (index === 2) setFilter("professional");
+  };
+
+
   return (
     <div
       className="relative my-20"
@@ -42,13 +49,22 @@ export default function Projects({ pageData }) {
             mainText={projectsData.mainText}
             highlightedText={projectsData.highlightedText}
           />
-          <Switch />
+          <Switch
+            onChange={onChangeFilter}
+            labels={[
+              { id: 0, label: "All" },
+              { id: 1, label: "Personal" },
+              { id: 2, label: "Professional" },
+            ]}
+          />
+          <h1>{filter}</h1>
         </div>
         {/* <div style={{ padding: "40px" }}>
           <FilterSwitch />
         </div> */}
       </div>
       {/* <ProjectCard /> */}
+      
       <div className="m-[4%] ">
         <div
           className={`flex flex-wrap justify-center gap-8 projectCardWrapper`}
