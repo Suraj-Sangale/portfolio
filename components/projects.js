@@ -57,7 +57,7 @@ export default function Projects({ pageData }) {
               { id: 2, label: "Professional" },
             ]}
           />
-          <h1>{filter}</h1>
+          {/* <h1>{filter}</h1> */}
         </div>
         {/* <div style={{ padding: "40px" }}>
           <FilterSwitch />
