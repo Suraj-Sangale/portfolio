@@ -98,7 +98,7 @@ const Header = () => {
 
       {/* Mobile Overlay Menu — rendered outside nav so it can cover full screen */}
       <div
-        className="fixed inset-0 z-10 md:hidden flex flex-col items-center justify-center gap-8 backdrop-blur-lg bg-black/60"
+        className="fixed inset-0 z-20 md:hidden flex flex-col items-center justify-center gap-8 backdrop-blur-lg bg-black/60"
         style={{
           transition:
             "opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1), transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)",

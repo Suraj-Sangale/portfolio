@@ -1508,7 +1508,7 @@ nav::after {
 
 #page {
   position: relative;
-  z-index: 10
+  z-index: 5
 }
 
 section {
@@ -1742,7 +1742,7 @@ section {
   font-family: var(--fm);
   font-size: 14px;
   letter-spacing: .2em;
-  color: var(--dim);
+  color: var(--c3);
   text-transform: uppercase
 }
 
@@ -2802,10 +2802,16 @@ footer {
     display: none
   }
   
-  .hud {
-  padding: 0 2px;
-  opacity: 0;
-  animation: heroIn 1s 1.6s ease forwards;
+    .hud {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 0 20px;
+  }
+
+  .hud-item {
+    text-align: center;
+  }
 }
 }
 

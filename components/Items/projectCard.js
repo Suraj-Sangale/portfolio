@@ -76,7 +76,7 @@ export default function ProjectCard({ project, isDefaultOpen }) {
         onClick={() => setIsOpen(true)}
       >
         {/* Image Carousel */}
-        {project?.image && (
+        {project?.image && project?.image.length > 0 && (
           <div
             className="relative w-full h-52 sm:h-56 overflow-hidden"
             onClick={handleSwiperClick}
@@ -186,7 +186,7 @@ export default function ProjectCard({ project, isDefaultOpen }) {
                 className="w-full"
               >
                 {(Array.isArray(project.image)
-                  ? project.image
+                  ? project.image.length > 0
                   : [project.image]
                 ).map((img, index) => (
                   <SwiperSlide key={index}>
