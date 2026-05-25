@@ -36,19 +36,19 @@ export default function Projects({ pageData }) {
     else if (index === 2) setFilter("professional");
   };
 
-
   return (
     <div
       className="relative my-20"
       id="projects"
     >
       <div className="md:ml-36">
-        <div className="flex flex-row justify-between ">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <CustomTitle
             subheading={projectsData.subheading}
             mainText={projectsData.mainText}
             highlightedText={projectsData.highlightedText}
           />
+
           <Switch
             onChange={onChangeFilter}
             labels={[
@@ -64,7 +64,7 @@ export default function Projects({ pageData }) {
         </div> */}
       </div>
       {/* <ProjectCard /> */}
-      
+
       <div className="m-[4%] ">
         <div
           className={`flex flex-wrap justify-center gap-8 projectCardWrapper`}

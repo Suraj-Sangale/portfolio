@@ -48,7 +48,7 @@ const Switch = ({ onChange = () => {}, labels = [] }) => {
   };
 
   return (
-    <StyledWrapper style={{ marginRight: "15rem" }}>
+    <StyledWrapper style={{ marginRight: "15rem" }} className="ml-[18%] md:ml-0 my-10 md:my-0">
       <div className="switchContainer">
         <div
           className="switch"
