@@ -72,6 +72,7 @@ export default function Projects({ pageData }) {
           {projectsData?.projectList?.map((item, index) => {
             if (!item.isEnable) return null;
 
+            console.log({item:item, activeSlug})
             const isDefaultOpen = item.slug === activeSlug;
 
             return (

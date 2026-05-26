@@ -206,7 +206,7 @@
     "highlightedText": "I've Done",
     "projectList": [
       {
-        "title": "Linux Toolddds",
+        "title": "Linux Tools",
         "isEnable": true,
         "image": [
           "linuxtools.png",
@@ -238,7 +238,8 @@
             "text": "Bonus tools like JSON Formatter, Text Comparator, and Server Diagnostics for enhanced productivity"
           }
         ],
-        "techStack": ["Next.js", "React", "PHP", "MariaDB", "Node.js"]
+        "techStack": ["Next.js", "React", "PHP", "MariaDB", "Node.js"],
+        "slug": "linux-toolddds"
       },
       {
         "title": "Cargo Desk",
@@ -284,7 +285,8 @@
           "cargoDesk5.png",
           "cargoDesk3.png"
         ],
-        "liveUrl": "https://cargodesk.vercel.app/"
+        "liveUrl": "https://cargodesk.vercel.app/",
+        "slug": "cargo-desk"
       },
       {
         "title": "Point Stream Panel",
@@ -318,7 +320,8 @@
           "PSPboard4.png",
           "PSPboard5.png"
         ],
-        "liveUrl": "https://pointstreampannel.vercel.app/"
+        "liveUrl": "https://pointstreampannel.vercel.app/",
+        "slug": "point-stream-panel"
       },
       {
         "title": "Tic Tac Toe Game",
@@ -367,7 +370,8 @@
           "ticTac/5.png"
         ],
         "gitUrl": "",
-        "liveUrl": "https://playtictac.vercel.app/"
+        "liveUrl": "https://playtictac.vercel.app/",
+        "slug": "tic-tac-toe-game"
       },
       {
         "title": "Urban Market",
@@ -390,7 +394,8 @@
         "techStack": ["Next.js", "Tailwind CSS", "Node.js"],
         "image": ["UrbanMarket.png", "UrbanMarket2.png", "UrbanMarket4.png"],
         "gitUrl": "https://github.com/Suraj-Sangale/urban-market",
-        "liveUrl": "https://urbanmarketplace.netlify.app/home"
+        "liveUrl": "https://urbanmarketplace.netlify.app/home",
+        "slug": "urban-market"
       },
       {
         "title": "Memo Mind",
@@ -418,9 +423,9 @@
           "memoMind.png",
           "memoMind.png"
         ],
-        "liveUrl": "https://memo-mind-self.vercel.app"
+        "liveUrl": "https://memo-mind-self.vercel.app",
+        "slug": "memo-mind"
       },
-
       {
         "title": "Titan Eye Plus",
         "isEnable": true,
@@ -461,7 +466,8 @@
           "titanEyePlus2.png",
           "titanEyePlus3.png"
         ],
-        "liveUrl": "https://www.titaneyeplus.com"
+        "liveUrl": "https://www.titaneyeplus.com",
+        "slug": "titan-eye-plus"
       },
       {
         "title": "Fastrack Eyewear",
@@ -503,7 +509,8 @@
           "fastrackEyewear2.png",
           "fastrackEyewear3.png"
         ],
-        "liveUrl": "https://fastrackeyewear.com"
+        "liveUrl": "https://fastrackeyewear.com",
+        "slug": "fastrack-eyewear"
       },
       {
         "title": "Runway Sunglasses",
@@ -534,7 +541,8 @@
           "runwaySunglasses2.png",
           "runwaySunglasses3.png"
         ],
-        "liveUrl": "https://runwaysunglasses.com"
+        "liveUrl": "https://runwaysunglasses.com",
+        "slug": "runway-sunglasses"
       },
       {
         "title": "Frame Expert",
@@ -571,7 +579,8 @@
           "React Camera"
         ],
         "image": ["frameExpert1.png", "frameExpert2.png", "frameExpert3.png"],
-        "liveUrl": ""
+        "liveUrl": "",
+        "slug": "frame-expert"
       },
       {
         "title": "Bollywood MDB",
@@ -602,7 +611,8 @@
           "bollywoodMdb2.png",
           "bollywoodMdb3.png"
         ],
-        "liveUrl": ""
+        "liveUrl": "",
+        "slug": "bollywood-mdb"
       },
       {
         "title": "Insight GURU",
@@ -629,7 +639,8 @@
         ],
         "techStack": ["React.js", "Redux", "Material-UI", "REST API"],
         "image": ["insightGuru1.png", "insightGuru2.png", "insightGuru3.png"],
-        "liveUrl": ""
+        "liveUrl": "",
+        "slug": "insight-guru"
       }
     ]
   },

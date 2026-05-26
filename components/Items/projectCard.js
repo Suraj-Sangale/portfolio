@@ -68,6 +68,9 @@ export default function ProjectCard({ project, isDefaultOpen }) {
     });
   };
 
+
+  const { image = [] } = project || {};
+  
   return (
     <>
       {/* Project Card */}
@@ -76,16 +79,13 @@ export default function ProjectCard({ project, isDefaultOpen }) {
         onClick={() => setIsOpen(true)}
       >
         {/* Image Carousel */}
-        {project?.image && project?.image.length > 0 && (
+        {image && image.length > 0 && (
           <div
             className="relative w-full h-52 sm:h-56 overflow-hidden"
             onClick={handleSwiperClick}
           >
             <CustomSwiper carouselOptions={carouselOptions}>
-              {(Array.isArray(project.image)
-                ? project.image
-                : [project.image]
-              ).map((img, index) => (
+              {image.map((img, index) => (
                 <SwiperSlide key={index}>
                   <div className="relative w-full h-full">
                     {imageLoading && (
@@ -185,10 +185,7 @@ export default function ProjectCard({ project, isDefaultOpen }) {
                 carouselOptions={carouselOptions}
                 className="w-full"
               >
-                {(Array.isArray(project.image)
-                  ? project.image.length > 0
-                  : [project.image]
-                ).map((img, index) => (
+                {image.map((img, index) => (
                   <SwiperSlide key={index}>
                     <div className="w-full flex items-center justify-center bg-gray-200">
                       <Image
