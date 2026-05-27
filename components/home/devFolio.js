@@ -95,154 +95,368 @@ export default function DevFolio({ pageData }) {
         },
       ],
       projects: [
-        {
-          num: "01",
-          icon: "🏆",
-          iconCls: "iv",
-          sizeCls: "b1",
-          titleGradient: "gw-v",
-          titleWord: "Point Stream",
-          titleRest: "Panel",
-          slug: "point-stream-panel",
-          body: "Real-time sports scoring system with WebSocket multi-referee input and live scoreboard updates.",
-          keyFeatures: [
-            {
-              id: 1,
-              text: "Blazing-fast performance with Server-Side Rendering (SSR) and Static Site Generation (SSG) using Next.js.",
-            },
-            {
-              id: 2,
-              text: "Robust backend API with JWT authentication, WebSocket-powered real-time communication, and seamless MySQL database integration.",
-            },
-            {
-              id: 3,
-              text: "Real-time multi-referee scoring system with secured role-based access, ensuring accurate and transparent match updates.",
-            },
-          ],
-          tags: [
-            {
-              label: "Next.js",
-              cls: "btag-c",
-            },
-            {
-              label: "Socket.io",
-              cls: "btag-m",
-            },
-            {
-              label: "MySQL",
-              cls: "btag-v",
-            },
-          ],
-        },
-        {
-          num: "02",
-          icon: "🚚",
-          iconCls: "im",
-          sizeCls: "b2",
-          titleGradient: "gw-m",
-          titleWord: "Cargo",
-          titleRest: "Desk",
-          slug: "cargo-desk",
-          body: "Transport management system with bulk SMS (Twilio), contact import, JWT authentication, and document tracking.",
-          tags: [
-            {
-              label: "Next.js",
-              cls: "btag-c",
-            },
-            {
-              label: "Node.js",
-              cls: "btag-m",
-            },
-            {
-              label: "MySQL",
-              cls: "btag-v",
-            },
-            {
-              label: "Twilio",
-              cls: "btag-a",
-            },
-          ],
-        },
-        {
-          num: "03",
-          icon: "🛠",
-          iconCls: "ic",
-          sizeCls: "b3",
-          titleGradient: "gw-c",
-          titleWord: "Linux",
-          titleRest: "Tools",
-          slug: "linux-tools",
-          body: "Web-based DevOps toolkit with DNS checker, port scanner, IP lookup, and command utilities to simplify server troubleshooting.",
-          tags: [
-            {
-              label: "Next.js",
-              cls: "btag-c",
-            },
-            {
-              label: "React",
-              cls: "btag-v",
-            },
-            {
-              label: "Node.js",
-              cls: "btag-m",
-            },
-            {
-              label: "MariaDB",
-              cls: "btag-a",
-            },
-          ],
-        },
-        {
-          num: "04",
-          icon: "🎮",
-          iconCls: "ia",
-          sizeCls: "b2",
-          slug: "tic-tac-toe-game",
-          titleGradient: "gw-a",
-          titleWord: "Tic Tac Toe",
-          titleRest: "Game",
-          body: "Real-time multiplayer game with Socket.IO, AI mode, and animated UI built with TypeScript.",
-          tags: [
-            {
-              label: "Next.js",
-              cls: "btag-c",
-            },
-            {
-              label: "TypeScript",
-              cls: "btag-m",
-            },
-            {
-              label: "Socket.IO",
-              cls: "btag-v",
-            },
-          ],
-        },
-        {
-          num: "05",
-          icon: "🛍",
-          iconCls: "ic",
-          sizeCls: "b2",
-          titleGradient: "gw-c",
-          titleWord: "Urban",
-          titleRest: "Market",
-          slug: "urban-market",
-          body: "Responsive e-commerce UI with cart and checkout functionality.",
-          tags: [
-            {
-              label: "React",
-              cls: "btag-c",
-            },
-            {
-              label: "Tailwind",
-              cls: "btag-m",
-            },
-            {
-              label: "Node.js",
-              cls: "btag-v",
-            },
-          ],
-        },
-      ],
+  {
+    "num": "01",
+    "icon": "🏆",
+    "iconCls": "iv",
+    "sizeCls": "b1",
+    "titleGradient": "gw-v",
+    "titleWord": "Point Stream",
+    "titleRest": "Panel",
+    "slug": "point-stream-panel",
+    "body": "Real-time sports scoring system with WebSocket multi-referee input and live scoreboard updates.",
+    "keyFeatures": [
+      {
+        "id": 1,
+        "text": "Blazing-fast performance with Server-Side Rendering (SSR) and Static Site Generation (SSG) using Next.js."
+      },
+      {
+        "id": 2,
+        "text": "Robust backend API with JWT authentication, WebSocket-powered real-time communication, and seamless MySQL database integration."
+      },
+      {
+        "id": 3,
+        "text": "Real-time multi-referee scoring system with secured role-based access, ensuring accurate and transparent match updates."
+      }
+    ],
+    "tags": [
+      { "label": "Next.js", "cls": "btag-c" },
+      { "label": "Socket.io", "cls": "btag-m" },
+      { "label": "MySQL", "cls": "btag-v" }
+    ]
+  },
+
+  {
+    "num": "02",
+    "icon": "🚚",
+    "iconCls": "im",
+    "sizeCls": "b2",
+    "titleGradient": "gw-m",
+    "titleWord": "Cargo",
+    "titleRest": "Desk",
+    "slug": "cargo-desk",
+    "body": "Transport management system with bulk SMS (Twilio), contact import, JWT authentication, and document tracking.",
+    "tags": [
+      { "label": "Next.js", "cls": "btag-c" },
+      { "label": "Node.js", "cls": "btag-m" },
+      { "label": "MySQL", "cls": "btag-v" },
+      { "label": "Twilio", "cls": "btag-a" }
+    ]
+  },
+
+  {
+    "num": "03",
+    "icon": "🛠",
+    "iconCls": "ic",
+    "sizeCls": "b3",
+    "titleGradient": "gw-c",
+    "titleWord": "Linux",
+    "titleRest": "Tools",
+    "slug": "linux-tools",
+    "body": "Web-based DevOps toolkit with DNS checker, port scanner, IP lookup, and command utilities to simplify server troubleshooting.",
+    "tags": [
+      { "label": "Next.js", "cls": "btag-c" },
+      { "label": "React", "cls": "btag-v" },
+      { "label": "Node.js", "cls": "btag-m" },
+      { "label": "MariaDB", "cls": "btag-a" }
+    ]
+  },
+
+  {
+    "num": "04",
+    "icon": "🎮",
+    "iconCls": "ia",
+    "sizeCls": "b2",
+    "slug": "tic-tac-toe-game",
+    "titleGradient": "gw-a",
+    "titleWord": "Tic Tac Toe",
+    "titleRest": "Game",
+    "body": "Real-time multiplayer game with Socket.IO, AI mode, and animated UI built with TypeScript.",
+    "tags": [
+      { "label": "Next.js", "cls": "btag-c" },
+      { "label": "TypeScript", "cls": "btag-m" },
+      { "label": "Socket.IO", "cls": "btag-v" }
+    ]
+  },
+
+  {
+    "num": "05",
+    "icon": "🛍",
+    "iconCls": "ic",
+    "sizeCls": "b2",
+    "titleGradient": "gw-c",
+    "titleWord": "Urban",
+    "titleRest": "Market",
+    "slug": "urban-market",
+    "body": "Responsive e-commerce UI with cart and checkout functionality.",
+    "tags": [
+      { "label": "React", "cls": "btag-c" },
+      { "label": "Tailwind", "cls": "btag-m" },
+      { "label": "Node.js", "cls": "btag-v" }
+    ]
+  },
+
+  {
+    "num": "06",
+    "icon": "👓",
+    "iconCls": "iv",
+    "sizeCls": "b1",
+    "titleGradient": "gw-v",
+    "titleWord": "Titan Eye",
+    "titleRest": "Plus",
+    "slug": "titan-eye-plus",
+    "body": "A leading eyewear e-commerce platform offering seamless product discovery, eye-care solutions, and high-performance shopping experience.",
+    "keyFeatures": [
+      {
+        "id": 1,
+        "text": "Built scalable frontend applications using Next.js and React.js"
+      },
+      {
+        "id": 2,
+        "text": "Integrated Magento services for product catalog and order management"
+      },
+      {
+        "id": 3,
+        "text": "Optimized Core Web Vitals using Redis caching and performance enhancements"
+      },
+      {
+        "id": 4,
+        "text": "Developed reusable and responsive UI components using SCSS"
+      },
+      {
+        "id": 5,
+        "text": "Implemented API integrations and automation scripts for testing"
+      }
+    ],
+    "tags": [
+      { "label": "Next.js", "cls": "btag-c" },
+      { "label": "React.js", "cls": "btag-m" },
+      { "label": "Redis", "cls": "btag-v" },
+      { "label": "Magento", "cls": "btag-a" }
+    ],
+    "liveUrl": "https://www.titaneyeplus.com",
+    "images": [
+      "titanEyePlus1.png",
+      "titanEyePlus2.png",
+      "titanEyePlus3.png"
+    ]
+  },
+
+  {
+    "num": "07",
+    "icon": "🕶",
+    "iconCls": "im",
+    "sizeCls": "b2",
+    "titleGradient": "gw-m",
+    "titleWord": "Fastrack",
+    "titleRest": "Eyewear",
+    "slug": "fastrack-eyewear",
+    "body": "Fast and mobile-friendly eyewear shopping platform focused on performance, SEO, and engaging UI design.",
+    "keyFeatures": [
+      {
+        "id": 1,
+        "text": "Developed modern and responsive storefront experiences using Next.js"
+      },
+      {
+        "id": 2,
+        "text": "Integrated Magento backend services for product and inventory management"
+      },
+      {
+        "id": 3,
+        "text": "Implemented performance optimizations to improve page speed and UX"
+      },
+      {
+        "id": 4,
+        "text": "Built reusable UI components with consistent design system"
+      },
+      {
+        "id": 5,
+        "text": "Ensured SEO optimization and cross-device compatibility"
+      }
+    ],
+    "tags": [
+      { "label": "Next.js", "cls": "btag-c" },
+      { "label": "React.js", "cls": "btag-m" },
+      { "label": "Redis", "cls": "btag-v" },
+      { "label": "Magento", "cls": "btag-a" }
+    ],
+    "liveUrl": "https://fastrackeyewear.com",
+    "images": [
+      "fastrackEyewear1.png",
+      "fastrackEyewear2.png",
+      "fastrackEyewear3.png"
+    ]
+  },
+
+  {
+    "num": "08",
+    "icon": "😎",
+    "iconCls": "ia",
+    "sizeCls": "b2",
+    "titleGradient": "gw-a",
+    "titleWord": "Runway",
+    "titleRest": "Sunglasses",
+    "slug": "runway-sunglasses",
+    "body": "Premium sunglasses showcase platform with responsive design, SEO optimization, and modern user experience.",
+    "keyFeatures": [
+      {
+        "id": 1,
+        "text": "Designed modern and responsive UI using React.js and Next.js"
+      },
+      {
+        "id": 2,
+        "text": "Developed backend services with Node.js and Redis caching"
+      },
+      {
+        "id": 3,
+        "text": "Implemented SEO best practices for improved search visibility"
+      },
+      {
+        "id": 4,
+        "text": "Ensured smooth experience across desktop, tablet, and mobile devices"
+      }
+    ],
+    "tags": [
+      { "label": "React.js", "cls": "btag-c" },
+      { "label": "Next.js", "cls": "btag-m" },
+      { "label": "Node.js", "cls": "btag-v" },
+      { "label": "Redis", "cls": "btag-a" }
+    ],
+    "liveUrl": "https://runwaysunglasses.com",
+    "images": [
+      "runwaySunglasses1.png",
+      "runwaySunglasses2.png",
+      "runwaySunglasses3.png"
+    ]
+  },
+
+  {
+    "num": "09",
+    "icon": "📸",
+    "iconCls": "ic",
+    "sizeCls": "b3",
+    "titleGradient": "gw-c",
+    "titleWord": "Frame",
+    "titleRest": "Expert",
+    "slug": "frame-expert",
+    "body": "Smart eyewear recommendation system with virtual try-on and intelligent fitting algorithms for retail stores.",
+    "keyFeatures": [
+      {
+        "id": 1,
+        "text": "Built smart frame recommendation system for Titan Eye Plus stores"
+      },
+      {
+        "id": 2,
+        "text": "Integrated Virtual Try-On (VTO) and IndiFit calculator"
+      },
+      {
+        "id": 3,
+        "text": "Implemented React Camera for face scanning and measurements"
+      },
+      {
+        "id": 4,
+        "text": "Enabled barcode scanning and product identification"
+      },
+      {
+        "id": 5,
+        "text": "Integrated Salesforce and SAP APIs for data management"
+      }
+    ],
+    "tags": [
+      { "label": "React.js", "cls": "btag-c" },
+      { "label": "Node.js", "cls": "btag-m" },
+      { "label": "SAP API", "cls": "btag-v" },
+      { "label": "Salesforce", "cls": "btag-a" }
+    ],
+    "images": [
+      "frameExpert1.png",
+      "frameExpert2.png",
+      "frameExpert3.png"
+    ]
+  },
+
+  {
+    "num": "10",
+    "icon": "🎬",
+    "iconCls": "iv",
+    "sizeCls": "b2",
+    "titleGradient": "gw-v",
+    "titleWord": "Bollywood",
+    "titleRest": "MDB",
+    "slug": "bollywood-mdb",
+    "body": "Entertainment portal aggregating Bollywood news, celebrity updates, and trending industry insights.",
+    "keyFeatures": [
+      {
+        "id": 1,
+        "text": "Developed dynamic news feed for Bollywood content"
+      },
+      {
+        "id": 2,
+        "text": "Integrated content from multiple reliable news sources"
+      },
+      {
+        "id": 3,
+        "text": "Collaborated with backend teams for seamless data integration"
+      },
+      {
+        "id": 4,
+        "text": "Resolved front-end issues and improved user experience"
+      }
+    ],
+    "tags": [
+      { "label": "React.js", "cls": "btag-c" },
+      { "label": "Next.js", "cls": "btag-m" },
+      { "label": "JavaScript", "cls": "btag-v" },
+      { "label": "CSS", "cls": "btag-a" }
+    ],
+    "images": [
+      "bollywoodMdb1.png",
+      "bollywoodMdb2.png",
+      "bollywoodMdb3.png"
+    ]
+  },
+
+  {
+    "num": "11",
+    "icon": "📚",
+    "iconCls": "im",
+    "sizeCls": "b1",
+    "titleGradient": "gw-m",
+    "titleWord": "Insight",
+    "titleRest": "GURU",
+    "slug": "insight-guru",
+    "body": "Comprehensive examination portal admin panel for managing exams, students, and academic operations.",
+    "keyFeatures": [
+      {
+        "id": 1,
+        "text": "Developed responsive admin dashboard using React.js"
+      },
+      {
+        "id": 2,
+        "text": "Implemented state management using Redux"
+      },
+      {
+        "id": 3,
+        "text": "Built reusable UI components with Material-UI"
+      },
+      {
+        "id": 4,
+        "text": "Integrated backend APIs to display examination and student data"
+      }
+    ],
+    "tags": [
+      { "label": "React.js", "cls": "btag-c" },
+      { "label": "Redux", "cls": "btag-m" },
+      { "label": "Material-UI", "cls": "btag-v" },
+      { "label": "REST API", "cls": "btag-a" }
+    ],
+    "images": [
+      "insightGuru1.png",
+      "insightGuru2.png",
+      "insightGuru3.png"
+    ]
+  }
+],
       marqueeRow1: [
         {
           label: "REACT",
