@@ -2065,7 +2065,7 @@ backdrop-filter: blur(3px);
   transition: border-color .4s, transform .5s cubic-bezier(.16, 1, .3, 1), background .4s;
   opacity: 0;
   transform: translateY(30px) scale(.97);
-  backdrop-filter: blur(1px);
+  backdrop-filter: blur(3px);
 }
 
 .bento:hover {
