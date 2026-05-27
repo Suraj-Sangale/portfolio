@@ -183,7 +183,7 @@ export default function DevFolio({ pageData }) {
     "num": "05",
     "icon": "🛍",
     "iconCls": "ic",
-    "sizeCls": "b2",
+    "sizeCls": "b1",
     "titleGradient": "gw-c",
     "titleWord": "Urban",
     "titleRest": "Market",
@@ -252,7 +252,7 @@ export default function DevFolio({ pageData }) {
     "titleRest": "Eyewear",
     "slug": "fastrack-eyewear",
     "body": "Fast and mobile-friendly eyewear shopping platform focused on performance, SEO, and engaging UI design.",
-    "keyFeatures": [
+    "keyFeatures_keys_not_show": [
       {
         "id": 1,
         "text": "Developed modern and responsive storefront experiences using Next.js"
@@ -298,7 +298,7 @@ export default function DevFolio({ pageData }) {
     "titleRest": "Sunglasses",
     "slug": "runway-sunglasses",
     "body": "Premium sunglasses showcase platform with responsive design, SEO optimization, and modern user experience.",
-    "keyFeatures": [
+    "keyFeatures_keys_not_show": [
       {
         "id": 1,
         "text": "Designed modern and responsive UI using React.js and Next.js"
@@ -340,7 +340,7 @@ export default function DevFolio({ pageData }) {
     "titleRest": "Expert",
     "slug": "frame-expert",
     "body": "Smart eyewear recommendation system with virtual try-on and intelligent fitting algorithms for retail stores.",
-    "keyFeatures": [
+    "keyFeatures_keys_not_show": [
       {
         "id": 1,
         "text": "Built smart frame recommendation system for Titan Eye Plus stores"
@@ -385,7 +385,7 @@ export default function DevFolio({ pageData }) {
     "titleRest": "MDB",
     "slug": "bollywood-mdb",
     "body": "Entertainment portal aggregating Bollywood news, celebrity updates, and trending industry insights.",
-    "keyFeatures": [
+    "keyFeatures_keys_not_show": [
       {
         "id": 1,
         "text": "Developed dynamic news feed for Bollywood content"
@@ -426,7 +426,7 @@ export default function DevFolio({ pageData }) {
     "titleRest": "GURU",
     "slug": "insight-guru",
     "body": "Comprehensive examination portal admin panel for managing exams, students, and academic operations.",
-    "keyFeatures": [
+    "keyFeatures_keys_not_show": [
       {
         "id": 1,
         "text": "Developed responsive admin dashboard using React.js"
@@ -590,6 +590,7 @@ export default function DevFolio({ pageData }) {
           },
           {
             label: "Download CV",
+            target: "_blank",
             href: "/suraj_sangale_resume.pdf",
             cls: "glowbtn-outline",
           },
@@ -1489,6 +1490,7 @@ export default function DevFolio({ pageData }) {
                 <a
                   key={b.label}
                   href={b.href}
+                  target={b.target || "_self"}
                   className={`glowbtn ${b.cls}`}
                 >
                   {b.label}
@@ -2309,7 +2311,7 @@ backdrop-filter: blur(3px);
 .b1 {
   grid-column: span 7;
   grid-row: span 2;
-  min-height: 320px
+  // min-height: 320px
 }
 
 .b2 {
