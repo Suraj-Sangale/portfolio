@@ -206,7 +206,51 @@
     "highlightedText": "I've Done",
     "projectList": [
       {
+        "title": "Titan Eye Plus",
+        "isEnable": true,
+        "description": "A leading eyewear e-commerce platform developed for Titan Eye Plus, offering seamless product discovery, online eye-care solutions, and a modern shopping experience. The platform focuses on performance, scalability, SEO, and responsive design.",
+        "type": "professional",
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "Built scalable frontend applications using Next.js and React.js"
+          },
+          {
+            "id": 2,
+            "text": "Integrated Magento services for product catalog and order management"
+          },
+          {
+            "id": 3,
+            "text": "Optimized Core Web Vitals using Redis caching and performance enhancements"
+          },
+          {
+            "id": 4,
+            "text": "Developed reusable and responsive UI components using SCSS"
+          },
+          {
+            "id": 5,
+            "text": "Implemented API integrations and automation scripts for testing"
+          }
+        ],
+        "techStack": [
+          "Next.js",
+          "React.js",
+          "Node.js",
+          "Redis",
+          "SCSS",
+          "Magento"
+        ],
+        "image": [
+          "titanEyePlus1.png",
+          "titanEyePlus2.png",
+          "titanEyePlus3.png"
+        ],
+        "liveUrl": "https://www.titaneyeplus.com",
+        "slug": "titan-eye-plus"
+      },
+      {
         "title": "Linux Tools",
+        "type": "personal",
         "isEnable": true,
         "image": [
           "linuxtools.png",
@@ -242,7 +286,51 @@
         "slug": "linux-toolddds"
       },
       {
+        "title": "Fastrack Eyewear",
+        "isEnable": true,
+        "description": "An e-commerce eyewear platform for Fastrack, designed to deliver a fast, engaging, and mobile-friendly shopping experience for fashion-conscious customers. The platform emphasizes performance, SEO, and modern UI design.",
+        "type": "professional",
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "Developed modern and responsive storefront experiences using Next.js"
+          },
+          {
+            "id": 2,
+            "text": "Integrated Magento backend services for product and inventory management"
+          },
+          {
+            "id": 3,
+            "text": "Implemented performance optimizations to improve page speed and user experience"
+          },
+          {
+            "id": 4,
+            "text": "Built reusable UI components and maintained design consistency across pages"
+          },
+          {
+            "id": 5,
+            "text": "Ensured SEO optimization and cross-device compatibility"
+          }
+        ],
+        "techStack": [
+          "Next.js",
+          "React.js",
+          "Node.js",
+          "Redis",
+          "SCSS",
+          "Magento"
+        ],
+        "image": [
+          "fastrackEyewear1.png",
+          "fastrackEyewear2.png",
+          "fastrackEyewear3.png"
+        ],
+        "liveUrl": "https://fastrackeyewear.com",
+        "slug": "fastrack-eyewear"
+      },
+      {
         "title": "Cargo Desk",
+        "type": "personal",
         "isEnable": true,
         "description": "CargoDesk is a transport management system designed for managing daily orders, invoices, and vehicle-related documents such as insurance, PUC, and fitness certificates. A key highlight is the Bulk SMS functionality powered by the Twilio SMS API, along with a robust contact management system that supports multiple import methods.",
         "keyFeatures": [
@@ -290,6 +378,7 @@
       },
       {
         "title": "Point Stream Panel",
+        "type": "personal",
         "isEnable": true,
         "description": "A dynamic web-based platform built to streamline the management of sports tournaments, matches, and real-time scoring. Key highlights include match booth setups, referee-based access control, live scoreboard updates from multiple devices, detailed match history with obtained scores, and automated scorecard generation.",
         "keyFeatures": [
@@ -324,7 +413,40 @@
         "slug": "point-stream-panel"
       },
       {
+        "title": "Runway Sunglasses",
+        "isEnable": true,
+        "description": "A premium sunglasses showcase platform under House of Titan that allows users to explore various eyewear collections and submit inquiries. The project emphasizes modern design, performance, SEO, and responsive user experiences.",
+        "type": "professional",
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "Designed modern and responsive UI using React.js and Next.js"
+          },
+          {
+            "id": 2,
+            "text": "Developed backend services with Node.js and Redis caching"
+          },
+          {
+            "id": 3,
+            "text": "Implemented SEO best practices for improved search visibility"
+          },
+          {
+            "id": 4,
+            "text": "Ensured smooth experience across desktop, tablet, and mobile devices"
+          }
+        ],
+        "techStack": ["React.js", "Next.js", "Node.js", "Redis", "SASS"],
+        "image": [
+          "runwaySunglasses1.png",
+          "runwaySunglasses2.png",
+          "runwaySunglasses3.png"
+        ],
+        "liveUrl": "https://runwaysunglasses.com",
+        "slug": "runway-sunglasses"
+      },
+      {
         "title": "Tic Tac Toe Game",
+        "type": "personal",
         "isEnable": true,
         "description": "A modern, interactive Tic Tac Toe game built with Next.js, TypeScript, and Tailwind CSS. It features smooth animations, a responsive glass-morphism UI, Single Player mode with an intelligent computer opponent, and Online Multiplayer mode using Socket.IO for real-time gameplay.",
         "keyFeatures": [
@@ -375,6 +497,7 @@
       },
       {
         "title": "Urban Market",
+        "type": "personal",
         "isEnable": true,
         "description": "I built a fully responsive clone of Urban Marketplace, a modern e-commerce platform where users can explore a wide variety of products, add items to their cart, and seamlessly place orders.",
         "keyFeatures": [
@@ -427,127 +550,9 @@
         "slug": "memo-mind"
       },
       {
-        "title": "Titan Eye Plus",
-        "isEnable": true,
-        "description": "A leading eyewear e-commerce platform developed for Titan Eye Plus, offering seamless product discovery, online eye-care solutions, and a modern shopping experience. The platform focuses on performance, scalability, SEO, and responsive design.",
-        "type": "professional",
-        "keyFeatures": [
-          {
-            "id": 1,
-            "text": "Built scalable frontend applications using Next.js and React.js"
-          },
-          {
-            "id": 2,
-            "text": "Integrated Magento services for product catalog and order management"
-          },
-          {
-            "id": 3,
-            "text": "Optimized Core Web Vitals using Redis caching and performance enhancements"
-          },
-          {
-            "id": 4,
-            "text": "Developed reusable and responsive UI components using SCSS"
-          },
-          {
-            "id": 5,
-            "text": "Implemented API integrations and automation scripts for testing"
-          }
-        ],
-        "techStack": [
-          "Next.js",
-          "React.js",
-          "Node.js",
-          "Redis",
-          "SCSS",
-          "Magento"
-        ],
-        "image": [
-          "titanEyePlus1.png",
-          "titanEyePlus2.png",
-          "titanEyePlus3.png"
-        ],
-        "liveUrl": "https://www.titaneyeplus.com",
-        "slug": "titan-eye-plus"
-      },
-      {
-        "title": "Fastrack Eyewear",
-        "isEnable": true,
-        "description": "An e-commerce eyewear platform for Fastrack, designed to deliver a fast, engaging, and mobile-friendly shopping experience for fashion-conscious customers. The platform emphasizes performance, SEO, and modern UI design.",
-        "type": "professional",
-        "keyFeatures": [
-          {
-            "id": 1,
-            "text": "Developed modern and responsive storefront experiences using Next.js"
-          },
-          {
-            "id": 2,
-            "text": "Integrated Magento backend services for product and inventory management"
-          },
-          {
-            "id": 3,
-            "text": "Implemented performance optimizations to improve page speed and user experience"
-          },
-          {
-            "id": 4,
-            "text": "Built reusable UI components and maintained design consistency across pages"
-          },
-          {
-            "id": 5,
-            "text": "Ensured SEO optimization and cross-device compatibility"
-          }
-        ],
-        "techStack": [
-          "Next.js",
-          "React.js",
-          "Node.js",
-          "Redis",
-          "SCSS",
-          "Magento"
-        ],
-        "image": [
-          "fastrackEyewear1.png",
-          "fastrackEyewear2.png",
-          "fastrackEyewear3.png"
-        ],
-        "liveUrl": "https://fastrackeyewear.com",
-        "slug": "fastrack-eyewear"
-      },
-      {
-        "title": "Runway Sunglasses",
-        "isEnable": true,
-        "description": "A premium sunglasses showcase platform under House of Titan that allows users to explore various eyewear collections and submit inquiries. The project emphasizes modern design, performance, SEO, and responsive user experiences.",
-        "type": "professional",
-        "keyFeatures": [
-          {
-            "id": 1,
-            "text": "Designed modern and responsive UI using React.js and Next.js"
-          },
-          {
-            "id": 2,
-            "text": "Developed backend services with Node.js and Redis caching"
-          },
-          {
-            "id": 3,
-            "text": "Implemented SEO best practices for improved search visibility"
-          },
-          {
-            "id": 4,
-            "text": "Ensured smooth experience across desktop, tablet, and mobile devices"
-          }
-        ],
-        "techStack": ["React.js", "Next.js", "Node.js", "Redis", "SASS"],
-        "image": [
-          "runwaySunglasses1.png",
-          "runwaySunglasses2.png",
-          "runwaySunglasses3.png"
-        ],
-        "liveUrl": "https://runwaysunglasses.com",
-        "slug": "runway-sunglasses"
-      },
-      {
         "title": "Frame Expert",
         "isEnable": true,
-        "description": "An in-store smart recommendation system deployed across Titan Eye Plus outlets in India. The application captures facial measurements and recommends suitable eyewear using virtual try-on technology and intelligent fitting algorithms.",
+        "description": "An in-store smart recommendation system deployed across Titan Eye Plus outlets across India. The application captures facial measurements and recommends suitable eyewear using virtual try-on technology and intelligent fitting algorithms. Key features include face scanning, barcode scanning for product identification, and integration with Salesforce and SAP APIs for efficient data management.",
         "type": "professional",
         "keyFeatures": [
           {
@@ -578,7 +583,7 @@
           "SAP API",
           "React Camera"
         ],
-        "image": ["frameExpert1.png", "frameExpert2.png", "frameExpert3.png"],
+        "image": [],
         "liveUrl": "",
         "slug": "frame-expert"
       },
@@ -606,11 +611,7 @@
           }
         ],
         "techStack": ["React.js", "Next.js", "JavaScript", "CSS"],
-        "image": [
-          "bollywoodMdb1.png",
-          "bollywoodMdb2.png",
-          "bollywoodMdb3.png"
-        ],
+        "image": [],
         "liveUrl": "",
         "slug": "bollywood-mdb"
       },
@@ -638,7 +639,7 @@
           }
         ],
         "techStack": ["React.js", "Redux", "Material-UI", "REST API"],
-        "image": ["insightGuru1.png", "insightGuru2.png", "insightGuru3.png"],
+        "image": [],
         "liveUrl": "",
         "slug": "insight-guru"
       }

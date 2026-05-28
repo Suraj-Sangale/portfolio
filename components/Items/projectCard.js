@@ -9,7 +9,7 @@ import { SwiperSlide } from "swiper/react";
 import { CiShare1 } from "react-icons/ci";
 import { useRouter } from "next/router";
 
-export default function ProjectCard({ project, isDefaultOpen }) {
+export default function ProjectCard({ project, isDefaultOpen, filter }) {
   const [isOpen, setIsOpen] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
   const modalRef = useRef(null);
@@ -40,6 +40,8 @@ export default function ProjectCard({ project, isDefaultOpen }) {
     }
   }, [isDefaultOpen]);
 
+  const isFilteredOut = filter !== "all" && filter !== project.type;
+
   const carouselOptions = {
     slidesPerView: 1,
     loop: true,
@@ -47,6 +49,7 @@ export default function ProjectCard({ project, isDefaultOpen }) {
     grabCursor: true,
     autoplay: { delay: 2000 },
     navigation: true,
+
     pagination: {
       type: "fraction",
       clickable: true,
@@ -68,14 +71,37 @@ export default function ProjectCard({ project, isDefaultOpen }) {
     });
   };
 
-
   const { image = [] } = project || {};
-  
+
+  const ImageComponent = ({ img, alt }) => (
+    <div className="relative w-full h-full">
+      {imageLoading && (
+        <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
+          <div className="w-8 h-8 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin"></div>
+        </div>
+      )}
+      <Image
+        src={`/myProjects/${img}`}
+        alt={project.title}
+        className={`object-cover w-full h-full transition-all duration-500 ${
+          imageLoading ? "opacity-0" : "opacity-100"
+        }`}
+        // width={400}
+        // height={300}
+        loading="lazy"
+        fill
+        sizes="(max-width: 640px) 100vw, 400px"
+        onLoad={() => setImageLoading(false)}
+        onError={() => setImageLoading(false)}
+      />
+    </div>
+  );
+
   return (
     <>
       {/* Project Card */}
       <div
-        className="max-w-sm bg-gray-100 backdrop-blur-md rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200 hover:-translate-y-1 cursor-pointer"
+        className={`max-w-sm bg-gray-100 backdrop-blur-md rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200 hover:-translate-y-1 cursor-pointer ${isFilteredOut ? "opacity-50 pointer-events-none" : ""}`}
         onClick={() => setIsOpen(true)}
       >
         {/* Image Carousel */}
@@ -84,33 +110,23 @@ export default function ProjectCard({ project, isDefaultOpen }) {
             className="relative w-full h-52 sm:h-56 overflow-hidden"
             onClick={handleSwiperClick}
           >
-            <CustomSwiper carouselOptions={carouselOptions}>
-              {image.map((img, index) => (
-                <SwiperSlide key={index}>
-                  <div className="relative w-full h-full">
-                    {imageLoading && (
-                      <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
-                        <div className="w-8 h-8 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin"></div>
-                      </div>
-                    )}
-                    <Image
-                      src={`/myProjects/${img}`}
+            {isFilteredOut ? (
+              <ImageComponent
+                img={image[0]}
+                alt={project.title}
+              />
+            ) : (
+              <CustomSwiper carouselOptions={carouselOptions}>
+                {image.map((img, index) => (
+                  <SwiperSlide key={index}>
+                    <ImageComponent
+                      img={img}
                       alt={project.title}
-                      className={`object-cover w-full h-full transition-all duration-500 ${
-                        imageLoading ? "opacity-0" : "opacity-100"
-                      }`}
-                      // width={400}
-                      // height={300}
-                      loading="lazy"
-                      fill
-                      sizes="(max-width: 640px) 100vw, 400px"
-                      onLoad={() => setImageLoading(false)}
-                      onError={() => setImageLoading(false)}
                     />
-                  </div>
-                </SwiperSlide>
-              ))}
-            </CustomSwiper>
+                  </SwiperSlide>
+                ))}
+              </CustomSwiper>
+            )}
           </div>
         )}
 
