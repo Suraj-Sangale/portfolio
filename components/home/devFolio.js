@@ -3028,6 +3028,12 @@ footer {
   .hud-item {
     text-align: center;
   }
+  #s3 {
+  padding: 120px 20px;
+}
+  #s6 {
+  padding: 80px 20px;
+}
 }
 }
 

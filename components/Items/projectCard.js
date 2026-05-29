@@ -101,7 +101,7 @@ export default function ProjectCard({ project, isDefaultOpen, filter }) {
     <>
       {/* Project Card */}
       <div
-        className={`max-w-sm bg-gray-100 backdrop-blur-md rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200 hover:-translate-y-1 cursor-pointer ${isFilteredOut ? "opacity-50 pointer-events-none" : ""}`}
+        className={`max-w-sm bg-gray-100 backdrop-blur-md rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200 hover:-translate-y-1 cursor-pointer ${isFilteredOut ? "opacity-50 pointer-events-none scale-90" : ""}`}
         onClick={() => setIsOpen(true)}
       >
         {/* Image Carousel */}
@@ -181,7 +181,7 @@ export default function ProjectCard({ project, isDefaultOpen, filter }) {
         <div className="fixed inset-0 flex items-center justify-center backdrop-blur-xl bg-white/30 bg-opacity-50 z-40 p-4">
           <div
             ref={modalRef}
-            className="bg-gray-100 rounded-2xl shadow-xl w-full max-w-5xl overflow-hidden relative flex flex-col md:flex-row max-h-[90vh]"
+            className={`bg-gray-100 rounded-2xl shadow-xl overflow-hidden relative flex flex-col md:flex-row max-h-[90vh] ${!image || image.length === 0 ? "max-w-2xl" : "max-w-5xl"}`}
           >
             {/* Close Button */}
             <div className="absolute w-7 h-7 bg-gray-600 rounded-2xl top-4 right-4 text-gray-100 text-2xl md:top-6 md:right-6 z-50 flex items-center justify-center cursor-pointer">
@@ -192,35 +192,39 @@ export default function ProjectCard({ project, isDefaultOpen, filter }) {
 
             {/* Left: Swiper Gallery */}
             {/* Left side: Swiper inside modal */}
-            <div className="w-full md:w-1/2 bg-gray-200 flex flex-col items-center justify-center relative">
-              {/* <div className="pointer-events-none absolute top-0 left-0 right-0 p-5 bg-gradient-to-b from-black/80 to-transparent text-white text-center text-lg font-semibold">
+            {image && image.length > 0 && (
+              <div className="w-full md:w-1/2 bg-gray-200 flex flex-col items-center justify-center relative">
+                {/* <div className="pointer-events-none absolute top-0 left-0 right-0 p-5 bg-gradient-to-b from-black/80 to-transparent text-white text-center text-lg font-semibold">
                 Project Preview
               </div> */}
-              <CustomSwiper
-                key={isOpen ? `modal-swiper-open` : `modal-swiper-closed`}
-                carouselOptions={carouselOptions}
-                className="w-full"
-              >
-                {image.map((img, index) => (
-                  <SwiperSlide key={index}>
-                    <div className="w-full flex items-center justify-center bg-gray-200">
-                      <Image
-                        src={`/myProjects/${img}`}
-                        alt="Project Preview"
-                        className="object-contain w-full h-full"
-                        loading="lazy"
-                        width={1200}
-                        height={800}
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                      />
-                    </div>
-                  </SwiperSlide>
-                ))}
-              </CustomSwiper>
-            </div>
+                <CustomSwiper
+                  key={isOpen ? `modal-swiper-open` : `modal-swiper-closed`}
+                  carouselOptions={carouselOptions}
+                  className="w-full"
+                >
+                  {image.map((img, index) => (
+                    <SwiperSlide key={index}>
+                      <div className="w-full flex items-center justify-center bg-gray-200">
+                        <Image
+                          src={`/myProjects/${img}`}
+                          alt="Project Preview"
+                          className="object-contain w-full h-full"
+                          loading="lazy"
+                          width={1200}
+                          height={800}
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                        />
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </CustomSwiper>
+              </div>
+            )}
 
             {/* Right: Project Details */}
-            <div className="w-full md:w-1/2 p-6 overflow-y-auto modal-scrollbar">
+            <div
+              className={` p-6 overflow-y-auto modal-scrollbar ${!image || image.length === 0 ? "w-full" : "w-full md:w-1/2"}`}
+            >
               <div className="flex flex-row gap-x-2 items-center mb-4">
                 <h2 className="text-2xl font-bold">{project.title}</h2>
                 {project.liveUrl && (
