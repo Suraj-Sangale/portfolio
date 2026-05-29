@@ -638,13 +638,13 @@ export default function DevFolio({ pageData }) {
       {
         id: "github",
         label: "GitHub",
-        href: "https://github.com",
+        href: "https://github.com/Suraj-Sangale",
         disabled: false,
       },
       {
         id: "linkedin",
         label: "LinkedIn",
-        href: "https://linkedin.com",
+        href: "https://www.linkedin.com/in/suraj-sangale/",
         disabled: false,
       },
       {
@@ -662,7 +662,7 @@ export default function DevFolio({ pageData }) {
       {
         id: "whatsapp",
         label: "WhatsApp",
-        href: "https://whatsapp.com",
+        href: "https://wa.me/+917039529129?text=Hello, I am interested in working with you.",
         disabled: false,
       },
       {
@@ -704,19 +704,19 @@ export default function DevFolio({ pageData }) {
       {
         id: "email",
         label: "Email",
-        href: "mailto:hello@example.com",
+        href: "mailto:surajdsangale@gmail.com",
         disabled: false,
       },
       {
         id: "facebook",
         label: "Facebook",
-        href: "https://facebook.com",
+        href: "https://www.facebook.com/suraj.sangle.52",
         disabled: false,
       },
       {
         id: "medium",
         label: "Medium",
-        href: "https://medium.com",
+        href: "https://medium.com/@surajsangle00",
         disabled: false,
       },
     ],
