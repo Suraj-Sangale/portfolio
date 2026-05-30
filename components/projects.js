@@ -3,7 +3,7 @@ import CustomTitle from "./Items/CustomTitle";
 import ProjectCard from "./Items/projectCard";
 import { useRouter } from "next/router";
 import { FilterSwitch } from "./Items/filterSwitch";
-import Switch from "./common/switch";
+import { CommonToggle } from "./common/commonToggle";
 
 export default function Projects({ pageData }) {
   const router = useRouter();
@@ -50,7 +50,7 @@ export default function Projects({ pageData }) {
             highlightedText={projectsData.highlightedText}
           />
 
-          <Switch
+          <CommonToggle
             onChange={onChangeFilter}
             labels={[
               { id: 0, label: "All" },

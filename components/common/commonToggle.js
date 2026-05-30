@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
 
-const Switch = ({
+export const CommonToggle = ({
   onChange = () => {},
   labels = [],
   theme = {
@@ -281,4 +281,3 @@ const StyledWrapper = styled.div`
   }
 `;
 
-export default Switch;
