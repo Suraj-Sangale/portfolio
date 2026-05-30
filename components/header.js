@@ -9,6 +9,7 @@ const Header = () => {
   const router = useRouter();
   const headerOptions = getNavigation();
   const { pages = [] } = headerOptions || {};
+  console.log('pages', pages)
   const personalInfo = getPersonalInfo();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -115,6 +116,37 @@ const Header = () => {
           pointerEvents: menuOpen ? "auto" : "none",
         }}
       >
+        <button
+          onClick={() => setMenuOpen(false)}
+          className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center text-white hover:text-[#007bff] transition-colors"
+          aria-label="Close menu"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <line
+              x1="18"
+              y1="6"
+              x2="6"
+              y2="18"
+            />
+            <line
+              x1="6"
+              y1="6"
+              x2="18"
+              y2="18"
+            />
+          </svg>
+        </button>
+
         {pages?.length > 0 &&
           pages.map((item, index) => {
             const route = getRoute(item.path);
