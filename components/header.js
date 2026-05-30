@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import aboutStyles from "../styles/about.module.css";
 import { getNavigation, getPersonalInfo } from "@/utilities/getPortfolioData";
 
@@ -22,6 +22,14 @@ const Header = () => {
     if (route === "/") return router.pathname === "/";
     return router.pathname === route;
   };
+
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+  }, [menuOpen]);
 
   return (
     <>

@@ -559,3 +559,6 @@ img {
   height: 0;
 }
 
+.overflow-hidden {
+  overflow: hidden !important;
+}
