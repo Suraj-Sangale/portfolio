@@ -13,6 +13,7 @@ export default function Projects({ pageData }) {
   const { projectList } = projectsData || {};
 
   const [displayProject, setDisplayProject] = useState(projectList);
+  const [accentHue, setAccentHue] = useState(273);
 
   const { query = {} } = router;
   const { slug = "" } = query;
@@ -36,7 +37,6 @@ export default function Projects({ pageData }) {
     setDisplayProject(filtered);
   }, [filter]);
 
-
   return (
     <div
       className="relative my-20"
@@ -57,6 +57,7 @@ export default function Projects({ pageData }) {
               { id: 1, label: "Personal" },
               { id: 2, label: "Professional" },
             ]}
+            accentHue={accentHue}
           />
           {/* <h1>{filter}</h1> */}
         </div>
@@ -67,6 +68,14 @@ export default function Projects({ pageData }) {
       {/* <ProjectCard /> */}
 
       <div className="m-[4%] ">
+        {/* <input
+          type="number"
+          name="accentHue"
+          value={accentHue}
+          onChange={(e) => setAccentHue(parseInt(e.target.value))}
+        /> */}
+
+
         <div
           className={`flex flex-wrap justify-center gap-8 projectCardWrapper`}
         >

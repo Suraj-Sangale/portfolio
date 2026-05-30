@@ -1,7 +1,15 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
 
-const Switch = ({ onChange = () => {}, labels = [] }) => {
+const Switch = ({
+  onChange = () => {},
+  labels = [],
+  theme = {
+    hue: 220,
+    accentHue: 22,
+  },
+  accentHue = 22, // default orange
+}) => {
   const [state, setState] = useState(0); // 0=All, 1=Personal, 2=Professional
   const [pressed, setPressed] = useState(false);
   const animating = useRef(false);
@@ -48,7 +56,13 @@ const Switch = ({ onChange = () => {}, labels = [] }) => {
   };
 
   return (
-    <StyledWrapper style={{ marginRight: "15rem" }} className="ml-[18%] md:ml-0 my-10 md:my-0">
+    <StyledWrapper
+        style={{
+    "--accent-hue": `${accentHue}deg`,
+  }}
+      className="ml-[18%] md:ml-0 my-10 md:my-0 mr-62"
+    >
+      {" "}
       <div className="switchContainer">
         <div
           className="switch"
@@ -84,8 +98,8 @@ const Switch = ({ onChange = () => {}, labels = [] }) => {
               style={{
                 boxShadow:
                   state === 2
-                    ? "inset 0 0 5px hsl(22deg 20% 15%/100%), inset 20px 20px 10px hsl(22deg 20% 15%/100%), inset 20px 20px 15px hsl(22deg 20% 45%/100%)"
-                    : "inset 0 0 2px hsl(22deg 20% 15%/60%), inset 0 0 3px 2px hsl(22deg 20% 15%/60%), inset 0 0 5px 2px hsl(22deg 20% 45%/60%)",
+                    ? "inset 0 0 5px hsl(var(--accent-hue) 20% 15%/100%), inset 20px 20px 10px hsl(var(--accent-hue) 20% 15%/100%), inset 20px 20px 15px hsl(var(--accent-hue) 20% 45%/100%)"
+                    : "inset 0 0 2px hsl(var(--accent-hue) 20% 15%/60%), inset 0 0 3px 2px hsl(var(--accent-hue) 20% 15%/60%), inset 0 0 5px 2px hsl(var(--accent-hue) 20% 45%/60%)",
               }}
             />
           </div>
@@ -121,9 +135,10 @@ const StyledWrapper = styled.div`
     justify-content: center;
     gap: 16px;
     // padding: 2rem 0;
+    // --hue: var(--hue, 220deg);
+    // --accent-hue: var(--accent-hue, var(--accent-hue));
     --hue: 220deg;
     --width: 9rem;
-    --accent-hue: 22deg;
     --duration: 0.7s;
     --easing: cubic-bezier(0.34, 1.56, 0.64, 1);
   }
