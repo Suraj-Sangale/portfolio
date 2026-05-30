@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { FilterSwitch } from "./Items/filterSwitch";
 import { CommonToggle } from "./common/commonToggle";
 
-export default function Projects({ pageData }) {
+export default function ProjectsWrapper({ pageData }) {
   const router = useRouter();
   // const projects = getProjects(pageData);
   const { projectsData } = pageData || {};
@@ -81,10 +81,7 @@ export default function Projects({ pageData }) {
         >
           {projectList.map((item, index) => {
             if (!item.isEnable) return null;
-
-            console.log({ item: item, activeSlug });
             const isDefaultOpen = item.slug === activeSlug;
-
             return (
               <ProjectCard
                 key={index}

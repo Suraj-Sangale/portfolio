@@ -2,7 +2,7 @@ import React from "react";
 import HomeLanding from "./homeLanding";
 import About from "./about";
 import Timeline from "./timeline";
-import Projects from "./projects";
+import Projects from "./projectsWrapper";
 import ContactSection from "./contactSection";
 import ImageCarousel from "./imageCarousel";
 import ScrollReveal from "./ScrollReveal";

@@ -1,6 +1,6 @@
 import { getPortfolioDataController } from "@/backend/controller/commonController";
 import Layout from "@/components/layout";
-import Projects from "@/components/projects";
+import ProjectsWrapper from "@/components/projectsWrapper";
 import { useTrackPageActivity } from "@/hooks/useTrackPageActivity";
 
 export default function ProjectsPage({ pageData }) {
@@ -8,7 +8,7 @@ export default function ProjectsPage({ pageData }) {
 
   return (
     <Layout>
-      <Projects pageData={pageData} />
+      <ProjectsWrapper pageData={pageData} />
     </Layout>
   );
 }
