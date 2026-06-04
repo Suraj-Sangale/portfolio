@@ -379,7 +379,7 @@ export default function DevFolio({ pageData }) {
     "num": "10",
     "icon": "🎬",
     "iconCls": "iv",
-    "sizeCls": "b2",
+    "sizeCls": "b1",
     "titleGradient": "gw-v",
     "titleWord": "Bollywood",
     "titleRest": "MDB",
@@ -420,12 +420,12 @@ export default function DevFolio({ pageData }) {
     "num": "11",
     "icon": "📚",
     "iconCls": "im",
-    "sizeCls": "b1",
+    "sizeCls": "b7",
     "titleGradient": "gw-m",
     "titleWord": "Insight",
     "titleRest": "GURU",
     "slug": "insight-guru",
-    "body": "Comprehensive examination portal admin panel for managing exams, students, and academic operations.",
+    "body": "Comprehensive examination portal admin panel for managing exams, students, and academic operations. Insight GURU is a web-based application that provides a platform for managing exams, students, and academic operations.",
     "keyFeatures_keys_not_show": [
       {
         "id": 1,
@@ -2336,6 +2336,11 @@ backdrop-filter: blur(3px);
 
 .b6 {
   grid-column: span 4;
+  min-height: 200px
+}
+
+.b7 {
+  grid-column: span 12;
   min-height: 200px
 }
 
