@@ -6,7 +6,18 @@ export default function Document() {
       <Head>
         <script
           dangerouslySetInnerHTML={{
-            __html: "window.dataLayer = window.dataLayer || [];",
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              (function() {
+                var theme = localStorage.getItem('theme') || 'dark';
+                document.documentElement.setAttribute('data-theme', theme);
+                if (theme === 'light') {
+                  document.documentElement.classList.add('light-mode');
+                } else {
+                  document.documentElement.classList.remove('light-mode');
+                }
+              })();
+            `
           }}
         />
       </Head>

@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -33,13 +34,13 @@ export default function App({ Component, pageProps }) {
   }, [router.events]);
 
   return (
-    <>
+    <ThemeProvider>
       <DefaultSeo {...newSeoData} />
       <Header />
       <Component
         className={nunito.className}
         {...pageProps}
       />
-    </>
+    </ThemeProvider>
   );
 }

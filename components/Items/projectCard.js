@@ -8,12 +8,15 @@ import { SwiperSlide } from "swiper/react";
 // import projecStyle from "@/styles/projects.module.scss";
 import { CiShare1 } from "react-icons/ci";
 import { useRouter } from "next/router";
+import { useTheme } from "@/context/ThemeContext";
 
 export default function ProjectCard({ project, isDefaultOpen, filter }) {
   const [isOpen, setIsOpen] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
   const modalRef = useRef(null);
   const router = useRouter();
+  const { theme } = useTheme();
+  const isLight = theme === "light";
 
   useEffect(() => {
     if (isOpen) {
@@ -101,7 +104,9 @@ export default function ProjectCard({ project, isDefaultOpen, filter }) {
     <>
       {/* Project Card */}
       <div
-        className={`max-w-sm bg-gray-100 backdrop-blur-md rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200 hover:-translate-y-1 cursor-pointer ${isFilteredOut ? "opacity-50 pointer-events-none scale-90" : ""}`}
+        className={`max-w-sm backdrop-blur-md rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border hover:-translate-y-1 cursor-pointer ${
+          isLight ? "bg-slate-100 border-slate-200 text-slate-800" : "bg-slate-900/80 border-slate-800 text-white"
+        } ${isFilteredOut ? "opacity-50 pointer-events-none scale-90" : ""}`}
         onClick={() => setIsOpen(true)}
       >
         {/* Image Carousel */}
@@ -133,7 +138,7 @@ export default function ProjectCard({ project, isDefaultOpen, filter }) {
         {/* Content Section */}
         <div className="p-4 sm:p-5">
           <div className="flex justify-between items-center mb-2">
-            <h2 className="text-xl font-semibold">{project.title}</h2>
+            <h2 className={`text-xl font-semibold ${isLight ? "text-slate-900" : "text-white"}`}>{project.title}</h2>
             <div className="flex space-x-3">
               {project.liveUrl && (
                 <Link
@@ -141,7 +146,7 @@ export default function ProjectCard({ project, isDefaultOpen, filter }) {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <CiShare1 className="text-gray-700 hover:text-black text-xl" />
+                  <CiShare1 className={`text-xl ${isLight ? "text-slate-600 hover:text-slate-900" : "text-slate-400 hover:text-white"}`} />
                 </Link>
               )}
               {project.gitUrl && (
@@ -150,13 +155,13 @@ export default function ProjectCard({ project, isDefaultOpen, filter }) {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <FaGithub className="text-gray-700 hover:text-black text-xl" />
+                  <FaGithub className={`text-xl ${isLight ? "text-slate-600 hover:text-slate-900" : "text-slate-400 hover:text-white"}`} />
                 </Link>
               )}
             </div>
           </div>
 
-          <p className="text-gray-700 text-sm leading-relaxed line-clamp-3 mb-3">
+          <p className={`text-sm leading-relaxed line-clamp-3 mb-3 ${isLight ? "text-slate-600" : "text-slate-300"}`}>
             {project.description}
           </p>
 
@@ -181,22 +186,24 @@ export default function ProjectCard({ project, isDefaultOpen, filter }) {
         <div className="fixed inset-0 flex items-center justify-center backdrop-blur-xl bg-white/30 bg-opacity-50 z-40 p-4">
           <div
             ref={modalRef}
-            className={`bg-gray-100 rounded-2xl shadow-xl overflow-hidden relative flex flex-col md:flex-row max-h-[90vh] ${!image || image.length === 0 ? "max-w-2xl" : "max-w-5xl"}`}
+            className={`rounded-2xl shadow-xl overflow-hidden relative flex flex-col md:flex-row max-h-[90vh] ${
+              isLight ? "bg-slate-50 text-slate-800 border border-slate-200" : "bg-slate-950 text-white border border-slate-800"
+            } ${!image || image.length === 0 ? "max-w-2xl" : "max-w-5xl"}`}
           >
             {/* Close Button */}
-            <div className="absolute w-7 h-7 bg-gray-600 rounded-2xl top-4 right-4 text-gray-100 text-2xl md:top-6 md:right-6 z-50 flex items-center justify-center cursor-pointer">
+            <div className={`absolute w-7 h-7 rounded-2xl top-4 right-4 text-2xl md:top-6 md:right-6 z-50 flex items-center justify-center cursor-pointer transition-colors ${
+              isLight ? "bg-slate-200 text-slate-700 hover:bg-slate-300" : "bg-gray-600 text-gray-100 hover:bg-gray-500"
+            }`}>
               <button onClick={handleClose}>
                 <IoIosClose />
               </button>
             </div>
 
             {/* Left: Swiper Gallery */}
-            {/* Left side: Swiper inside modal */}
             {image && image.length > 0 && (
-              <div className="w-full md:w-1/2 bg-gray-200 flex flex-col items-center justify-center relative">
-                {/* <div className="pointer-events-none absolute top-0 left-0 right-0 p-5 bg-gradient-to-b from-black/80 to-transparent text-white text-center text-lg font-semibold">
-                Project Preview
-              </div> */}
+              <div className={`w-full md:w-1/2 flex flex-col items-center justify-center relative ${
+                isLight ? "bg-slate-200/50" : "bg-gray-900/50"
+              }`}>
                 <CustomSwiper
                   key={isOpen ? `modal-swiper-open` : `modal-swiper-closed`}
                   carouselOptions={carouselOptions}
@@ -204,7 +211,9 @@ export default function ProjectCard({ project, isDefaultOpen, filter }) {
                 >
                   {image.map((img, index) => (
                     <SwiperSlide key={index}>
-                      <div className="w-full flex items-center justify-center bg-gray-200">
+                      <div className={`w-full flex items-center justify-center ${
+                        isLight ? "bg-slate-200/50" : "bg-gray-900/50"
+                      }`}>
                         <Image
                           src={`/myProjects/${img}`}
                           alt="Project Preview"
@@ -223,34 +232,34 @@ export default function ProjectCard({ project, isDefaultOpen, filter }) {
 
             {/* Right: Project Details */}
             <div
-              className={` p-6 overflow-y-auto modal-scrollbar ${!image || image.length === 0 ? "w-full" : "w-full md:w-1/2"}`}
+              className={`p-6 overflow-y-auto modal-scrollbar ${!image || image.length === 0 ? "w-full" : "w-full md:w-1/2"}`}
             >
               <div className="flex flex-row gap-x-2 items-center mb-4">
-                <h2 className="text-2xl font-bold">{project.title}</h2>
+                <h2 className={`text-2xl font-bold ${isLight ? "text-slate-900" : "text-white"}`}>{project.title}</h2>
                 {project.liveUrl && (
                   <Link
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <CiShare1 className="text-gray-700 hover:text-black text-xl" />
+                    <CiShare1 className={`text-xl ${isLight ? "text-slate-600 hover:text-slate-900" : "text-slate-400 hover:text-white"}`} />
                   </Link>
                 )}
               </div>
 
-              <p className="text-gray-700 text-sm mb-6">
+              <p className={`text-sm mb-6 ${isLight ? "text-slate-600" : "text-slate-300"}`}>
                 {project.description}
               </p>
 
-              <h3 className="text-lg font-semibold mb-2">Key Features</h3>
+              <h3 className={`text-lg font-semibold mb-2 ${isLight ? "text-slate-900" : "text-white"}`}>Key Features</h3>
               <ul className="space-y-2">
                 {project.keyFeatures?.map((feature) => (
                   <li
                     key={feature.id}
-                    className="flex items-start gap-2 p-2 rounded hover:shadow-sm transition"
+                    className={`flex items-start gap-2 p-2 rounded transition ${isLight ? "hover:bg-slate-200/50" : "hover:bg-slate-900"}`}
                   >
                     <FaCheckCircle className="text-blue-600 mt-1 w-5 h-5 flex-shrink-0" />
-                    <span className="text-gray-700 text-sm">
+                    <span className={`text-sm ${isLight ? "text-slate-600" : "text-slate-300"}`}>
                       {feature.text}
                     </span>
                   </li>
@@ -259,7 +268,7 @@ export default function ProjectCard({ project, isDefaultOpen, filter }) {
 
               {project.techStack?.length > 0 && (
                 <>
-                  <h3 className="text-lg font-semibold mt-6 mb-2">
+                  <h3 className={`text-lg font-semibold mt-6 mb-2 ${isLight ? "text-slate-900" : "text-white"}`}>
                     Tech Stack
                   </h3>
                   <div className="flex flex-wrap gap-2">

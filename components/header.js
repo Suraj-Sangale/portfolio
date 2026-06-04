@@ -4,14 +4,17 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import aboutStyles from "../styles/about.module.css";
 import { getNavigation, getPersonalInfo } from "@/utilities/getPortfolioData";
+import { useTheme } from "@/context/ThemeContext";
+import ThemeToggle from "./common/ThemeToggle";
 
 const Header = () => {
   const router = useRouter();
   const headerOptions = getNavigation();
   const { pages = [] } = headerOptions || {};
-  console.log('pages', pages)
   const personalInfo = getPersonalInfo();
   const [menuOpen, setMenuOpen] = useState(false);
+  const { theme } = useTheme();
+  const isLight = theme === "light";
 
   const getRoute = (path) => {
     if (path === "home") return "/";
@@ -43,74 +46,82 @@ const Header = () => {
               alt="Logo"
               width={48}
               height={48}
-              className="w-10 h-10 animate-spin-slow"
+              className={`w-10 h-10 animate-spin-slow transition-all duration-300 ${isLight ? "invert" : ""}`}
               loading="lazy"
             />
           </Link>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex gap-6">
-            {pages &&
-              pages?.length > 0 &&
-              pages.map((item) => {
-                const route = getRoute(item.path);
-                return (
-                  <Link
-                    key={item.id}
-                    href={route}
-                    className={`text-white text-sm sm:text-base font-medium hover:text-[#007bff] transition cursor-pointer ${aboutStyles.strokeme} ${
-                      isActive(item.path) ? "text-[#007bff]" : ""
-                    }`}
-                  >
-                    {item.label}
-                  </Link>
-                );
-              })}
-          </div>
+          {/* Right Side: Desktop Menu, Theme Toggle, Mobile Hamburger */}
+          <div className="flex items-center gap-6">
+            {/* Desktop Menu */}
+            <div className="hidden md:flex gap-6">
+              {pages &&
+                pages?.length > 0 &&
+                pages.map((item) => {
+                  const route = getRoute(item.path);
+                  return (
+                    <Link
+                      key={item.id}
+                      href={route}
+                      className={`text-sm sm:text-base font-medium hover:text-[var(--c1)] transition cursor-pointer ${aboutStyles.strokeme} ${
+                        isLight ? "text-slate-900" : "text-white"
+                      } ${isActive(item.path) ? "text-[var(--c1)]" : ""}`}
+                    >
+                      {item.label}
+                    </Link>
+                  );
+                })}
+            </div>
 
-          {/* Hamburger Button */}
-          <button
-            className="md:hidden flex flex-col justify-center items-center gap-[5px] w-8 h-8 z-30"
-            onClick={() => setMenuOpen((prev) => !prev)}
-            aria-label="Toggle menu"
-          >
-            <span
-              className="block h-0.5 w-6 bg-white rounded origin-center"
-              style={{
-                transition:
-                  "transform 0.35s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.35s ease",
-                transform: menuOpen ? "translateY(7px) rotate(45deg)" : "none",
-              }}
-            />
-            <span
-              className="block h-0.5 w-6 bg-white rounded"
-              style={{
-                transition:
-                  "transform 0.35s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.35s ease",
-                opacity: menuOpen ? 0 : 1,
-                transform: menuOpen ? "scaleX(0)" : "scaleX(1)",
-              }}
-            />
-            <span
-              className="block h-0.5 w-6 bg-white rounded origin-center"
-              style={{
-                transition:
-                  "transform 0.35s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.35s ease",
-                transform: menuOpen
-                  ? "translateY(-7px) rotate(-45deg)"
-                  : "none",
-              }}
-            />
-          </button>
+            {/* Theme Toggle Button */}
+            <ThemeToggle />
+
+            {/* Hamburger Button */}
+            <button
+              className="md:hidden flex flex-col justify-center items-center gap-[5px] w-8 h-8 z-30"
+              onClick={() => setMenuOpen((prev) => !prev)}
+              aria-label="Toggle menu"
+            >
+              <span
+                className={`block h-0.5 w-6 rounded origin-center ${isLight ? "bg-slate-900" : "bg-white"}`}
+                style={{
+                  transition:
+                    "transform 0.35s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.35s ease, background-color 0.3s ease",
+                  transform: menuOpen ? "translateY(7px) rotate(45deg)" : "none",
+                }}
+              />
+              <span
+                className={`block h-0.5 w-6 rounded ${isLight ? "bg-slate-900" : "bg-white"}`}
+                style={{
+                  transition:
+                    "transform 0.35s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.35s ease, background-color 0.3s ease",
+                  opacity: menuOpen ? 0 : 1,
+                  transform: menuOpen ? "scaleX(0)" : "scaleX(1)",
+                }}
+              />
+              <span
+                className={`block h-0.5 w-6 rounded origin-center ${isLight ? "bg-slate-900" : "bg-white"}`}
+                style={{
+                  transition:
+                    "transform 0.35s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.35s ease, background-color 0.3s ease",
+                  transform: menuOpen
+                    ? "translateY(-7px) rotate(-45deg)"
+                    : "none",
+                }}
+              />
+            </button>
+          </div>
         </div>
       </nav>
 
       {/* Mobile Overlay Menu — rendered outside nav so it can cover full screen */}
       <div
-        className="fixed inset-0 z-20 md:hidden flex flex-col items-center justify-center gap-8 backdrop-blur-lg bg-black/60"
+        className={`fixed inset-0 z-20 md:hidden flex flex-col items-center justify-center gap-8 backdrop-blur-lg transition-all duration-300 ${
+          isLight ? "bg-white/90" : "bg-black/60"
+        }`}
         style={{
           transition:
-            "opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1), transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)",
+            "opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1), transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.3s ease",
           opacity: menuOpen ? 1 : 0,
           transform: menuOpen ? "translateY(0)" : "translateY(-12px)",
           pointerEvents: menuOpen ? "auto" : "none",
@@ -118,7 +129,9 @@ const Header = () => {
       >
         <button
           onClick={() => setMenuOpen(false)}
-          className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center text-white hover:text-[#007bff] transition-colors"
+          className={`absolute top-6 right-6 w-10 h-10 flex items-center justify-center hover:text-[var(--c1)] transition-colors ${
+            isLight ? "text-slate-900" : "text-white"
+          }`}
           aria-label="Close menu"
         >
           <svg
@@ -155,9 +168,9 @@ const Header = () => {
                 key={item.id}
                 href={route}
                 onClick={() => setMenuOpen(false)}
-                className={`text-white text-2xl font-semibold hover:text-[#007bff] transition-colors cursor-pointer ${aboutStyles.strokeme} ${
-                  isActive(item.path) ? "text-[#007bff]" : ""
-                }`}
+                className={`text-2xl font-semibold hover:text-[var(--c1)] transition-colors cursor-pointer ${aboutStyles.strokeme} ${
+                  isLight ? "text-slate-900" : "text-white"
+                } ${isActive(item.path) ? "text-[var(--c1)]" : ""}`}
                 style={{
                   transition: `opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1) ${index * 60}ms, transform 0.4s cubic-bezier(0.23, 1, 0.32, 1) ${index * 60}ms`,
                   opacity: menuOpen ? 1 : 0,

@@ -122,10 +122,10 @@ const About = ({ pageData }) => {
 
         /* — Glass card base — */
         .glass-card {
-          background: rgba(255, 255, 255, 0.06);
+          background: var(--glass-bg, rgba(255, 255, 255, 0.06));
           backdrop-filter: blur(24px) saturate(160%);
           -webkit-backdrop-filter: blur(24px) saturate(160%);
-          border: 1px solid rgba(255, 255, 255, 0.14);
+          border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.14));
           border-radius: 24px;
           box-shadow:
             0 0 0 1px rgba(255,255,255,0.04) inset,
@@ -133,6 +133,7 @@ const About = ({ pageData }) => {
             0 2px 0 rgba(255,255,255,0.08) inset;
           margin-top: 32px;
           overflow: hidden;
+          transition: background-color 0.5s ease, border-color 0.5s ease;
         }
 
         /* — Dividers — */
@@ -171,8 +172,9 @@ const About = ({ pageData }) => {
           font-style: italic;
           font-size: 19px;
           line-height: 1.8;
-          color: rgba(255,255,255,0.72);
+          color: var(--glass-txt, rgba(255,255,255,0.72));
           max-width: 680px;
+          transition: color 0.5s ease;
         }
 
         .bio-quote::before {
@@ -195,11 +197,12 @@ const About = ({ pageData }) => {
           font-size: 10px;
           letter-spacing: 3px;
           text-transform: uppercase;
-          color: rgba(255,255,255,0.3);
+          color: var(--glass-dim, rgba(255,255,255,0.3));
           margin-bottom: 24px;
           display: flex;
           align-items: center;
           gap: 10px;
+          transition: color 0.5s ease;
         }
 
         .skills-heading::before {
@@ -217,8 +220,8 @@ const About = ({ pageData }) => {
         }
 
         .skill-tile {
-          background: rgba(255,255,255,0.05);
-          border: 1px solid rgba(255,255,255,0.1);
+          background: var(--skill-tile-bg, rgba(255,255,255,0.05));
+          border: 1px solid var(--skill-tile-border, rgba(255,255,255,0.1));
           border-radius: 14px;
           padding: 10px 5px 9px;
           display: flex;
@@ -226,7 +229,7 @@ const About = ({ pageData }) => {
           align-items: center;
           gap: 15px;
           cursor: default;
-          transition: all 0.25s cubic-bezier(.22,1,.36,1);
+          transition: all 0.25s cubic-bezier(.22,1,.36,1), background-color 0.5s ease, border-color 0.5s ease;
           position: relative;
           overflow: hidden;
         }
@@ -265,7 +268,7 @@ const About = ({ pageData }) => {
         .skill-name {
           font-family: 'DM Mono', monospace;
           font-size: 12px;
-          color: rgba(255,255,255,0.45);
+          color: var(--glass-dim, rgba(255,255,255,0.45));
           text-align: center;
           letter-spacing: 0.3px;
           line-height: 1.3;
@@ -304,14 +307,14 @@ const About = ({ pageData }) => {
 
         .resume-text-hint {
           font-size: 13px;
-          color: rgba(255,255,255,0.35);
+          color: var(--glass-dim, rgba(255,255,255,0.35));
           font-family: 'DM Mono', monospace;
           letter-spacing: 0.3px;
           line-height: 1.6;
         }
 
         .resume-text-hint strong {
-          color: rgba(255,255,255,0.65);
+          color: var(--glass-txt, rgba(255,255,255,0.65));
           font-weight: 500;
         }
 
@@ -319,9 +322,9 @@ const About = ({ pageData }) => {
           display: inline-flex;
           align-items: center;
           gap: 10px;
-          background: rgba(255,255,255,0.07);
-          border: 1px solid rgba(255,255,255,0.18);
-          color: rgba(255,255,255,0.85);
+          background: var(--resume-btn-bg, rgba(255,255,255,0.07));
+          border: 1px solid var(--resume-btn-border, rgba(255,255,255,0.18));
+          color: var(--glass-txt, rgba(255,255,255,0.85));
           font-family: 'Outfit', sans-serif;
           font-size: 13px;
           font-weight: 600;
@@ -329,7 +332,7 @@ const About = ({ pageData }) => {
           padding: 12px 26px;
           border-radius: 12px;
           cursor: pointer;
-          transition: all 0.25s cubic-bezier(.22,1,.36,1);
+          transition: all 0.25s cubic-bezier(.22,1,.36,1), background-color 0.5s ease, border-color 0.5s ease, color 0.5s ease;
           position: relative;
           overflow: hidden;
           backdrop-filter: blur(8px);

@@ -3,6 +3,30 @@
 
 
 :root {
+  --bg: #000308;
+  --c1: #00f5ff;
+  --c2: #ff006e;
+  --c3: #7400ff;
+  --c4: #ffbe0b;
+  --c5: #06d6a0;
+  --txt: #e2eaff;
+  --dim: #3a4060;
+  --fh: 'Anton', sans-serif;
+  --fb: 'Outfit', sans-serif;
+  --fm: 'Space Mono', monospace;
+  --star-color: #37f2ff;
+
+  /* Glassmorphism variables for components */
+  --glass-bg: rgba(255, 255, 255, 0.06);
+  --glass-border: rgba(255, 255, 255, 0.14);
+  --glass-txt: rgba(255, 255, 255, 0.72);
+  --glass-dim: rgba(255, 255, 255, 0.45);
+  --skill-tile-bg: rgba(255, 255, 255, 0.05);
+  --skill-tile-border: rgba(255, 255, 255, 0.1);
+  --resume-btn-bg: rgba(255, 255, 255, 0.07);
+  --resume-btn-border: rgba(255, 255, 255, 0.18);
+  --c1-glow: rgba(0, 245, 255, .25);
+
   --first-color: hsl(224, 100%, 65%);
   --title-color: hsl(0, 0%, 100%);
   --text-color: hsl(242, 16%, 31%);
@@ -31,9 +55,28 @@
       rgb(50, 50, 53) 65%,
       rgba(25, 25, 25, 1) 90%,
       rgba(0, 0, 0, 1) 100%);
+}
 
-  --star-color: #37f2ff;
-  /* Define the color variable */
+[data-theme="light"] {
+  --bg: #f8fafc;
+  --txt: #0f172a;
+  --dim: #64748b;
+  --c1: #0ea5e9; /* Sky-600 */
+  --c2: #db2777; /* Pink-600 */
+  --c3: #7c3aed; /* Violet-600 */
+  --c4: #d97706; /* Amber-600 */
+  --c5: #059669; /* Emerald-600 */
+  --star-color: rgba(15, 23, 42, 0.15);
+  
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(15, 23, 42, 0.08);
+  --glass-txt: rgba(15, 23, 42, 0.85);
+  --glass-dim: rgba(15, 23, 42, 0.55);
+  --skill-tile-bg: rgba(0, 0, 0, 0.02);
+  --skill-tile-border: rgba(0, 0, 0, 0.06);
+  --resume-btn-bg: rgba(0, 0, 0, 0.03);
+  --resume-btn-border: rgba(0, 0, 0, 0.1);
+  --c1-glow: rgba(14, 165, 233, 0.25);
 }
 
 @media screen and (max-width: 1024px) {
@@ -60,11 +103,11 @@ html {
 
 body {
   line-height: 1.7;
-  color: var(--text-color);
+  color: var(--txt, var(--text-color));
   cursor: url('/cursor.png') 10 10, auto;
-  /* font-family: 'Nunito', sans-serif !important; */
   font-size: var(--normal-font-size);
-  background: rgb(0, 0, 0);
+  background: var(--bg, rgb(0, 0, 0));
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 .navbar {
@@ -412,7 +455,8 @@ img {
 }
 
 .white-text {
-  color: white;
+  color: var(--txt, white);
+  transition: color 0.5s ease;
 }
 
 .gradient-text {
@@ -561,4 +605,125 @@ img {
 
 .overflow-hidden {
   overflow: hidden !important;
+}
+
+/* Theme Toggle Styles */
+.theme-toggle-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  color: var(--txt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  position: relative;
+  overflow: visible;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  z-index: 510;
+}
+
+.theme-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: scale(1.1);
+}
+
+[data-theme="light"] .theme-toggle-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.theme-toggle-svg {
+  width: 24px;
+  height: 24px;
+  overflow: visible;
+  transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Dark Mode States */
+.theme-toggle-btn.is-dark .theme-toggle-svg {
+  transform: rotate(40deg);
+}
+
+.theme-toggle-btn.is-dark .sun-center {
+  r: 9px;
+  transition: r 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.theme-toggle-btn.is-dark .mask-circle {
+  cx: 18px;
+  cy: 6px;
+  transition: cx 0.5s ease, cy 0.5s ease;
+}
+
+.theme-toggle-btn.is-dark .sun-rays {
+  transform: scale(0);
+  opacity: 0;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+/* Light Mode States */
+.theme-toggle-btn.is-light .theme-toggle-svg {
+  transform: rotate(90deg);
+}
+
+.theme-toggle-btn.is-light .sun-center {
+  r: 5px;
+  transition: r 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.theme-toggle-btn.is-light .mask-circle {
+  cx: 28px;
+  cy: -4px;
+  transition: cx 0.5s ease, cy 0.5s ease;
+}
+
+.theme-toggle-btn.is-light .sun-rays {
+  transform: scale(1);
+  opacity: 1;
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+}
+
+/* Spreading sunrays animation on toggle/load */
+@keyframes raySpread {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.theme-toggle-btn.is-light .sun-rays {
+  animation: raySpread 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Soft pulse/glow to the rays in light mode */
+.theme-toggle-btn.is-light .ray {
+  stroke-dasharray: 8px;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.3s ease;
+}
+
+.theme-toggle-btn.is-light:hover .ray {
+  animation: rayPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes rayPulse {
+  0%, 100% {
+    stroke-width: 2;
+    transform: scale(1);
+  }
+  50% {
+    stroke-width: 2.5;
+    transform: scale(1.15);
+  }
 }
