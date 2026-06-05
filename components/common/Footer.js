@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 export default function Footer({ footer }) {
@@ -17,7 +18,7 @@ export default function Footer({ footer }) {
   return (
     <>
       <footer>
-        <div className="fl">{footer.logo}</div>
+        <Link href="/" className="fl">{footer.logo}</Link>
         <div className="fm-links">
           {footer.links.map((l) => (
             <a key={l.label} href={l.href}>
