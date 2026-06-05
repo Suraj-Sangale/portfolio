@@ -2,13 +2,13 @@
 
 /* ── page shell ── */
 .page {
-  min-height: 100vh;
-  background: #07080f;
-  font-family: 'Inter', sans-serif;
-  color: #e2e8f0;
-  overflow-x: hidden;
-  position: relative;
-  cursor: default;
+  // min-height: 100vh;
+  // background: #07080f;
+  // font-family: 'Inter', sans-serif;
+  // color: #e2e8f0;
+  // overflow-x: hidden;
+  // position: relative;
+  // cursor: default;
 }
 
 /* ── starfield ── */
@@ -366,3 +366,5 @@
 @media (max-width: 700px) {
   .cardsGrid { grid-template-columns: 1fr; }
 }
+
+
