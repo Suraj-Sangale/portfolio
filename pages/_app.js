@@ -1,3 +1,4 @@
+import Footer from "@/components/common/Footer";
 import Header from "@/components/header";
 import "@/styles/globals.css";
 import { initGA, trackPageView } from "@/utilities/analytics";
@@ -40,6 +41,8 @@ export default function App({ Component, pageProps }) {
         className={nunito.className}
         {...pageProps}
       />
+      <Footer />
+
     </>
   );
 }

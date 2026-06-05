@@ -4,6 +4,7 @@ import SocialIcons from "./socialIcons";
 import Link from "next/link";
 import { trackEvent } from "@/utilities/analytics";
 import TechOrbitPlayground from "./techorbitplayground";
+import Footer from "../common/Footer";
 
 export default function DevFolio({ pageData }) {
   pageData = {
@@ -1500,20 +1501,6 @@ export default function DevFolio({ pageData }) {
             <p className="cta-note">{contact.note}</p>
           </div>
         </section>
-        <footer>
-          <div className="fl">{footer.logo}</div>
-          <div className="fm-links">
-            {footer.links.map((l) => (
-              <a
-                key={l.label}
-                href={l.href}
-              >
-                {l.label}
-              </a>
-            ))}
-          </div>
-          <div className="fr">{footer.copy}</div>
-        </footer>
       </div>
     </>
   );
