@@ -39,3 +39,11 @@ export const processImageSrc = (
 
   return imageSrc;
 };
+
+// ── Slug generator ──
+export function slugify(text) {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")   // replace non-alphanum with -
+    .replace(/(^-|-$)+/g, "")       // trim leading/trailing -
+}

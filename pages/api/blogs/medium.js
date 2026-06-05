@@ -1,3 +1,4 @@
+import { slugify } from "@/utilities/utils";
 import { m } from "framer-motion";
 import Parser from "rss-parser";
 
@@ -76,14 +77,17 @@ export default async function handler(req, res) {
     ];
     const posts = data.items.map((item, index) => {
       const style = styles[index % styles.length];
+      const slug = slugify(item.title);
 
       return {
         ...item,
+        slug,
         authorInitials: "S",
         thumbnail: extractImage(item.content),
         accent: style.accent,
         emoji: style.emoji,
         grad: style.grad,
+        content: item.description == item.content ? null : item.content,
       };
     });
 
