@@ -111,7 +111,7 @@
   position: fixed;
   top: 100px;
   right: 30px;
-  z-index: 1000;
+  z-index: 10;
 
   padding: 12px 18px;
   border-radius: 999px;
@@ -152,9 +152,9 @@
 
   background: linear-gradient(
     to top,
-    rgba(8, 12, 24, 0.95),
-    rgba(8, 12, 24, 0.5),
-    transparent
+    rgba(0, 0, 0, 0.993),
+    rgba(8, 12, 24, 0.699),
+    
   );
 }
 

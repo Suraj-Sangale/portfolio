@@ -75,15 +75,14 @@ export default function BlogDetails() {
 
   return (
     <>
-      <article    className={`${styles.blogArticle} ${
-      darkMode ? styles.dark : styles.warmLight
-    }`}>
-         <button
-      className={styles.themeToggle}
-      onClick={() => setDarkMode(!darkMode)}
-    >
-      {darkMode ? "☀️ Light" : "🌙 Dark"}
-    </button>
+      <article className={`${styles.blogArticle} ${darkMode ? styles.dark : styles.warmLight
+        }`}>
+        <button
+          className={styles.themeToggle}
+          onClick={() => setDarkMode(!darkMode)}
+        >
+          {darkMode ? "☀️ Light" : "🌙 Dark"}
+        </button>
         <div className={styles.hero}>
           <img
             src={blog.thumbnail}
@@ -104,7 +103,7 @@ export default function BlogDetails() {
                   {blog.title}
                 </span>
               </nav>
-<br/>
+              <br />
               <span className={styles.badge}>
                 Development
               </span>
