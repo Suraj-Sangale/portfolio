@@ -161,7 +161,8 @@ function BlogCard({ blog, index }) {
   }, []);
 
   return (
-    <div
+    <Link 
+              href={`/blogs/${blog.slug || '#'}`}
       className={styles.cardWrap}
       style={{ animationDelay: `${index * 0.1 + 0.05}s` }}
     >
@@ -249,7 +250,7 @@ function BlogCard({ blog, index }) {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 

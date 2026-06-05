@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Layout from "@/components/layout";
-import styles from "@/styles/blogs.module.scss";
+import styles from "@/styles/blogDetails.module.scss";
 import { postApiData } from "@/utilities/services/apiService";
 import Link from "next/link";
 import CustomTitle from "@/components/Items/CustomTitle";
@@ -12,6 +12,8 @@ export default function BlogDetails() {
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [darkMode, setDarkMode] = useState(true);
+
 
   useEffect(() => {
     if (slug) {
@@ -72,49 +74,69 @@ export default function BlogDetails() {
   }
 
   return (
-    <Layout>
-     <article className={styles.blogArticle}>
-  <div className={styles.hero}>
-    <img
-      src={blog.thumbnail}
-      alt={blog.title}
-      className={styles.heroImage}
-    />
+    <>
+      <article    className={`${styles.blogArticle} ${
+      darkMode ? styles.dark : styles.warmLight
+    }`}>
+         <button
+      className={styles.themeToggle}
+      onClick={() => setDarkMode(!darkMode)}
+    >
+      {darkMode ? "☀️ Light" : "🌙 Dark"}
+    </button>
+        <div className={styles.hero}>
+          <img
+            src={blog.thumbnail}
+            alt={blog.title}
+            className={styles.heroImage}
+          />
 
-    <div className={styles.heroOverlay}>
-      <div className={styles.heroContent}>
-        <span className={styles.badge}>
-          Development
-        </span>
+          <div className={styles.heroOverlay}>
+            <div className={styles.heroContent}>
+              <nav className={styles.breadcrumb}>
+                <Link href="/">Home</Link>
+                <span>/</span>
 
-        <h1>{blog.title}</h1>
+                <Link href="/blogs">Blogs</Link>
+                <span>/</span>
 
-        <div className={styles.authorSection}>
-          <div className={styles.avatar}>
-            {blog.authorInitials}
-          </div>
+                <span className={styles.current}>
+                  {blog.title}
+                </span>
+              </nav>
+<br/>
+              <span className={styles.badge}>
+                Development
+              </span>
 
-          <div>
-            <h4>{blog.author}</h4>
-            <p>
-              {new Date(blog.pubDate).toLocaleDateString()}
-              • 5 min read
-            </p>
+              <h1>{blog.title}</h1>
+
+              <div className={styles.authorSection}>
+                <div className={styles.avatar}>
+                  {blog.authorInitials}
+                </div>
+
+                <div>
+                  <h4>{blog.author}</h4>
+                  <p>
+                    {new Date(blog.pubDate).toLocaleDateString()}
+                    • 5 min read
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
 
-  <div className={styles.contentWrapper}>
-    <div
-      className="blog-content"
-      dangerouslySetInnerHTML={{
-        __html: blog.content || blog.description,
-      }}
-    />
-  </div>
-</article>
-    </Layout>
+        <div className={styles.contentWrapper}>
+          <div
+            className="blog-content"
+            dangerouslySetInnerHTML={{
+              __html: blog.content || blog.description,
+            }}
+          />
+        </div>
+      </article>
+    </>
   );
 }
