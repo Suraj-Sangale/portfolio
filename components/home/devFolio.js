@@ -421,7 +421,7 @@ export default function DevFolio({ pageData }) {
     "num": "11",
     "icon": "📚",
     "iconCls": "im",
-    "sizeCls": "b7",
+    "sizeCls": "b5",
     "titleGradient": "gw-m",
     "titleWord": "Insight",
     "titleRest": "GURU",
@@ -2317,7 +2317,7 @@ backdrop-filter: blur(3px);
 }
 
 .b5 {
-  grid-column: span 4;
+  grid-column: span 12;
   min-height: 200px
 }
 
