@@ -254,6 +254,37 @@ function BlogCard({ blog, index }) {
   );
 }
 
+// ── Skeleton Card ──
+function BlogSkeleton() {
+  return (
+    <div className={styles.skeletonCard}>
+      <div className={styles.skeletonImg} />
+      <div className={styles.skeletonBody}>
+        <div className={styles.skeletonAuthor}>
+          <div className={styles.skeletonAvatar} />
+          <div style={{ display: "flex", flexDirection: "column", gap: "4px", width: "100%" }}>
+            <div className={styles.skeletonText} style={{ width: "40%" }} />
+            <div className={styles.skeletonText} style={{ width: "30%" }} />
+          </div>
+        </div>
+        <div>
+          <div className={styles.skeletonTitle} />
+          <div className={styles.skeletonTitle} style={{ width: "60%" }} />
+        </div>
+        <div>
+          <div className={styles.skeletonExcerpt} />
+          <div className={styles.skeletonExcerpt} />
+          <div className={styles.skeletonExcerpt} style={{ width: "80%" }} />
+        </div>
+        <div style={{ display: "flex", justifyContent: "space-between", marginTop: "0.5rem" }}>
+          <div className={styles.skeletonText} style={{ width: "30%" }} />
+          <div className={styles.skeletonText} style={{ width: "20%" }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Page component ──
 export default function BlogCards() {
   const [blogs, setBlogs] = useState([]);
@@ -369,13 +400,21 @@ export default function BlogCards() {
         </header>*/}
 
         <div className={styles.cardsGrid}>
-          {blogs.map((blog, i) => (
-            <BlogCard
-              key={blog.id}
-              blog={blog}
-              index={i}
-            />
-          ))}
+          {loading ? (
+            Array.from({ length: 6 }).map((_, i) => (
+              <BlogSkeleton key={i} />
+            ))
+          ) : error ? (
+            <p style={{ color: "#ef4444", textAlign: "center", gridColumn: "1 / -1" }}>{error}</p>
+          ) : (
+            blogs.map((blog, i) => (
+              <BlogCard
+                key={blog.id || i}
+                blog={blog}
+                index={i}
+              />
+            ))
+          )}
         </div>
       </div>
     </div>

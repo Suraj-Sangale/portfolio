@@ -362,6 +362,74 @@
 }
 .readBtn:hover .arr { transform: translateX(3px); }
 
+/* ── skeleton loading ── */
+.skeletonCard {
+  position: relative;
+  border-radius: 16px;
+  background: #0d0f1a;
+  border: 1px solid rgba(255,255,255,0.07);
+  overflow: hidden;
+  height: 100%;
+}
+
+.skeletonImg {
+  height: 200px;
+  background: rgba(255,255,255,0.05);
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeletonBody {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.skeletonAuthor {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.skeletonAvatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeletonText {
+  height: 12px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.05);
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeletonTitle {
+  height: 20px;
+  width: 80%;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.05);
+  animation: pulse 1.5s infinite ease-in-out;
+  margin-bottom: 0.5rem;
+}
+
+.skeletonExcerpt {
+  height: 12px;
+  width: 100%;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.05);
+  animation: pulse 1.5s infinite ease-in-out;
+  margin-bottom: 0.2rem;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
 /* ── responsive ── */
 @media (max-width: 700px) {
   .cardsGrid { grid-template-columns: 1fr; }
