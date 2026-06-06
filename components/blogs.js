@@ -161,8 +161,8 @@ function BlogCard({ blog, index }) {
   }, []);
 
   return (
-    <Link 
-              href={`/blogs/${blog.slug || '#'}`}
+    <Link
+      href={`/blogs/${blog.slug || '#'}`}
       className={styles.cardWrap}
       style={{ animationDelay: `${index * 0.1 + 0.05}s` }}
     >
@@ -203,7 +203,7 @@ function BlogCard({ blog, index }) {
               {blog.categories?.[0]}
             </span>
           )}
-          <span className={styles.cardReadTime}>{blog.readTime}</span>
+          {blog?.readTime && <span className={styles.cardReadTime}>{blog.readTime}</span>}
         </div>
 
         {/* body */}
@@ -270,9 +270,9 @@ export default function BlogCards() {
       setError(null);
       let response = await postApiData("GET_MEDIUM_BLOGS");
       response = {
-    "status": true,
-    "data": [
-        {
+        "status": true,
+        "data": [
+          {
             "title": "Redis Cache: Boosting Application Performance with In-Memory Data",
             "slug": "redis-cache-boosting-application-performance-with-in-memory-data",
             "pubDate": "2026-03-23 18:23:09",
@@ -284,16 +284,16 @@ export default function BlogCards() {
             "content": null,
             "enclosure": {},
             "categories": [
-                "cache",
-                "optimization",
-                "redis"
+              "cache",
+              "optimization",
+              "redis"
             ],
             "authorInitials": "S",
             "accent": "#06b6d4",
             "emoji": "🌐",
             "grad": "linear-gradient(135deg,#06b6d4,#3b82f6)"
-        },
-        {
+          },
+          {
             "title": "Understanding Server-Side Rendering in Next.js",
             "slug": "understanding-server-side-rendering-in-next-js",
             "pubDate": "2026-03-23 17:47:53",
@@ -305,18 +305,18 @@ export default function BlogCards() {
             "content": null,
             "enclosure": {},
             "categories": [
-                "server-side-rendering",
-                "nextjs",
-                "javascript",
-                "optimization",
-                "react"
+              "server-side-rendering",
+              "nextjs",
+              "javascript",
+              "optimization",
+              "react"
             ],
             "authorInitials": "S",
             "accent": "#f59e0b",
             "emoji": "⚡",
             "grad": "linear-gradient(135deg,#f59e0b,#ef4444)"
-        },
-        {
+          },
+          {
             "title": "Understanding ES6: The JavaScript Upgrade That Changed Everything",
             "slug": "understanding-es6-the-javascript-upgrade-that-changed-everything",
             "pubDate": "2026-02-16 16:11:45",
@@ -332,10 +332,10 @@ export default function BlogCards() {
             "accent": "#10b981",
             "emoji": "🚀",
             "grad": "linear-gradient(135deg,#10b981,#22c55e)"
-        }
-    ],
-    "message": "Medium posts fetched successfully"
-}
+          }
+        ],
+        "message": "Medium posts fetched successfully"
+      }
       if (response.status && Array.isArray(response.data)) {
         setBlogs(response.data);
       } else {
