@@ -1004,12 +1004,13 @@ export default function DevFolio({ pageData }) {
       let camZ = 6,
         camTX = 0,
         camTY = 0;
-      ScrollTrigger.create({
-        trigger: "#page",
-        start: "top top",
-        end: "bottom bottom",
-        scrub: 2,
-        onUpdate(self) {
+      ScrollTrigger &&
+        ScrollTrigger.create({
+          trigger: "#page",
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 2,
+          onUpdate(self) {
           const p = self.progress;
           camZ = 6 - p * 135;
           camTX = Math.sin(p * Math.PI * 4) * 0.4;
