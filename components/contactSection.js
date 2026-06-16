@@ -94,11 +94,11 @@ export default function ContactSection({ pageData }) {
 
       // Check DB success first (main priority)
       if (!supabaseResponse || supabaseResponse.error) {
-        throw new Error(
+        console.error(
           supabaseResponse?.error?.message || "Failed to save message.",
         );
       }
-
+            
       // Email failure shouldn't break submission
       if (!emailResponse?.success) {
         console.warn("Email sending failed.");
