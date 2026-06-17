@@ -101,7 +101,7 @@ export default function ProjectCard({ project, isDefaultOpen, filter }) {
     <>
       {/* Project Card */}
       <div
-        className={`max-w-sm bg-gray-100 backdrop-blur-md rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200 hover:-translate-y-1 cursor-pointer ${isFilteredOut ? "opacity-50 pointer-events-none scale-90" : ""}`}
+        className={`max-w-sm bg-gray-100 backdrop-blur-md rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200 hover:-translate-y-1 cursor-pointer ${isFilteredOut ? "grayscale brightness-75 scale-95 pointer-events-none" : ""}`}
         onClick={() => setIsOpen(true)}
       >
         {/* Image Carousel */}
