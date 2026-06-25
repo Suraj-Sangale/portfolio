@@ -6,7 +6,7 @@
     "description": "I am a Software Developer",
     "profileImage": "/developer.png",
     "logo": "/logo.png",
-    "resumeLink": "/suraj_sangale_resume.pdf",
+    "resumeLink": "/suraj_full_stack_developer.pdf",
     "heading": "Home",
     "subheading": "",
     "mainText": "",
@@ -198,7 +198,7 @@
         "imgUrl": "https://i.ibb.co/ydQfq96/mui.png"
       }
     ],
-    "resumeLink":"/suraj_sangale_resume.pdf"
+    "resumeLink":"/suraj_full_stack_developer.pdf"
   },
   "projects": {
     "heading": "Projects",

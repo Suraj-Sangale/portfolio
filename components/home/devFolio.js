@@ -592,7 +592,7 @@ export default function DevFolio({ pageData }) {
           {
             label: "Download CV",
             target: "_blank",
-            href: "/suraj_sangale_resume.pdf",
+            href: "/suraj_full_stack_developer.pdf",
             cls: "glowbtn-outline",
           },
         ],
@@ -611,7 +611,7 @@ export default function DevFolio({ pageData }) {
           },
           {
             label: "Resume",
-            href: "/suraj_sangale_resume.pdf",
+            href: "/suraj_full_stack_developer.pdf",
           },
         ],
         copy: "© 2026 — Crafted in React, Next.js & raw ambition",

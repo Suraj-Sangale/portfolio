@@ -8,7 +8,7 @@ export default function Footer({ footer }) {
       links: [
         { label: "GitHub", href: "https://github.com/Suraj-Sangale" },
         { label: "LinkedIn", href: "https://www.linkedin.com/in/suraj-sangale/" },
-        { label: "Resume", href: "/suraj_sangale_resume.pdf" },
+        { label: "Resume", href: "/suraj_full_stack_developer.pdf" },
         {label:"Contact",href:"/contact"}
       ],
       copy: "© 2026 — Crafted in React, Next.js & raw ambition",

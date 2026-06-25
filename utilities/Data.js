@@ -1,5 +1,5 @@
 import { PiGraduationCapDuotone, PiBriefcaseLight } from "react-icons/pi";
-export const resumeLink = "/suraj_sangale_resume.pdf";
+export const resumeLink = "/suraj_full_stack_developer.pdf";
 // "https://drive.google.com/file/d/11-E0je2Un59hB-4QZrFqvOA3krCH9_tB/preview";
 // "https://drive.google.com/file/d/13qMLjG5cUDb8c9ffsAYJon8v5VxU3wy6/preview";
 // "https://drive.google.com/file/d/13qMLjG5cUDb8c9ffsAYJon8v5VxU3wy6/view?usp=sharing";
