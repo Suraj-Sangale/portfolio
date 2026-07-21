@@ -3,6 +3,7 @@ import Header from "@/components/header";
 import "@/styles/globals.css";
 import { initGA, trackPageView } from "@/utilities/analytics";
 import { newSeoData } from "@/utilities/Data";
+import useVisitTracker from "@/hooks/useVisitTracker";
 import { DefaultSeo } from "next-seo";
 import { Nunito } from "next/font/google";
 import { useRouter } from "next/router";
@@ -18,6 +19,7 @@ const nunito = Nunito({
 });
 export default function App({ Component, pageProps }) {
   const router = useRouter();
+  useVisitTracker();
 
   useEffect(() => {
     initGA();

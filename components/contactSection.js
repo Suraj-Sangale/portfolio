@@ -10,6 +10,7 @@ import { IoWarning } from "react-icons/io5";
 import { getConstant } from "@/utilities/utils";
 import { useRouter } from "next/router";
 import { postApiData } from "@/utilities/services/apiService";
+import { trackContactSubmit, trackContactFormEngagement } from "@/utilities/analytics";
 
 export default function ContactSection({ pageData }) {
   const { contactData } = pageData;
@@ -106,9 +107,15 @@ export default function ContactSection({ pageData }) {
 
       setIsSuccess(true);
       resetSelectedForm();
+
+      // ── dataLayer event ───────────────────────────────────────────────
+      trackContactSubmit("email", "success", formData.subject?.trim() || "");
     } catch (error) {
       console.error("Form submission error:", error);
       setIsSuccess(false);
+
+      // ── dataLayer event ───────────────────────────────────────────────
+      trackContactSubmit("email", "error", formData.subject?.trim() || "");
     } finally {
       setIsOpen(true);
       setShowMsg(true);
@@ -146,6 +153,9 @@ ${from_email}`;
 
     // WhatsApp API link
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedText}`;
+
+    // ── dataLayer event ─────────────────────────────────────────────────
+    trackContactSubmit("whatsapp", "success", subject?.trim() || "");
 
     // Open in new tab
     window.open(whatsappUrl, "_blank");

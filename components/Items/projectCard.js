@@ -8,6 +8,7 @@ import { SwiperSlide } from "swiper/react";
 // import projecStyle from "@/styles/projects.module.scss";
 import { CiShare1 } from "react-icons/ci";
 import { useRouter } from "next/router";
+import { trackProjectView } from "@/utilities/analytics";
 
 export default function ProjectCard({ project, isDefaultOpen, filter }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,6 +38,8 @@ export default function ProjectCard({ project, isDefaultOpen, filter }) {
   useEffect(() => {
     if (isDefaultOpen) {
       setIsOpen(true);
+      // ── dataLayer event ─────────────────────────────────
+      trackProjectView(project.title, project.slug, project.type);
     }
   }, [isDefaultOpen]);
 
@@ -102,7 +105,11 @@ export default function ProjectCard({ project, isDefaultOpen, filter }) {
       {/* Project Card */}
       <div
         className={`max-w-sm bg-gray-100 backdrop-blur-md rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200 hover:-translate-y-1 cursor-pointer ${isFilteredOut ? "grayscale brightness-75 scale-95 pointer-events-none" : ""}`}
-        onClick={() => setIsOpen(true)}
+        onClick={() => {
+          setIsOpen(true);
+          // ── dataLayer event ─────────────────────────────────
+          trackProjectView(project.title, project.slug, project.type);
+        }}
       >
         {/* Image Carousel */}
         {image && image.length > 0 && (

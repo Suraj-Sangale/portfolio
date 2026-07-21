@@ -9,7 +9,6 @@ const Header = () => {
   const router = useRouter();
   const headerOptions = getNavigation();
   const { pages = [] } = headerOptions || {};
-  console.log('pages', pages)
   const personalInfo = getPersonalInfo();
   const [menuOpen, setMenuOpen] = useState(false);
 
