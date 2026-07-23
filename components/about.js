@@ -10,7 +10,6 @@ import { processImageSrc } from "@/utilities/utils";
 const About = ({ pageData }) => {
   const { aboutData } = pageData;
   // const aboutData = 
-  console.log("aboutData", aboutData);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
@@ -472,27 +471,18 @@ const About = ({ pageData }) => {
         </div>
       </section>
 
-      <ResumeModal
-        show={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-          removeQuery();
-        }}
-        resumeLink={aboutData?.resumeLink}
-      />
-
       <CommonModal
-        // modalTitle={isEdit ? "Edit Page Data" : "Add New Page Data"}
         modalOpen={isModalOpen}
         setModalOpen={setIsModalOpen}
-        modalSize={"w-11/12 md:w-4/6 bg-black/40  backdrop-blur-lg"}
+        modalSize={"bg-black/40 backdrop-blur-lg"}
         isDarkMode
+        bottomSheet
       >
         <ResumeModal
           show={isModalOpen}
           onClose={() => {
             setIsModalOpen(false);
-            removeQuery();
+            // removeQuery();
           }}
           resumeLink={aboutData?.resumeLink}
         />
