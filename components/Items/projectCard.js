@@ -1,38 +1,19 @@
 import CustomSwiper from "@/utilities/customSwiper";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState, useRef } from "react";
-import { FaEye, FaGithub, FaCheckCircle } from "react-icons/fa";
-import { IoIosClose } from "react-icons/io";
+import React, { useEffect, useState } from "react";
+import { FaGithub } from "react-icons/fa";
 import { SwiperSlide } from "swiper/react";
-// import projecStyle from "@/styles/projects.module.scss";
 import { CiShare1 } from "react-icons/ci";
 import { useRouter } from "next/router";
 import { trackProjectView } from "@/utilities/analytics";
+import CommonModal from "../common/commonModal";
+import ProjectDetailModal from "./ProjectDetailModal";
 
 export default function ProjectCard({ project, isDefaultOpen, filter }) {
   const [isOpen, setIsOpen] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
-  const modalRef = useRef(null);
   const router = useRouter();
-
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-      // setImageLoading(true); // Reset loading state when modal opens
-    } else {
-      document.body.style.overflow = "auto";
-    }
-
-    const handleClickOutside = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    };
-
-    if (isOpen) document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isOpen]);
 
   // ✅ Open modal if slug matches
   useEffect(() => {
@@ -183,108 +164,22 @@ export default function ProjectCard({ project, isDefaultOpen, filter }) {
         </div>
       </div>
 
-      {/* Popup Modal */}
-      {isOpen && (
-        <div className="fixed inset-0 flex items-center justify-center backdrop-blur-xl bg-white/30 bg-opacity-50 z-40 p-4">
-          <div
-            ref={modalRef}
-            className={`bg-gray-100 rounded-2xl shadow-xl overflow-hidden relative flex flex-col md:flex-row max-h-[90vh] ${!image || image.length === 0 ? "max-w-2xl" : "max-w-5xl"}`}
-          >
-            {/* Close Button */}
-            <div className="absolute w-7 h-7 bg-gray-600 rounded-2xl top-4 right-4 text-gray-100 text-2xl md:top-6 md:right-6 z-50 flex items-center justify-center cursor-pointer">
-              <button onClick={handleClose}>
-                <IoIosClose />
-              </button>
-            </div>
-
-            {/* Left: Swiper Gallery */}
-            {/* Left side: Swiper inside modal */}
-            {image && image.length > 0 && (
-              <div className="w-full md:w-1/2 bg-gray-200 flex flex-col items-center justify-center relative">
-                {/* <div className="pointer-events-none absolute top-0 left-0 right-0 p-5 bg-gradient-to-b from-black/80 to-transparent text-white text-center text-lg font-semibold">
-                Project Preview
-              </div> */}
-                <CustomSwiper
-                  key={isOpen ? `modal-swiper-open` : `modal-swiper-closed`}
-                  carouselOptions={carouselOptions}
-                  className="w-full"
-                >
-                  {image.map((img, index) => (
-                    <SwiperSlide key={index}>
-                      <div className="w-full flex items-center justify-center bg-gray-200">
-                        <Image
-                          src={`/myProjects/${img}`}
-                          alt="Project Preview"
-                          className="object-contain w-full h-full"
-                          loading="lazy"
-                          width={1200}
-                          height={800}
-                          sizes="(max-width: 768px) 100vw, 50vw"
-                        />
-                      </div>
-                    </SwiperSlide>
-                  ))}
-                </CustomSwiper>
-              </div>
-            )}
-
-            {/* Right: Project Details */}
-            <div
-              className={` p-6 overflow-y-auto modal-scrollbar ${!image || image.length === 0 ? "w-full" : "w-full md:w-1/2"}`}
-            >
-              <div className="flex flex-row gap-x-2 items-center mb-4">
-                <h2 className="text-2xl font-bold">{project.title}</h2>
-                {project.liveUrl && (
-                  <Link
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <CiShare1 className="text-gray-700 hover:text-black text-xl" />
-                  </Link>
-                )}
-              </div>
-
-              <p className="text-gray-700 text-sm mb-6">
-                {project.description}
-              </p>
-
-              <h3 className="text-lg font-semibold mb-2">Key Features</h3>
-              <ul className="space-y-2">
-                {project.keyFeatures?.map((feature) => (
-                  <li
-                    key={feature.id}
-                    className="flex items-start gap-2 p-2 rounded hover:shadow-sm transition"
-                  >
-                    <FaCheckCircle className="text-blue-600 mt-1 w-5 h-5 flex-shrink-0" />
-                    <span className="text-gray-700 text-sm">
-                      {feature.text}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-
-              {project.techStack?.length > 0 && (
-                <>
-                  <h3 className="text-lg font-semibold mt-6 mb-2">
-                    Tech Stack
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {project.techStack.map((tech, index) => (
-                      <span
-                        key={index}
-                        className="px-4 py-2 rounded-full bg-gradient-to-r from-indigo-600 to-purple-500 text-white font-semibold text-sm shadow-md"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+      {/* ── Bottom-sheet popup (same animation as Resume modal) ── */}
+      <CommonModal
+        modalOpen={isOpen}
+        setModalOpen={setIsOpen}
+        modalSize={"bg-black/40 backdrop-blur-lg"}
+        isDarkMode
+        bottomSheet
+      >
+        <ProjectDetailModal
+          project={project}
+          onClose={() => {
+            setIsOpen(false);
+            handleClose();
+          }}
+        />
+      </CommonModal>
     </>
   );
 }

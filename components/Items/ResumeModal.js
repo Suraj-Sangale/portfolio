@@ -67,7 +67,7 @@ const ResumeModal = ({ show, onClose, resumeLink }) => {
               </svg>
             </a>
 
-            <button
+            {/* <button
               onClick={onClose}
               className="w-8 h-8 rounded-lg
               border border-white/20
@@ -85,7 +85,7 @@ const ResumeModal = ({ show, onClose, resumeLink }) => {
               >
                 <path d="M3 3l10 10M13 3L3 13" />
               </svg>
-            </button>
+            </button> */}
           </div>
         </div>
 
