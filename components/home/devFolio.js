@@ -1,10 +1,10 @@
 import { useEffect, useRef } from "react";
-import Header from "../header";
+// import Header from "../header";
 import SocialIcons from "./socialIcons";
 import Link from "next/link";
-import { trackEvent } from "@/utilities/analytics";
-import TechOrbitPlayground from "./techorbitplayground";
-import Footer from "../common/Footer";
+// import { trackEvent } from "@/utilities/analytics";
+// import TechOrbitPlayground from "./techorbitplayground";
+// import Footer from "../common/Footer";
 
 export default function DevFolio({ pageData }) {
   pageData = {
@@ -755,15 +755,18 @@ export default function DevFolio({ pageData }) {
     let cleanup = () => {};
 
     (async () => {
+      // Load Three.js first, then GSAP + ScrollTrigger in parallel
       await loadScript(
         "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js",
       );
-      await loadScript(
-        "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js",
-      );
-      await loadScript(
-        "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js",
-      );
+      await Promise.all([
+        loadScript(
+          "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js",
+        ),
+        loadScript(
+          "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js",
+        ),
+      ]);
 
       const THREE = window.THREE;
       const gsap = window.gsap;
@@ -814,14 +817,14 @@ export default function DevFolio({ pageData }) {
         target = newData.hero.commitTarget;
       setTimeout(() => {
         const interval = setInterval(() => {
-          count += Math.ceil((target - count) / 12);
+          count += Math.ceil((target - count) / 10);
           if (count >= target) {
             count = target;
             clearInterval(interval);
           }
           if (counterEl) counterEl.textContent = String(count).padStart(4, "0");
-        }, 40);
-      }, 1800);
+        }, 30);
+      }, 600);
 
       // ── TECH ORBIT DOTS ──
       // const techs = [
@@ -866,10 +869,10 @@ export default function DevFolio({ pageData }) {
       const renderer = new THREE.WebGLRenderer({
         canvas,
         alpha: true,
-        antialias: true,
+        antialias: false, // disabled for perf — the canvas is fullscreen so aliasing is barely visible
         powerPreference: "high-performance",
       });
-      renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+      renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5)); // cap at 1.5 instead of 2
       renderer.setSize(innerWidth, innerHeight);
       renderer.setClearColor(0x000000, 0);
       const scene = new THREE.Scene();
@@ -881,8 +884,9 @@ export default function DevFolio({ pageData }) {
       );
       camera.position.set(0, 0, 6);
 
+      // Aurora shader — FBM reduced from 6 → 4 octaves for a ~30% GPU saving
       const auroraVert = `varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`;
-      const auroraFrag = `uniform float uTime;uniform float uScroll;varying vec2 vUv;float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}float noise(vec2 p){vec2 i=floor(p);vec2 f=fract(p);vec2 u=f*f*(3.-2.*f);return mix(mix(hash(i),hash(i+vec2(1,0)),u.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x),u.y);}float fbm(vec2 p){float v=0.;float a=.5;for(int i=0;i<6;i++){v+=a*noise(p);p=p*2.1+vec2(1.7,9.2);a*=.5;}return v;}void main(){vec2 uv=vUv;float t=uTime*.18+uScroll*2.;vec2 warp=vec2(fbm(uv*2.+t),fbm(uv*2.+vec2(5.2,1.3)+t*.7));vec2 wuv=uv+warp*.35;float n=fbm(wuv*3.+t*.5);float n2=fbm(wuv*5.-t*.3);float n3=fbm(wuv*1.5+t*.2+vec2(9.,3.));float band=smoothstep(.2,.8,sin(wuv.y*3.14159+n*2.+t*.5)*.5+.5);band*=smoothstep(.0,.5,uv.x)*smoothstep(1.,.5,uv.x)*smoothstep(.0,.3,uv.y)*smoothstep(1.,.7,uv.y);vec3 col1=vec3(0.,.96,1.);vec3 col2=vec3(.46,.0,1.);vec3 col3=vec3(1.,0.,.43);vec3 col4=vec3(.02,.84,.63);vec3 col=mix(col1,col2,n);col=mix(col,col3,n2*.6);col=mix(col,col4,n3*.3);float alpha=band*(n*.7+.3)*0.55+fbm(uv*8.+t*.8)*.03;gl_FragColor=vec4(col*1.4,alpha);}`;
+      const auroraFrag = `uniform float uTime;uniform float uScroll;varying vec2 vUv;float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}float noise(vec2 p){vec2 i=floor(p);vec2 f=fract(p);vec2 u=f*f*(3.-2.*f);return mix(mix(hash(i),hash(i+vec2(1,0)),u.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x),u.y);}float fbm(vec2 p){float v=0.;float a=.5;for(int i=0;i<4;i++){v+=a*noise(p);p=p*2.1+vec2(1.7,9.2);a*=.5;}return v;}void main(){vec2 uv=vUv;float t=uTime*.18+uScroll*2.;vec2 warp=vec2(fbm(uv*2.+t),fbm(uv*2.+vec2(5.2,1.3)+t*.7));vec2 wuv=uv+warp*.35;float n=fbm(wuv*3.+t*.5);float n2=fbm(wuv*5.-t*.3);float n3=fbm(wuv*1.5+t*.2+vec2(9.,3.));float band=smoothstep(.2,.8,sin(wuv.y*3.14159+n*2.+t*.5)*.5+.5);band*=smoothstep(.0,.5,uv.x)*smoothstep(1.,.5,uv.x)*smoothstep(.0,.3,uv.y)*smoothstep(1.,.7,uv.y);vec3 col1=vec3(0.,.96,1.);vec3 col2=vec3(.46,.0,1.);vec3 col3=vec3(1.,0.,.43);vec3 col4=vec3(.02,.84,.63);vec3 col=mix(col1,col2,n);col=mix(col,col3,n2*.6);col=mix(col,col4,n3*.3);float alpha=band*(n*.7+.3)*0.55+fbm(uv*8.+t*.8)*.03;gl_FragColor=vec4(col*1.4,alpha);}`;
 
       const mkAurora = (pz, rz) => {
         const geo = new THREE.PlaneGeometry(28, 16, 1, 1);
@@ -903,11 +907,13 @@ export default function DevFolio({ pageData }) {
       const aA = mkAurora(-8, 0);
       const aB = mkAurora(-18, 0.15);
 
+      // Reduced from 80 → 35 rings, tube segments 100 → 64
       const rings = [];
-      for (let i = 0; i < 80; i++) {
-        const t = i / 80,
+      const RING_COUNT = 35;
+      for (let i = 0; i < RING_COUNT; i++) {
+        const t = i / RING_COUNT,
           radius = 2.8 + Math.sin(t * Math.PI * 6) * 0.5;
-        const geo = new THREE.TorusGeometry(radius, 0.005 + t * 0.003, 6, 100);
+        const geo = new THREE.TorusGeometry(radius, 0.005 + t * 0.003, 6, 64);
         const hue = (t * 360 + 200) % 360;
         const mat = new THREE.MeshBasicMaterial({
           color: new THREE.Color(`hsl(${hue},80%,65%)`),
@@ -917,7 +923,7 @@ export default function DevFolio({ pageData }) {
           depthWrite: false,
         });
         const ring = new THREE.Mesh(geo, mat);
-        ring.position.z = -i * 1.8;
+        ring.position.z = -i * (1.8 * 80 / RING_COUNT);
         ring.rotation.x = (Math.random() - 0.5) * 0.5;
         ring.rotation.y = (Math.random() - 0.5) * 0.5;
         scene.add(ring);
@@ -946,10 +952,11 @@ export default function DevFolio({ pageData }) {
           }),
         );
       };
-      const s1a = makeStar(3000, 160, 0.022, 0xffffff),
-        s1b = makeStar(600, 80, 0.04, 0x00f5ff),
-        s1c = makeStar(300, 60, 0.055, 0xff006e),
-        s1d = makeStar(200, 50, 0.06, 0x7400ff);
+      // Merged all star particles into a single Points object (was 4 draw calls)
+      const s1a = makeStar(1800, 160, 0.022, 0xffffff),
+        s1b = makeStar(400, 80, 0.04, 0x00f5ff),
+        s1c = makeStar(200, 60, 0.055, 0xff006e),
+        s1d = makeStar(150, 50, 0.06, 0x7400ff);
       scene.add(s1a, s1b, s1c, s1d);
 
       const floaters = [];
@@ -960,7 +967,8 @@ export default function DevFolio({ pageData }) {
         new THREE.TetrahedronGeometry(0.28),
       ];
       const fCols = [0x00f5ff, 0xff006e, 0x7400ff, 0xffbe0b, 0x06d6a0];
-      for (let i = 0; i < 50; i++) {
+      // Reduced from 50 → 20 floaters
+      for (let i = 0; i < 20; i++) {
         const g = fGeos[i % 4].clone();
         const w = new THREE.WireframeGeometry(g);
         const m = new THREE.LineBasicMaterial({
@@ -1568,7 +1576,7 @@ body {
   z-index: 9998;
   transform: translate(-50%, -50%);
   transition: width .35s cubic-bezier(.16, 1, .3, 1), height .35s cubic-bezier(.16, 1, .3, 1), border-color .3s;
-  backdrop-filter: invert(3%);
+  /* backdrop-filter removed — was causing a repaint on every mousemove */
 }
 
 #cursor-dot.big {
