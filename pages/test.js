@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const SKILLS = [
   "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
@@ -27,6 +27,11 @@ const SKILLS = [
   "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
 ];
 
+// Radii/icon-size below are all defined at this "design" scale, then
+// scaled down together to fit whatever width the container actually gets.
+const BASE_CANVAS = 1300; // largest ring (600 * 2) + icon + breathing room
+const BASE_ICON_SIZE = 52;
+
 const CIRCLES = [
   { radius: 200, duration: 28 },
   { radius: 300, duration: 30 },
@@ -36,22 +41,38 @@ const CIRCLES = [
 ];
 
 export default function TechStackAnimation() {
-  // Animation is paused by default so icons sit exactly where they're
-  // placed (matches the static layout). Hitting "Start" spins them
-  // clockwise starting from that exact spot — no jump/snap.
   const [isPlaying, setIsPlaying] = useState(true);
 
-  // Build the orbit/skill layout, deterministically split across circles
-  // (mirrors the original script's index++ / count-per-circle logic).
+  // Track the actual rendered width of the ring canvas so every radius,
+  // the icon size, and the center label can scale together responsively
+  // instead of relying on a fixed pixel layout.
+  const containerRef = useRef(null);
+  const [canvasSize, setCanvasSize] = useState(BASE_CANVAS);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const observer = new ResizeObserver((entries) => {
+      const width = entries[0]?.contentRect?.width;
+      if (width) setCanvasSize(width);
+    });
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const scale = canvasSize / BASE_CANVAS;
+  const iconSize = Math.max(BASE_ICON_SIZE * scale, 20); // keep icons legible on small screens
+
+  // Build the orbit/skill layout, deterministically split across circles.
   // Recomputes whenever CIRCLES itself changes (e.g. you edit a radius),
   // so icons always follow the CURRENT radius instead of a stale cached one.
   const orbits = useMemo(() => {
     const built = [];
 
     CIRCLES.forEach((circle, circleIndex) => {
-      // const iconIndex = Math.floor(Math.random() * SKILLS.length);
-
-      const iconsPerCircle = circleIndex + 3; // 1, 2, 3, 4, 5...
+      const iconsPerCircle = circleIndex + 3; // 3, 4, 5, 6, 7...
 
       for (let i = 0; i < iconsPerCircle; i++) {
         built.push({
@@ -71,7 +92,6 @@ export default function TechStackAnimation() {
     <div style={styles.body}>
       <style>{keyframesCSS}</style>
 
-      {/*
       <div style={styles.controls}>
         <button
           type="button"
@@ -81,64 +101,74 @@ export default function TechStackAnimation() {
           {isPlaying ? "Stop" : "Start"} Animation
         </button>
       </div>
-      */}
 
-      <div style={styles.container}>
-        {[...CIRCLES].reverse().map((circle) => (
-          <div
-            key={`ring-${circle.radius}`}
-            style={{
-              ...styles.circle,
-              width: circle.radius * 2,
-              height: circle.radius * 2,
-            }}
-          />
-        ))}
+      {/* Square, fluid canvas: width tracks the viewport (capped at
+          BASE_CANVAS), height always matches width via aspect-ratio so
+          the rings stay perfectly circular at any size. */}
+      <div ref={containerRef} style={styles.container}>
+        {[...CIRCLES].reverse().map((circle) => {
+          const diameter = circle.radius * 2 * scale;
+          return (
+            <div
+              key={`ring-${circle.radius}`}
+              style={{
+                ...styles.circle,
+                width: diameter,
+                height: diameter,
+              }}
+            />
+          );
+        })}
 
-        <div style={styles.center}>Tech Stack</div>
+        <div style={{ ...styles.center, fontSize: Math.max(32 * scale, 14) }}>
+          Tech Stack
+        </div>
 
-        {orbits.map((orbit) => (
-          <div
-            key={orbit.id}
-            style={{
-              position: "absolute",
-              left: "50%",
-              top: "50%",
-              width: orbit.radius * 2,
-              height: orbit.radius * 2,
-              marginLeft: -orbit.radius,
-              marginTop: -orbit.radius,
-              // Each ring item spins clockwise starting from ITS OWN fixed
-              // angle (--start-angle), so at t=0 / when paused it sits
-              // exactly where it's drawn today.
-              "--start-angle": `${orbit.angle}deg`,
-              animation: `spin ${orbit.duration}s linear infinite`,
-              animationPlayState: isPlaying ? "running" : "paused",
-            }}
-          >
-            <img
-              src={orbit.icon}
-              alt=""
+        {orbits.map((orbit) => {
+          const radius = orbit.radius * scale;
+          return (
+            <div
+              key={orbit.id}
               style={{
                 position: "absolute",
                 left: "50%",
-                top: 0,
-                width: 52,
-                height: 52,
-                background: "white",
-                borderRadius: "50%",
-                padding: 8,
-                objectFit: "contain",
-                boxShadow: "0 5px 15px rgba(0,0,0,.18)",
-                // Counter-rotates by the same amount so the icon artwork
-                // itself always stays upright while its wrapper orbits.
+                top: "50%",
+                width: radius * 2,
+                height: radius * 2,
+                marginLeft: -radius,
+                marginTop: -radius,
+                // Each ring item spins clockwise starting from ITS OWN
+                // fixed angle (--start-angle), so at t=0 / when paused it
+                // sits exactly where it's drawn today.
                 "--start-angle": `${orbit.angle}deg`,
-                animation: `counter ${orbit.duration}s linear infinite`,
+                animation: `spin ${orbit.duration}s linear infinite`,
                 animationPlayState: isPlaying ? "running" : "paused",
               }}
-            />
-          </div>
-        ))}
+            >
+              <img
+                src={orbit.icon}
+                alt=""
+                style={{
+                  position: "absolute",
+                  left: "50%",
+                  top: 0,
+                  width: iconSize,
+                  height: iconSize,
+                  background: "white",
+                  borderRadius: "50%",
+                  padding: Math.max(8 * scale, 3),
+                  objectFit: "contain",
+                  boxShadow: "0 5px 15px rgba(0,0,0,.18)",
+                  // Counter-rotates by the same amount so the icon artwork
+                  // itself always stays upright while its wrapper orbits.
+                  "--start-angle": `${orbit.angle}deg`,
+                  animation: `counter ${orbit.duration}s linear infinite`,
+                  animationPlayState: isPlaying ? "running" : "paused",
+                }}
+              />
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -157,15 +187,15 @@ const keyframesCSS = `
 
 const styles = {
   body: {
-    margin: "5rem",
-    padding: "5rem",
+    width: "100%",
+    minHeight: "100vh",
+    padding: "clamp(1rem, 4vw, 5rem)",
     background: "#f5f5f5",
     fontFamily: "Arial, Helvetica, sans-serif",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    height: "100vh",
     boxSizing: "border-box",
     gap: "1.5rem",
   },
@@ -175,7 +205,7 @@ const styles = {
   },
   button: {
     padding: "0.65rem 1.5rem",
-    fontSize: 15,
+    fontSize: "clamp(13px, 1.5vw, 15px)",
     fontWeight: 600,
     color: "#fff",
     background: "#1E88E5",
@@ -185,11 +215,14 @@ const styles = {
   },
   container: {
     position: "relative",
-    width: "95%",
-    height: "90rem",
+    width: "100%",
+    maxWidth: BASE_CANVAS,
+    aspectRatio: "1 / 1",
     overflow: "hidden",
     background: "white",
     border: "1px solid #ddd",
+    borderRadius: 16,
+    margin: "0 auto",
   },
   circle: {
     position: "absolute",
@@ -204,9 +237,10 @@ const styles = {
     left: "50%",
     top: "50%",
     transform: "translate(-50%, -50%)",
-    fontSize: 32,
     color: "#444",
     fontWeight: "bold",
     zIndex: 100,
+    textAlign: "center",
+    whiteSpace: "nowrap",
   },
 };
