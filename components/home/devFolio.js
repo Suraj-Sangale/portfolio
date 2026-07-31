@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 // import Header from "../header";
 import SocialIcons from "./socialIcons";
 import Link from "next/link";
+import TechStackAnimation from "../../pages/test";
 // import { trackEvent } from "@/utilities/analytics";
 // import TechOrbitPlayground from "./techorbitplayground";
 // import Footer from "../common/Footer";
@@ -1360,16 +1361,7 @@ export default function DevFolio({ pageData }) {
               </div>
             ))}
           </div>
-          <div className="tech-orbit rv-s">
-            <div className="orbit-ring"></div>
-            <div className="orbit-ring"></div>
-            <div className="orbit-ring"></div>
-            <div className="orbit-center">
-              FULL
-              <br />
-              STACK
-            </div>
-          </div>
+          <TechStackAnimation />
         </section>
         {/* <TechOrbitPlayground /> */}
         {/* ── S3 PROJECTS ── */}
