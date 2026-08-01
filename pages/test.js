@@ -3,15 +3,15 @@ import { useEffect, useMemo, useRef, useState } from "react";
 const SKILLS = [
   "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
   "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
+  "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
+  "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
+  "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
   "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
   "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
-  "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
-  "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
   "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
+  "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redux/redux-original.svg",
   "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
   "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
-  "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redux/redux-original.svg",
-  "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
   "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg",
   "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg",
   "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
@@ -66,8 +66,22 @@ export default function TechStackAnimation() {
     return () => observer.disconnect();
   }, []);
 
-  const scale = canvasSize / BASE_CANVAS;
-  const iconSize = Math.max(BASE_ICON_SIZE * scale, 20);
+  // Mobile detection is based on actual viewport width (matches the CSS
+  // media query below), NOT canvasSize — because on mobile the canvas is
+  // sized by height instead of width, so canvasSize alone can't tell us
+  // which "mode" we're in.
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 640px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  const rawScale = canvasSize / BASE_CANVAS;
+  const scale = isMobile ? Math.sqrt(rawScale) : rawScale;
+  const iconSize = Math.max(BASE_ICON_SIZE * scale, isMobile ? 32 : 20);
 
   // Build orbit/skill layout deterministically split across circles.
   const orbits = useMemo(() => {
@@ -92,90 +106,92 @@ export default function TechStackAnimation() {
     <div className="tech-orbit-wrap">
       <style>{keyframesCSS}</style>
 
-      {/* Square, fluid canvas: width tracks its parent, height matches via aspect-ratio */}
-      <div ref={containerRef} className="tech-orbit-canvas">
-        {/* Orbit rings — styled to match devFolio's subtle glow rings */}
-        {[...CIRCLES].reverse().map((circle, i) => {
-          const diameter = circle.radius * 2 * scale;
-          const colorIdx = CIRCLES.length - 1 - i;
-          return (
-            <div
-              key={`ring-${circle.radius}`}
-              style={{
-                position: "absolute",
-                left: "50%",
-                top: "50%",
-                width: diameter,
-                height: diameter,
-                marginLeft: -diameter / 2,
-                marginTop: -diameter / 2,
-                border: `1px solid ${RING_COLORS[colorIdx]}`,
-                borderRadius: "50%",
-                boxShadow: `0 0 ${Math.round(20 * scale)}px ${RING_COLORS[colorIdx]}`,
-              }}
-            />
-          );
-        })}
-
-        {/* Center badge — mirrors .orbit-center from devFolio */}
-        <div
-          className="tech-orbit-center"
-          style={{
-            width: Math.max(110 * scale, 48),
-            height: Math.max(110 * scale, 48),
-            fontSize: Math.max(14 * scale, 7),
-          }}
-        >
-          FULL
-          <br />
-          STACK
-        </div>
-
-        {/* Orbiting icon wrappers */}
-        {orbits.map((orbit) => {
-          const radius = orbit.radius * scale;
-          return (
-            <div
-              key={orbit.id}
-              style={{
-                position: "absolute",
-                left: "50%",
-                top: "50%",
-                width: radius * 2,
-                height: radius * 2,
-                marginLeft: -radius,
-                marginTop: -radius,
-                "--start-angle": `${orbit.angle}deg`,
-                animation: `tsa-spin ${orbit.duration}s linear infinite`,
-                animationPlayState: isPlaying ? "running" : "paused",
-              }}
-            >
-              <img
-                src={orbit.icon}
-                alt=""
-                title=""
+      {/* Clipping window — desktop crops top/bottom, mobile crops left/right */}
+      <div className="tech-orbit-clip">
+        {/* Square, fluid canvas: sized by width (desktop) or height (mobile) via CSS */}
+        <div ref={containerRef} className="tech-orbit-canvas">
+          {/* Orbit rings — transparent (no visible line/glow), still sized/positioned */}
+          {[...CIRCLES].reverse().map((circle) => {
+            const diameter = circle.radius * 2 * scale;
+            return (
+              <div
+                key={`ring-${circle.radius}`}
                 style={{
                   position: "absolute",
                   left: "50%",
-                  top: 0,
-                  width: iconSize,
-                  height: iconSize,
-                  // Dark background to match devFolio's dark theme
-                  background: "rgba(255, 255, 255, 1)",
+                  top: "50%",
+                  width: diameter,
+                  height: diameter,
+                  marginLeft: -diameter / 2,
+                  marginTop: -diameter / 2,
+                  border: "1px solid transparent",
                   borderRadius: "50%",
-                  padding: Math.max(8 * scale, 3),
-                  objectFit: "contain",
-                  border: `1px solid rgba(255,255,255,0.1)`,
-                  boxShadow: `0 0 ${Math.round(14 * scale)}px rgba(0,0,0,0.6), 0 0 ${Math.round(8 * scale)}px ${orbit.ringColor}`,
-                  "--start-angle": `${orbit.angle}deg`,
-                  animation: `tsa-counter ${orbit.duration}s linear infinite`,
-                  animationPlayState: isPlaying ? "running" : "paused",
-                  transition: "box-shadow 0.3s",
+                  boxShadow: "none",
                 }}
               />
-            </div>
-          );
-        })}
+            );
+          })}
+
+          {/* Center badge — mirrors .orbit-center from devFolio */}
+          <div
+            className="tech-orbit-center"
+            style={{
+              width: Math.max(110 * scale, isMobile ? 72 : 48),
+              height: Math.max(110 * scale, isMobile ? 72 : 48),
+              fontSize: Math.max(14 * scale, isMobile ? 11 : 7),
+            }}
+          >
+            FULL
+            <br />
+            STACK
+          </div>
+
+          {/* Orbiting icon wrappers */}
+          {orbits.map((orbit) => {
+            const radius = orbit.radius * scale;
+            return (
+              <div
+                key={orbit.id}
+                style={{
+                  position: "absolute",
+                  left: "50%",
+                  top: "50%",
+                  width: radius * 2,
+                  height: radius * 2,
+                  marginLeft: -radius,
+                  marginTop: -radius,
+                  "--start-angle": `${orbit.angle}deg`,
+                  animation: `tsa-spin ${orbit.duration}s linear infinite`,
+                  animationPlayState: isPlaying ? "running" : "paused",
+                }}
+              >
+                <img
+                  src={orbit.icon}
+                  alt=""
+                  title=""
+                  style={{
+                    position: "absolute",
+                    left: "50%",
+                    top: 0,
+                    width: iconSize,
+                    height: iconSize,
+                    // Dark background to match devFolio's dark theme
+                    background: "rgba(255, 255, 255, 1)",
+                    borderRadius: "50%",
+                    padding: Math.max(8 * scale, isMobile ? 6 : 3),
+                    objectFit: "contain",
+                    border: `1px solid rgba(255,255,255,0.1)`,
+                    boxShadow: `0 0 ${Math.round(14 * scale)}px rgba(0,0,0,0.6), 0 0 ${Math.round(8 * scale)}px ${orbit.ringColor}`,
+                    "--start-angle": `${orbit.angle}deg`,
+                    animation: `tsa-counter ${orbit.duration}s linear infinite`,
+                    animationPlayState: isPlaying ? "running" : "paused",
+                    transition: "box-shadow 0.3s",
+                  }}
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
@@ -199,18 +215,41 @@ const keyframesCSS = `
     align-items: center;
   }
 
-  .tech-orbit-canvas {
+  /* Desktop: wide short window — canvas sized by WIDTH, so it overflows
+     vertically and gets cropped top/bottom (matches "For desktop" mock). */
+  .tech-orbit-clip {
     position: relative;
     width: 100%;
     max-width: ${BASE_CANVAS}px;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 2.6 / 1;   /* tune to match your desktop mock's proportions */
     overflow: hidden;
     margin: 0 auto;
-    /* bento-style glass bg */
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(30px);
     -webkit-backdrop-filter: blur(3px);
+  }
+
+  .tech-orbit-canvas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    aspect-ratio: 1 / 1;
+    width: 100%;    /* desktop: size driven by the clip box's WIDTH */
+    height: auto;
+  }
+
+  /* Mobile: narrow tall window — canvas sized by HEIGHT instead, so it
+     overflows horizontally and gets cropped left/right (matches "For Mobile" mock). */
+  @media (max-width: 640px) {
+    .tech-orbit-clip {
+      aspect-ratio: 1 / 1.6;   /* tune to match your mobile mock's proportions */
+    }
+    .tech-orbit-canvas {
+      width: auto;
+      height: 100%;   /* mobile: size driven by the clip box's HEIGHT */
+    }
   }
 
   /* Center badge — mirrors .orbit-center styling from devFolio */

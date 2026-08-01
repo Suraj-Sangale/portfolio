@@ -48,14 +48,15 @@
 }
 
 * {
-  /* margin: 0;
-  padding: 0; */
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
   /* font-family: 'Nunito', sans-serif !important; */
 }
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -65,6 +66,7 @@ body {
   /* font-family: 'Nunito', sans-serif !important; */
   font-size: var(--normal-font-size);
   background: rgb(0, 0, 0);
+  overflow-x: hidden;
 }
 
 .navbar {
