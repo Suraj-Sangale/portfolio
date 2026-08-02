@@ -306,11 +306,14 @@
 }
 
 .contentWrapper :global(.blog-content figure) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin: 3rem 0;
 }
 
 .contentWrapper :global(.blog-content img) {
-  width: 100%;
+  width: auto;
   border-radius: 20px;
   margin: 2rem 0;
 
