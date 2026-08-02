@@ -27,7 +27,7 @@ export default function Footer({ footer }) {
 
           <div className="fm-links">
             {footer.links.map((l) => (
-              <a key={l.label} href={l.href}>
+              <a target="_blank" key={l.label} href={l.href}>
                 {l.label}
               </a>
             ))}
@@ -54,6 +54,7 @@ export default function Footer({ footer }) {
           border-top: 1px solid rgba(255, 255, 255, 0.08);
           position: relative;
           z-index: 10;
+          backdrop-filter: blur(5px);
         }
 
         .f-top {
@@ -176,11 +177,20 @@ export default function Footer({ footer }) {
 
           .f-top {
             flex-direction: column;
-            align-items: flex-start;
+            align-items: center;
           }
 
           .fm-links {
             gap: 20px;
+            align-items: center;
+            justify-content: center;
+            display: flex;
+            flex-wrap: wrap;
+          }
+
+
+          .f-divider {
+            margin: 20px 0px 10px;
           }
 
           .f-bottom {

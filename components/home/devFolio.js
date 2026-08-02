@@ -10,27 +10,6 @@ import TechStackAnimation from "../../pages/test";
 export default function DevFolio({ pageData }) {
   pageData = {
     newData: {
-      nav: {
-        logo: "SS",
-        links: [
-          {
-            label: "About",
-            href: "#about",
-          },
-          {
-            label: "Projects",
-            href: "#projects",
-          },
-          {
-            label: "Work",
-            href: "#work",
-          },
-        ],
-        cta: {
-          label: "Hire Me",
-          href: "#contact",
-        },
-      },
       hero: {
         firstName: "SURAJ",
         lastName: "SANGALE",
@@ -1205,7 +1184,6 @@ export default function DevFolio({ pageData }) {
   }, []);
 
   const {
-    nav,
     hero,
     stats,
     projects,
@@ -1255,27 +1233,6 @@ export default function DevFolio({ pageData }) {
         ref={canvasRef}
       ></canvas>
 
-      {/* ── NAV ── */}
-      {/* <nav>
-        <div className="nav-logo">{nav.logo}</div>
-        <div className="nav-r">
-          {nav.links.map((l) => (
-            <a
-              key={l.label}
-              href={l.href}
-            >
-              {l.label}
-            </a>
-          ))}
-          <a
-            href={nav.cta.href}
-            className="nav-btn"
-          >
-            <span>{nav.cta.label}</span>
-          </a>
-        </div>
-      </nav> */}
-      {/* <Header /> */}
 
       <div id="page">
         {/* ── S1 HERO ── */}
@@ -1618,97 +1575,6 @@ body {
   background: radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0, 3, 8, .85) 100%);
 }
 
-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 500;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 52px;
-}
-
-nav::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 52px;
-  right: 52px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(0, 245, 255, .3), transparent);
-}
-
-.nav-logo {
-  font-family: var(--fh);
-  font-size: 1.8rem;
-  letter-spacing: .2em;
-  background: linear-gradient(135deg, var(--c1), var(--c3));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  filter: drop-shadow(0 0 16px rgba(0, 245, 255, .5));
-}
-
-.nav-r {
-  display: flex;
-  gap: 36px;
-  align-items: center
-}
-
-.nav-r a {
-  font-family: var(--fm);
-  font-size: .55rem;
-  letter-spacing: .25em;
-  color: rgba(226, 234, 255, .4);
-  text-decoration: none;
-  text-transform: uppercase;
-  transition: color .3s, text-shadow .3s;
-}
-
-.nav-r a:hover {
-  color: var(--c1);
-  text-shadow: 0 0 10px var(--c1)
-}
-
-.nav-btn {
-  font-family: var(--fm);
-  font-size: .55rem;
-  letter-spacing: .2em;
-  padding: 10px 28px;
-  border: 1px solid var(--c1);
-  color: var(--c1);
-  text-decoration: none;
-  text-transform: uppercase;
-  cursor: none;
-  position: relative;
-  overflow: hidden;
-  transition: color .4s;
-  box-shadow: 0 0 20px rgba(0, 245, 255, .15), inset 0 0 20px rgba(0, 245, 255, .05);
-}
-
-.nav-btn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, var(--c1), var(--c3));
-  transform: translateX(-101%);
-  transition: transform .45s cubic-bezier(.77, 0, .175, 1);
-}
-
-.nav-btn:hover::before {
-  transform: translateX(0)
-}
-
-.nav-btn:hover {
-  color: #000
-}
-
-.nav-btn span {
-  position: relative;
-  z-index: 1
-}
 
 #page {
   position: relative;
@@ -2874,49 +2740,119 @@ backdrop-filter: blur(3px);
 }
 
 footer {
-  padding: 36px 52px;
-  border-top: 1px solid rgba(255, 255, 255, .05);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  padding: 56px 52px 32px;
+  border-top: 1px solid rgba(255, 255, 255, .08);
   position: relative;
   z-index: 10;
 }
 
+.f-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.f-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .fl {
   font-family: var(--fh);
-  font-size: 1.4rem;
-  letter-spacing: .25em;
+  font-size: 1.6rem;
+  letter-spacing: .22em;
   background: linear-gradient(135deg, var(--c1), var(--c3));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  width: fit-content;
 }
 
-.fr {
+.f-tag {
   font-family: var(--fm);
-  font-size: .48rem;
-  letter-spacing: .15em;
-  color: rgba(58, 64, 96, .6)
+  font-size: 0.7rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(140, 149, 199, 0.5);
 }
 
 .fm-links {
   display: flex;
-  gap: 28px
+  gap: 32px;
+  flex-wrap: wrap;
 }
 
 .fm-links a {
+  position: relative;
   font-family: var(--fm);
-  font-size: .48rem;
-  letter-spacing: .18em;
+  font-size: 0.85rem;
+  letter-spacing: .16em;
   color: var(--dim);
   text-decoration: none;
   text-transform: uppercase;
-  transition: color .3s
+  transition: color .3s;
+  padding-bottom: 4px;
+}
+
+.fm-links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 1px;
+  background: var(--c1);
+  transition: width .3s ease;
 }
 
 .fm-links a:hover {
   color: var(--c1)
+}
+
+.fm-links a:hover::after {
+  width: 100%;
+}
+
+.f-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, .06);
+  margin: 40px 0 20px;
+}
+
+.f-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.fr {
+  font-family: var(--fm);
+  font-size: 0.65rem;
+  letter-spacing: .14em;
+  color: rgba(80, 83, 102, .6);
+}
+
+.f-top-btn {
+  font-family: var(--fm);
+  font-size: 0.65rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  background: none;
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 999px;
+  padding: 6px 14px;
+  color: var(--dim);
+  cursor: pointer;
+  transition: all .3s;
+}
+
+.f-top-btn:hover {
+  color: var(--c1);
+  border-color: var(--c1);
 }
 
 .rv {
@@ -2940,14 +2876,6 @@ footer {
 }
 
 @media(max-width:900px) {
-  nav {
-    padding: 18px 20px
-  }
-
-  .nav-r a {
-    display: none
-  }
-
   section {
     padding: 80px 20px
   }
@@ -2999,12 +2927,6 @@ footer {
 
   .cta-container {
     padding: 60px 24px
-  }
-
-  footer {
-    flex-direction: column;
-    gap: 20px;
-    text-align: center
   }
 
   .tech-orbit {
