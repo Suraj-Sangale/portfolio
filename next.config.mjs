@@ -42,6 +42,12 @@ const nextConfig = {
         port: "3000", // or your dev port
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "www.soundhelix.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
   webpack: (config, { isServer }) => {
