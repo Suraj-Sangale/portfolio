@@ -31,6 +31,8 @@ export default function PlaylistPopup({
   isPlaying,
   onSelectTrack,
   onClose,
+  onStreamSpotify,
+  onStreamYoutube,
 }) {
   return (
     <AnimatePresence>
@@ -83,6 +85,8 @@ export default function PlaylistPopup({
                     isActive={currentTrack?.id === track.id}
                     isPlaying={isPlaying && currentTrack?.id === track.id}
                     onSelect={onSelectTrack}
+                    onStreamSpotify={onStreamSpotify}
+                    onStreamYoutube={onStreamYoutube}
                   />
                 ))}
               </ul>
@@ -97,6 +101,8 @@ export default function PlaylistPopup({
                     isActive={currentTrack?.id === track.id}
                     isPlaying={isPlaying && currentTrack?.id === track.id}
                     onSelect={onSelectTrack}
+                    onStreamSpotify={onStreamSpotify}
+                    onStreamYoutube={onStreamYoutube}
                   />
                 ))}
               </ul>

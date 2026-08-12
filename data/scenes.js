@@ -11,11 +11,11 @@
 /** @type {Scene[]} */
 export const scenes = [
   {
-    id: "bg_1",
-    title: "दिल का सफ़र",
+    id: "bg_2",
+    title: "बरसात",
     subtitle: "DELUXE SALOON • OPEN ALL HOURS",
-    image: "/scenes/bg_1.png",
-    imageResponsive: "/scenes/bg_1_mobile.png",
+    image: "/scenes/bg_2.png",
+    imageResponsive: "/scenes/bg_2_mobile.png",
     trackId: "1",
     accent: "rgba(120, 60, 20, 0.22)",
   },
@@ -23,7 +23,8 @@ export const scenes = [
     id: "railway",
     title: "यादों का पड़ाव",
     subtitle: "PLATFORM NO. 1 • DEPARTURES",
-    image: "/scenes/railway.png",
+    image: "/scenes/bg_1.png",
+    imageResponsive: "/scenes/bg_1_mobile.png",
     trackId: "8",
     accent: "rgba(60, 40, 80, 0.20)",
   },

@@ -5,25 +5,12 @@
  * @property {string} artist
  * @property {string} album
  * @property {string} cover
- * @property {string} src
+ * @property {string} src              – local / SoundHelix fallback for HTML5 player
  * @property {'hindi'|'marathi'} language
+ * @property {string|null} spotifyId   – Spotify track ID (embed + open link)
+ * @property {string|null} youtubeId   – YouTube video ID (embed + open link)
  */
 
-/**
- * HOW TO ADD YOUR OWN SONGS
- * ─────────────────────────
- * 1. Place your .mp3 files inside:  /public/music/
- * 2. Update the `src` field below to match your filename,
- *    e.g.  src: "/music/tum-se-hi.mp3"
- *
- * DEMO AUDIO NOTE
- * ───────────────
- * The `src` fields currently point to royalty-free demo tracks from
- * SoundHelix (soundhelix.com) so the player works immediately.
- * Replace them with your own files at any time.
- */
-
-// Royalty-free demo tracks — cycle through 8 SoundHelix samples
 const DEMO = [
   "/music/Ghan-Aaj-Barse.mp3",
   "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
@@ -46,6 +33,8 @@ export const tracks = [
     cover: "/songsCover/ghan_aaj.png",
     src: DEMO[0],
     language: "marathi",
+    spotifyId: "26Nu5GRBUdEA0ms3CDWWzN",
+    youtubeId: "kU3P6lsXW4w",
   },
   {
     id: "2",
@@ -55,6 +44,8 @@ export const tracks = [
     cover: "/scenes/monsoon.png",
     src: DEMO[1],
     language: "hindi",
+    spotifyId: "4FeiicaPWhZZusS1rddYdc",
+    youtubeId: "kY84MRnxV-A",
   },
   {
     id: "3",
@@ -64,6 +55,8 @@ export const tracks = [
     cover: "/scenes/monsoon.png",
     src: DEMO[2],
     language: "hindi",
+    spotifyId: "5T1yqdTEpwwo8UsjriiAQK",
+    youtubeId: "1M2gC86Q_9o",
   },
   {
     id: "4",
@@ -73,6 +66,8 @@ export const tracks = [
     cover: "/scenes/cinema.png",
     src: DEMO[3],
     language: "hindi",
+    spotifyId: "56zZ48jdyY2oDXHVnwg5Di",
+    youtubeId: "Umqb9Ken_Mc",
   },
   {
     id: "5",
@@ -82,33 +77,41 @@ export const tracks = [
     cover: "/scenes/monsoon.png",
     src: DEMO[4],
     language: "hindi",
+    spotifyId: "3RFNUexrtXExkzTEiJ0eBh",
+    youtubeId: "4-4RB3LDVJQ",
   },
   {
     id: "6",
     title: "Dekho Na",
-    artist: "Shaan & Kavita Krishnamurthy",
+    artist: "Sonu Nigam & Sunidhi Chauhan",
     album: "Fanaa",
     cover: "/scenes/salon.png",
     src: DEMO[5],
     language: "hindi",
+    spotifyId: "5q0pLxhyHvZXnYxaygt2Az",
+    youtubeId: "e_kh0Ck5-kA",
   },
   {
     id: "7",
     title: "Saanson Ko Saanson Mein",
-    artist: "Udit Narayan",
+    artist: "Babul Supriyo & Alka Yagnik",
     album: "Hum Tum",
     cover: "/scenes/chai.png",
     src: DEMO[6],
     language: "hindi",
+    spotifyId: "6YRbDkyTzsizAWFz8kwiI7",
+    youtubeId: "Y9MOIiJMHAQ",
   },
   {
     id: "8",
-    title: "Ishq Bulava",
-    artist: "Shafqat Amanat Ali",
+    title: "Ishq Bulaava",
+    artist: "Sanam Puri & Shipra Goyal",
     album: "Hasee Toh Phasee",
     cover: "/scenes/railway.png",
     src: DEMO[7],
     language: "hindi",
+    spotifyId: "1fkjRQA8wXPPyxqYLbxuqy",
+    youtubeId: "kU765y1VwSI",
   },
   {
     id: "9",
@@ -118,6 +121,8 @@ export const tracks = [
     cover: "/scenes/railway.png",
     src: DEMO[0],
     language: "hindi",
+    spotifyId: "7BCp5hEiiDSmXsxsXkvYff",
+    youtubeId: "aHxNCQwBdgI",
   },
   {
     id: "10",
@@ -127,6 +132,8 @@ export const tracks = [
     cover: "/scenes/chai.png",
     src: DEMO[1],
     language: "hindi",
+    spotifyId: "5bQ6oDLqvw8tywmnSmwEyL",
+    youtubeId: "BddP6PYo2gs",
   },
 
   // ── Marathi Songs ──────────────────────────────────────────────────────────
@@ -138,6 +145,8 @@ export const tracks = [
     cover: "/scenes/monsoon.png",
     src: DEMO[2],
     language: "marathi",
+    spotifyId: "3kFxPk0o1lJsLlIEBSLsGM",
+    youtubeId: "BHLVMR8YSIE",
   },
   {
     id: "12",
@@ -147,6 +156,8 @@ export const tracks = [
     cover: "/scenes/salon.png",
     src: DEMO[3],
     language: "marathi",
+    spotifyId: "3rK44gGcOPjlkbW5EibCOA",
+    youtubeId: "TmSI_rWr_RI",
   },
   {
     id: "13",
@@ -156,6 +167,8 @@ export const tracks = [
     cover: "/scenes/monsoon.png",
     src: DEMO[4],
     language: "marathi",
+    spotifyId: null,
+    youtubeId: "RWL44MxPmgk",
   },
   {
     id: "14",
@@ -165,6 +178,8 @@ export const tracks = [
     cover: "/scenes/chai.png",
     src: DEMO[5],
     language: "marathi",
+    spotifyId: null,
+    youtubeId: "cScX4m8ELIA",
   },
   {
     id: "15",
@@ -174,6 +189,8 @@ export const tracks = [
     cover: "/scenes/cinema.png",
     src: DEMO[6],
     language: "marathi",
+    spotifyId: null,
+    youtubeId: "6_m4hn0f-CQ",
   },
   {
     id: "16",
@@ -183,6 +200,8 @@ export const tracks = [
     cover: "/scenes/chai.png",
     src: DEMO[7],
     language: "marathi",
+    spotifyId: null,
+    youtubeId: null,
   },
   {
     id: "17",
@@ -192,6 +211,8 @@ export const tracks = [
     cover: "/scenes/cinema.png",
     src: DEMO[0],
     language: "marathi",
+    spotifyId: null,
+    youtubeId: "6_3B7fCh1Kw",
   },
   {
     id: "18",
@@ -201,6 +222,8 @@ export const tracks = [
     cover: "/scenes/salon.png",
     src: DEMO[1],
     language: "marathi",
+    spotifyId: null,
+    youtubeId: "cH9oepHFmkw",
   },
   {
     id: "19",
@@ -210,6 +233,8 @@ export const tracks = [
     cover: "/scenes/railway.png",
     src: DEMO[2],
     language: "marathi",
+    spotifyId: null,
+    youtubeId: "Ln2NOxqRRqY",
   },
   {
     id: "20",
@@ -219,6 +244,8 @@ export const tracks = [
     cover: "/scenes/monsoon.png",
     src: DEMO[3],
     language: "marathi",
+    spotifyId: null,
+    youtubeId: null,
   },
   {
     id: "21",
@@ -228,6 +255,8 @@ export const tracks = [
     cover: "/scenes/chai.png",
     src: DEMO[4],
     language: "marathi",
+    spotifyId: null,
+    youtubeId: null,
   },
   {
     id: "22",
@@ -237,6 +266,8 @@ export const tracks = [
     cover: "/scenes/salon.png",
     src: DEMO[5],
     language: "marathi",
+    spotifyId: null,
+    youtubeId: null,
   },
   {
     id: "23",
@@ -246,6 +277,8 @@ export const tracks = [
     cover: "/scenes/cinema.png",
     src: DEMO[6],
     language: "marathi",
+    spotifyId: null,
+    youtubeId: null,
   },
   {
     id: "24",
@@ -255,6 +288,8 @@ export const tracks = [
     cover: "/scenes/railway.png",
     src: DEMO[7],
     language: "marathi",
+    spotifyId: null,
+    youtubeId: null,
   },
   {
     id: "25",
@@ -264,6 +299,8 @@ export const tracks = [
     cover: "/scenes/salon.png",
     src: DEMO[0],
     language: "marathi",
+    spotifyId: null,
+    youtubeId: null,
   },
 ];
 

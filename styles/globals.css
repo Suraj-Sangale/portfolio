@@ -655,8 +655,8 @@ img {
   position: relative;
   overflow: hidden;
   background: linear-gradient(150deg,
-    rgba(30, 18, 10, 0.82) 0%,
-    rgba(20, 12, 6, 0.90) 100%
+    rgba(10, 22, 30, 0.82) 0%,
+    rgba(6, 8, 20, 0.9) 100%
   );
   backdrop-filter: blur(36px) saturate(180%) brightness(112%);
   -webkit-backdrop-filter: blur(36px) saturate(180%) brightness(112%);
@@ -889,32 +889,84 @@ img {
 }
 
 .nostalgia-hero__title {
-  font-family: var(--n-font-display);
-  font-size: clamp(3.2rem, 8vw, 7.5rem);
+  font-family: "Noto Serif Devanagari", "Yatra One", serif;
+  font-size: clamp(3.5rem, 9vw, 8.5rem);
   font-weight: 900;
-  line-height: 0.95;
-  color: var(--n-cream);
-  text-shadow:
-    0 2px 8px rgba(0,0,0,0.55),
-    0 8px 40px rgba(0,0,0,0.35);
-  letter-spacing: -0.02em;
+  line-height: 1.0;
+  letter-spacing: 0.01em;
   margin: 0;
-  /* Subtle warm text gradient */
-  background: linear-gradient(160deg, #F5EDDA 0%, #D4B483 100%);
+  padding-top: 2.4rem;
+
+  /* Warm amber → sepia gradient fill */
+  /* background: linear-gradient(
+    155deg,
+    #ffe49a 0%,
+    #f5c46e 20%,
+    #e8943a 45%,
+    #c9642a 65%,
+    #8b3a1e 85%,
+    #5a1f0a 100%
+  ); */
+  /* background: linear-gradient(
+  155deg,
+  #dbeafe 0%,
+  #93c5fd 20%,
+  #6366f1 45%,
+  #4f46e5 65%,
+  #312e81 85%,
+  #1e1b4b 100%
+); */
+/* background: linear-gradient(
+  155deg,
+  #cffafe 0%,
+  #67e8f9 20%,
+  #06b6d4 45%,
+  #0e7490 65%,
+  #164e63 85%,
+  #082f49 100%
+); */
+/* background: linear-gradient(
+  155deg,
+  #f5f3ff 0%,
+  #ddd6fe 20%,
+  #c4b5fd 40%,
+  #a78bfa 60%,
+  #7c3aed 80%,
+  #3b0764 100%
+); */
+background: linear-gradient(
+  155deg,
+  #ffffff 0%,
+  #f0f9ff 20%,
+  #bae6fd 40%,
+  #60a5fa 60%,
+  #2563eb 80%,
+  #172554 100%
+);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+
+  /* Layered golden glow */
+  filter:
+    drop-shadow(0 0 6px rgba(255, 200, 60, 0.55))
+    drop-shadow(0 0 24px rgba(230, 130, 30, 0.35))
+    drop-shadow(0 4px 32px rgba(120, 50, 10, 0.60));
 }
 
 .nostalgia-hero__subtitle {
-  font-family: var(--n-font-ui);
-  font-size: clamp(0.6rem, 1.2vw, 0.75rem);
+  /* font-family: "Inter", "Noto Serif Devanagari", sans-serif; */
+  font-size: clamp(0.65rem, 1.3vw, 0.82rem);
   font-weight: 500;
-  letter-spacing: 0.25em;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--n-cream);
-  opacity: 0.45;
+
+  color: #dce6fd;
+  opacity: 0.78;
+
   margin: 0;
+
+  text-shadow: 0 1px 8px rgba(37, 99, 235, 0.25);
 }
 
 /* ── Scene Navigation ─────────────────────────────────────── */
@@ -1553,3 +1605,312 @@ img {
     width: 290px;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   STREAMING BUTTONS — MusicPlayer bar
+   ═══════════════════════════════════════════════════════════ */
+
+.nostalgia-player__streaming {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* Spotify brand colour */
+.nostalgia-player__stream-btn--spotify {
+  color: rgba(245, 237, 218, 0.55);
+  transition: color 0.2s, opacity 0.2s;
+}
+.nostalgia-player__stream-btn--spotify:hover {
+  color: #1DB954;
+  opacity: 1 !important;
+}
+.nostalgia-player__stream-btn--spotify.nostalgia-player__stream-btn--active {
+  color: #1DB954;
+  opacity: 1 !important;
+  filter: drop-shadow(0 0 5px #1DB95466);
+}
+
+/* YouTube brand colour */
+.nostalgia-player__stream-btn--youtube {
+  color: rgba(245, 237, 218, 0.55);
+  transition: color 0.2s, opacity 0.2s;
+}
+.nostalgia-player__stream-btn--youtube:hover {
+  color: #FF0000;
+  opacity: 1 !important;
+}
+.nostalgia-player__stream-btn--youtube.nostalgia-player__stream-btn--active {
+  color: #FF0000;
+  opacity: 1 !important;
+  filter: drop-shadow(0 0 5px #FF000044);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STREAMING ICONS — PlaylistItem
+   ═══════════════════════════════════════════════════════════ */
+
+.nostalgia-playlist-item__stream {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.18s;
+}
+
+.nostalgia-playlist-item:hover .nostalgia-playlist-item__stream,
+.nostalgia-playlist-item--active .nostalgia-playlist-item__stream {
+  opacity: 1;
+}
+
+.nostalgia-playlist-item__stream-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.07);
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+  transition: background 0.18s, color 0.18s, transform 0.15s;
+}
+
+.nostalgia-playlist-item__stream-btn:focus-visible {
+  outline: 1.5px solid rgba(255,255,255,0.4);
+}
+
+.nostalgia-playlist-item__stream-btn--spotify {
+  color: rgba(245, 237, 218, 0.50);
+}
+.nostalgia-playlist-item__stream-btn--spotify:hover {
+  background: rgba(29, 185, 84, 0.18);
+  color: #1DB954;
+  transform: scale(1.15);
+}
+
+.nostalgia-playlist-item__stream-btn--youtube {
+  color: rgba(245, 237, 218, 0.50);
+}
+.nostalgia-playlist-item__stream-btn--youtube:hover {
+  background: rgba(255, 0, 0, 0.18);
+  color: #FF0000;
+  transform: scale(1.15);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   EMBED PLAYER PANEL
+   ═══════════════════════════════════════════════════════════ */
+
+.embed-player {
+  position: fixed;
+  bottom: 170px;  /* sits just above the music player */
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(420px, calc(100vw - 24px));
+  z-index: 60;
+
+  /* Glassmorphism matching the rest of the UI */
+  background: rgba(14, 8, 2, 0.72);
+  backdrop-filter: blur(28px) saturate(1.6);
+  -webkit-backdrop-filter: blur(28px) saturate(1.6);
+  border: 1px solid rgba(245, 237, 218, 0.10);
+  border-radius: 20px;
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.55),
+    0 0 0 0.5px rgba(255,255,255,0.04) inset,
+    0 1px 0 rgba(255,255,255,0.07) inset;
+  overflow: hidden;
+}
+
+/* Header row */
+.embed-player__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.025);
+}
+
+/* Platform tabs */
+.embed-player__tabs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.embed-player__tab {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: transparent;
+  color: rgba(245, 237, 218, 0.45);
+  font-family: var(--n-font-ui, 'Inter', sans-serif);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  outline: none;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.embed-player__tab:hover {
+  background: rgba(255,255,255,0.07);
+  color: rgba(245, 237, 218, 0.75);
+}
+
+.embed-player__tab--active.embed-player__tab--spotify {
+  background: rgba(29, 185, 84, 0.14);
+  border-color: rgba(29, 185, 84, 0.40);
+  color: #1DB954;
+  box-shadow: 0 0 12px rgba(29, 185, 84, 0.20);
+}
+
+.embed-player__tab--active.embed-player__tab--youtube {
+  background: rgba(255, 0, 0, 0.14);
+  border-color: rgba(255, 0, 0, 0.40);
+  color: #FF4444;
+  box-shadow: 0 0 12px rgba(255, 0, 0, 0.18);
+}
+
+.embed-player__tab:focus-visible {
+  outline: 1.5px solid rgba(255,255,255,0.4);
+  outline-offset: 2px;
+}
+
+/* Actions (open link + close) */
+.embed-player__actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.embed-player__open-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.09);
+  color: rgba(245, 237, 218, 0.50);
+  text-decoration: none;
+  transition: background 0.18s, color 0.18s;
+}
+.embed-player__open-btn:hover {
+  background: rgba(255,255,255,0.12);
+  color: var(--n-cream, #F5EDDA);
+}
+
+.embed-player__close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.09);
+  color: rgba(245, 237, 218, 0.50);
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+  transition: background 0.18s, color 0.18s;
+}
+.embed-player__close-btn:hover {
+  background: rgba(255, 80, 80, 0.18);
+  color: #ff8888;
+}
+.embed-player__close-btn:focus-visible {
+  outline: 1.5px solid rgba(255,255,255,0.4);
+}
+
+/* Iframe body */
+.embed-player__body {
+  width: 100%;
+  overflow: hidden;
+}
+
+.embed-player__iframe {
+  display: block;
+  width: 100%;
+  height: 152px;  /* Spotify compact embed height */
+  border: none;
+  background: transparent;
+}
+
+/* Fallback when no ID is available */
+.embed-player__fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 24px 20px;
+  min-height: 130px;
+  text-align: center;
+}
+
+.embed-player__fallback-icon {
+  color: rgba(245, 237, 218, 0.20);
+  margin-bottom: 4px;
+}
+
+.embed-player__fallback-title {
+  font-family: var(--n-font-ui, 'Inter', sans-serif);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: rgba(245, 237, 218, 0.75);
+  margin: 0;
+}
+
+.embed-player__fallback-artist {
+  font-family: var(--n-font-ui, 'Inter', sans-serif);
+  font-size: 0.70rem;
+  color: rgba(245, 237, 218, 0.40);
+  margin: 0;
+}
+
+.embed-player__fallback-link {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 10px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.10);
+  color: rgba(245, 237, 218, 0.70);
+  font-family: var(--n-font-ui, 'Inter', sans-serif);
+  font-size: 0.68rem;
+  font-weight: 500;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: background 0.18s, color 0.18s;
+}
+.embed-player__fallback-link:hover {
+  background: rgba(255,255,255,0.12);
+  color: var(--n-cream, #F5EDDA);
+}
+
+/* Mobile adjustments */
+@media (max-width: 640px) {
+  .embed-player {
+    bottom: 140px;
+    width: calc(100vw - 20px);
+    border-radius: 16px;
+  }
+
+  .embed-player__iframe {
+    height: 130px;
+  }
+}
+
