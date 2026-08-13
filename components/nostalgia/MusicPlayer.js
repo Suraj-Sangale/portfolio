@@ -11,7 +11,8 @@ import {
   ListMusic,
 } from "lucide-react";
 import { useRef, useCallback, useEffect, useState } from "react";
-import { tracks } from "@/data/tracks"; // adjust path if your tracks file lives elsewhere
+import { tracks } from "@/data/tracks";
+import PlaylistPopup from "./PlaylistPopup";
 
 // Inline SVG icons for Spotify / YouTube (no extra dep)
 function SpotifyIcon({ size = 15 }) {
@@ -73,9 +74,9 @@ export default function MusicPlayer() {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(0.8);
+  const [prevVolume, setPrevVolume] = useState(0.8);
   const [isLoading, setIsLoading] = useState(true);
   const [isPlaylistOpen, setIsPlaylistOpen] = useState(false);
-  const [embedPlatform, setEmbedPlatform] = useState("youtube");
 
   const progressRef = useRef(null);
   const ytContainerRef = useRef(null);
@@ -118,7 +119,7 @@ export default function MusicPlayer() {
             } else if (e.data === YT.PlayerState.BUFFERING) {
               setIsLoading(true);
             } else if (e.data === YT.PlayerState.ENDED) {
-              handleNext();
+              setTrackIndex((i) => (i + 1) % tracks.length);
             }
           },
         },
@@ -136,15 +137,16 @@ export default function MusicPlayer() {
 
   // Load new video when track changes
   useEffect(() => {
-    if (playerRef.current?.loadVideoById) {
+    if (!playerRef.current?.loadVideoById) return;
+    setCurrentTime(0);
+    setDuration(0);
+    if (isPlaying) {
+      // Keep playing: load and auto-play the new track
       setIsLoading(true);
-      setCurrentTime(0);
-      setDuration(0);
       playerRef.current.loadVideoById(currentTrack.youtubeId);
-      if (!isPlaying) {
-        // loadVideoById auto-plays; pause immediately if it wasn't already playing
-        playerRef.current.pauseVideo?.();
-      }
+    } else {
+      // Paused: cue without auto-playing
+      playerRef.current.cueVideoById(currentTrack.youtubeId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trackIndex]);
@@ -192,31 +194,64 @@ export default function MusicPlayer() {
     playerRef.current?.setVolume(v * 100);
   }, []);
 
+  const onMuteToggle = useCallback(() => {
+    if (volume > 0) {
+      setPrevVolume(volume);
+      setVolume(0);
+      playerRef.current?.setVolume(0);
+    } else {
+      const restore = prevVolume > 0 ? prevVolume : 0.8;
+      setVolume(restore);
+      playerRef.current?.setVolume(restore * 100);
+    }
+  }, [volume, prevVolume]);
+
   const onPlaylistToggle = useCallback(() => {
     setIsPlaylistOpen((v) => !v);
   }, []);
 
-  const onSpotify = useCallback(() => {
-    setEmbedPlatform("spotify");
-    if (currentTrack?.spotifyId) {
-      window.open(
-        `https://open.spotify.com/track/${currentTrack.spotifyId}`,
-        "_blank",
-        "noopener,noreferrer"
-      );
-    }
-  }, [currentTrack]);
+  const onPlaylistClose = useCallback(() => {
+    setIsPlaylistOpen(false);
+  }, []);
 
-  const onYoutube = useCallback(() => {
-    setEmbedPlatform("youtube");
-    if (currentTrack?.youtubeId) {
+  // Select a track from the playlist by its ID
+  const onSelectTrack = useCallback(
+    (trackId) => {
+      const idx = tracks.findIndex((t) => t.id === trackId);
+      if (idx === -1) return;
+      if (idx === trackIndex) {
+        // Clicking the active track toggles play/pause
+        onTogglePlay();
+      } else {
+        // Switch to new track and auto-play
+        setIsPlaying(true);
+        setTrackIndex(idx);
+      }
+    },
+    [trackIndex, onTogglePlay]
+  );
+
+  const onStreamSpotify = useCallback((track) => {
+    if (track?.spotifyId) {
       window.open(
-        `https://www.youtube.com/watch?v=${currentTrack.youtubeId}`,
+        `https://open.spotify.com/track/${track.spotifyId}`,
         "_blank",
         "noopener,noreferrer"
       );
     }
-  }, [currentTrack]);
+  }, []);
+
+  const onStreamYoutube = useCallback((track) => {
+    if (track?.youtubeId) {
+      window.open(
+        `https://www.youtube.com/watch?v=${track.youtubeId}`,
+        "_blank",
+        "noopener,noreferrer"
+      );
+    }
+  }, []);
+
+
 
   const handleProgressClick = useCallback(
     (e) => {
@@ -242,14 +277,26 @@ export default function MusicPlayer() {
   const progress = duration > 0 ? currentTime / duration : 0;
 
   return (
-    <motion.div
-      className="glass-player nostalgia-player"
-      initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.8, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      role="region"
-      aria-label="Music player"
-    >
+    <>
+      {/* Playlist Popup — rendered outside the player bar so it floats above */}
+      <PlaylistPopup
+        isOpen={isPlaylistOpen}
+        currentTrack={currentTrack}
+        isPlaying={isPlaying}
+        onSelectTrack={onSelectTrack}
+        onClose={onPlaylistClose}
+        onStreamSpotify={onStreamSpotify}
+        onStreamYoutube={onStreamYoutube}
+      />
+
+      <motion.div
+        className="glass-player nostalgia-player"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.8, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        role="region"
+        aria-label="Music player"
+      >
       {/* Hidden YouTube player target */}
       <div ref={ytContainerRef} style={{ display: "none" }} />
 
@@ -383,7 +430,7 @@ export default function MusicPlayer() {
           <div className="nostalgia-player__volume">
             <button
               className="nostalgia-player__ctrl-btn"
-              onClick={() => onVolumeChange(volume > 0 ? 0 : 0.8)}
+              onClick={onMuteToggle}
               aria-label={volume > 0 ? "Mute" : "Unmute"}
             >
               {volume > 0 ? <Volume2 size={15} /> : <VolumeX size={15} />}
@@ -396,9 +443,7 @@ export default function MusicPlayer() {
               value={volume}
               onChange={(e) => onVolumeChange(parseFloat(e.target.value))}
               className="nostalgia-player__volume-slider"
-              style={{
-                "--volume-progress": `${volume * 100}%`,
-              }}
+              style={{ "--volume-progress": `${volume * 100}%` }}
               aria-label="Volume"
             />
           </div>
@@ -444,5 +489,6 @@ export default function MusicPlayer() {
         </div>
       </div>
     </motion.div>
+    </>
   );
 }
