@@ -421,7 +421,7 @@ img {
 .gradient-text {
   background: linear-gradient(to right, #9c31ff, #3b82f6);
   /* Purple to Blue */
-  -webkit-background-clip: text;
+  /* -webkit-background-clip: text; */
   -webkit-text-fill-color: transparent;
 }
 
@@ -572,11 +572,11 @@ img {
 
 /* ── Design Tokens ────────────────────────────────────────── */
 :root {
-  --n-cream:        #F5EDDA;
-  --n-cream-dim:    rgba(245, 237, 218, 0.75);
-  --n-brown:        #4A2C1A;
-  --n-maroon:       #7B1F1F;
-  --n-amber:        #C8860A;
+  --n-cream:        #D6E8FF;
+  --n-cream-dim:    rgba(214, 232, 255, 0.75);
+  --n-brown:        #0d1f4a;
+  --n-maroon:       #1a2f7a;
+  --n-amber:        #4a9eff; /* vivid blue accent */
 
   /* Glass system */
   --g-bg-light:     rgba(255, 255, 255, 0.16);
@@ -759,10 +759,10 @@ img {
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(10, 5, 2, 0.45) 0%,
-    rgba(10, 5, 2, 0.15) 30%,
-    rgba(10, 5, 2, 0.15) 60%,
-    rgba(10, 5, 2, 0.75) 100%
+    rgba(2, 5, 18, 0.55) 0%,
+    rgba(2, 8, 22, 0.20) 30%,
+    rgba(2, 8, 22, 0.20) 60%,
+    rgba(2, 5, 18, 0.80) 100%
   );
   z-index: 1;
 }
@@ -778,7 +778,7 @@ img {
   position: absolute;
   bottom: 0; left: 0; right: 0;
   height: 55%;
-  background: linear-gradient(to top, rgba(8, 4, 1, 0.80) 0%, transparent 100%);
+  background: linear-gradient(to top, rgba(2, 8, 30, 0.85) 0%, transparent 100%);
   z-index: 3;
 }
 
@@ -786,7 +786,7 @@ img {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 30%;
-  background: linear-gradient(to bottom, rgba(8, 4, 1, 0.65) 0%, transparent 100%);
+  background: linear-gradient(to bottom, rgba(2, 8, 30, 0.70) 0%, transparent 100%);
   z-index: 3;
 }
 
@@ -796,7 +796,7 @@ img {
   background: radial-gradient(
     ellipse at center,
     transparent 40%,
-    rgba(4, 2, 0, 0.60) 100%
+    rgba(0, 4, 18, 0.65) 100%
   );
   z-index: 4;
 }
@@ -947,11 +947,11 @@ background: linear-gradient(
   -webkit-text-fill-color: transparent;
   background-clip: text;
 
-  /* Layered golden glow */
+  /* Layered blue glow */
   filter:
-    drop-shadow(0 0 6px rgba(255, 200, 60, 0.55))
-    drop-shadow(0 0 24px rgba(230, 130, 30, 0.35))
-    drop-shadow(0 4px 32px rgba(120, 50, 10, 0.60));
+    drop-shadow(0 0 6px rgba(74, 158, 255, 0.60))
+    drop-shadow(0 0 24px rgba(37, 99, 235, 0.40))
+    drop-shadow(0 4px 32px rgba(10, 30, 120, 0.65));
 }
 
 .nostalgia-hero__subtitle {
@@ -1002,12 +1002,12 @@ background: linear-gradient(
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: rgba(245, 237, 218, 0.30);
+  background: rgba(214, 232, 255, 0.30);
   transition: all 0.3s ease;
 }
 
 .nostalgia-scenenav__dot--active {
-  background: rgba(245, 237, 218, 0.80);
+  background: rgba(74, 158, 255, 0.85);
   width: 18px;
   border-radius: 2px;
 }
@@ -1105,8 +1105,8 @@ background: linear-gradient(
   font-size: 0.58rem;
   padding: 1px 6px;
   border-radius: 4px;
-  background: rgba(200, 134, 10, 0.22);
-  border: 1px solid rgba(200, 134, 10, 0.35);
+  background: rgba(37, 99, 235, 0.22);
+  border: 1px solid rgba(74, 158, 255, 0.35);
   color: var(--n-amber);
   letter-spacing: 0.02em;
 }
@@ -1144,14 +1144,14 @@ background: linear-gradient(
   position: relative;
   width: 100%;
   height: 3px;
-  background: rgba(255,255,255,0.12);
+  background: rgba(255, 254, 254, 0.12);
   border-radius: 2px;
   overflow: visible;
 }
 
 .nostalgia-player__fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--n-amber) 0%, #F5C842 100%);
+  background: linear-gradient(90deg, #2563eb 0%, #7dd3fc 100%);
   border-radius: 2px;
   position: absolute;
   left: 0; top: 0;
@@ -1164,17 +1164,17 @@ background: linear-gradient(
   top: 50%;
   width: 10px;
   height: 10px;
-  background: #F5EDDA;
+  background: #D6E8FF;
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  box-shadow: 0 0 6px rgba(200, 134, 10, 0.5);
+  box-shadow: 0 0 6px rgba(37, 99, 235, 0.6);
   transition: left 0.25s linear;
 }
 
 /* Controls */
 .nostalgia-player__controls {
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   align-items: center;
   gap: 10px;
   flex-shrink: 0;
@@ -1184,13 +1184,13 @@ background: linear-gradient(
   display: flex;
   align-items: center;
   gap: 4px;
-  background: rgba(10, 8, 6, 0.72);
+  /* background: rgba(10, 8, 6, 0.72); */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  /* border: 1px solid rgba(255, 255, 255, 0.10); */
   border-radius: 999px;
   padding: 6px 10px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.07);
+  /* box-shadow: 0 4px 20px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.07); */
 }
 
 .nostalgia-player__ctrl-btn {
@@ -1222,8 +1222,8 @@ background: linear-gradient(
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
   background: #ffffff;
   border: none;
@@ -1249,8 +1249,8 @@ background: linear-gradient(
 .nostalgia-player__loading-ring {
   width: 18px;
   height: 18px;
-  border: 2px solid rgba(26, 10, 0, 0.3);
-  border-top-color: #1a0a00;
+  border: 2px solid rgba(37, 99, 235, 0.3);
+  border-top-color: #2563eb;
   border-radius: 50%;
   animation: spinRing 0.8s linear infinite;
 }
@@ -1260,7 +1260,8 @@ background: linear-gradient(
 }
 
 .nostalgia-player__playlist-btn--active {
-  color: var(--n-amber);
+  /* color: var(--n-amber); */
+  color: rgba(255, 255, 255, 0.75);
   opacity: 1;
 }
 
@@ -1273,24 +1274,41 @@ background: linear-gradient(
 
 .nostalgia-player__volume-slider {
   -webkit-appearance: none;
+  appearance: none;
   width: 60px;
   height: 3px;
   border-radius: 2px;
-  background: rgba(255,255,255,0.15);
   outline: none;
   cursor: pointer;
-}
 
+  background: linear-gradient(
+    to right,
+    #4a9eff 0%,
+    #4a9eff var(--volume-progress),
+    rgba(255, 255, 255, 0.15) var(--volume-progress),
+    rgba(255, 255, 255, 0.15) 100%
+  );
+}
 .nostalgia-player__volume-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
+  appearance: none;
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: var(--n-cream);
+  background: #ffffff;
   cursor: pointer;
-  box-shadow: 0 0 4px rgba(0,0,0,0.4);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
 }
 
+.nostalgia-player__volume-slider::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border: none;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+}
 /* ── Playlist Popup ───────────────────────────────────────── */
 .nostalgia-playlist-backdrop {
   display: none;
@@ -1367,7 +1385,7 @@ background: linear-gradient(
   position: relative;
   z-index: 1;
   scrollbar-width: thin;
-  scrollbar-color: rgba(245,237,218,0.12) transparent;
+  scrollbar-color: rgba(74,158,255,0.18) transparent;
 }
 
 .nostalgia-playlist__scroll::-webkit-scrollbar {
@@ -1377,7 +1395,7 @@ background: linear-gradient(
   background: transparent;
 }
 .nostalgia-playlist__scroll::-webkit-scrollbar-thumb {
-  background: rgba(245,237,218,0.12);
+  background: rgba(74,158,255,0.18);
   border-radius: 2px;
 }
 
@@ -1413,7 +1431,7 @@ background: linear-gradient(
 }
 
 .nostalgia-playlist-item--active {
-  background: rgba(200, 134, 10, 0.10);
+  background: rgba(37, 99, 235, 0.14);
 }
 
 .nostalgia-playlist-item__thumb {
@@ -1432,7 +1450,7 @@ background: linear-gradient(
 .nostalgia-playlist-item__thumb-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(200, 134, 10, 0.60);
+  background: rgba(37, 99, 235, 0.65);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1458,7 +1476,7 @@ background: linear-gradient(
 }
 
 .nostalgia-playlist-item--active .nostalgia-playlist-item__title {
-  color: #F5C842;
+  color: #60a5fa;
 }
 
 .nostalgia-playlist-item__artist {
@@ -1476,8 +1494,8 @@ background: linear-gradient(
   font-size: 0.55rem;
   padding: 1px 4px;
   border-radius: 3px;
-  background: rgba(200, 134, 10, 0.18);
-  border: 1px solid rgba(200, 134, 10, 0.28);
+  background: rgba(37, 99, 235, 0.18);
+  border: 1px solid rgba(74, 158, 255, 0.30);
   color: var(--n-amber);
 }
 
@@ -1556,7 +1574,7 @@ background: linear-gradient(
   }
 
   .nostalgia-player__inner {
-    padding: 12px 14px;
+    padding: 12px 40px;
     gap: 10px;
   }
 
@@ -1715,14 +1733,14 @@ background: linear-gradient(
   z-index: 60;
 
   /* Glassmorphism matching the rest of the UI */
-  background: rgba(14, 8, 2, 0.72);
+  background: rgba(4, 12, 36, 0.80);
   backdrop-filter: blur(28px) saturate(1.6);
   -webkit-backdrop-filter: blur(28px) saturate(1.6);
-  border: 1px solid rgba(245, 237, 218, 0.10);
+  border: 1px solid rgba(74, 158, 255, 0.14);
   border-radius: 20px;
   box-shadow:
-    0 24px 64px rgba(0, 0, 0, 0.55),
-    0 0 0 0.5px rgba(255,255,255,0.04) inset,
+    0 24px 64px rgba(0, 10, 40, 0.60),
+    0 0 0 0.5px rgba(74,158,255,0.06) inset,
     0 1px 0 rgba(255,255,255,0.07) inset;
   overflow: hidden;
 }

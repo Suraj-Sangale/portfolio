@@ -1,0 +1,18 @@
+.player {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background: #111;
+  color: #fff;
+}
+.trackInfo { display: flex; align-items: center; gap: 0.75rem; min-width: 180px; }
+.cover { width: 48px; height: 48px; border-radius: 6px; object-fit: cover; }
+.title { font-weight: 600; margin: 0; }
+.artist { font-size: 0.8rem; opacity: 0.7; margin: 0; }
+.controls { display: flex; gap: 0.5rem; }
+.controls button { background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer; }
+.progress { display: flex; align-items: center; gap: 0.5rem; flex: 1; font-size: 0.75rem; }
+.progress input[type="range"] { flex: 1; }
+.volume input[type="range"] { width: 80px; }

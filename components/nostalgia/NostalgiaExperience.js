@@ -6,11 +6,12 @@ import BackgroundScene from "./BackgroundScene";
 import GrainOverlay from "./GrainOverlay";
 import TopBar from "./TopBar";
 import SceneNavigation from "./SceneNavigation";
-import MusicPlayer from "./MusicPlayer";
 import PlaylistPopup from "./PlaylistPopup";
 import EmbedPlayer from "./EmbedPlayer";
 import tracks from "@/data/tracks";
 import SceneTitle from "./SceneTitle";
+import MusicPlayer from "./MusicPlayer";
+// import MusicPlayer from "@/components/MusicPlayer/MusicPlayer";
 
 export default function NostalgiaExperience() {
   const [isPlaylistOpen, setIsPlaylistOpen] = useState(false);
@@ -170,6 +171,7 @@ export default function NostalgiaExperience() {
         onYoutube={() => handleEmbedToggle("youtube")}
       />
 
+{/* <MusicPlayer /> */}
       {/* ── Layer 5: Embed Player (Spotify / YouTube) ── */}
       <EmbedPlayer
         track={embedTrack || currentTrack}
