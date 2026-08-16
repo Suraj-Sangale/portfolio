@@ -154,6 +154,7 @@ export default function MusicPlayer({ tracks = [] }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+
   // ── Swap video when trackIndex changes ──────────────────────────────
   useEffect(() => {
     const player = playerRef.current;
@@ -247,6 +248,42 @@ export default function MusicPlayer({ tracks = [] }) {
   );
 
   const progress = duration > 0 ? currentTime / duration : 0;
+
+  // ── Keyboard shortcuts ───────────────────────────────────────────────
+  useEffect(() => {
+    function handleKeyDown(e) {
+      const target = e.target;
+      const isTypingContext =
+        target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.isContentEditable;
+
+      if (isTypingContext) return;
+
+      switch (e.key.toLowerCase()) {
+        case " ":
+        case "k":
+          e.preventDefault(); // stop page from scrolling on Space
+          onTogglePlay();
+          break;
+        case "n":
+          onNext();
+          break;
+        case "p":
+          onPrev();
+          break;
+        case "l":
+          setIsPlaylistOpen((v) => !v);
+          break;
+        default:
+          break;
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [onTogglePlay, onNext, onPrev]);
+
 
   return (
     <>
@@ -423,6 +460,29 @@ export default function MusicPlayer({ tracks = [] }) {
             </motion.button>
           </div>
         </div>
+      </motion.div>
+
+      {/* ── Keyboard shortcut hints (desktop only) ── */}
+      <motion.div
+        className="nostalgia-player__keyhints"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.6, duration: 0.6 }}
+        aria-hidden="true"
+      >
+        {[
+          { keys: ["Space", "K"], label: "Play / Pause" },
+          { keys: ["N"],         label: "Next" },
+          { keys: ["P"],         label: "Prev" },
+          { keys: ["L"],         label: "Playlist" },
+        ].map(({ keys, label }) => (
+          <span key={label} className="nostalgia-player__keyhint">
+            {keys.map((k) => (
+              <kbd key={k} className="nostalgia-player__kbd">{k}</kbd>
+            ))}
+            <span className="nostalgia-player__keylabel">{label}</span>
+          </span>
+        ))}
       </motion.div>
     </>
   );

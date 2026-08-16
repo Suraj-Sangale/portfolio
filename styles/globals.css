@@ -972,7 +972,7 @@ background: linear-gradient(
 /* ── Scene Navigation ─────────────────────────────────────── */
 .nostalgia-scenenav {
   position: fixed;
-  bottom: 22px;
+  bottom: 55px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 40;
@@ -1015,7 +1015,7 @@ background: linear-gradient(
 /* ── Music Player ─────────────────────────────────────────── */
 .nostalgia-player {
   position: fixed;
-  bottom: 60px;
+  bottom: 100px;
   left: 0;
   right: 0;
   margin-left: auto;
@@ -1307,6 +1307,55 @@ background: linear-gradient(
   cursor: pointer;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
 }
+/* ── Keyboard Shortcut Hints ──────────────────────────────── */
+.nostalgia-player__keyhints {
+  position: fixed;
+  /* sits just below the player card; player bottom is 60px, player height ~88px */
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 44;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 5px 18px;
+  border-radius: 999px;
+  background: rgba(10, 8, 6, 0.38);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+
+.nostalgia-player__keyhint {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.nostalgia-player__kbd {
+  font-family: var(--n-font-ui, ui-monospace, monospace);
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: rgba(255, 255, 255, 0.70);
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 5px;
+  padding: 1px 6px 2px;
+  line-height: 1.5;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+}
+
+.nostalgia-player__keylabel {
+  font-family: var(--n-font-ui, sans-serif);
+  font-size: 0.58rem;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.03em;
+}
+
 /* ── Playlist Popup ───────────────────────────────────────── */
 .nostalgia-playlist-backdrop {
   display: none;
@@ -1640,6 +1689,11 @@ background: linear-gradient(
 
   .nostalgia-scenenav {
     bottom: 20px;
+  }
+
+  /* Hide keyboard hints on mobile — no physical keyboard */
+  .nostalgia-player__keyhints {
+    display: none;
   }
 
   /* Playlist becomes bottom sheet on mobile */
