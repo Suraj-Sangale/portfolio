@@ -111,7 +111,7 @@ button {
 
 img {
   max-width: 100%;
-  height: auto;
+  height: 100%;
   vertical-align: middle;
 }
 
@@ -599,7 +599,7 @@ img {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 14px;
+  padding: 6px 10px;
   border-radius: 999px;
   font-family: var(--n-font-ui);
   font-size: 0.7rem;
@@ -741,6 +741,13 @@ img {
   inset: 0;
   animation: kenBurns 28s ease-in-out infinite alternate;
   will-change: transform;
+}
+
+.nostalgia-bg__image {
+  object-fit: cover !important;
+  object-position: center !important;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 @keyframes kenBurns {
@@ -978,7 +985,7 @@ background: linear-gradient(
   z-index: 40;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 13px;
   pointer-events: auto;
 }
 
@@ -986,10 +993,10 @@ background: linear-gradient(
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: 0.62rem;
+  font-size: 0.42rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  padding: 5px 12px;
+  padding: 5px 9px;
 }
 
 .nostalgia-scenenav__dots {
