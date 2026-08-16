@@ -2,10 +2,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import PlaylistItem from "./PlaylistItem";
-import tracks from "@/data/tracks";
-
-const hindiTracks = tracks.filter((t) => t.language === "hindi");
-const marathiTracks = tracks.filter((t) => t.language === "marathi");
 
 const popupVariants = {
   hidden: { opacity: 0, scale: 0.94, y: 14, filter: "blur(6px)" },
@@ -33,7 +29,11 @@ export default function PlaylistPopup({
   onClose,
   onStreamSpotify,
   onStreamYoutube,
+  tracks = [],
 }) {
+  const hindiTracks = tracks.filter((t) => t.language === "hindi");
+  const marathiTracks = tracks.filter((t) => t.language === "marathi");
+
   return (
     <AnimatePresence>
       {isOpen && (

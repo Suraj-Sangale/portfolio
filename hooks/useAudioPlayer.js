@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import tracks from "@/data/tracks";
 
 /**
  * Custom hook for HTML5 Audio playback.
@@ -10,7 +9,7 @@ import tracks from "@/data/tracks";
  * 3. Track-change useEffect correctly resumes play if was already playing
  * 4. pendingPlay ref prevents race conditions between index state + src load
  */
-export function useAudioPlayer() {
+export function useAudioPlayer(tracks = []) {
   const audioRef    = useRef(null);
   const pendingPlay = useRef(false); // want to play as soon as src is ready
 
@@ -31,10 +30,12 @@ export function useAudioPlayer() {
     audio.volume   = 0.8;
     audioRef.current = audio;
 
-    // Load the first track immediately (no autoplay — user must press Play)
+    // Load the first track and attempt autoplay
     if (tracks[0]?.src) {
       audio.src = tracks[0].src;
       audio.load();
+      // Signal that we want to play as soon as canplay fires
+      pendingPlay.current = true;
     }
 
     const onTimeUpdate     = () => setCurrentTime(audio.currentTime);

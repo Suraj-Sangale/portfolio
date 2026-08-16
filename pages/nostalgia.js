@@ -7,7 +7,7 @@ const NostalgiaExperience = dynamic(
   { ssr: false }
 );
 
-export default function NostalgiaPage() {
+export default function NostalgiaPage({ tracks }) {
   return (
     <>
       <Head>
@@ -123,8 +123,23 @@ export default function NostalgiaPage() {
     rel="stylesheet"
   />
       </Head>
-      <NostalgiaExperience />
+      <NostalgiaExperience tracks={tracks} />
     </>
   );
 }
-NostalgiaPage.layout = "open"
+NostalgiaPage.layout = "open";
+
+/**
+ * Runs on the server at build time.
+ * Tracks are serialised into the page's JSON props — they are never
+ * imported as a JS module on the client.
+ */
+export async function getStaticProps() {
+  // Import directly from the data file here (server-only context)
+  const { tracks } = await import("@/data/tracks");
+  return {
+    props: { tracks },
+    // Re-generate at most once every 24 h if you ever add ISR
+    // revalidate: 86400,
+  };
+}

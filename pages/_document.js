@@ -9,6 +9,9 @@ export default function Document() {
             __html: "window.dataLayer = window.dataLayer || [];",
           }}
         />
+         <link rel="preconnect" href="https://www.youtube.com" />
+        <link rel="preconnect" href="https://i.ytimg.com" />
+        <link rel="preconnect" href="https://s.ytimg.com" crossOrigin="" />
       </Head>
       <body className="antialiased">
         <Main />
