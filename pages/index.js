@@ -1,20 +1,38 @@
-import { getPortfolioDataController } from "@/backend/controller/commonController";
-import HomeWrapper from "@/components/homeWrapper";
-import { useTrackPageActivity } from "@/hooks/useTrackPageActivity";
+import PortfolioHome from "@/components/PortfolioHome";
+import NostalgiaHome from "@/components/NostalgiaHome";
 
-export default function Home({ pageData }) {
-  useTrackPageActivity("home");
+export default function Home(props) {
+  const site = process.env.NEXT_PUBLIC_SITE;
 
-  return (
-    <>
-      <HomeWrapper pageData={pageData} />
-    </>
-  );
+  if (site === "nostalgia") {
+    return <NostalgiaHome {...props} />;
+  }
+
+  return <PortfolioHome {...props} />;
 }
 
-export const getServerSideProps = async () => {
-  // const pageData = await fetch("http://localhost:3000/api/portfolio").then((res) => res.json());
+// _app.js reads Component.layout — must be on the page export, not on child components.
+Home.layout = process.env.NEXT_PUBLIC_SITE === "nostalgia" ? "open" : undefined;
+
+export async function getServerSideProps(context) {
+  const site = process.env.NEXT_PUBLIC_SITE;
+
+  if (site === "nostalgia") {
+    const { tracks } = await import("@/data/tracks");
+
+    return {
+      props: {
+        tracks,
+      },
+    };
+  }
+
+  const {
+    getPortfolioDataController,
+  } = await import("@/backend/controller/commonController");
+
   const cacheKey = "portfolio:all";
+
   let pageData = {};
 
   const [homePageData] = await Promise.all([
@@ -30,4 +48,4 @@ export const getServerSideProps = async () => {
       pageData,
     },
   };
-};
+}
