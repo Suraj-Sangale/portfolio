@@ -58,15 +58,20 @@ export default function BackgroundScene({ scene, isTransitioning }) {
           transition={{ duration: 0.8, ease: "easeInOut" }}
         >
           <div className="nostalgia-bg__ken-burns">
-            <Image
-              src={scene.image}
-              alt={scene.title}
-              fill
+            <picture>
+              {/* Mobile */}
+              <source media="(max-width: 767px)" srcSet={scene.imageResponsive || scene.image} />
+              <img
+                src={scene.image}
+                 fill
               priority
               quality={90}
-              sizes="100vw"
+                alt={scene.title}
+                className="nostalgia-bg__image"
               style={{ objectFit: "cover", objectPosition: "center" }}
-            />
+
+              />
+            </picture>
           </div>
         </motion.div>
       </AnimatePresence>

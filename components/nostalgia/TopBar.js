@@ -34,7 +34,7 @@ export default function TopBar() {
       </div>
 
       {/* Right: Navigation pills */}
-      <nav className="nostalgia-topbar__right" aria-label="External links">
+      {/* <nav className="nostalgia-topbar__right" aria-label="External links">
         <motion.div
           className="nostalgia-topbar__pills"
           initial={{ opacity: 0, y: -10 }}
@@ -67,7 +67,7 @@ export default function TopBar() {
             label="About"
           />
         </motion.div>
-      </nav>
+      </nav> */}
     </header>
   );
 }

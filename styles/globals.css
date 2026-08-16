@@ -1041,7 +1041,7 @@ background: linear-gradient(
   overflow: hidden;
   flex-shrink: 0;
   position: relative;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.50);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.55);
   animation: spin-record 12s linear infinite;
   animation-play-state: paused;
 }
@@ -1068,11 +1068,11 @@ background: linear-gradient(
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .nostalgia-player__meta {
-  min-height: 36px;
+  min-height: 32px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1080,7 +1080,7 @@ background: linear-gradient(
 
 .nostalgia-player__title {
   font-family: var(--n-font-ui);
-  font-size: 0.825rem;
+  font-size: 0.85rem;
   font-weight: 600;
   color: var(--n-cream);
   white-space: nowrap;
@@ -1096,6 +1096,9 @@ background: linear-gradient(
   color: var(--n-cream);
   opacity: 0.55;
   margin: 3px 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -1120,12 +1123,13 @@ background: linear-gradient(
 
 .nostalgia-player__time {
   font-family: var(--n-font-ui);
-  font-size: 0.62rem;
+  font-size: 0.60rem;
   color: var(--n-cream);
   opacity: 0.40;
   letter-spacing: 0.04em;
   flex-shrink: 0;
   min-width: 28px;
+  font-variant-numeric: tabular-nums;
 }
 
 .nostalgia-player__time--right {
@@ -1134,7 +1138,7 @@ background: linear-gradient(
 
 .nostalgia-player__progress {
   flex: 1;
-  height: 20px;
+  height: 22px;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -1162,8 +1166,8 @@ background: linear-gradient(
 .nostalgia-player__thumb {
   position: absolute;
   top: 50%;
-  width: 10px;
-  height: 10px;
+  width: 11px;
+  height: 11px;
   background: #D6E8FF;
   border-radius: 50%;
   transform: translate(-50%, -50%);
@@ -1174,36 +1178,32 @@ background: linear-gradient(
 /* Controls */
 .nostalgia-player__controls {
   display: flex;
-  /* flex-direction: column; */
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   flex-shrink: 0;
 }
 
 .nostalgia-player__transport {
   display: flex;
   align-items: center;
-  gap: 4px;
-  /* background: rgba(10, 8, 6, 0.72); */
+  gap: 2px;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  /* border: 1px solid rgba(255, 255, 255, 0.10); */
   border-radius: 999px;
-  padding: 6px 10px;
-  /* box-shadow: 0 4px 20px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.07); */
+  padding: 4px 8px;
 }
 
 .nostalgia-player__ctrl-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: transparent;
   border: none;
   cursor: pointer;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.72);
   opacity: 1;
   transition: color 0.2s, background 0.2s;
   outline: none;
@@ -1222,12 +1222,12 @@ background: linear-gradient(
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 54px;
-  height: 54px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background: #ffffff;
   border: none;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.45);
+  box-shadow: 0 2px 14px rgba(0,0,0,0.45);
   cursor: pointer;
   color: #111111;
   outline: none;
@@ -1237,8 +1237,8 @@ background: linear-gradient(
 }
 
 .nostalgia-player__play-btn:hover {
-  box-shadow: 0 4px 20px rgba(0,0,0,0.55);
-  transform: scale(1.05);
+  box-shadow: 0 4px 22px rgba(0,0,0,0.55);
+  transform: scale(1.06);
 }
 
 .nostalgia-player__play-btn:focus-visible {
@@ -1260,7 +1260,6 @@ background: linear-gradient(
 }
 
 .nostalgia-player__playlist-btn--active {
-  /* color: var(--n-amber); */
   color: rgba(255, 255, 255, 0.75);
   opacity: 1;
 }
@@ -1275,12 +1274,11 @@ background: linear-gradient(
 .nostalgia-player__volume-slider {
   -webkit-appearance: none;
   appearance: none;
-  width: 60px;
+  width: 64px;
   height: 3px;
   border-radius: 2px;
   outline: none;
   cursor: pointer;
-
   background: linear-gradient(
     to right,
     #4a9eff 0%,
@@ -1379,7 +1377,8 @@ background: linear-gradient(
 }
 
 .nostalgia-playlist__scroll {
-  overflow-y: auto;
+  overflow-y: scroll;
+  overflow-x: hidden;
   flex: 1;
   padding: 8px 0 12px;
   position: relative;
@@ -1550,7 +1549,7 @@ background: linear-gradient(
   }
 
   .nostalgia-hero {
-    padding: 0 0 16vh 5vw;
+    padding: 0 0 37vh 5vw;
     align-items: flex-end;
   }
 
@@ -1563,32 +1562,84 @@ background: linear-gradient(
     letter-spacing: 0.18em;
   }
 
+  /* ── Mobile: 2-row card layout ── */
   .nostalgia-player {
     bottom: 70px;
-    width: calc(100vw - 24px);
     left: 12px;
     right: 12px;
-    margin-left: 0;
-    margin-right: 0;
-    border-radius: 20px;
+    width: calc(100vw - 24px);
+    transform: none;
+    border-radius: 22px;
   }
 
   .nostalgia-player__inner {
-    padding: 12px 40px;
-    gap: 10px;
+    /* Stack: top row (art + meta) / bottom row (progress + controls) */
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "art  meta"
+      "prog prog"
+      "ctrl ctrl";
+    gap: 10px 12px;
+    padding: 14px 16px 12px;
+    align-items: start;
   }
 
   .nostalgia-player__art {
-    width: 46px;
-    height: 46px;
+    grid-area: art;
+    width: 52px;
+    height: 52px;
+    align-self: center;
+  }
+
+  .nostalgia-player__center {
+    display: contents; /* let children use grid areas */
+  }
+
+  .nostalgia-player__meta {
+    grid-area: meta;
+    min-height: unset;
+    align-self: center;
+  }
+
+  .nostalgia-player__progress-wrap {
+    grid-area: prog;
+  }
+
+  /* Controls go full-width below */
+  .nostalgia-player__controls {
+    grid-area: ctrl;
+    justify-content: space-between;
+    width: 100%;
+    padding: 2px 0 0;
+  }
+
+  .nostalgia-player__transport {
+    padding: 2px 4px;
+    gap: 0;
+  }
+
+  .nostalgia-player__ctrl-btn {
+    width: 34px;
+    height: 34px;
+  }
+
+  .nostalgia-player__play-btn {
+    width: 42px;
+    height: 42px;
+  }
+
+  .nostalgia-player__volume {
+    gap: 4px;
   }
 
   .nostalgia-player__volume-slider {
-    width: 44px;
+    width: 56px;
   }
 
   .nostalgia-scenenav {
-    bottom: 14px;
+    bottom: 20px;
   }
 
   /* Playlist becomes bottom sheet on mobile */
@@ -1607,15 +1658,28 @@ background: linear-gradient(
     left: 0;
     right: 0;
     width: 100%;
-    max-height: 62vh;
+    max-height: 65vh;
     border-radius: 20px 20px 0 0;
     border-bottom: none;
   }
 }
 
+/* ── Tablet ─────────────────────────────────────────────────── */
 @media (min-width: 641px) and (max-width: 1024px) {
   .nostalgia-player {
-    width: calc(100vw - 48px);
+    bottom: 24px;
+    width: min(600px, calc(100vw - 48px));
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .nostalgia-player__art {
+    width: 60px;
+    height: 60px;
+  }
+
+  .nostalgia-player__volume-slider {
+    width: 52px;
   }
 
   .nostalgia-playlist {

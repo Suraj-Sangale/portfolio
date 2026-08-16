@@ -20,6 +20,15 @@ export const scenes = [
     accent: "rgba(120, 60, 20, 0.22)",
   },
   {
+    id: "chai",
+    title: "चाय और बातें",
+    subtitle: "EVENING STORIES • SINCE 1975",
+    image: "/scenes/bg_3.png",
+    imageResponsive: "/scenes/bg_3_mobile.png",
+    trackId: "7",
+    accent: "rgba(110, 70, 10, 0.22)",
+  },
+  {
     id: "railway",
     title: "यादों का पड़ाव",
     subtitle: "PLATFORM NO. 1 • DEPARTURES",
@@ -28,30 +37,23 @@ export const scenes = [
     trackId: "8",
     accent: "rgba(60, 40, 80, 0.20)",
   },
-  {
-    id: "chai",
-    title: "चाय और बातें",
-    subtitle: "EVENING STORIES • SINCE 1975",
-    image: "/scenes/chai.png",
-    trackId: "7",
-    accent: "rgba(110, 70, 10, 0.22)",
-  },
-  {
-    id: "monsoon",
-    title: "बरसात की रात",
-    subtitle: "MUMBAI RAINS • MIDNIGHT",
-    image: "/scenes/monsoon.png",
-    trackId: "3",
-    accent: "rgba(20, 40, 80, 0.25)",
-  },
-  {
-    id: "cinema",
-    title: "सिनेमा का जादू",
-    subtitle: "SINGLE SCREEN • LAST SHOW",
-    image: "/scenes/cinema.png",
-    trackId: "4",
-    accent: "rgba(80, 20, 20, 0.22)",
-  },
+ 
+  // {
+  //   id: "monsoon",
+  //   title: "बरसात की रात",
+  //   subtitle: "MUMBAI RAINS • MIDNIGHT",
+  //   image: "/scenes/monsoon.png",
+  //   trackId: "3",
+  //   accent: "rgba(20, 40, 80, 0.25)",
+  // },
+  // {
+  //   id: "cinema",
+  //   title: "सिनेमा का जादू",
+  //   subtitle: "SINGLE SCREEN • LAST SHOW",
+  //   image: "/scenes/cinema.png",
+  //   trackId: "4",
+  //   accent: "rgba(80, 20, 20, 0.22)",
+  // },
 ];
 
 export default scenes;

@@ -38,14 +38,15 @@ export default function SceneTitle({ scene }) {
             className="nostalgia-hero__title"
             variants={titleVariants}
           >
-            {scene.title}
+            {/* {scene.title} */}
+            बरसात
           </motion.h1>
-          <motion.p
+          {/* <motion.p
             className="nostalgia-hero__subtitle"
             variants={subtitleVariants}
           >
             {scene.subtitle}
-          </motion.p>
+          </motion.p> */}
         </motion.div>
       </AnimatePresence>
     </div>
