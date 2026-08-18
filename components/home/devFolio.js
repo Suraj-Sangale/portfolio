@@ -751,7 +751,7 @@ export default function DevFolio({ pageData }) {
       const THREE = window.THREE;
       const gsap = window.gsap;
       const ScrollTrigger = window.ScrollTrigger;
-      gsap.registerPlugin(ScrollTrigger);
+      gsap?.registerPlugin?.(ScrollTrigger);
 
       // ── CURSOR ──
       const dot = dotRef.current;
