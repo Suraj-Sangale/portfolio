@@ -1,5 +1,6 @@
 // pages/api/sendTemplateMail.js
 import nodemailer from "nodemailer";
+import path from "path";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
@@ -23,6 +24,13 @@ export default async function handler(req, res) {
     to,
     subject,
     text: body,
+    attachments: [
+      {
+        filename: "Suraj_Sangale_Resume.pdf",
+        path: path.join(process.cwd(), "public", "Suraj_full_stack_developer.pdf"),
+        contentType: "application/pdf",
+      },
+    ],
     html: `
 <!DOCTYPE html>
 <html lang="en">

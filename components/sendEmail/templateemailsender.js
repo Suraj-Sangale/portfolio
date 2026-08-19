@@ -31,12 +31,13 @@ const TEMPLATES = [
     subject: "Application for {{role}} — {{yourName}}",
     body:
       "Hello {{hiringManager}},\n\n" +
-      "I'm writing to apply for the {{role}} position at {{companyName}}. " +
-      "I work as a full stack developer with React, Next.js, Node.js and " +
-      "AWS, and I'd welcome the chance to bring that to your team.\n\n" +
-      "I've attached my resume and portfolio for your review. Happy to " +
+      "I'm writing to apply for the <b>{{role}}</b> position at <b>{{companyName}}</b>. " +
+      "I work as a full stack developer with <b>React, Next.js, Node.js</b> and " +
+      "<b>AWS</b>, and I'd welcome the chance to bring that to your team.\n\n" +
+      "I've attached my <b>resume and portfolio</b> for your review. Happy to " +
       "share more detail on anything relevant.",
     fields: {
+      yourName:      { label: "Your name",      placeholder: "Suraj Sangale",         default: "Suraj Sangale",         required: true  },
       role:          { label: "Role",            placeholder: "Full Stack Developer",  default: "Full Stack Developer",  required: true  },
       companyName:   { label: "Company",         placeholder: "Acme Technologies",     default: "",                      required: true  },
       hiringManager: { label: "Hiring manager",  placeholder: "Hiring Team",           default: "Hiring Team",           required: false },
