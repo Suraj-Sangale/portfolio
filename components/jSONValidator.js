@@ -2,317 +2,764 @@ import { useState, useEffect, useRef, useCallback } from "react";
 
 // ── Styles ─────────────────────────────────────────────────────────────────
 const STYLES = `
-  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+
+  :root {
+    --jv-bg:          #050709;
+    --jv-surface:     #0c0e14;
+    --jv-surface2:    #111420;
+    --jv-surface3:    #161a28;
+    --jv-border:      rgba(255,255,255,0.07);
+    --jv-border2:     rgba(255,255,255,0.14);
+    --jv-text:        #e2e8f8;
+    --jv-text2:       #8b9cbf;
+    --jv-accent:      #6366f1;
+    --jv-accent2:     #818cf8;
+    --jv-accent-g:    #10b981;
+    --jv-accent-g2:   #34d399;
+    --jv-accent-r:    #ef4444;
+    --jv-accent-r2:   #f87171;
+    --jv-accent-y:    #f59e0b;
+    --jv-accent-p:    #a855f7;
+    --jv-syn-key:     #93c5fd;
+    --jv-syn-str:     #86efac;
+    --jv-syn-num:     #fbbf24;
+    --jv-syn-bool:    #fb923c;
+    --jv-syn-null:    #f87171;
+    --jv-radius:      12px;
+    --jv-radius-sm:   8px;
+  }
 
   .jv-root {
-    --bg:       #07080a;
-    --surface:  #0f1115;
-    --surface2: #13161d;
-    --border:  #565656;
-    --border2:  rgba(255,255,255,0.12);
-    --text:     #e8eaf0;
-    --muted:    #9ecbff;
-    --muted2:   #40B5E3;
-    --accent:   #4d7cff;
-    --accent-g: #00e5a0;
-    --accent-r: #ff6b6b;
-    --accent-y: #f5c542;
-    --syn-key:  #79b8ff;
-    --syn-str:  #9ecbff;
-    --syn-num:  #f5c542;
-    --syn-bool: #ff9f5a;
-    --syn-null: #ff6b6b;
-
-    font-family: 'Syne', sans-serif;
-    background: var(--bg);
-    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    background: var(--jv-bg);
+    color: var(--jv-text);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     position: relative;
     overflow: hidden;
-     margin-top:5rem 
+    margin-top: 5rem;
   }
 
-  /* noise */
-  .jv-root::before {
+  /* ── animated background mesh ── */
+  .jv-bg-mesh {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .jv-bg-mesh::before {
     content: '';
-    position: fixed; inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none; z-index: 0; opacity: .5;
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%);
+    top: -200px; left: -200px;
+    animation: jv-pulse-1 12s ease-in-out infinite alternate;
   }
-
-  /* blobs */
-  .jv-blobs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-  .jv-blob  { position: absolute; border-radius: 50%; filter: blur(120px); opacity: .1; animation: jv-drift 18s ease-in-out infinite alternate; }
-  .jv-blob-1 { width:500px; height:500px; background:var(--accent);   top:-150px; left:-150px; }
-  .jv-blob-2 { width:400px; height:400px; background:var(--accent-g); bottom:-80px; right:-80px; animation-delay:-8s; }
-  @keyframes jv-drift {
+  .jv-bg-mesh::after {
+    content: '';
+    position: absolute;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(16,185,129,0.09) 0%, transparent 70%);
+    bottom: -150px; right: -100px;
+    animation: jv-pulse-2 15s ease-in-out infinite alternate;
+  }
+  .jv-bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  @keyframes jv-pulse-1 {
     0%   { transform: translate(0,0) scale(1); }
-    100% { transform: translate(30px,-20px) scale(1.04); }
+    100% { transform: translate(60px,40px) scale(1.15); }
+  }
+  @keyframes jv-pulse-2 {
+    0%   { transform: translate(0,0) scale(1); }
+    100% { transform: translate(-50px,30px) scale(1.1); }
   }
 
-  /* nav */
-  .jv-nav {
-    position: sticky; top: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 28px;
-    background: rgba(7,8,10,.85);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
+  /* ── hero header ── */
+  .jv-hero {
+    position: relative; z-index: 1;
+    padding: 28px 32px 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
     flex-shrink: 0;
   }
-  .jv-brand {
-    display: flex; align-items: center; gap: 10px;
-    text-decoration: none; color: var(--text);
+  .jv-hero-left {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
-  .jv-brand-icon {
-    width: 32px; height: 32px; border-radius: 8px;
-    background: color-mix(in srgb, var(--accent) 20%, transparent);
-    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  .jv-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: rgba(99,102,241,0.12);
+    border: 1px solid rgba(99,102,241,0.25);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--jv-accent2);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    width: fit-content;
+  }
+  .jv-hero-badge-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--jv-accent2);
+    animation: jv-blink 2s ease-in-out infinite;
+  }
+  @keyframes jv-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  .jv-hero-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--jv-text);
+    line-height: 1.2;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .jv-hero-title-icon {
+    width: 42px; height: 42px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--jv-accent) 0%, var(--jv-accent-p) 100%);
     display: flex; align-items: center; justify-content: center;
-    font-size: 14px; font-weight: 700; color: var(--accent);
-    font-family: 'DM Mono', monospace;
+    font-size: 18px;
+    flex-shrink: 0;
+    box-shadow: 0 0 24px rgba(99,102,241,0.4);
   }
-  .jv-brand-name { font-size: 14px; font-weight: 700; }
-  .jv-nav-back {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
-    color: var(--muted); text-decoration: none;
-    display: flex; align-items: center; gap: 6px;
-    transition: color .2s; cursor: pointer; background: none; border: none;
+  .jv-hero-sub {
+    font-size: 13px;
+    color: var(--jv-text2);
+    line-height: 1.5;
   }
-  .jv-nav-back:hover { color: var(--text); }
-  .jv-nav-stats { display: flex; gap: 20px; }
-  .jv-nav-stat  { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
-  .jv-stat-dot  { width: 6px; height: 6px; border-radius: 50%; }
+  .jv-hero-stats {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+  .jv-hero-stat {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: var(--jv-surface2);
+    border: 1px solid var(--jv-border);
+    border-radius: var(--jv-radius-sm);
+    font-size: 12px;
+    color: var(--jv-text2);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 400;
+    transition: all 0.2s;
+  }
+  .jv-hero-stat-val {
+    color: var(--jv-text);
+    font-weight: 500;
+  }
 
-  /* toolbar */
-  .jv-toolbar {
-    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-    padding: 10px 18px;
-    border-bottom: 1px solid var(--border);
-    background: var(--surface);
-    flex-shrink: 0; position: relative; z-index: 1;
+  /* ── shortcut chip ── */
+  .jv-shortcuts {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-self: flex-end;
+    padding-bottom: 4px;
   }
-  .jv-tb-group { display: flex; gap: 6px; }
-  .jv-tb-sep   { width: 1px; height: 28px; background: var(--border); margin: 0 4px; }
+  .jv-shortcut {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--jv-text2);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .jv-kbd {
+    padding: 2px 7px;
+    background: var(--jv-surface3);
+    border: 1px solid var(--jv-border2);
+    border-radius: 5px;
+    font-size: 10px;
+    color: var(--jv-text);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.1);
+  }
+
+  /* ── toolbar ── */
+  .jv-toolbar {
+    position: relative; z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    padding: 14px 32px;
+    flex-shrink: 0;
+  }
+  .jv-tb-group {
+    display: flex;
+    gap: 4px;
+    background: var(--jv-surface);
+    border: 1px solid var(--jv-border);
+    border-radius: var(--jv-radius-sm);
+    padding: 4px;
+  }
+  .jv-tb-sep { width: 1px; height: 32px; background: var(--jv-border2); margin: 0 4px; }
 
   .jv-btn {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
-    padding: 7px 14px; border-radius: 8px;
-    border: 1px solid var(--border); color: var(--muted);
-    background: transparent; cursor: pointer; transition: all .2s;
-    display: flex; align-items: center; gap: 6px; white-space: nowrap;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    padding: 7px 14px;
+    border-radius: 6px;
+    border: none;
+    color: var(--jv-text2);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
   }
-  .jv-btn:hover { border-color: var(--border2); color: var(--text); background: var(--surface2); }
-  .jv-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
-  .jv-btn.primary:hover { background: #6b93ff; border-color: #6b93ff; }
+  .jv-btn:hover {
+    color: var(--jv-text);
+    background: rgba(255,255,255,0.06);
+  }
+  .jv-btn.primary {
+    background: linear-gradient(135deg, var(--jv-accent) 0%, var(--jv-accent-p) 100%);
+    color: #fff;
+    font-weight: 500;
+    box-shadow: 0 0 16px rgba(99,102,241,0.3), inset 0 1px 0 rgba(255,255,255,0.15);
+  }
+  .jv-btn.primary:hover {
+    box-shadow: 0 0 24px rgba(99,102,241,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+    transform: translateY(-1px);
+  }
+  .jv-btn.danger:hover {
+    color: var(--jv-accent-r2);
+    background: rgba(239,68,68,0.1);
+  }
+  .jv-btn-icon { font-size: 13px; }
 
   .jv-select {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
-    padding: 7px 12px; border-radius: 8px;
-    border: 1px solid var(--border); color: var(--muted);
-    background: var(--surface2); cursor: pointer; transition: all .2s;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 7px 10px;
+    border-radius: 6px;
+    border: none;
+    color: var(--jv-text2);
+    background: transparent;
+    cursor: pointer;
     outline: none;
+    transition: all 0.2s;
   }
-  .jv-select:hover { border-color: var(--border2); color: var(--text); }
-  .jv-select option { background: #13161d; }
+  .jv-select:hover { color: var(--jv-text); background: rgba(255,255,255,0.06); }
+  .jv-select option { background: #111420; }
 
-  /* split */
+  /* ── main split area ── */
+  .jv-workspace {
+    position: relative; z-index: 1;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 0 32px 32px;
+    min-height: 0;
+  }
+
   .jv-split {
-    display: grid; grid-template-columns: 1fr 1fr;
-    flex: 1; overflow: hidden; position: relative; z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    flex: 1;
+    overflow: hidden;
+    min-height: 0;
+    height: 100%;
   }
 
-  /* pane */
-  .jv-pane { display: flex; flex-direction: column; border-right: 1px solid var(--border); overflow: hidden; }
-  .jv-pane:last-child { border-right: none; }
+  /* ── pane ── */
+  .jv-pane {
+    display: flex;
+    flex-direction: column;
+    background: var(--jv-surface);
+    border: 1px solid var(--jv-border);
+    border-radius: var(--jv-radius);
+    overflow: hidden;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+  }
+  .jv-pane:hover { border-color: var(--jv-border2); }
+  .jv-pane.valid-glow { border-color: rgba(16,185,129,0.35); box-shadow: 0 0 24px rgba(16,185,129,0.08), 0 4px 24px rgba(0,0,0,0.3); }
+  .jv-pane.error-glow { border-color: rgba(239,68,68,0.35); box-shadow: 0 0 24px rgba(239,68,68,0.08), 0 4px 24px rgba(0,0,0,0.3); }
 
   .jv-pane-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 9px 14px;
-    border-bottom: 1px solid var(--border);
-    background: var(--surface); flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--jv-border);
+    background: rgba(255,255,255,0.02);
+    flex-shrink: 0;
+    gap: 10px;
   }
+  .jv-pane-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .jv-pane-title-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--jv-border2);
+    transition: background 0.3s, box-shadow 0.3s;
+  }
+  .jv-pane-title-dot.valid { background: var(--jv-accent-g); box-shadow: 0 0 8px var(--jv-accent-g); }
+  .jv-pane-title-dot.error { background: var(--jv-accent-r); box-shadow: 0 0 8px var(--jv-accent-r); animation: jv-blink 1s ease-in-out infinite; }
   .jv-pane-title {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--muted);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--jv-text2);
   }
-  .jv-pane-actions { display: flex; gap: 6px; }
+  .jv-pane-actions {
+    display: flex;
+    gap: 4px;
+  }
   .jv-pane-btn {
-    font-family: 'DM Mono', monospace; font-size: 10px;
-    padding: 4px 10px; border-radius: 6px;
-    border: 1px solid var(--border); color: var(--muted);
-    background: transparent; cursor: pointer; transition: all .2s;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--jv-border);
+    color: var(--jv-text2);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.03em;
   }
-  .jv-pane-btn:hover { color: var(--text); border-color: var(--border2); }
+  .jv-pane-btn:hover {
+    color: var(--jv-text);
+    border-color: var(--jv-border2);
+    background: rgba(255,255,255,0.05);
+  }
 
-  /* editor */
-  .jv-editor-wrap { position: relative; flex: 1; overflow: hidden; display: flex; }
+  /* ── editor ── */
+  .jv-editor-wrap {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    min-height: 0;
+  }
   .jv-line-nums {
-    padding: 14px 10px 14px 14px;
-    font-family: 'DM Mono', monospace; font-size: 13px; line-height: 1.6;
-    color: var(--muted); text-align: right; user-select: none; flex-shrink: 0;
-    overflow: hidden; border-right: 1px solid var(--border);
-    background: rgba(0,0,0,.2); min-width: 46px; white-space: pre;
+    padding: 16px 10px 16px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.65;
+    color: rgba(139,156,191,0.4);
+    text-align: right;
+    user-select: none;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-right: 1px solid var(--jv-border);
+    background: rgba(0,0,0,0.15);
+    min-width: 48px;
+    white-space: pre;
   }
   .jv-textarea {
-    flex: 1; padding: 14px;
-    font-family: 'DM Mono', monospace; font-size: 13px; line-height: 1.6;
-    color: var(--text); background: transparent;
-    border: none; outline: none; resize: none; tab-size: 2; overflow-y: auto;
+    flex: 1;
+    padding: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--jv-text);
+    background: transparent;
+    border: none;
+    outline: none;
+    resize: none;
+    tab-size: 2;
+    overflow-y: auto;
   }
-  .jv-textarea::placeholder { color: var(--muted); }
-  .jv-textarea::-webkit-scrollbar { width: 6px; }
-  .jv-textarea::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+  .jv-textarea::placeholder {
+    color: rgba(139,156,191,0.3);
+  }
 
-  /* error panel */
+  /* ── error panel ── */
   .jv-error {
-    margin: 10px 14px; padding: 10px 14px; border-radius: 10px;
-    background: color-mix(in srgb, var(--accent-r) 8%, transparent);
-    border: 1px solid color-mix(in srgb, var(--accent-r) 20%, transparent);
-    font-family: 'DM Mono', monospace; font-size: 12px; line-height: 1.6;
-    color: var(--accent-r); flex-shrink: 0;
-  }
-  .jv-error-title { margin-bottom: 3px; letter-spacing: .05em; }
-  .jv-error-msg   { color: var(--muted2); }
-
-  /* output */
-  .jv-output {
-    flex: 1; overflow-y: auto; padding: 14px;
-    font-family: 'DM Mono', monospace; font-size: 13px; line-height: 1.6;
-  }
-  .jv-output::-webkit-scrollbar { width: 6px; }
-  .jv-output::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
-  .jv-output pre { margin: 0; white-space: pre-wrap; word-break: break-word; }
-
-  /* syntax highlight spans */
-  .syn-key  { color: var(--syn-key); }
-  .syn-str  { color: var(--syn-str); }
-  .syn-num  { color: var(--syn-num); }
-  .syn-bool { color: var(--syn-bool); }
-  .syn-null { color: var(--syn-null); }
-
-  /* tabs */
-  .jv-tabs { display: flex; border-bottom: 1px solid var(--border); flex-shrink: 0; }
-  .jv-tab {
-    font-family: 'DM Mono', monospace; font-size: 10px;
-    letter-spacing: .12em; text-transform: uppercase;
-    padding: 10px 16px; cursor: pointer; color: var(--muted);
-    border-bottom: 2px solid transparent; transition: all .2s;
-    background: transparent; border-top: none; border-left: none; border-right: none;
-  }
-  .jv-tab:hover { color: var(--text); }
-  .jv-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-
-  /* search bar */
-  .jv-search {
-    display: flex; align-items: center; gap: 8px;
-    padding: 6px 10px; margin: 8px 14px;
-    background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
+    margin: 12px 16px 0;
+    padding: 12px 16px;
+    border-radius: var(--jv-radius-sm);
+    background: rgba(239,68,68,0.07);
+    border: 1px solid rgba(239,68,68,0.2);
     flex-shrink: 0;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    animation: jv-slide-in 0.2s ease;
   }
-  .jv-search-icon  { color: var(--muted); font-size: 13px; }
+  @keyframes jv-slide-in {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .jv-error-icon { font-size: 14px; margin-top: 1px; flex-shrink: 0; }
+  .jv-error-body { flex: 1; }
+  .jv-error-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--jv-accent-r2);
+    margin-bottom: 3px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .jv-error-msg {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: rgba(248,113,113,0.8);
+    line-height: 1.5;
+  }
+
+  /* ── output ── */
+  .jv-output {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.65;
+    min-height: 0;
+  }
+  .jv-output pre {
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  /* ── syntax highlight ── */
+  .syn-key  { color: var(--jv-syn-key); }
+  .syn-str  { color: var(--jv-syn-str); }
+  .syn-num  { color: var(--jv-syn-num); }
+  .syn-bool { color: var(--jv-syn-bool); }
+  .syn-null { color: var(--jv-syn-null); }
+
+  /* ── tabs ── */
+  .jv-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--jv-border);
+    flex-shrink: 0;
+    padding: 0 4px;
+    gap: 2px;
+  }
+  .jv-tab {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 11px 16px 10px;
+    cursor: pointer;
+    color: var(--jv-text2);
+    border: none;
+    background: transparent;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 6px 6px 0 0;
+  }
+  .jv-tab:hover { color: var(--jv-text); background: rgba(255,255,255,0.03); }
+  .jv-tab.active { color: var(--jv-accent2); border-bottom-color: var(--jv-accent); }
+
+  /* ── search bar ── */
+  .jv-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 10px 16px 4px;
+    padding: 8px 12px;
+    background: var(--jv-surface2);
+    border: 1px solid var(--jv-border);
+    border-radius: var(--jv-radius-sm);
+    flex-shrink: 0;
+    transition: border-color 0.2s;
+  }
+  .jv-search:focus-within { border-color: var(--jv-accent); }
+  .jv-search-icon { color: var(--jv-text2); font-size: 13px; }
   .jv-search-input {
-    flex: 1; background: transparent; border: none; outline: none;
-    font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text);
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--jv-text);
   }
-  .jv-search-input::placeholder { color: var(--muted); }
-  .jv-search-count { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); }
+  .jv-search-input::placeholder { color: rgba(139,156,191,0.4); }
+  .jv-search-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--jv-accent2);
+    background: rgba(99,102,241,0.15);
+    padding: 2px 8px;
+    border-radius: 99px;
+  }
 
-  /* path bar */
+  /* ── path bar ── */
   .jv-path {
-    padding: 5px 14px; min-height: 28px;
-    font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted);
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; gap: 4px; flex-wrap: wrap; flex-shrink: 0;
+    padding: 6px 16px;
+    min-height: 30px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--jv-text2);
+    border-bottom: 1px solid var(--jv-border);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    background: rgba(0,0,0,0.1);
   }
-  .jv-path-seg   { color: var(--accent); cursor: pointer; }
-  .jv-path-seg:hover { text-decoration: underline; }
-  .jv-path-arrow { color: var(--border2); }
+  .jv-path-seg { color: var(--jv-accent2); cursor: pointer; transition: color 0.15s; }
+  .jv-path-seg:hover { color: var(--jv-text); text-decoration: underline; }
+  .jv-path-arrow { color: var(--jv-border2); }
 
-  /* tree */
-  .jv-tree-node { padding-left: 20px; }
-  .jv-tree-row  {
-    display: flex; align-items: flex-start; gap: 4px;
-    cursor: pointer; border-radius: 4px; padding: 1px 4px; transition: background .15s;
+  /* ── tree ── */
+  .jv-tree-node { padding-left: 18px; }
+  .jv-tree-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 2px 5px;
+    transition: background 0.12s;
   }
-  .jv-tree-row:hover { background: rgba(255,255,255,.04); }
+  .jv-tree-row:hover { background: rgba(255,255,255,0.04); }
   .jv-tree-toggle {
-    width: 14px; height: 14px; flex-shrink: 0; margin-top: 3px;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--muted); font-size: 10px; transition: transform .2s;
+    width: 14px; height: 14px;
+    flex-shrink: 0;
+    margin-top: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--jv-text2);
+    font-size: 9px;
+    transition: transform 0.18s;
   }
   .jv-tree-toggle.open { transform: rotate(90deg); }
-  .jv-tree-children { border-left: 1px solid var(--border); margin-left: 6px; }
+  .jv-tree-children {
+    border-left: 1px solid rgba(255,255,255,0.07);
+    margin-left: 6px;
+  }
 
-  /* type badges */
-  .tb { font-size: 9px; padding: 1px 5px; border-radius: 3px; margin-left: 6px; margin-top: 2px; font-family: 'DM Mono', monospace; letter-spacing: .05em; }
-  .tb-obj  { background: rgba(77,124,255,.15);  color: var(--accent);   }
-  .tb-arr  { background: rgba(0,229,160,.15);   color: var(--accent-g); }
-  .tb-str  { background: rgba(158,203,255,.1);  color: var(--syn-str);  }
-  .tb-num  { background: rgba(245,197,66,.1);   color: var(--syn-num);  }
-  .tb-bool { background: rgba(255,159,90,.1);   color: var(--syn-bool); }
-  .tb-null { background: rgba(255,107,107,.1);  color: var(--syn-null); }
+  /* ── type badges ── */
+  .tb {
+    font-size: 9px;
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-left: 6px;
+    margin-top: 2px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.04em;
+    font-weight: 500;
+  }
+  .tb-obj  { background: rgba(99,102,241,0.15);  color: var(--jv-accent2);   border: 1px solid rgba(99,102,241,0.2); }
+  .tb-arr  { background: rgba(16,185,129,0.12);   color: var(--jv-accent-g2); border: 1px solid rgba(16,185,129,0.2); }
+  .tb-str  { background: rgba(134,239,172,0.08);  color: var(--jv-syn-str);   border: 1px solid rgba(134,239,172,0.15); }
+  .tb-num  { background: rgba(251,191,36,0.08);   color: var(--jv-syn-num);   border: 1px solid rgba(251,191,36,0.15); }
+  .tb-bool { background: rgba(251,146,60,0.08);   color: var(--jv-syn-bool);  border: 1px solid rgba(251,146,60,0.15); }
+  .tb-null { background: rgba(248,113,113,0.08);  color: var(--jv-syn-null);  border: 1px solid rgba(248,113,113,0.15); }
 
-  /* diff */
-  .jv-diff-line { display: flex; gap: 8px; font-family: 'DM Mono', monospace; font-size: 13px; line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
-  .jv-diff-add  { background: rgba(0,229,160,.07); color: var(--accent-g); }
-  .jv-diff-rem  { background: rgba(255,107,107,.07); color: var(--accent-r); }
-  .jv-diff-ctx  { color: var(--muted); }
-  .jv-diff-sym  { width: 12px; flex-shrink: 0; }
+  /* ── diff ── */
+  .jv-diff-header {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--jv-text2);
+    margin-bottom: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .jv-diff-header::before, .jv-diff-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--jv-border);
+  }
+  .jv-diff-line { display: flex; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.65; white-space: pre-wrap; word-break: break-word; border-radius: 3px; padding: 0 4px; }
+  .jv-diff-add  { background: rgba(16,185,129,0.07); color: var(--jv-accent-g2); }
+  .jv-diff-rem  { background: rgba(239,68,68,0.07);  color: var(--jv-accent-r2); }
+  .jv-diff-ctx  { color: rgba(139,156,191,0.5); }
+  .jv-diff-sym  { width: 12px; flex-shrink: 0; opacity: 0.7; }
 
-  /* status bar */
+  /* ── status bar ── */
   .jv-statusbar {
-    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
-    padding: 7px 18px;
-    border-top: 1px solid var(--border);
-    background: var(--surface);
-    font-family: 'DM Mono', monospace; font-size: 11px;
-    flex-shrink: 0; position: relative; z-index: 1;
+    position: relative; z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 0 32px;
+    border-top: 1px solid var(--jv-border);
+    background: var(--jv-surface);
+    flex-shrink: 0;
+    height: 36px;
+    overflow-x: auto;
   }
-  .jv-status-valid   { color: var(--accent-g); display: flex; align-items: center; gap: 6px; }
-  .jv-status-invalid { color: var(--accent-r); display: flex; align-items: center; gap: 6px; }
-  .jv-status-idle    { color: var(--muted); }
-  .jv-status-dot     { width: 7px; height: 7px; border-radius: 50%; }
-  .jv-status-sep     { color: var(--border2); }
-  .jv-status-info    { color: var(--muted); }
+  .jv-status-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0 16px;
+    height: 100%;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--jv-text2);
+    border-right: 1px solid var(--jv-border);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .jv-status-item:first-child { padding-left: 0; }
+  .jv-status-item:last-child  { border-right: none; }
+  .jv-status-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .jv-status-valid   { color: var(--jv-accent-g2); }
+  .jv-status-invalid { color: var(--jv-accent-r2); }
+  .jv-status-idle    { color: var(--jv-text2); }
+  .jv-status-label { color: var(--jv-text2); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .jv-status-val   { color: var(--jv-text); font-weight: 500; }
+  .jv-statusbar-spacer { flex: 1; }
 
-  /* empty state */
+  /* ── empty state ── */
   .jv-empty {
-    flex: 1; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 10px;
-    color: var(--muted); text-align: center; padding: 32px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: var(--jv-text2);
+    text-align: center;
+    padding: 40px 32px;
   }
-  .jv-empty-icon  { font-size: 30px; opacity: .4; }
-  .jv-empty-title { font-size: 14px; font-weight: 600; }
-  .jv-empty-sub   { font-family: 'DM Mono', monospace; font-size: 12px; line-height: 1.6; max-width: 240px; }
+  .jv-empty-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    background: var(--jv-surface2);
+    border: 1px solid var(--jv-border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    opacity: 0.6;
+  }
+  .jv-empty-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--jv-text);
+    opacity: 0.5;
+  }
+  .jv-empty-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    max-width: 260px;
+    color: var(--jv-text2);
+    opacity: 0.6;
+  }
 
-  /* toast */
+  /* ── drop hint ── */
+  .jv-drop-hint {
+    padding: 8px 16px;
+    margin: 0 16px 8px;
+    border-radius: var(--jv-radius-sm);
+    border: 1px dashed rgba(99,102,241,0.3);
+    background: rgba(99,102,241,0.04);
+    font-size: 11px;
+    color: var(--jv-text2);
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  /* ── toast ── */
   .jv-toast {
-    position: fixed; bottom: 24px; right: 24px; z-index: 999;
-    font-family: 'DM Mono', monospace; font-size: 12px;
-    padding: 10px 18px; border-radius: 10px;
-    background: var(--surface2); border: 1px solid var(--border2); color: var(--text);
-    display: flex; align-items: center; gap: 8px;
-    transform: translateY(80px); opacity: 0;
-    transition: all .3s cubic-bezier(.2,.8,.2,1);
+    position: fixed;
+    bottom: 28px; right: 28px;
+    z-index: 9999;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    padding: 12px 20px;
+    border-radius: var(--jv-radius);
+    background: var(--jv-surface2);
+    border: 1px solid var(--jv-border2);
+    color: var(--jv-text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transform: translateY(80px) scale(0.96);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     pointer-events: none;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    backdrop-filter: blur(12px);
   }
-  .jv-toast.show { transform: translateY(0); opacity: 1; }
+  .jv-toast.show {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  .jv-toast-icon {
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    background: rgba(99,102,241,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
 
-  /* scrollbars */
-  .jv-root ::-webkit-scrollbar       { width: 6px; height: 6px;}
+  /* ── scrollbars ── */
+  .jv-root ::-webkit-scrollbar { width: 5px; height: 5px; }
   .jv-root ::-webkit-scrollbar-track { background: transparent; }
-  .jv-root ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+  .jv-root ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+  .jv-root ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.18); }
 
-  @media (max-width: 768px) {
-    .jv-split { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; overflow-y: auto; }
-    .jv-pane  { border-right: none; border-bottom: 1px solid var(--border); min-height: 50vh; }
-    .jv-nav-stats { display: none; }
+  /* ── responsive ── */
+  @media (max-width: 900px) {
+    .jv-hero { padding: 20px 20px 0; }
+    .jv-toolbar { padding: 10px 20px; }
+    .jv-workspace { padding: 0 20px 20px; }
+    .jv-statusbar { padding: 0 20px; }
+    .jv-split { grid-template-columns: 1fr; grid-template-rows: 50vh 50vh; }
+    .jv-shortcuts { display: none; }
+  }
+  @media (max-width: 600px) {
+    .jv-hero-stats { gap: 8px; }
+    .jv-hero-stat  { padding: 5px 10px; }
+    .jv-tb-sep     { display: none; }
   }
 `;
 
@@ -842,172 +1289,166 @@ export default function JSONValidator({ onBack }) {
     showToast("Sample loaded!", "★");
   }
 
+
   // ── Derived values ────────────────────────────────────────────────────
   const formatted = getFormatted();
   const minified = parsedData ? JSON.stringify(parsedData) : null;
   const isValid = parsedData !== null;
   const hasInput = input.trim().length > 0;
 
-  // ── Status ────────────────────────────────────────────────────────────
-  let statusEl;
+  // ── Pane glow class ───────────────────────────────────────────────────
+  const inputPaneClass = `jv-pane${hasInput && isValid ? " valid-glow" : hasInput && parseError ? " error-glow" : ""}`;
+
+  // ── Status element ────────────────────────────────────────────────────
+  let statusContent;
   if (!hasInput) {
-    statusEl = (
-      <span className="jv-status-idle">Ready — paste JSON to begin</span>
-    );
+    statusContent = <span className="jv-status-idle">Ready — paste JSON to begin</span>;
   } else if (isValid) {
-    statusEl = (
-      <span className="jv-status-valid">
-        <div
-          className="jv-status-dot"
-          style={{ background: "var(--accent-g)" }}
-        />
+    statusContent = (
+      <span className="jv-status-valid" style={{ display: "flex", alignItems: "center", gap: 7 }}>
+        <div className="jv-status-dot" style={{ background: "var(--jv-accent-g)", boxShadow: "0 0 6px var(--jv-accent-g)" }} />
         Valid JSON
       </span>
     );
   } else {
-    statusEl = (
-      <span className="jv-status-invalid">
-        <div
-          className="jv-status-dot"
-          style={{ background: "var(--accent-r)" }}
-        />
+    statusContent = (
+      <span className="jv-status-invalid" style={{ display: "flex", alignItems: "center", gap: 7 }}>
+        <div className="jv-status-dot" style={{ background: "var(--jv-accent-r)" }} />
         {parseError}
       </span>
     );
   }
 
+  // ── Tab config ────────────────────────────────────────────────────────
+  const tabs = [
+    { id: "formatted", label: "Formatted", icon: "{ }" },
+    { id: "tree",      label: "Tree",      icon: "🌿" },
+    { id: "minified",  label: "Minified",  icon: "⊟" },
+    { id: "diff",      label: "Diff",      icon: "±" },
+  ];
+
   return (
     <>
       <style>{STYLES}</style>
       <div className="jv-root">
-        {/* blobs */}
-        <div className="jv-blobs">
-          <div className="jv-blob jv-blob-1" />
-          <div className="jv-blob jv-blob-2" />
+
+        {/* animated background */}
+        <div className="jv-bg-mesh">
+          <div className="jv-bg-grid" />
         </div>
 
-        {/* nav */}
-        {/* <nav className="jv-nav">
-          <div className="jv-brand">
-            <div className="jv-brand-icon">{"{ }"}</div>
-            <span className="jv-brand-name">JSON Tool</span>
-          </div>
-          <button
-            className="jv-nav-back"
-            onClick={onBack}
-          >
-            ← Back to Micro Tools
-          </button>
-          <div className="jv-nav-stats">
-            <div className="jv-nav-stat">
-              <div
-                className="jv-stat-dot"
-                style={{
-                  background: !hasInput
-                    ? "var(--muted)"
-                    : isValid
-                      ? "var(--accent-g)"
-                      : "var(--accent-r)",
-                }}
-              />
-              <span
-                style={{
-                  color: !hasInput
-                    ? "var(--muted)"
-                    : isValid
-                      ? "var(--accent-g)"
-                      : "var(--accent-r)",
-                }}
-              >
-                {!hasInput ? "Ready" : isValid ? "Valid" : "Invalid"}
-              </span>
+        {/* hero header */}
+        <div className="jv-hero">
+          <div className="jv-hero-left">
+            <div className="jv-hero-badge">
+              <div className="jv-hero-badge-dot" />
+              Developer Tool
             </div>
-            <div className="jv-nav-stat">{fmtBytes(stats.bytes)}</div>
-            <div className="jv-nav-stat">{stats.lines}L</div>
+            <div className="jv-hero-title">
+              <div className="jv-hero-title-icon">{"{ }"}</div>
+              JSON Validator
+            </div>
+            <div className="jv-hero-sub">
+              Format, validate, minify and explore JSON — fast and offline.
+            </div>
+            <div className="jv-hero-stats">
+              <div className="jv-hero-stat">
+                <span className="jv-status-label">Size</span>
+                <span className="jv-status-val">{fmtBytes(stats.bytes)}</span>
+              </div>
+              <div className="jv-hero-stat">
+                <span className="jv-status-label">Lines</span>
+                <span className="jv-status-val">{stats.lines}</span>
+              </div>
+              <div className="jv-hero-stat">
+                <span className="jv-status-label">Keys</span>
+                <span className="jv-status-val">{hasInput && isValid ? stats.keys : "—"}</span>
+              </div>
+              <div className="jv-hero-stat">
+                <span className="jv-status-label">Depth</span>
+                <span className="jv-status-val">{hasInput && isValid ? stats.depth : "—"}</span>
+              </div>
+            </div>
           </div>
-        </nav> */}
+          <div className="jv-shortcuts">
+            <div className="jv-shortcut">
+              <span className="jv-kbd">Ctrl</span>
+              <span>+</span>
+              <span className="jv-kbd">Shift</span>
+              <span>+</span>
+              <span className="jv-kbd">F</span>
+              <span style={{ marginLeft: 4, fontSize: 10 }}>Format</span>
+            </div>
+            <div className="jv-shortcut">
+              <span className="jv-kbd">Ctrl</span>
+              <span>+</span>
+              <span className="jv-kbd">S</span>
+              <span style={{ marginLeft: 4, fontSize: 10 }}>Save</span>
+            </div>
+          </div>
+        </div>
 
         {/* toolbar */}
         <div className="jv-toolbar">
           <div className="jv-tb-group">
-            <button
-              className="jv-btn primary"
-              onClick={formatJSON}
-            >
-              ✦ Format
+            <button className="jv-btn primary" onClick={formatJSON}>
+              <span className="jv-btn-icon">✦</span> Format
             </button>
-            <button
-              className="jv-btn"
-              onClick={minifyJSON}
-            >
-              ⊟ Minify
+            <button className="jv-btn" onClick={minifyJSON}>
+              <span className="jv-btn-icon">⊟</span> Minify
             </button>
           </div>
+
           <div className="jv-tb-sep" />
-          <select
-            className="jv-select"
-            value={indent}
-            onChange={(e) => setIndent(e.target.value)}
-          >
-            <option value="2">2 spaces</option>
-            <option value="4">4 spaces</option>
-            <option value="tab">Tabs</option>
-          </select>
-          <div className="jv-tb-sep" />
+
           <div className="jv-tb-group">
-            <button
-              className="jv-btn"
-              onClick={sortKeys}
+            <select
+              className="jv-select"
+              value={indent}
+              onChange={(e) => setIndent(e.target.value)}
             >
-              ↕ Sort Keys
+              <option value="2">2 Spaces</option>
+              <option value="4">4 Spaces</option>
+              <option value="tab">Tabs</option>
+            </select>
+          </div>
+
+          <div className="jv-tb-sep" />
+
+          <div className="jv-tb-group">
+            <button className="jv-btn" onClick={sortKeys}>
+              <span className="jv-btn-icon">↕</span> Sort Keys
             </button>
-            <button
-              className="jv-btn"
-              onClick={removeComments}
-            >
-              ⌫ Strip Comments
+            <button className="jv-btn" onClick={removeComments}>
+              <span className="jv-btn-icon">⌫</span> Strip Comments
             </button>
-            <button
-              className="jv-btn"
-              onClick={fixJSON}
-            >
-              ⚙ Fix &amp; Repair
+            <button className="jv-btn" onClick={fixJSON}>
+              <span className="jv-btn-icon">⚙</span> Fix &amp; Repair
             </button>
           </div>
+
           <div className="jv-tb-sep" />
+
           <div className="jv-tb-group">
-            <button
-              className="jv-btn"
-              onClick={copyOutput}
-            >
-              ⎘ Copy
+            <button className="jv-btn" onClick={copyOutput}>
+              <span className="jv-btn-icon">⎘</span> Copy
             </button>
-            <button
-              className="jv-btn"
-              onClick={downloadJSON}
-            >
-              ↓ Download
+            <button className="jv-btn" onClick={downloadJSON}>
+              <span className="jv-btn-icon">↓</span> Download
             </button>
-            <button
-              className="jv-btn"
-              onClick={clearAll}
-            >
-              ✕ Clear
+            <button className="jv-btn danger" onClick={clearAll}>
+              <span className="jv-btn-icon">✕</span> Clear
             </button>
           </div>
+
           <div className="jv-tb-sep" />
+
           <div className="jv-tb-group">
-            <button
-              className="jv-btn"
-              onClick={loadSample}
-            >
-              ★ Sample
+            <button className="jv-btn" onClick={loadSample}>
+              <span className="jv-btn-icon">★</span> Sample
             </button>
-            <button
-              className="jv-btn"
-              onClick={() => fileInputRef.current.click()}
-            >
-              ↑ Upload
+            <button className="jv-btn" onClick={() => fileInputRef.current.click()}>
+              <span className="jv-btn-icon">↑</span> Upload
             </button>
             <input
               ref={fileInputRef}
@@ -1019,220 +1460,209 @@ export default function JSONValidator({ onBack }) {
           </div>
         </div>
 
-        {/* split panes */}
-        <div
-          className="jv-split"
-          style={{ flex: 1, overflow: "hidden" }}
-        >
-          {/* LEFT — input */}
-          <div className="jv-pane">
-            <div className="jv-pane-header">
-              <span className="jv-pane-title">Input</span>
-              <div className="jv-pane-actions">
-                <button
-                  className="jv-pane-btn"
-                  onClick={pasteFromClipboard}
-                >
-                  Paste
-                </button>
-                <button
-                  className="jv-pane-btn"
-                  onClick={() => setInput("")}
-                >
-                  Clear
-                </button>
-              </div>
-            </div>
-            {parseError && hasInput && (
-              <div className="jv-error">
-                <div className="jv-error-title">⚠ Syntax Error</div>
-                <div className="jv-error-msg">{parseError}</div>
-              </div>
-            )}
-            <div className="jv-editor-wrap">
-              <div
-                className="jv-line-nums"
-                ref={lineNumsRef}
-              >
-                {lineNums}
-              </div>
-              <textarea
-                ref={textareaRef}
-                className="jv-textarea"
-                value={input}
-                onChange={(e) => handleInput(e.target.value)}
-                onScroll={handleScroll}
-                onKeyDown={handleKeyDown}
-                placeholder={`Paste your JSON here…\n\n{\n  "name": "Micro Tools",\n  "version": 1\n}`}
-                spellCheck={false}
-              />
-            </div>
-          </div>
+        {/* workspace */}
+        <div className="jv-workspace">
+          <div className="jv-split">
 
-          {/* RIGHT — output */}
-          <div className="jv-pane">
-            <div className="jv-pane-header">
-              <span className="jv-pane-title">Output</span>
-              <div className="jv-pane-actions">
-                <button
-                  className="jv-pane-btn"
-                  onClick={copyOutput}
-                >
-                  Copy
-                </button>
-                <button
-                  className="jv-pane-btn"
-                  onClick={downloadJSON}
-                >
-                  Download
-                </button>
+            {/* LEFT — input */}
+            <div className={inputPaneClass}>
+              <div className="jv-pane-header">
+                <div className="jv-pane-title-wrap">
+                  <div
+                    className={`jv-pane-title-dot${
+                      hasInput && isValid ? " valid" : hasInput && parseError ? " error" : ""
+                    }`}
+                  />
+                  <span className="jv-pane-title">Input</span>
+                </div>
+                <div className="jv-pane-actions">
+                  <button className="jv-pane-btn" onClick={pasteFromClipboard}>
+                    ⎘ Paste
+                  </button>
+                  <button className="jv-pane-btn" onClick={() => setInput("")}>
+                    ✕ Clear
+                  </button>
+                </div>
               </div>
-            </div>
 
-            {/* tabs */}
-            <div className="jv-tabs">
-              {["formatted", "tree", "minified", "diff"].map((t) => (
-                <button
-                  key={t}
-                  className={`jv-tab${activeTab === t ? " active" : ""}`}
-                  onClick={() => setActiveTab(t)}
-                >
-                  {t.charAt(0).toUpperCase() + t.slice(1)}
-                </button>
-              ))}
-            </div>
+              {parseError && hasInput && (
+                <div className="jv-error">
+                  <div className="jv-error-icon">⚠</div>
+                  <div className="jv-error-body">
+                    <div className="jv-error-title">Syntax Error</div>
+                    <div className="jv-error-msg">{parseError}</div>
+                  </div>
+                </div>
+              )}
 
-            {/* search (tree only) */}
-            {activeTab === "tree" && (
-              <div className="jv-search">
-                <span className="jv-search-icon">⌕</span>
-                <input
-                  className="jv-search-input"
-                  placeholder="Search keys or values…"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+              {!hasInput && (
+                <div className="jv-drop-hint">
+                  <span>📂</span> Drop a .json file here or paste below
+                </div>
+              )}
+
+              <div className="jv-editor-wrap">
+                <div className="jv-line-nums" ref={lineNumsRef}>
+                  {lineNums}
+                </div>
+                <textarea
+                  ref={textareaRef}
+                  className="jv-textarea"
+                  value={input}
+                  onChange={(e) => handleInput(e.target.value)}
+                  onScroll={handleScroll}
+                  onKeyDown={handleKeyDown}
+                  placeholder={`Paste your JSON here…\n\n{\n  "name": "Micro Tools",\n  "version": 1\n}`}
+                  spellCheck={false}
                 />
-                {searchQuery && (
-                  <span className="jv-search-count">searching…</span>
-                )}
               </div>
-            )}
+            </div>
 
-            {/* path breadcrumb (tree only) */}
-            {activeTab === "tree" && (
-              <div className="jv-path">
-                {currentPath.split(".").map((seg, i, arr) => (
-                  <span key={i}>
-                    <span
-                      className="jv-path-seg"
-                      onClick={() =>
-                        setCurrentPath(arr.slice(0, i + 1).join("."))
-                      }
-                    >
-                      {seg}
-                    </span>
-                    {i < arr.length - 1 && (
-                      <span className="jv-path-arrow"> › </span>
-                    )}
-                  </span>
+            {/* RIGHT — output */}
+            <div className="jv-pane">
+              <div className="jv-pane-header">
+                <div className="jv-pane-title-wrap">
+                  <div className="jv-pane-title-dot" style={{ background: "var(--jv-accent)", boxShadow: "0 0 6px var(--jv-accent)" }} />
+                  <span className="jv-pane-title">Output</span>
+                </div>
+                <div className="jv-pane-actions">
+                  <button className="jv-pane-btn" onClick={copyOutput}>⎘ Copy</button>
+                  <button className="jv-pane-btn" onClick={downloadJSON}>↓ Download</button>
+                </div>
+              </div>
+
+              {/* tabs */}
+              <div className="jv-tabs">
+                {tabs.map((t) => (
+                  <button
+                    key={t.id}
+                    className={`jv-tab${activeTab === t.id ? " active" : ""}`}
+                    onClick={() => setActiveTab(t.id)}
+                  >
+                    {t.icon} {t.label}
+                  </button>
                 ))}
               </div>
-            )}
 
-            {/* formatted */}
-            {activeTab === "formatted" &&
-              (formatted ? (
-                <div className="jv-output">
-                  <pre
-                    dangerouslySetInnerHTML={{ __html: syntaxHL(formatted) }}
+              {/* search (tree only) */}
+              {activeTab === "tree" && (
+                <div className="jv-search">
+                  <span className="jv-search-icon">⌕</span>
+                  <input
+                    className="jv-search-input"
+                    placeholder="Search keys or values…"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                   />
+                  {searchQuery && <span className="jv-search-count">searching…</span>}
                 </div>
-              ) : (
-                <div className="jv-empty">
-                  <div className="jv-empty-icon">{"{ }"}</div>
-                  <div className="jv-empty-title">
-                    {parseError ? "Invalid JSON" : "No output yet"}
-                  </div>
-                  <div className="jv-empty-sub">
-                    {parseError ||
-                      "Paste JSON on the left and click Format, or press Ctrl+Shift+F"}
-                  </div>
-                </div>
-              ))}
+              )}
 
-            {/* tree */}
-            {activeTab === "tree" &&
-              (parsedData ? (
-                <div className="jv-output">
-                  <TreeNode
-                    keyName={null}
-                    data={parsedData}
-                    searchQuery={searchQuery}
-                  />
+              {/* path breadcrumb (tree only) */}
+              {activeTab === "tree" && (
+                <div className="jv-path">
+                  {currentPath.split(".").map((seg, i, arr) => (
+                    <span key={i}>
+                      <span
+                        className="jv-path-seg"
+                        onClick={() => setCurrentPath(arr.slice(0, i + 1).join("."))}
+                      >
+                        {seg}
+                      </span>
+                      {i < arr.length - 1 && <span className="jv-path-arrow"> › </span>}
+                    </span>
+                  ))}
                 </div>
-              ) : (
-                <div className="jv-empty">
-                  <div className="jv-empty-icon">🌿</div>
-                  <div className="jv-empty-title">Tree View</div>
-                  <div className="jv-empty-sub">
-                    Enter valid JSON to explore the tree
-                  </div>
-                </div>
-              ))}
+              )}
 
-            {/* minified */}
-            {activeTab === "minified" &&
-              (minified ? (
-                <div className="jv-output">
-                  <pre
-                    style={{ wordBreak: "break-all", whiteSpace: "pre-wrap" }}
-                    dangerouslySetInnerHTML={{ __html: syntaxHL(minified) }}
-                  />
-                </div>
-              ) : (
-                <div className="jv-empty">
-                  <div className="jv-empty-icon">⊟</div>
-                  <div className="jv-empty-title">Minified</div>
-                  <div className="jv-empty-sub">
-                    Enter valid JSON to see minified output
+              {/* formatted */}
+              {activeTab === "formatted" &&
+                (formatted ? (
+                  <div className="jv-output">
+                    <pre dangerouslySetInnerHTML={{ __html: syntaxHL(formatted) }} />
                   </div>
-                </div>
-              ))}
+                ) : (
+                  <div className="jv-empty">
+                    <div className="jv-empty-icon">{"{ }"}</div>
+                    <div className="jv-empty-title">
+                      {parseError ? "Invalid JSON" : "No output yet"}
+                    </div>
+                    <div className="jv-empty-sub">
+                      {parseError || "Paste JSON on the left and click Format, or press Ctrl+Shift+F"}
+                    </div>
+                  </div>
+                ))}
 
-            {/* diff */}
-            {activeTab === "diff" && (
-              <DiffView
-                original={input}
-                formatted={formatted}
-              />
-            )}
+              {/* tree */}
+              {activeTab === "tree" &&
+                (parsedData ? (
+                  <div className="jv-output">
+                    <TreeNode keyName={null} data={parsedData} searchQuery={searchQuery} />
+                  </div>
+                ) : (
+                  <div className="jv-empty">
+                    <div className="jv-empty-icon">🌿</div>
+                    <div className="jv-empty-title">Tree View</div>
+                    <div className="jv-empty-sub">Enter valid JSON to explore the tree</div>
+                  </div>
+                ))}
+
+              {/* minified */}
+              {activeTab === "minified" &&
+                (minified ? (
+                  <div className="jv-output">
+                    <pre
+                      style={{ wordBreak: "break-all", whiteSpace: "pre-wrap" }}
+                      dangerouslySetInnerHTML={{ __html: syntaxHL(minified) }}
+                    />
+                  </div>
+                ) : (
+                  <div className="jv-empty">
+                    <div className="jv-empty-icon">⊟</div>
+                    <div className="jv-empty-title">Minified</div>
+                    <div className="jv-empty-sub">Enter valid JSON to see minified output</div>
+                  </div>
+                ))}
+
+              {/* diff */}
+              {activeTab === "diff" && (
+                <DiffView original={input} formatted={formatted} />
+              )}
+            </div>
           </div>
         </div>
 
         {/* status bar */}
         <div className="jv-statusbar">
-          {statusEl}
-          <span className="jv-status-sep">·</span>
-          <span className="jv-status-info">
-            {hasInput && isValid
-              ? `${stats.keys} key${stats.keys === 1 ? "" : "s"}`
-              : "— keys"}
-          </span>
-          <span className="jv-status-sep">·</span>
-          <span className="jv-status-info">
-            {hasInput && isValid ? `depth ${stats.depth}` : "depth —"}
-          </span>
-          <span className="jv-status-sep">·</span>
-          <span className="jv-status-info">{fmtBytes(stats.bytes)}</span>
-          <span className="jv-status-sep">·</span>
-          <span className="jv-status-info">
-            {stats.lines} line{stats.lines === 1 ? "" : "s"}
-          </span>
+          <div className="jv-status-item" style={{ paddingLeft: 0 }}>
+            {statusContent}
+          </div>
+          <div className="jv-status-item">
+            <span className="jv-status-label">Size</span>
+            <span className="jv-status-val">{fmtBytes(stats.bytes)}</span>
+          </div>
+          <div className="jv-status-item">
+            <span className="jv-status-label">Lines</span>
+            <span className="jv-status-val">{stats.lines}</span>
+          </div>
+          <div className="jv-status-item">
+            <span className="jv-status-label">Keys</span>
+            <span className="jv-status-val">{hasInput && isValid ? stats.keys : "—"}</span>
+          </div>
+          <div className="jv-status-item">
+            <span className="jv-status-label">Depth</span>
+            <span className="jv-status-val">{hasInput && isValid ? stats.depth : "—"}</span>
+          </div>
+          <div className="jv-statusbar-spacer" />
+          <div className="jv-status-item" style={{ fontSize: 10, color: "rgba(139,156,191,0.4)", letterSpacing: "0.05em" }}>
+            Ctrl+Shift+F Format · Ctrl+S Download
+          </div>
         </div>
 
         {/* toast */}
         <div className={`jv-toast${toast.show ? " show" : ""}`}>
-          <span>{toast.icon}</span> {toast.msg}
+          <div className="jv-toast-icon">{toast.icon}</div>
+          {toast.msg}
         </div>
       </div>
     </>
