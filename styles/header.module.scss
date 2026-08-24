@@ -27,6 +27,10 @@
 .gradientText {
   background: linear-gradient(to right, #9c31ff, #3b82f6);
   /* Purple to Blue */
-  /* -webkit-background-clip: text; */
+  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
+
+  /* Add the glow effect */
+  text-shadow: 0 0 10px rgba(156, 49, 255, 0.5);
 }
