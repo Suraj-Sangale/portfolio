@@ -43,7 +43,7 @@ export default function PlaylistItem({
       {/* Album thumb */}
       <div className="nostalgia-playlist-item__thumb">
         <Image
-          src={track.cover || "/scenes/album_default.png"}
+          src={`${track.youtubeId ? `https://i.ytimg.com/vi/${track.youtubeId}/hqdefault.jpg` : track.cover || "/scenes/album_default.png"}`}
           alt=""
           aria-hidden="true"
           width={40}

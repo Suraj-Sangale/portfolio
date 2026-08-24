@@ -31,7 +31,7 @@ export default function PlaylistPopup({
   onStreamYoutube,
   tracks = [],
 }) {
-  const hindiTracks = tracks.filter((t) => t.language === "hindi");
+  const hindiTracks = tracks
   const marathiTracks = tracks.filter((t) => t.language === "marathi");
 
   return (
@@ -80,10 +80,10 @@ export default function PlaylistPopup({
               <ul className="nostalgia-playlist__list">
                 {hindiTracks.map((track) => (
                   <PlaylistItem
-                    key={track.id}
+                    key={track.youtubeId}
                     track={track}
-                    isActive={currentTrack?.id === track.id}
-                    isPlaying={isPlaying && currentTrack?.id === track.id}
+                    isActive={currentTrack?.youtubeId === track.youtubeId}
+                    isPlaying={isPlaying && currentTrack?.youtubeId === track.youtubeId}
                     onSelect={onSelectTrack}
                     onStreamSpotify={onStreamSpotify}
                     onStreamYoutube={onStreamYoutube}
@@ -96,10 +96,10 @@ export default function PlaylistPopup({
               <ul className="nostalgia-playlist__list">
                 {marathiTracks.map((track) => (
                   <PlaylistItem
-                    key={track.id}
+                    key={track.youtubeId}
                     track={track}
-                    isActive={currentTrack?.id === track.id}
-                    isPlaying={isPlaying && currentTrack?.id === track.id}
+                    isActive={currentTrack?.youtubeId === track.youtubeId}
+                    isPlaying={isPlaying && currentTrack?.youtubeId === track.youtubeId}
                     onSelect={onSelectTrack}
                     onStreamSpotify={onStreamSpotify}
                     onStreamYoutube={onStreamYoutube}
