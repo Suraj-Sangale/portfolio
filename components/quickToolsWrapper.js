@@ -115,7 +115,7 @@ const styles = `
     position: relative;
     background: var(--bg);
     color: var(--text);
-    font-family: 'Syne', sans-serif;
+    // font-family: 'Syne', sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
   }
@@ -235,7 +235,7 @@ const styles = `
     font-family: 'DM Mono', monospace;
     font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
     padding: 7px 18px; border-radius: 100px;
-    border: 1px solid var(--border);
+    border: 1px solid #bac2ff;
     color: var(--muted); cursor: pointer;
     transition: all .25s; background: transparent;
   }
@@ -531,14 +531,14 @@ export default function QuickToolsWrapper() {
             <em>Tools</em>
           </h1>
 
-          <p className="qt-intro">
+          {/* <p className="qt-intro">
             A curated set of <strong>tiny, focused utilities</strong> I built
             for myself — and now share with anyone who needs them. No bloat. No
             sign-ups. Just open and use.
-          </p>
+          </p> */}
 
           {/* stats */}
-          <div className="qt-stats">
+          {/* <div className="qt-stats">
             <div>
               <div className="qt-stat-num">8</div>
               <div className="qt-stat-label">Tools</div>
@@ -551,14 +551,14 @@ export default function QuickToolsWrapper() {
               <div className="qt-stat-num">100%</div>
               <div className="qt-stat-label">Free forever</div>
             </div>
-          </div>
+          </div> */}
 
           {/* filter pills */}
           <div className="qt-filters">
             {FILTERS.map((f) => (
               <button
                 key={f}
-                className={`qt-pill${activeFilter === f ? " active" : ""}`}
+                className={`qt-pill ${activeFilter === f ? " active" : ""}`}
                 onClick={() => setActiveFilter(f)}
               >
                 {f}
