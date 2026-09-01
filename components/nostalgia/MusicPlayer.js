@@ -222,7 +222,9 @@ export default function MusicPlayer({ tracks = [] }) {
 
   const onSelectTrack = useCallback(
     (trackId) => {
-      const idx = tracks.findIndex((t) => t.id === trackId);
+      const idx = tracks.findIndex((t) => {
+        return t.youtubeId == trackId;
+      });
       if (idx === -1) return;
       if (idx === trackIndex) {
         onTogglePlay();
@@ -333,7 +335,7 @@ export default function MusicPlayer({ tracks = [] }) {
           <div className={`nostalgia-player__art${isPlaying ? " spinning" : ""}`}>
             <AnimatePresence mode="wait">
               <motion.div
-                key={currentTrack?.id}
+                key={currentTrack?.youtubeId}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}

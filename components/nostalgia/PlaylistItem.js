@@ -31,14 +31,14 @@ export default function PlaylistItem({
   return (
     <motion.li
       className={`nostalgia-playlist-item ${isActive ? "nostalgia-playlist-item--active" : ""}`}
-      onClick={() => onSelect(track.id)}
+      onClick={() => onSelect(track.youtubeId)}
       whileHover={{ x: 4 }}
       transition={{ type: "spring", stiffness: 400, damping: 25 }}
       role="button"
       aria-label={`Play ${track.title} by ${track.artist}`}
       aria-pressed={isActive}
       tabIndex={0}
-      onKeyDown={(e) => e.key === "Enter" && onSelect(track.id)}
+      onKeyDown={(e) => e.key === "Enter" && onSelect(track.youtubeId)}
     >
       {/* Album thumb */}
       <div className="nostalgia-playlist-item__thumb">

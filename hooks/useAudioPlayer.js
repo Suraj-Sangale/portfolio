@@ -168,8 +168,8 @@ export function useAudioPlayer(tracks = []) {
    * selectTrack — always starts playback after selection.
    * FIX: old code had `if (!wasPlaying)` which was backwards.
    */
-  const selectTrack = useCallback((id) => {
-    const idx = tracks.findIndex((t) => t.id === id);
+  const selectTrack = useCallback((youtubeId) => {
+    const idx = tracks.findIndex((t) => t.youtubeId == youtubeId);
     if (idx === -1) return;
 
     if (idx === currentTrackIndex) {
