@@ -229,6 +229,19 @@ export default function MusicPlayer({ tracks = [] }) {
     [trackIndex, onTogglePlay, tracks]
   );
 
+  const onStreamSpotify = useCallback((track) => {
+    if (track.spotifyUrl) {
+      window.open(track.spotifyUrl, "_blank", "noopener,noreferrer");
+    }
+  }, []);
+
+  const onStreamYoutube = useCallback((track) => {
+    const id = track.youtubeId;
+    if (id) {
+      window.open(`https://www.youtube.com/watch?v=${id}`, "_blank", "noopener,noreferrer");
+    }
+  }, []);
+
   const handleProgressClick = useCallback(
     (e) => {
       if (!progressRef.current || !duration) return;
@@ -294,6 +307,8 @@ export default function MusicPlayer({ tracks = [] }) {
         isPlaying={isPlaying}
         onSelectTrack={onSelectTrack}
         onClose={() => setIsPlaylistOpen(false)}
+        onStreamSpotify={onStreamSpotify}
+        onStreamYoutube={onStreamYoutube}
         tracks={tracks}
       />
 

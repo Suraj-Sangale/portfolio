@@ -15,14 +15,18 @@ export default function Home(props) {
 Home.layout = process.env.NEXT_PUBLIC_SITE === "nostalgia" ? "open" : undefined;
 
 export async function getServerSideProps(context) {
+
+  console.log('context.query', context.query)
   const site = process.env.NEXT_PUBLIC_SITE;
 
   if (site === "nostalgia") {
-    const { tracks } = await import("@/data/tracks");
+    const { tracks, allTracks } = await import("@/data/tracks");
+    const tracksToShow = context?.query?.type === "all" ? allTracks : tracks;
+    console.log("🚀 ~ tracksToShow:================", tracksToShow.length)
 
     return {
       props: {
-        tracks,
+        tracks: tracksToShow,
       },
     };
   }

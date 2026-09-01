@@ -1,10 +1,9 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import { useYouTubeAPI } from '@/hooks/useYouTubeAPI';
-import { tracks } from '@/data/tracks';
 import styles from '@/styles/musicPlayer.module.scss';
 
-export default function MusicPlayer() {
+export default function MusicPlayer({ tracks }) {
   
   const YT = useYouTubeAPI();
   const playerRef = useRef(null);

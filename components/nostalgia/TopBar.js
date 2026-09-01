@@ -27,8 +27,8 @@ export default function TopBar() {
         >
           <div className="nostalgia-clock">{time}</div>
           <div className="nostalgia-online">
-            <span className="nostalgia-online__dot" aria-hidden="true" />
-            <span>{onlineCount} online</span>
+            {/* <span className="nostalgia-online__dot" aria-hidden="true" /> */}
+            {/* <span>{onlineCount} online</span> */}
           </div>
         </motion.div>
       </div>
