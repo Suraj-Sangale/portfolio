@@ -2482,7 +2482,7 @@ export const tracks = [
   {
     "id": "2",
     "title": "Kadhi Tu Song with Lyrics",
-    "artist": "Everest Marathi (unverified - check manually)",
+    "artist": "Everest Marathi ",
     "album": "",
     "cover": "https://i.ytimg.com/vi/Y4TICMyl9Eg/hqdefault.jpg",
     "src": "",
@@ -2493,7 +2493,7 @@ export const tracks = [
   {
     "id": "3",
     "title": "Ka Kalena का कळेना Video Song",
-    "artist": "Everest Marathi (unverified - check manually)",
+    "artist": "Everest Marathi ",
     "album": "",
     "cover": "https://i.ytimg.com/vi/VQWk3VfdIxw/hqdefault.jpg",
     "src": "",
@@ -2504,7 +2504,7 @@ export const tracks = [
   {
     "id": "4",
     "title": "Olya Sanjveli - Premachi Goshta",
-    "artist": "Everest Marathi (unverified - check manually)",
+    "artist": "Everest Marathi ",
     "album": "",
     "cover": "https://i.ytimg.com/vi/Ofopo3YlN8w/hqdefault.jpg",
     "src": "",
@@ -2515,7 +2515,7 @@ export const tracks = [
   {
     "id": "5",
     "title": "Chimbh Bhijalele - चिंब भिजलेले",
-    "artist": "Video Palace (unverified - check manually)",
+    "artist": "Video Palace ",
     "album": "",
     "cover": "https://i.ytimg.com/vi/vSWQdjhLxsU/hqdefault.jpg",
     "src": "",
@@ -2526,7 +2526,7 @@ export const tracks = [
   {
     "id": "6",
     "title": "Saath De Tu Mala Song Video - Mumbai Pune Mumbai 2",
-    "artist": "Everest Marathi (unverified - check manually)",
+    "artist": "Everest Marathi ",
     "album": "",
     "cover": "https://i.ytimg.com/vi/i0Cj7FwEDnY/hqdefault.jpg",
     "src": "",

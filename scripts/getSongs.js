@@ -150,7 +150,7 @@ async function main() {
     results.push({
       id: String(START_ID + i),
       title: spotify ? cleaned : cleaned, // Spotify doesn't return a "clean title" separately; using cleaned YT title
-      artist: spotify ? spotify.artist : `${yt.channel} (unverified - check manually)`,
+      artist: spotify ? spotify.artist : `${yt.channel}`,
       album: spotify ? spotify.album : "",
       cover: yt.cover,
       src: "",
