@@ -22,7 +22,6 @@ export async function getServerSideProps(context) {
   if (site === "nostalgia") {
     const { tracks, allTracks } = await import("@/data/tracks");
     const tracksToShow = context?.query?.type === "all" ? allTracks : tracks;
-    console.log("🚀 ~ tracksToShow:================", tracksToShow.length)
 
     return {
       props: {

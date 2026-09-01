@@ -27,7 +27,6 @@ export default function App({ Component, pageProps }) {
   useVisitTracker();
 
   const layout = Component.layout;
-  console.log("🚀 ~ App ~ Component:", Component.layout)
 
   const isOpenLayout = layout === "open";
 
