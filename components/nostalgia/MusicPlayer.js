@@ -47,6 +47,7 @@ export default function MusicPlayer({ tracks = [] }) {
   const [prevVolume, setPrevVolume] = useState(0.8);
   const [isLoading, setIsLoading] = useState(true);
   const [isPlaylistOpen, setIsPlaylistOpen] = useState(false);
+  const [channelName, setChannelName] = useState("");
 
   const progressRef = useRef(null);
   const ytContainerRef = useRef(null);
@@ -129,6 +130,9 @@ export default function MusicPlayer({ tracks = [] }) {
               setIsLoading(false);
               setDuration(playerRef.current.getDuration());
               startTimer();
+              // Dynamically grab the YT channel name from player metadata
+              const videoData = playerRef.current.getVideoData?.();
+              if (videoData?.author) setChannelName(videoData.author);
             } else if (e.data === PAUSED) {
               isPlayingRef.current = false;
               setIsPlaying(false);
@@ -162,6 +166,7 @@ export default function MusicPlayer({ tracks = [] }) {
     setCurrentTime(0);
     setDuration(0);
     setIsLoading(true);
+    setChannelName(""); // reset while new video loads
 
     if (isPlayingRef.current) {
       player.loadVideoById(currentTrack.youtubeId);   // auto-plays
@@ -336,7 +341,7 @@ export default function MusicPlayer({ tracks = [] }) {
                 className="nostalgia-player__art-inner"
               >
                 <Image
-                  src={currentTrack?.cover || "/scenes/album_default.png"}
+                  src={`https://i.ytimg.com/vi/${currentTrack?.youtubeId}/hqdefault.jpg` || "/scenes/album_default.png"}
                   alt={currentTrack?.title || "Album art"}
                   fill
                   sizes="100px"
@@ -358,9 +363,11 @@ export default function MusicPlayer({ tracks = [] }) {
                   transition={{ duration: 0.35 }}
                 >
                   <p className="nostalgia-player__title">
-                    {currentTrack?.title || "Select a track"}
+                    {currentTrack?.title || playerRef?.current?.videoTitle || "Select a track"}
                   </p>
-                  <p className="nostalgia-player__artist">{currentTrack?.artist || ""}</p>
+                  <p className="nostalgia-player__artist">
+                    {channelName || currentTrack?.artist || ""}
+                  </p>
                 </motion.div>
               </AnimatePresence>
             </div>
