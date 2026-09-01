@@ -1,7 +1,9 @@
 "use client";
+import { useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import PlaylistItem from "./PlaylistItem";
+
 
 const popupVariants = {
   hidden: { opacity: 0, scale: 0.94, y: 14, filter: "blur(6px)" },
@@ -31,8 +33,21 @@ export default function PlaylistPopup({
   onStreamYoutube,
   tracks = [],
 }) {
-  const hindiTracks = tracks
+  const popupRef = useRef(null);
+  const hindiTracks = tracks;
   const marathiTracks = tracks.filter((t) => t.language === "marathi");
+
+  // Close when clicking outside the popup panel
+  useEffect(() => {
+    if (!isOpen) return;
+    function handleMouseDown(e) {
+      if (popupRef.current && !popupRef.current.contains(e.target)) {
+        onClose();
+      }
+    }
+    document.addEventListener("mousedown", handleMouseDown);
+    return () => document.removeEventListener("mousedown", handleMouseDown);
+  }, [isOpen, onClose]);
 
   return (
     <AnimatePresence>
@@ -49,6 +64,7 @@ export default function PlaylistPopup({
           />
 
           <motion.div
+            ref={popupRef}
             className="glass-popup nostalgia-playlist"
             variants={popupVariants}
             initial="hidden"

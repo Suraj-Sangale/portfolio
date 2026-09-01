@@ -2618,7 +2618,18 @@ export const tracks = [
     spotifyId: "1fkjRQA8wXPPyxqYLbxuqy",
     youtubeId: "c2gSzYLJ8sY",
   },
-   {youtubeId:"CK7Cjj0BHjw"},
+   {
+    id: "8",
+    title: "Kadhi Kadhi | Asa Mee Ashi Tee Marathi Movie | Sachit Patil, Pallavi Subhash, Manasi Salvi | Amitraj",
+    artist: " Swapnil Bandodkar, Bela Shende",
+    album: "Asa Mee Ashi Tee",
+    cover: "https://i.ytimg.com/vi/c2gSzYLJ8sY/hqdefault.jpg",
+    src: "",
+    language: "marathi",
+    youtubeId:"CK7Cjj0BHjw",
+   
+
+   },
 
 
   {
