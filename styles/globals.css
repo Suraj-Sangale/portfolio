@@ -1573,8 +1573,9 @@ background: linear-gradient(
   }
 
   .nostalgia-hero {
-    padding: 0 0 37vh 5vw;
-    align-items: flex-end;
+    padding: 8vh 5vw 0 5vw;
+    align-items: flex-start;
+    justify-content: flex-start;
   }
 
   .nostalgia-hero__title {
