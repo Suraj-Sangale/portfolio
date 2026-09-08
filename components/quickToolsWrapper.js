@@ -91,6 +91,17 @@ const TOOLS = [
     desc: "Write, test, and debug regular expressions with live match highlighting, group capture view, and common pattern library.",
     badges: ["live", "groups", "flags"],
   },
+  {
+    id: 9,
+    href: "documents",
+    accent: "var(--accent-1)",
+    tags: ["data", "dev"],
+    icon: "📁",
+    tag: "Files · Storage",
+    title: "Document Center",
+    desc: "Upload, rename, download, and manage documents in the public folder with drag-and-drop, extension preservation, and duplicate collision guards.",
+    badges: ["drag & drop", "rename", "store"],
+  },
 ];
 
 const FILTERS = ["all", "data", "location", "text", "dev"];
