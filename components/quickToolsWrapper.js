@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/router";
+import React, { useState, useEffect, useRef } from "react";
 
 // ── Tool data ────────────────────────────────────────────────────────────────
 const TOOLS = [
@@ -101,6 +102,7 @@ const TOOLS = [
     title: "Document Center",
     desc: "Upload, rename, download, and manage documents in the public folder with drag-and-drop, extension preservation, and duplicate collision guards.",
     badges: ["drag & drop", "rename", "store"],
+    checker: true,
   },
 ];
 
@@ -440,10 +442,7 @@ function ToolCard({ tool, visible }) {
   const badges = (
     <div className="qt-badges">
       {tool.badges.map((b) => (
-        <span
-          key={b}
-          className="qt-badge"
-        >
+        <span key={b} className="qt-badge">
           {b}
         </span>
       ))}
@@ -498,6 +497,9 @@ export default function QuickToolsWrapper() {
   const [activeFilter, setActiveFilter] = useState("all");
   const cursorRef = useRef(null);
 
+  const router = useRouter();
+  const { checker = "" } = router.query;
+
   // cursor dot
   useEffect(() => {
     const onMove = (e) => {
@@ -527,10 +529,7 @@ export default function QuickToolsWrapper() {
         </div>
 
         {/* cursor dot */}
-        <div
-          className="qt-cursor"
-          ref={cursorRef}
-        />
+        <div className="qt-cursor" ref={cursorRef} />
 
         <div className="qt-wrapper">
           {/* header */}
@@ -579,14 +578,19 @@ export default function QuickToolsWrapper() {
 
           {/* grid */}
           <div className="qt-grid">
-            {TOOLS.map((tool, i) => (
-              <ToolCard
-                key={tool.id}
-                tool={tool}
-                index={i}
-                visible={isVisible(tool)}
-              />
-            ))}
+            {TOOLS.map((tool, i) => {
+              const hasChecker = !!tool?.checker;
+
+              const shouldShow = !hasChecker || checker === "1";
+
+              return (
+                <React.Fragment key={tool.id}>
+                  {shouldShow && (
+                    <ToolCard tool={tool} index={i} visible={isVisible(tool)} />
+                  )}
+                </React.Fragment>
+              );
+            })}
           </div>
         </div>
       </div>
