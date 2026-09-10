@@ -21,11 +21,23 @@ import {
   AlertCircle,
   X,
   Sparkles,
+  Cloud,
 } from "lucide-react";
 
 // Allowed extensions list for display
 const ALLOWED_EXT_LABELS = [
-  "PDF", "DOCX", "XLSX", "PPTX", "TXT", "CSV", "MD", "JSON", "PNG", "JPG", "WEBP", "ZIP"
+  "PDF",
+  "DOCX",
+  "XLSX",
+  "PPTX",
+  "TXT",
+  "CSV",
+  "MD",
+  "JSON",
+  "PNG",
+  "JPG",
+  "WEBP",
+  "ZIP",
 ];
 
 // Helper to determine file icon and color theme
@@ -138,7 +150,11 @@ function formatTimeAgo(dateString) {
   if (hours < 24) return `${hours}h ago`;
   const days = Math.floor(hours / 24);
   if (days < 30) return `${days}d ago`;
-  return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
 }
 
 export default function DocumentUploadSection() {
@@ -157,6 +173,7 @@ export default function DocumentUploadSection() {
 
   // Document list state
   const [documents, setDocuments] = useState([]);
+  const [storageProvider, setStorageProvider] = useState("supabase");
   const [isLoadingDocs, setIsLoadingDocs] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -191,6 +208,9 @@ export default function DocumentUploadSection() {
       const data = await res.json();
       if (data.success) {
         setDocuments(data.documents || []);
+        if (data.storageProvider) {
+          setStorageProvider(data.storageProvider);
+        }
       }
     } catch (err) {
       console.error("Failed to load documents:", err);
@@ -372,9 +392,12 @@ export default function DocumentUploadSection() {
 
     try {
       setIsDeleting(true);
-      const res = await fetch(`/api/documents?name=${encodeURIComponent(deleteModalDoc.name)}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `/api/documents?name=${encodeURIComponent(deleteModalDoc.name)}`,
+        {
+          method: "DELETE",
+        },
+      );
       const data = await res.json();
       if (res.ok && data.success) {
         showToast(`"${deleteModalDoc.name}" has been deleted.`, "success");
@@ -392,7 +415,9 @@ export default function DocumentUploadSection() {
 
   // Copy link to clipboard
   const handleCopyLink = (doc) => {
-    const fullUrl = `${window.location.origin}${doc.url}`;
+    const fullUrl = doc.url?.startsWith("http")
+      ? doc.url
+      : `${window.location.origin}${doc.url}`;
     navigator.clipboard.writeText(fullUrl);
     setCopiedUrl(doc.name);
     showToast("Direct link copied to clipboard!", "success");
@@ -403,22 +428,31 @@ export default function DocumentUploadSection() {
 
   // Filter documents
   const filteredDocuments = documents.filter((doc) => {
-    const matchesSearch = doc.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = doc.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
     if (!matchesSearch) return false;
 
     if (selectedCategory === "all") return true;
     const ext = (doc.extension || "").toLowerCase();
 
     if (selectedCategory === "pdf") return ext === "pdf";
-    if (selectedCategory === "docs") return ["doc", "docx", "txt", "rtf", "md"].includes(ext);
-    if (selectedCategory === "sheets") return ["xls", "xlsx", "csv"].includes(ext);
-    if (selectedCategory === "images") return ["png", "jpg", "jpeg", "webp", "gif", "svg"].includes(ext);
-    if (selectedCategory === "archives") return ["zip", "tar", "gz", "7z", "rar"].includes(ext);
+    if (selectedCategory === "docs")
+      return ["doc", "docx", "txt", "rtf", "md"].includes(ext);
+    if (selectedCategory === "sheets")
+      return ["xls", "xlsx", "csv"].includes(ext);
+    if (selectedCategory === "images")
+      return ["png", "jpg", "jpeg", "webp", "gif", "svg"].includes(ext);
+    if (selectedCategory === "archives")
+      return ["zip", "tar", "gz", "7z", "rar"].includes(ext);
     return true;
   });
 
   // Calculate stats
-  const totalStorageBytes = documents.reduce((acc, doc) => acc + (doc.size || 0), 0);
+  const totalStorageBytes = documents.reduce(
+    (acc, doc) => acc + (doc.size || 0),
+    0,
+  );
   const totalStorageFormatted = formatFileSize(totalStorageBytes);
 
   return (
@@ -432,7 +466,11 @@ export default function DocumentUploadSection() {
               : "bg-rose-950/80 border-rose-500/30 text-rose-200"
           }`}
         >
-          {toast.type === "success" ? <Check className="w-5 h-5 text-emerald-400" /> : <AlertCircle className="w-5 h-5 text-rose-400" />}
+          {toast.type === "success" ? (
+            <Check className="w-5 h-5 text-emerald-400" />
+          ) : (
+            <AlertCircle className="w-5 h-5 text-rose-400" />
+          )}
           <span className="text-sm font-medium">{toast.message}</span>
           <button
             onClick={() => setToast(null)}
@@ -447,14 +485,24 @@ export default function DocumentUploadSection() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono tracking-wider uppercase mb-3">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Local Cloud Storage</span>
+            {storageProvider === "supabase" ? (
+              <>
+                <Cloud className="w-3.5 h-3.5" />
+                <span>Supabase Cloud Storage</span>
+              </>
+            ) : (
+              <>
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Local Storage</span>
+              </>
+            )}
           </div>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
             Document Center
           </h1>
           <p className="mt-2 text-sm sm:text-base text-slate-400 max-w-xl">
-            Upload, rename, manage, and store documents securely inside the local <code className="text-emerald-400 bg-emerald-950/50 px-1.5 py-0.5 rounded text-xs border border-emerald-500/20">public/uploads/documents/</code> directory.
+            Upload, rename, manage, and store documents securely in cloud
+            storage with instant CDN access and public sharing links.
           </p>
         </div>
 
@@ -465,8 +513,12 @@ export default function DocumentUploadSection() {
               <FolderOpen className="w-5 h-5" />
             </div>
             <div>
-              <div className="text-xs text-slate-400 uppercase font-mono">Files Stored</div>
-              <div className="text-lg font-bold text-white">{documents.length}</div>
+              <div className="text-xs text-slate-400 uppercase font-mono">
+                Files Stored
+              </div>
+              <div className="text-lg font-bold text-white">
+                {documents.length}
+              </div>
             </div>
           </div>
           <div className="h-8 w-px bg-slate-800" />
@@ -475,8 +527,12 @@ export default function DocumentUploadSection() {
               <HardDrive className="w-5 h-5" />
             </div>
             <div>
-              <div className="text-xs text-slate-400 uppercase font-mono">Used Space</div>
-              <div className="text-lg font-bold text-white">{totalStorageFormatted}</div>
+              <div className="text-xs text-slate-400 uppercase font-mono">
+                Used Space
+              </div>
+              <div className="text-lg font-bold text-white">
+                {totalStorageFormatted}
+              </div>
             </div>
           </div>
         </div>
@@ -526,7 +582,12 @@ export default function DocumentUploadSection() {
                 Drag & drop your document here
               </h3>
               <p className="text-sm text-slate-400 mb-6 max-w-md">
-                or <span className="text-emerald-400 font-medium underline underline-offset-4">click to browse</span> from your device. You can customize the file name before uploading.
+                or{" "}
+                <span className="text-emerald-400 font-medium underline underline-offset-4">
+                  click to browse
+                </span>{" "}
+                from your device. You can customize the file name before
+                uploading.
               </p>
 
               {/* Supported formats pills */}
@@ -557,9 +618,15 @@ export default function DocumentUploadSection() {
                   <FileCheck className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white">File Staged for Upload</h3>
+                  <h3 className="text-lg font-bold text-white">
+                    File Staged for Upload
+                  </h3>
                   <p className="text-xs text-slate-400">
-                    Original: <span className="font-mono text-slate-300">{stagedFile.name}</span> ({formatFileSize(stagedFile.size)})
+                    Original:{" "}
+                    <span className="font-mono text-slate-300">
+                      {stagedFile.name}
+                    </span>{" "}
+                    ({formatFileSize(stagedFile.size)})
                   </p>
                 </div>
               </div>
@@ -597,7 +664,11 @@ export default function DocumentUploadSection() {
                   )}
                 </div>
                 <p className="text-[11px] text-slate-500 mt-1.5 font-mono">
-                  Final path: <span className="text-slate-400">public/uploads/documents/{customBaseName.trim() || "document"}.{fileExtension}</span>
+                  Cloud destination:{" "}
+                  <span className="text-slate-400">
+                    documents/{customBaseName.trim() || "document"}.
+                    {fileExtension}
+                  </span>
                 </p>
               </div>
 
@@ -612,7 +683,9 @@ export default function DocumentUploadSection() {
                   disabled={isUploading}
                   className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-emerald-400 transition-colors"
                 >
-                  <option value="auto-rename">Auto-rename (add suffix like (1))</option>
+                  <option value="auto-rename">
+                    Auto-rename (add suffix like (1))
+                  </option>
                   <option value="overwrite">Overwrite existing file</option>
                   <option value="reject">Reject upload on duplicate</option>
                 </select>
@@ -631,8 +704,10 @@ export default function DocumentUploadSection() {
             {isUploading && (
               <div className="mb-6">
                 <div className="flex items-center justify-between text-xs font-mono text-slate-400 mb-2">
-                  <span>Uploading to local public folder...</span>
-                  <span className="text-emerald-400 font-bold">{uploadProgress}%</span>
+                  <span>Uploading to Cloud Storage...</span>
+                  <span className="text-emerald-400 font-bold">
+                    {uploadProgress}%
+                  </span>
                 </div>
                 <div className="h-2.5 w-full bg-slate-800 rounded-full overflow-hidden">
                   <div
@@ -647,7 +722,7 @@ export default function DocumentUploadSection() {
             {uploadSuccess && (
               <div className="flex items-center gap-3 p-3.5 mb-5 rounded-xl bg-emerald-950/50 border border-emerald-500/30 text-emerald-300 text-sm">
                 <Check className="w-5 h-5 text-emerald-400" />
-                <span>Document saved successfully in <code className="bg-emerald-900/60 px-1.5 py-0.5 rounded">public/uploads/documents/</code></span>
+                <span>Document saved successfully in Cloud Storage!</span>
               </div>
             )}
 
@@ -699,7 +774,9 @@ export default function DocumentUploadSection() {
               className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
               title="Refresh document list"
             >
-              <RefreshCw className={`w-4 h-4 ${isLoadingDocs ? "animate-spin" : ""}`} />
+              <RefreshCw
+                className={`w-4 h-4 ${isLoadingDocs ? "animate-spin" : ""}`}
+              />
             </button>
           </div>
 
@@ -726,19 +803,21 @@ export default function DocumentUploadSection() {
 
             {/* Filter pills */}
             <div className="flex items-center gap-1 bg-slate-900/80 p-1 rounded-xl border border-slate-800 text-xs font-mono">
-              {["all", "pdf", "docs", "sheets", "images", "archives"].map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`px-2.5 py-1 rounded-lg capitalize transition-colors ${
-                    selectedCategory === cat
-                      ? "bg-slate-700 text-white font-semibold"
-                      : "text-slate-400 hover:text-slate-200"
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
+              {["all", "pdf", "docs", "sheets", "images", "archives"].map(
+                (cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setSelectedCategory(cat)}
+                    className={`px-2.5 py-1 rounded-lg capitalize transition-colors ${
+                      selectedCategory === cat
+                        ? "bg-slate-700 text-white font-semibold"
+                        : "text-slate-400 hover:text-slate-200"
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ),
+              )}
             </div>
           </div>
         </div>
@@ -747,7 +826,10 @@ export default function DocumentUploadSection() {
         {isLoadingDocs ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {[1, 2, 3].map((n) => (
-              <div key={n} className="h-36 rounded-2xl bg-slate-900/40 border border-slate-800 animate-pulse" />
+              <div
+                key={n}
+                className="h-36 rounded-2xl bg-slate-900/40 border border-slate-800 animate-pulse"
+              />
             ))}
           </div>
         ) : filteredDocuments.length === 0 ? (
@@ -757,12 +839,14 @@ export default function DocumentUploadSection() {
               <FolderOpen className="w-8 h-8" />
             </div>
             <h3 className="text-lg font-bold text-slate-300 mb-1">
-              {searchQuery || selectedCategory !== "all" ? "No matching documents found" : "No documents uploaded yet"}
+              {searchQuery || selectedCategory !== "all"
+                ? "No matching documents found"
+                : "No documents uploaded yet"}
             </h3>
             <p className="text-sm text-slate-500 max-w-sm mx-auto">
               {searchQuery || selectedCategory !== "all"
                 ? "Try adjusting your search query or filter tags."
-                : "Drop your files into the box above to store your first document in the public folder."}
+                : "Drop your files into the box above to store your first document in cloud storage."}
             </p>
           </div>
         ) : (
@@ -771,109 +855,160 @@ export default function DocumentUploadSection() {
               const iconInfo = getFileIconInfo(doc.extension);
               const IconComp = iconInfo.icon;
 
+              const ext = doc.extension?.toLowerCase();
+              const isImage = [
+                "png",
+                "jpg",
+                "jpeg",
+                "gif",
+                "webp",
+                "svg",
+                "avif",
+              ].includes(ext);
+              const isPdf = ext === "pdf";
+              const isVideo = ["mp4", "webm", "mov"].includes(ext);
+              const hasPreview = isImage || isPdf || isVideo;
+
               return (
                 <div
                   key={doc.name}
-                  className="group relative bg-slate-900/70 hover:bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-2xl p-5 backdrop-blur-md transition-all duration-200 hover:-translate-y-1 hover:shadow-xl flex flex-col justify-between"
+                  className="group relative bg-slate-900/70 hover:bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-2xl overflow-hidden backdrop-blur-md transition-all duration-200 hover:-translate-y-1 hover:shadow-xl flex flex-col justify-between"
                 >
-                  <div>
-                    {/* Top row: Icon + Type Badge + Copy Link */}
-                    <div className="flex items-center justify-between gap-3 mb-3.5">
-                      <div className="flex items-center gap-2.5">
-                        <div
-                          className="w-10 h-10 rounded-xl flex items-center justify-center transition-transform group-hover:scale-105"
-                          style={{
-                            background: iconInfo.bg,
-                            border: `1px solid ${iconInfo.border}`,
-                            color: iconInfo.color,
-                          }}
-                        >
-                          <IconComp className="w-5 h-5" />
-                        </div>
-                        <span
-                          className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded-md"
-                          style={{
-                            background: iconInfo.bg,
-                            color: iconInfo.color,
-                            border: `1px solid ${iconInfo.border}`,
-                          }}
-                        >
-                          {iconInfo.label}
-                        </span>
-                      </div>
+                  {/* Preview area */}
+                  <div className="relative w-full h-32 bg-slate-950/60 border-b border-slate-800/80 flex items-center justify-center overflow-hidden">
+                    {isImage && (
+                      <img
+                        src={doc.url}
+                        alt={doc.name}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy"
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none";
+                          e.currentTarget.nextSibling.style.display = "flex";
+                        }}
+                      />
+                    )}
 
-                      {/* Quick copy link */}
-                      <button
-                        onClick={() => handleCopyLink(doc)}
-                        className="p-1.5 rounded-lg text-slate-500 hover:text-slate-200 hover:bg-slate-800 transition-colors"
-                        title="Copy direct link"
-                      >
-                        {copiedUrl === doc.name ? (
-                          <Check className="w-4 h-4 text-emerald-400" />
-                        ) : (
-                          <Copy className="w-4 h-4" />
-                        )}
-                      </button>
-                    </div>
+                    {isPdf && (
+                      <iframe
+                        src={`${doc.url}#toolbar=0&navpanes=0&view=FitH`}
+                        title={doc.name}
+                        className="w-full h-full pointer-events-none scale-105"
+                      />
+                    )}
 
-                    {/* File Name */}
-                    <h4
-                      className="text-sm font-semibold text-slate-100 group-hover:text-emerald-400 transition-colors line-clamp-2 break-all mb-1.5"
-                      title={doc.name}
+                    {isVideo && (
+                      <video
+                        src={doc.url}
+                        className="w-full h-full object-cover"
+                        muted
+                        playsInline
+                        preload="metadata"
+                      />
+                    )}
+
+                    {/* Fallback icon (also shown if image fails to load) */}
+                    <div
+                      className="w-full h-full flex items-center justify-center"
+                      style={{ display: hasPreview ? "none" : "flex" }}
                     >
-                      {doc.name}
-                    </h4>
-
-                    {/* Metadata */}
-                    <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
-                      <span>{doc.formattedSize}</span>
-                      <span>•</span>
-                      <span>{formatTimeAgo(doc.modifiedAt)}</span>
+                      <div
+                        className="w-12 h-12 rounded-xl flex items-center justify-center"
+                        style={{
+                          background: iconInfo.bg,
+                          border: `1px solid ${iconInfo.border}`,
+                          color: iconInfo.color,
+                        }}
+                      >
+                        <IconComp className="w-6 h-6" />
+                      </div>
                     </div>
+
+                    {/* Type badge overlay */}
+                    <span
+                      className="absolute top-2 left-2 text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded-md backdrop-blur-sm"
+                      style={{
+                        background: iconInfo.bg,
+                        color: iconInfo.color,
+                        border: `1px solid ${iconInfo.border}`,
+                      }}
+                    >
+                      {iconInfo.label}
+                    </span>
+
+                    {/* Copy link overlay */}
+                    <button
+                      onClick={() => handleCopyLink(doc)}
+                      className="absolute top-2 right-2 p-1.5 rounded-lg bg-slate-950/60 backdrop-blur-sm text-slate-300 hover:text-slate-100 hover:bg-slate-900 transition-colors"
+                      title="Copy direct link"
+                    >
+                      {copiedUrl === doc.name ? (
+                        <Check className="w-4 h-4 text-emerald-400" />
+                      ) : (
+                        <Copy className="w-4 h-4" />
+                      )}
+                    </button>
                   </div>
 
-                  {/* Action Toolbar */}
-                  <div className="flex items-center justify-between gap-2 mt-5 pt-3.5 border-t border-slate-800/80">
-                    <div className="flex items-center gap-1">
-                      {/* Open / Preview */}
-                      <a
-                        href={doc.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
-                        title="Open / Preview in new tab"
+                  <div className="p-5 flex flex-col justify-between flex-1">
+                    <div>
+                      {/* File Name */}
+                      <h4
+                        className="text-sm font-semibold text-slate-100 group-hover:text-emerald-400 transition-colors line-clamp-2 break-all mb-1.5"
+                        title={doc.name}
                       >
-                        <ExternalLink className="w-4 h-4" />
-                      </a>
+                        {doc.name}
+                      </h4>
 
-                      {/* Download */}
-                      <a
-                        href={doc.url}
-                        download={doc.name}
-                        className="p-2 rounded-xl text-slate-400 hover:text-emerald-400 hover:bg-emerald-950/40 transition-colors"
-                        title="Download file"
-                      >
-                        <Download className="w-4 h-4" />
-                      </a>
-
-                      {/* Rename */}
-                      <button
-                        onClick={() => openRenameModal(doc)}
-                        className="p-2 rounded-xl text-slate-400 hover:text-blue-400 hover:bg-blue-950/40 transition-colors"
-                        title="Rename document"
-                      >
-                        <Edit3 className="w-4 h-4" />
-                      </button>
+                      {/* Metadata */}
+                      <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
+                        <span>{doc.formattedSize}</span>
+                        <span>•</span>
+                        <span>{formatTimeAgo(doc.modifiedAt)}</span>
+                      </div>
                     </div>
 
-                    {/* Delete */}
-                    <button
-                      onClick={() => setDeleteModalDoc(doc)}
-                      className="p-2 rounded-xl text-slate-400 hover:text-rose-400 hover:bg-rose-950/40 transition-colors"
-                      title="Delete document"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                    {/* Action Toolbar */}
+                    <div className="flex items-center justify-between gap-2 mt-5 pt-3.5 border-t border-slate-800/80">
+                      <div className="flex items-center gap-1">
+                        <a
+                          href={doc.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                          title="Open / Preview in new tab"
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                        </a>
+
+                        <a
+                          href={doc.url}
+                          download={doc.name}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="p-2 rounded-xl text-slate-400 hover:text-emerald-400 hover:bg-emerald-950/40 transition-colors"
+                          title="Download file"
+                        >
+                          <Download className="w-4 h-4" />
+                        </a>
+
+                        <button
+                          onClick={() => openRenameModal(doc)}
+                          className="p-2 rounded-xl text-slate-400 hover:text-blue-400 hover:bg-blue-950/40 transition-colors"
+                          title="Rename document"
+                        >
+                          <Edit3 className="w-4 h-4" />
+                        </button>
+                      </div>
+
+                      <button
+                        onClick={() => setDeleteModalDoc(doc)}
+                        className="p-2 rounded-xl text-slate-400 hover:text-rose-400 hover:bg-rose-950/40 transition-colors"
+                        title="Delete document"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               );
@@ -891,7 +1026,9 @@ export default function DocumentUploadSection() {
                 <div className="p-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400">
                   <Edit3 className="w-5 h-5" />
                 </div>
-                <h3 className="text-lg font-bold text-white">Rename Document</h3>
+                <h3 className="text-lg font-bold text-white">
+                  Rename Document
+                </h3>
               </div>
               <button
                 onClick={() => setRenameModalDoc(null)}
@@ -902,7 +1039,10 @@ export default function DocumentUploadSection() {
             </div>
 
             <p className="text-xs text-slate-400 mb-4">
-              Original name: <span className="font-mono text-slate-300">{renameModalDoc.name}</span>
+              Original name:{" "}
+              <span className="font-mono text-slate-300">
+                {renameModalDoc.name}
+              </span>
             </p>
 
             <div className="mb-4">
@@ -978,7 +1118,8 @@ export default function DocumentUploadSection() {
               {deleteModalDoc.name}
             </div>
             <p className="text-xs text-rose-400/80 mb-6">
-              This will remove the file from your local <code className="bg-slate-950 px-1 py-0.5 rounded">public/uploads/documents/</code> directory. This action cannot be undone.
+              This will permanently delete the file from storage. This action
+              cannot be undone.
             </p>
 
             <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
