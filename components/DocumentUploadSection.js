@@ -22,6 +22,7 @@ import {
   X,
   Sparkles,
   Cloud,
+  QrCode,
 } from "lucide-react";
 
 // Allowed extensions list for display
@@ -187,6 +188,33 @@ export default function DocumentUploadSection() {
 
   const [deleteModalDoc, setDeleteModalDoc] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  // QR Modal state
+  const [qrModalDoc, setQrModalDoc] = useState(null);
+  const [isQrClosing, setIsQrClosing] = useState(false);
+  const [isQrMounted, setIsQrMounted] = useState(false);
+  const [isDownloadingQr, setIsDownloadingQr] = useState(false);
+
+  // Open QR modal with smooth bottom-to-top entry
+  const openQrModal = (doc) => {
+    setQrModalDoc(doc);
+    setIsQrClosing(false);
+    setIsQrMounted(false);
+    // Trigger animation in next tick
+    setTimeout(() => {
+      setIsQrMounted(true);
+    }, 15);
+  };
+
+  // Close QR modal with smooth top-to-bottom exit
+  const handleCloseQrModal = () => {
+    setIsQrClosing(true);
+    setTimeout(() => {
+      setQrModalDoc(null);
+      setIsQrClosing(false);
+      setIsQrMounted(false);
+    }, 550);
+  };
 
   // Toast notification
   const [toast, setToast] = useState(null);
@@ -424,6 +452,38 @@ export default function DocumentUploadSection() {
     setTimeout(() => {
       setCopiedUrl("");
     }, 2500);
+  };
+
+  // Download QR Code image
+  const handleDownloadQr = async (doc) => {
+    if (!doc) return;
+    try {
+      setIsDownloadingQr(true);
+      const fullUrl = doc.url?.startsWith("http")
+        ? doc.url
+        : `${window.location.origin}${doc.url}`;
+      const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=500x500&margin=20&data=${encodeURIComponent(
+        fullUrl
+      )}`;
+      const res = await fetch(qrApiUrl);
+      const blob = await res.blob();
+      const blobUrl = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = `${doc.name}-qrcode.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(blobUrl);
+
+      showToast("QR code image downloaded successfully!", "success");
+    } catch (err) {
+      console.error("QR download failed:", err);
+      showToast("Failed to download QR code image.", "error");
+    } finally {
+      setIsDownloadingQr(false);
+    }
   };
 
   // Filter documents
@@ -999,6 +1059,14 @@ export default function DocumentUploadSection() {
                         >
                           <Edit3 className="w-4 h-4" />
                         </button>
+
+                        <button
+                          onClick={() => openQrModal(doc)}
+                          className="p-2 rounded-xl text-slate-400 hover:text-purple-400 hover:bg-purple-950/40 transition-colors"
+                          title="Get QR Code"
+                        >
+                          <QrCode className="w-4 h-4" />
+                        </button>
                       </div>
 
                       <button
@@ -1143,6 +1211,116 @@ export default function DocumentUploadSection() {
                 ) : (
                   <span>Delete File</span>
                 )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ─── QR CODE MODAL ─────────────────────────────────────────────────── */}
+      {qrModalDoc && (
+        <div
+          onClick={handleCloseQrModal}
+          className={`fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/80 backdrop-blur-md transition-opacity duration-500 ease-out ${
+            isQrMounted && !isQrClosing ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className={`relative w-full max-w-full sm:max-w-md bg-slate-900 border-t sm:border border-slate-700/90 rounded-t-[32px] sm:rounded-3xl p-6 sm:p-7 shadow-2xl flex flex-col items-center text-center transform transition-all duration-[1000ms] ease-[cubic-bezier(0.22,1,0.36,1)] max-h-[90vh] overflow-y-auto ${
+              isQrMounted && !isQrClosing
+                ? "translate-y-0 opacity-100 scale-100"
+                : "translate-y-full sm:translate-y-16 opacity-0 sm:scale-95"
+            }`}
+          >
+            {/* Mobile swipe/drag indicator bar */}
+            <div className="w-12 h-1.5 bg-slate-700 rounded-full mx-auto mb-4 sm:hidden flex-shrink-0" />
+
+            {/* Ambient accent top border */}
+            <div className="absolute top-0 inset-x-8 h-[2px] bg-gradient-to-r from-purple-500 via-indigo-400 to-blue-500 rounded-full hidden sm:block" />
+
+            {/* Header */}
+            <div className="w-full flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2.5 text-left">
+                <div className="p-2.5 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400">
+                  <QrCode className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-white leading-tight">
+                    Document QR Code
+                  </h3>
+                  <p className="text-[11px] text-slate-400 font-mono">
+                    Scan to view or download
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={handleCloseQrModal}
+                className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                title="Close"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* QR Code Container with High Contrast & Glow */}
+            <div className="relative group p-4 bg-white rounded-2xl shadow-xl shadow-purple-500/10 border-4 border-slate-800 my-2 transition-transform duration-300 hover:scale-[1.02]">
+              <img
+                src={`https://api.qrserver.com/v1/create-qr-code/?size=280x280&margin=10&data=${encodeURIComponent(
+                  qrModalDoc.url?.startsWith("http")
+                    ? qrModalDoc.url
+                    : typeof window !== "undefined"
+                    ? `${window.location.origin}${qrModalDoc.url}`
+                    : qrModalDoc.url
+                )}`}
+                alt={`QR code for ${qrModalDoc.name}`}
+                className="w-48 h-48 sm:w-56 sm:h-56 object-contain block"
+                loading="eager"
+              />
+            </div>
+
+            {/* File Info */}
+            <div className="w-full my-4 p-3 rounded-xl bg-slate-950/80 border border-slate-800 text-left">
+              <p
+                className="text-xs font-semibold text-slate-200 truncate mb-1"
+                title={qrModalDoc.name}
+              >
+                {qrModalDoc.name}
+              </p>
+              <div className="flex items-center justify-between text-[11px] font-mono text-slate-400">
+                <span>{qrModalDoc.formattedSize || "File"}</span>
+                <span className="text-emerald-400 uppercase font-bold">
+                  {qrModalDoc.extension || "PDF"}
+                </span>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="w-full grid grid-cols-2 gap-2.5 pt-2 border-t border-slate-800">
+              <button
+                onClick={() => handleDownloadQr(qrModalDoc)}
+                disabled={isDownloadingQr}
+                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all active:scale-95 disabled:opacity-50"
+              >
+                {isDownloadingQr ? (
+                  <>
+                    <RefreshCw className="w-4 h-4 animate-spin" />
+                    <span>Downloading...</span>
+                  </>
+                ) : (
+                  <>
+                    <Download className="w-4 h-4" />
+                    <span>Download QR</span>
+                  </>
+                )}
+              </button>
+
+              <button
+                onClick={() => handleCopyLink(qrModalDoc)}
+                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-200 bg-slate-800 hover:bg-slate-700 hover:text-white transition-all active:scale-95"
+              >
+                <Copy className="w-4 h-4" />
+                <span>Copy Link</span>
               </button>
             </div>
           </div>
