@@ -8,20 +8,33 @@ export default function Footer({ footer }) {
       tagline: "Full Stack Developer",
       links: [
         { label: "GitHub", href: "https://github.com/Suraj-Sangale" },
-        { label: "LinkedIn", href: "https://www.linkedin.com/in/suraj-sangale/" },
+        {
+          label: "LinkedIn",
+          href: "https://www.linkedin.com/in/suraj-sangale/",
+        },
         { label: "Resume", href: "/suraj_full_stack_developer.pdf" },
         { label: "Contact", href: "/contact" },
       ],
       copy: "© 2026 — Crafted in React, Next.js & raw ambition",
     };
   }
+  const handleScrollUp = () => {
+    
+    if (window.location.pathname == "/quick_tools") {
+      const url = new URL(window.location.href);
+      url.searchParams.set("checker", "1");
+      window.location.href = url.toString();
+    } else window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <>
       <footer>
         <div className="f-top">
           <div className="f-brand">
-            <Link href="/" className="fl">{footer.logo}</Link>
+            <Link href="/" className="fl">
+              {footer.logo}
+            </Link>
             {footer.tagline && <span className="f-tag">{footer.tagline}</span>}
           </div>
 
@@ -40,7 +53,7 @@ export default function Footer({ footer }) {
           <div className="fr">{footer.copy}</div>
           <button
             className="f-top-btn"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            onClick={handleScrollUp}
             aria-label="Back to top"
           >
             ↑ Top
@@ -187,7 +200,6 @@ export default function Footer({ footer }) {
             display: flex;
             flex-wrap: wrap;
           }
-
 
           .f-divider {
             margin: 20px 0px 10px;
