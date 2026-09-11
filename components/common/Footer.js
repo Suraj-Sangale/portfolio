@@ -19,7 +19,6 @@ export default function Footer({ footer }) {
     };
   }
   const handleScrollUp = () => {
-    
     if (window.location.pathname == "/quick_tools") {
       const url = new URL(window.location.href);
       url.searchParams.set("checker", "1");
