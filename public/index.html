@@ -1,0 +1,2074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suraj Sangale — Full Stack Web Developer</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       CSS VARIABLES & RESET
+       ========================================================================== */
+    :root {
+      --bg: #02050b;
+      --bg-alt: #050a18;
+      --bg-card: rgba(10, 16, 33, 0.65);
+      --bg-card-hover: rgba(16, 26, 52, 0.8);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(0, 245, 255, 0.3);
+      --border-glow-purple: rgba(121, 40, 202, 0.4);
+      
+      --cyan: #00f5ff;
+      --blue: #3a7bd5;
+      --purple: #7928ca;
+      --magenta: #ff007f;
+      --green: #00ff88;
+      
+      --txt: #ffffff;
+      --txt-soft: #e2eaff;
+      --txt-muted: #8c9fc2;
+      --txt-dim: #4d5d7e;
+      
+      --font-main: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display: 'Space Grotesk', 'Outfit', sans-serif;
+      --font-mono: 'Space Mono', monospace;
+      --font-script: 'Caveat', cursive;
+      
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 22px;
+      --radius-full: 9999px;
+      
+      --shadow-cyan: 0 0 25px rgba(0, 245, 255, 0.35);
+      --shadow-purple: 0 0 35px rgba(121, 40, 202, 0.4);
+      --shadow-card: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg);
+      color: var(--txt);
+      font-family: var(--font-main);
+      overflow-x: hidden;
+    }
+
+    body {
+      background-color: var(--bg);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Cosmic Background & Starfield */
+    #space-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .ambient-glow {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+      border-radius: 50%;
+      filter: blur(140px);
+      opacity: 0.25;
+    }
+
+    .ambient-1 {
+      top: -10%;
+      right: -5%;
+      width: 650px;
+      height: 650px;
+      background: radial-gradient(circle, var(--purple), var(--blue));
+    }
+
+    .ambient-2 {
+      top: 40%;
+      left: -10%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, var(--blue), var(--cyan));
+      opacity: 0.15;
+    }
+
+    .ambient-3 {
+      bottom: 10%;
+      right: 15%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, var(--magenta), var(--purple));
+      opacity: 0.18;
+    }
+
+    /* Container Utility */
+    .container {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ==========================================================================
+       TYPOGRAPHY & GRADIENTS
+       ========================================================================== */
+    .grad-sangale {
+      background: linear-gradient(135deg, #00f5ff 0%, #3a7bd5 35%, #9d4edd 70%, #ff007f 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 35px rgba(0, 245, 255, 0.4)) drop-shadow(0 0 60px rgba(121, 40, 202, 0.3));
+    }
+
+    .grad-cyan-purple {
+      background: linear-gradient(135deg, var(--cyan) 0%, var(--blue) 50%, var(--purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-tag {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-tag::before {
+      content: '';
+      display: inline-block;
+      width: 16px;
+      height: 2px;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+    }
+
+    .section-heading {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--txt);
+    }
+
+    .section-subtitle {
+      font-size: 1rem;
+      color: var(--txt-muted);
+      margin-top: 0.75rem;
+      font-weight: 400;
+    }
+
+    /* ==========================================================================
+       BUTTONS & CHIPS
+       ========================================================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      font-family: var(--font-main);
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 0.85rem 1.8rem;
+      border-radius: var(--radius-full);
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      border: 1px solid transparent;
+      outline: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #00f5ff, #3a7bd5);
+      color: #02050b;
+      box-shadow: 0 0 25px rgba(0, 245, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 35px rgba(0, 245, 255, 0.6), 0 0 10px rgba(58, 123, 213, 0.8);
+    }
+
+    .btn-outline {
+      background: rgba(10, 18, 38, 0.5);
+      border-color: rgba(255, 255, 255, 0.15);
+      color: var(--txt-soft);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-outline:hover {
+      background: rgba(20, 32, 64, 0.7);
+      border-color: var(--cyan);
+      color: var(--txt);
+      box-shadow: 0 0 20px rgba(0, 245, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .btn-purple {
+      background: linear-gradient(135deg, #7928ca, #3a7bd5);
+      color: #ffffff;
+      box-shadow: 0 0 25px rgba(121, 40, 202, 0.45);
+    }
+
+    .btn-purple:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 35px rgba(121, 40, 202, 0.7);
+    }
+
+    .social-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(12, 20, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--txt-muted);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(8px);
+    }
+
+    .social-btn:hover {
+      color: var(--cyan);
+      border-color: var(--cyan);
+      box-shadow: 0 0 16px rgba(0, 245, 255, 0.4);
+      transform: translateY(-3px) scale(1.05);
+    }
+
+    .social-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    /* ==========================================================================
+       1. FIXED / STICKY NAVBAR
+       ========================================================================== */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 1.2rem 0;
+      transition: all 0.3s ease;
+      background: rgba(2, 5, 11, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      text-decoration: none;
+    }
+
+    .logo-circle {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(121, 40, 202, 0.3), rgba(0, 245, 255, 0.2));
+      border: 1.5px solid var(--cyan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--txt);
+      box-shadow: 0 0 15px rgba(0, 245, 255, 0.4), inset 0 0 10px rgba(121, 40, 202, 0.4);
+    }
+
+    .brand-text {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--txt);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--txt-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      transition: all 0.25s ease;
+      position: relative;
+      padding: 0.3rem 0;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--txt);
+    }
+
+    .nav-links a.active::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--cyan), var(--purple));
+      border-radius: 2px;
+      box-shadow: 0 0 8px var(--cyan);
+    }
+
+    /* Mobile Toggle */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--txt);
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    /* ==========================================================================
+       2. HERO SECTION
+       ========================================================================== */
+    .hero-section {
+      min-height: 100vh;
+      padding-top: 140px;
+      padding-bottom: 60px;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: center;
+      gap: 3rem;
+      width: 100%;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 5;
+    }
+
+    .hero-badge-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
+      color: var(--cyan);
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .hero-badge-label::before {
+      content: '';
+      width: 24px;
+      height: 2px;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3.2rem, 7.5vw, 6.2rem);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title .first-name {
+      display: block;
+      color: #e6edff;
+      text-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
+    }
+
+    .hero-title .last-name {
+      display: block;
+      margin-top: 0.15em;
+    }
+
+    .hero-tagline {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      letter-spacing: 0.18em;
+      line-height: 1.7;
+      color: var(--txt-soft);
+      text-transform: uppercase;
+      max-width: 520px;
+      margin-bottom: 2.2rem;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-socials {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    /* Hero Right: 3D Holographic Cosmic Planet */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 520px;
+    }
+
+    #hero-planet-anchor {
+      width: 440px;
+      height: 440px;
+      max-width: 100%;
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    #hero-planet-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 440px;
+      height: 440px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      pointer-events: none;
+      z-index: 45;
+      will-change: transform;
+      transform-origin: center center;
+      transform-style: preserve-3d;
+    }
+
+    .handwritten-quote {
+      position: absolute;
+      top: -20px;
+      left: 10px;
+      font-family: var(--font-script);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #e2eaff;
+      line-height: 1.05;
+      transform: rotate(-12deg);
+      text-shadow: 0 0 15px rgba(0, 245, 255, 0.6), 0 0 30px rgba(121, 40, 202, 0.4);
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .planet-core-canvas {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      border-radius: 50%;
+      z-index: 2;
+    }
+
+    /* Orbital Neon Rings around Hero Planet */
+    .planet-orbit-ring {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      transform-style: preserve-3d;
+    }
+
+    .ring-outer {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 480px;
+      height: 480px;
+      margin-left: -240px;
+      margin-top: -240px;
+      border: 1.5px solid rgba(0, 245, 255, 0.55);
+      border-radius: 50%;
+      transform: rotateX(68deg) rotateY(-24deg);
+      box-shadow: 0 0 25px rgba(0, 245, 255, 0.4), inset 0 0 25px rgba(0, 245, 255, 0.2);
+      animation: spinRing 22s linear infinite;
+      z-index: 3;
+    }
+
+    .ring-inner {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 420px;
+      height: 420px;
+      margin-left: -210px;
+      margin-top: -210px;
+      border: 1px dashed rgba(255, 0, 127, 0.6);
+      border-radius: 50%;
+      transform: rotateX(74deg) rotateY(18deg);
+      box-shadow: 0 0 20px rgba(255, 0, 127, 0.35);
+      animation: spinRingRev 16s linear infinite;
+      z-index: 3;
+    }
+
+    .planet-badge-orbit {
+      position: absolute;
+      top: 40%;
+      right: 15px;
+      background: rgba(6, 12, 28, 0.85);
+      border: 1px solid var(--cyan);
+      box-shadow: 0 0 20px rgba(0, 245, 255, 0.4);
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      font-size: 0.72rem;
+      font-family: var(--font-mono);
+      letter-spacing: 0.1em;
+      color: #ffffff;
+      text-transform: uppercase;
+      z-index: 6;
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      animation: floatBadge 4s ease-in-out infinite;
+    }
+
+    .planet-badge-orbit::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+    }
+
+    @keyframes spinRing {
+      0% { transform: rotateX(68deg) rotateY(-24deg) rotateZ(0deg); }
+      100% { transform: rotateX(68deg) rotateY(-24deg) rotateZ(360deg); }
+    }
+
+    @keyframes spinRingRev {
+      0% { transform: rotateX(74deg) rotateY(18deg) rotateZ(360deg); }
+      100% { transform: rotateX(74deg) rotateY(18deg) rotateZ(0deg); }
+    }
+
+    @keyframes floatBadge {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* Scroll Indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 20px;
+      right: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      color: var(--txt-dim);
+      text-transform: uppercase;
+    }
+
+    .mouse-icon {
+      width: 20px;
+      height: 32px;
+      border: 1.5px solid var(--txt-dim);
+      border-radius: 12px;
+      position: relative;
+    }
+
+    .mouse-wheel {
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      width: 3px;
+      height: 6px;
+      background: var(--cyan);
+      border-radius: 2px;
+      transform: translateX(-50%);
+      animation: mouseScroll 1.8s ease-in-out infinite;
+    }
+
+    @keyframes mouseScroll {
+      0% { opacity: 1; transform: translateX(-50%) translateY(0); }
+      100% { opacity: 0; transform: translateX(-50%) translateY(12px); }
+    }
+
+    /* ==========================================================================
+       3. STATUS / EXPERIENCE / STACK HUD BAR
+       ========================================================================== */
+    .status-section {
+      padding: 2.5rem 0 5rem;
+    }
+
+    .status-hud-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      background: linear-gradient(135deg, rgba(14, 23, 50, 0.6), rgba(8, 14, 32, 0.6));
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-lg);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .status-hud-bar::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan), var(--purple), transparent);
+    }
+
+    .hud-col {
+      padding: 2.2rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.4rem;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .hud-col:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 20%;
+      height: 60%;
+      width: 1px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .hud-col:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .hud-icon-box {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: rgba(0, 245, 255, 0.06);
+      border: 1px solid rgba(0, 245, 255, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--cyan);
+      flex-shrink: 0;
+      box-shadow: 0 0 20px rgba(0, 245, 255, 0.15);
+    }
+
+    .hud-col:nth-child(2) .hud-icon-box {
+      background: rgba(58, 123, 213, 0.06);
+      border-color: rgba(58, 123, 213, 0.3);
+      color: var(--blue);
+      box-shadow: 0 0 20px rgba(58, 123, 213, 0.15);
+    }
+
+    .hud-col:nth-child(3) .hud-icon-box {
+      background: rgba(121, 40, 202, 0.06);
+      border-color: rgba(121, 40, 202, 0.3);
+      color: var(--purple);
+      box-shadow: 0 0 20px rgba(121, 40, 202, 0.15);
+    }
+
+    .hud-icon-box svg {
+      width: 22px;
+      height: 22px;
+      stroke-width: 2;
+    }
+
+    .hud-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      color: var(--txt-dim);
+      text-transform: uppercase;
+      margin-bottom: 0.35rem;
+    }
+
+    .hud-value {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--txt);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .status-dot-active {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 10px var(--green);
+      display: inline-block;
+    }
+
+    .hud-desc {
+      font-size: 0.8rem;
+      color: var(--txt-muted);
+    }
+
+    /* ==========================================================================
+       4. ABOUT ME SECTION
+       ========================================================================== */
+    .about-section {
+      padding: 6rem 0;
+      position: relative;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .about-text-content p {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--txt-soft);
+      margin: 1.8rem 0 2rem;
+    }
+
+    .about-features-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .about-feature-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.65rem 1.2rem;
+      background: rgba(14, 24, 48, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-full);
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--txt-soft);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    .about-feature-chip:hover {
+      border-color: var(--cyan);
+      box-shadow: 0 0 15px rgba(0, 245, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .about-feature-chip .chip-icon {
+      font-size: 1.1rem;
+    }
+
+    /* Glassmorphism Quote Card */
+    .quote-card {
+      background: linear-gradient(135deg, rgba(14, 25, 54, 0.65), rgba(7, 12, 28, 0.75));
+      border: 1px solid rgba(0, 245, 255, 0.18);
+      border-radius: var(--radius-lg);
+      padding: 3rem 2.5rem;
+      position: relative;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+    }
+
+    .quote-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, rgba(58, 123, 213, 0.1), transparent 70%);
+      pointer-events: none;
+    }
+
+    .quote-mark {
+      font-size: 3.5rem;
+      line-height: 1;
+      font-family: Georgia, serif;
+      color: var(--cyan);
+      opacity: 0.8;
+      margin-bottom: 1.2rem;
+      text-shadow: 0 0 20px var(--cyan);
+    }
+
+    .quote-body {
+      font-size: 1.25rem;
+      line-height: 1.6;
+      font-weight: 400;
+      color: #ffffff;
+      margin-bottom: 2.2rem;
+    }
+
+    .quote-author-wrap {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .quote-author-name {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      color: var(--txt-muted);
+      text-transform: uppercase;
+    }
+
+    .quote-glow-line {
+      flex: 1;
+      height: 1.5px;
+      background: linear-gradient(90deg, var(--cyan), transparent);
+      box-shadow: 0 0 8px var(--cyan);
+    }
+
+    /* ==========================================================================
+       5. TECHNOLOGIES SECTION (ORBITAL VISUALIZATION)
+       ========================================================================== */
+    .tech-section {
+      padding: 7rem 0 9rem;
+      position: relative;
+      text-align: center;
+    }
+
+    .tech-header {
+      max-width: 650px;
+      margin: 0 auto 4rem;
+    }
+
+    .orbit-system-container {
+      position: relative;
+      width: 100%;
+      max-width: 1100px;
+      height: 520px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Concentric 3D Elliptical Orbits */
+    .orbit-ellipse {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .orbit-1 {
+      width: 880px;
+      height: 380px;
+      border: 1px solid rgba(0, 245, 255, 0.16);
+      box-shadow: 0 0 35px rgba(0, 245, 255, 0.05);
+    }
+
+    .orbit-2 {
+      width: 660px;
+      height: 290px;
+      border: 1px solid rgba(121, 40, 202, 0.22);
+      box-shadow: 0 0 30px rgba(121, 40, 202, 0.06);
+    }
+
+    .orbit-3 {
+      width: 440px;
+      height: 200px;
+      border: 1px dashed rgba(58, 123, 213, 0.3);
+    }
+
+    /* Reserved Placeholder for Hero Planet */
+    #planet-target {
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 245, 255, 0.12), rgba(121, 40, 202, 0.05), transparent 70%);
+      border: 1px solid rgba(0, 245, 255, 0.3);
+      box-shadow: 0 0 40px rgba(0, 245, 255, 0.2), inset 0 0 20px rgba(121, 40, 202, 0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      backdrop-filter: blur(8px);
+      text-align: center;
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      line-height: 1.2;
+      color: #00f5ff;
+      text-shadow: 0 0 10px #00f5ff;
+    }
+
+    /* Floating Tech Badges on Orbits */
+    .tech-badge {
+      position: absolute;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.7), 0 0 12px rgba(0, 245, 255, 0.3);
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+      z-index: 12;
+      padding: 9px;
+    }
+
+    .tech-badge img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .tech-badge:hover {
+      transform: scale(1.22) translateY(-4px);
+      box-shadow: 0 0 25px rgba(0, 245, 255, 0.7);
+    }
+
+    /* Tech Icon Tooltip */
+    .tech-badge::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: -32px;
+      left: 50%;
+      transform: translateX(-50%) scale(0.85);
+      background: rgba(3, 8, 20, 0.9);
+      color: #00f5ff;
+      border: 1px solid var(--border-glow);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: all 0.2s ease;
+      box-shadow: 0 0 12px rgba(0, 245, 255, 0.3);
+    }
+
+    .tech-badge:hover::after {
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+    }
+
+    /* ==========================================================================
+       6. FEATURED PROJECTS SECTION
+       ========================================================================== */
+    .projects-section {
+      padding: 6rem 0 8rem;
+      position: relative;
+    }
+
+    .projects-header-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 3.5rem;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .project-card {
+      background: linear-gradient(135deg, rgba(14, 24, 48, 0.65), rgba(7, 12, 28, 0.75));
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-lg);
+      padding: 2.2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(0, 245, 255, 0.35);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(0, 245, 255, 0.15);
+    }
+
+    .project-card:hover::before {
+      opacity: 1;
+    }
+
+    .project-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.8rem;
+    }
+
+    .project-icon-box {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      background: rgba(0, 245, 255, 0.06);
+      border: 1px solid rgba(0, 245, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--cyan);
+    }
+
+    .project-card:nth-child(2) .project-icon-box {
+      background: rgba(121, 40, 202, 0.08);
+      border-color: rgba(121, 40, 202, 0.3);
+      color: var(--purple);
+    }
+
+    .project-card:nth-child(3) .project-icon-box {
+      background: rgba(58, 123, 213, 0.08);
+      border-color: rgba(58, 123, 213, 0.3);
+      color: var(--blue);
+    }
+
+    .project-ext-link {
+      color: var(--txt-dim);
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .project-card:hover .project-ext-link {
+      color: var(--cyan);
+      transform: translate(2px, -2px);
+    }
+
+    .project-title {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--txt);
+      margin-bottom: 0.8rem;
+    }
+
+    .project-desc {
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: var(--txt-muted);
+      margin-bottom: 2rem;
+      flex-grow: 1;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .project-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--txt-soft);
+    }
+
+    /* ==========================================================================
+       7. FOOTER
+       ========================================================================== */
+    .footer {
+      padding: 3rem 0 2.5rem;
+      position: relative;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(2, 5, 11, 0.8);
+      backdrop-filter: blur(15px);
+    }
+
+    .footer-top-accent {
+      position: absolute;
+      top: -1px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 140px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--cyan), var(--purple));
+      box-shadow: 0 0 12px var(--cyan);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .footer-left {
+      font-size: 0.85rem;
+      color: var(--txt-dim);
+    }
+
+    .footer-center {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      color: var(--txt-muted);
+      text-transform: uppercase;
+    }
+
+    .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    /* ==========================================================================
+       RESPONSIVENESS (TABLET & MOBILE)
+       ========================================================================== */
+    @media (max-width: 1024px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 4rem;
+        text-align: center;
+      }
+
+      .hero-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .hero-cta-group {
+        justify-content: center;
+      }
+
+      .hero-socials {
+        justify-content: center;
+      }
+
+      .status-hud-bar {
+        grid-template-columns: 1fr;
+      }
+
+      .hud-col:not(:last-child)::after {
+        display: none;
+      }
+
+      .hud-col {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .orbit-system-container {
+        transform: scale(0.85);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none; /* Can be expanded with a toggle */
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .hero-title {
+        font-size: 3rem;
+      }
+
+      #hero-planet-wrapper {
+        width: 320px;
+        height: 320px;
+      }
+
+      .ring-outer {
+        width: 350px;
+        height: 350px;
+      }
+
+      .ring-inner {
+        width: 300px;
+        height: 300px;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.2rem;
+      }
+
+      .orbit-system-container {
+        transform: scale(0.55);
+        height: 380px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Starfield & Cosmic Ambient Glow Canvas -->
+  <canvas id="space-canvas"></canvas>
+  <div class="ambient-glow ambient-1"></div>
+  <div class="ambient-glow ambient-2"></div>
+  <div class="ambient-glow ambient-3"></div>
+
+  <!-- ==========================================================================
+       1. FIXED NAVBAR
+       ========================================================================== -->
+  <header class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <a href="#home" class="brand-logo">
+        <div class="logo-circle">S</div>
+        <span class="brand-text">SURAJ SANGALE</span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#home" class="active">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#tech">Work</a></li>
+          <li><a href="#blogs">Blogs</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <a href="#contact" class="btn btn-purple" style="padding: 0.65rem 1.4rem; font-size: 0.85rem;">Let's Talk →</a>
+        <button class="mobile-menu-btn" aria-label="Toggle Navigation">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ==========================================================================
+         2. HERO SECTION
+         ========================================================================== -->
+    <section class="hero-section" id="home">
+      <div class="container hero-grid">
+        
+        <!-- Left Hero Content -->
+        <div class="hero-content">
+          <div class="hero-badge-label">Developer • Problem Solver • Lifelong Learner</div>
+          
+          <h1 class="hero-title">
+            <span class="first-name">SURAJ</span>
+            <span class="last-name grad-sangale">SANGALE</span>
+          </h1>
+
+          <p class="hero-tagline">
+            On the way. Building something that solves real-world problems
+          </p>
+
+          <div class="hero-cta-group">
+            <a href="#projects" class="btn btn-primary">View My Work →</a>
+            <a href="#contact" class="btn btn-outline">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              Download Resume
+            </a>
+          </div>
+
+          <!-- Social Media Buttons -->
+          <div class="hero-socials">
+            <!-- X / Twitter -->
+            <a href="https://twitter.com" target="_blank" class="social-btn" aria-label="Twitter">
+              <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <!-- Instagram -->
+            <a href="https://instagram.com" target="_blank" class="social-btn" aria-label="Instagram">
+              <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <!-- GitHub -->
+            <a href="https://github.com" target="_blank" class="social-btn" aria-label="GitHub">
+              <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+            </a>
+            <!-- LinkedIn -->
+            <a href="https://linkedin.com" target="_blank" class="social-btn" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            </a>
+            <!-- WhatsApp -->
+            <a href="https://whatsapp.com" target="_blank" class="social-btn" aria-label="WhatsApp">
+              <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+            </a>
+            <!-- Gmail / Mail -->
+            <a href="mailto:surajsangle00@gmail.com" class="social-btn" aria-label="Email">
+              <svg viewBox="0 0 24 24"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.272H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right Hero Visual: 3D Holographic Planet in Space (Beside the Hero Title) -->
+        <div class="hero-visual">
+          <!-- Layout Anchor for Start Position -->
+          <div id="hero-planet-anchor"></div>
+        </div>
+
+      </div>
+
+      <!-- Fixed Floating 3D Cosmic Planet with Scroll-Driven Flight Animation -->
+      <div id="hero-planet-wrapper">
+        <div class="handwritten-quote">
+          Code<br>Build<br>Improve<br>Repeat
+        </div>
+
+        <!-- Planet Hologram Canvas -->
+        <canvas id="planet-canvas" class="planet-core-canvas"></canvas>
+
+        <!-- 3D Orbital Rings -->
+        <div class="planet-orbit-ring ring-outer"></div>
+        <div class="planet-orbit-ring ring-inner"></div>
+
+        <!-- Floating Badge attached to planet -->
+        <div class="planet-badge-orbit">
+          Full Stack Developer
+        </div>
+      </div>
+
+      <!-- Scroll to explore -->
+      <div class="scroll-indicator">
+        <span>Scroll To Explore</span>
+        <div class="mouse-icon">
+          <div class="mouse-wheel"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         3. STATUS BAR (STATUS / EXPERIENCE / STACK)
+         ========================================================================== -->
+    <section class="status-section">
+      <div class="container">
+        <div class="status-hud-bar">
+          
+          <!-- Column 1: Status -->
+          <div class="hud-col">
+            <div class="hud-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+            </div>
+            <div>
+              <div class="hud-label">STATUS</div>
+              <div class="hud-value">
+                <span class="status-dot-active"></span> Open to Work
+              </div>
+              <div class="hud-desc">Ready for exciting opportunities</div>
+            </div>
+          </div>
+
+          <!-- Column 2: Experience -->
+          <div class="hud-col">
+            <div class="hud-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+              </svg>
+            </div>
+            <div>
+              <div class="hud-label">EXPERIENCE</div>
+              <div class="hud-value">3+ Years</div>
+              <div class="hud-desc">Building scalable solutions</div>
+            </div>
+          </div>
+
+          <!-- Column 3: Stack -->
+          <div class="hud-col">
+            <div class="hud-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+              </svg>
+            </div>
+            <div>
+              <div class="hud-label">STACK</div>
+              <div class="hud-value">MERN + Next.js</div>
+              <div class="hud-desc">Always learning new tech</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         4. ABOUT ME SECTION
+         ========================================================================== -->
+    <section class="about-section" id="about">
+      <div class="container about-grid">
+        
+        <!-- Left: Text Info -->
+        <div class="about-text-content">
+          <div class="section-tag">About Me</div>
+          <h2 class="section-heading">
+            Turning Ideas into <span class="grad-sangale">Real Solutions</span>
+          </h2>
+          <p>
+            I'm Suraj Sangale, a Web Developer from Mumbai, passionate about building modern, scalable, and user-friendly web applications. I love solving real-world problems through clean code and thoughtful design.
+          </p>
+
+          <div class="about-features-list">
+            <div class="about-feature-chip">
+              <span class="chip-icon">⚡</span>
+              <span>Problem Solver</span>
+            </div>
+            <div class="about-feature-chip">
+              <span class="chip-icon">💡</span>
+              <span>Continuous Learner</span>
+            </div>
+            <div class="about-feature-chip">
+              <span class="chip-icon">👥</span>
+              <span>Team Player</span>
+            </div>
+          </div>
+
+          <a href="#contact" class="btn btn-outline">More About Me →</a>
+        </div>
+
+        <!-- Right: Glassmorphism Quote Card -->
+        <div>
+          <div class="quote-card">
+            <div class="quote-mark">“</div>
+            <blockquote class="quote-body">
+              Code is not just about syntax, it's about creating solutions that make a difference.
+            </blockquote>
+            <div class="quote-author-wrap">
+              <span class="quote-author-name">SURAJ SANGALE</span>
+              <div class="quote-glow-line"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         5. TECHNOLOGIES I WORK WITH SECTION (ORBITAL VISUALIZATION)
+         ========================================================================== -->
+    <section class="tech-section" id="tech">
+      <div class="container">
+        
+        <div class="tech-header">
+          <div class="section-tag">Tech Stack</div>
+          <h2 class="section-heading">Technologies I Work With</h2>
+          <p class="section-subtitle">Tools and technologies that help me build amazing products</p>
+        </div>
+
+        <!-- Orbital System -->
+        <div class="orbit-system-container" id="orbit-system">
+          <!-- Concentric Ellipses -->
+          <div class="orbit-ellipse orbit-1"></div>
+          <div class="orbit-ellipse orbit-2"></div>
+          <div class="orbit-ellipse orbit-3"></div>
+
+          <!-- Central Target Destination Placeholder for Hero Planet -->
+          <div id="planet-target">
+            FULL<br>STACK<br>DEVELOPER
+          </div>
+
+          <!-- Orbital Technology Badges (Mapped dynamically with positioning) -->
+          <div class="tech-badge" data-tooltip="React" style="top: 15%; left: 16%;">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React">
+          </div>
+          <div class="tech-badge" data-tooltip="Next.js" style="top: 10%; left: 30%;">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" alt="Next.js">
+          </div>
+          <div class="tech-badge" data-tooltip="JavaScript" style="top: 4%; left: 48%;">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript">
+          </div>
+          <div class="tech-badge" data-tooltip="HTML5" style="top: 11%; left: 68%;">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5">
+          </div>
+          <div class="tech-badge" data-tooltip="CSS3" style="top: 20%; left: 82%;">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3">
+          </div>
+
+          <div class="tech-badge" data-tooltip="Node.js" style="top: 36%; left: 38%;">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js">
+          </div>
+          <div class="tech-badge" data-tooltip="TypeScript" style="top: 38%; left: 60%;">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt="TypeScript">
+          </div>
+
+          <div class="tech-badge" data-tooltip="Figma" style="top: 68%; left: 14%;">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="Figma">
+          </div>
+          <div class="tech-badge" data-tooltip="MongoDB" style="top: 58%; left: 26%;">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB">
+          </div>
+          <div class="tech-badge" data-tooltip="MySQL" style="top: 72%; left: 40%;">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL">
+          </div>
+          <div class="tech-badge" data-tooltip="GitHub" style="top: 72%; left: 58%;">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub">
+          </div>
+          <div class="tech-badge" data-tooltip="Tailwind CSS" style="top: 60%; left: 72%;">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind">
+          </div>
+          <div class="tech-badge" data-tooltip="npm" style="top: 68%; left: 85%;">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/npm/npm-original-wordmark.svg" alt="npm">
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         6. FEATURED PROJECTS SECTION
+         ========================================================================== -->
+    <section class="projects-section" id="projects">
+      <div class="container">
+        
+        <div class="projects-header-row">
+          <div>
+            <div class="section-tag">Featured Projects</div>
+            <h2 class="section-heading">Some Things I've Built</h2>
+            <p class="section-subtitle">A glimpse of my work. More projects coming soon.</p>
+          </div>
+          <div>
+            <a href="#projects" class="btn btn-outline">View All Projects →</a>
+          </div>
+        </div>
+
+        <div class="projects-grid">
+          
+          <!-- Card 1: E-Commerce Platform -->
+          <div class="project-card">
+            <div>
+              <div class="project-card-top">
+                <div class="project-icon-box">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                  </svg>
+                </div>
+                <a href="#" class="project-ext-link" aria-label="Open Project">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                </a>
+              </div>
+              <h3 class="project-title">E-Commerce Platform</h3>
+              <p class="project-desc">High-performance eCommerce solution with modern UI and SEO optimization.</p>
+            </div>
+            <div class="project-tags">
+              <span class="project-tag">Next.js</span>
+              <span class="project-tag">React</span>
+              <span class="project-tag">Tailwind</span>
+            </div>
+          </div>
+
+          <!-- Card 2: Frame Recommendation -->
+          <div class="project-card">
+            <div>
+              <div class="project-card-top">
+                <div class="project-icon-box">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="9" cy="9" r="2"></circle>
+                    <path d="M21 15l-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path>
+                  </svg>
+                </div>
+                <a href="#" class="project-ext-link" aria-label="Open Project">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                </a>
+              </div>
+              <h3 class="project-title">Frame Recommendation</h3>
+              <p class="project-desc">AI-powered frame recommendation system for better product discovery.</p>
+            </div>
+            <div class="project-tags">
+              <span class="project-tag">React</span>
+              <span class="project-tag">Node.js</span>
+              <span class="project-tag">MySQL</span>
+            </div>
+          </div>
+
+          <!-- Card 3: Work Logger App -->
+          <div class="project-card">
+            <div>
+              <div class="project-card-top">
+                <div class="project-icon-box">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                  </svg>
+                </div>
+                <a href="#" class="project-ext-link" aria-label="Open Project">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                </a>
+              </div>
+              <h3 class="project-title">Work Logger App</h3>
+              <p class="project-desc">A desktop app to track and manage daily work tasks efficiently.</p>
+            </div>
+            <div class="project-tags">
+              <span class="project-tag">Python</span>
+              <span class="project-tag">Tkinter</span>
+              <span class="project-tag">JSON</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ==========================================================================
+       7. FOOTER
+       ========================================================================== -->
+  <footer class="footer" id="contact">
+    <div class="footer-top-accent"></div>
+    <div class="container footer-inner">
+      <div class="footer-left">
+        © 2026 Suraj Sangale. All rights reserved.
+      </div>
+
+      <div class="footer-center">
+        Keep Building | Stay Curious | Make an Impact
+      </div>
+
+      <div class="footer-right">
+        <a href="https://twitter.com" target="_blank" class="social-btn" aria-label="Twitter">
+          <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="https://github.com" target="_blank" class="social-btn" aria-label="GitHub">
+          <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        </a>
+        <a href="https://linkedin.com" target="_blank" class="social-btn" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+        </a>
+        <a href="https://instagram.com" target="_blank" class="social-btn" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <a href="https://youtube.com" target="_blank" class="social-btn" aria-label="YouTube">
+          <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       VANILLA JAVASCRIPT: Starfield Canvas + 3D Holographic Planet Renderer
+       ========================================================================== -->
+  <script>
+    /* --------------------------------------------------------------------------
+       1. STARFIELD BACKGROUND CANVAS
+       -------------------------------------------------------------------------- */
+    (function initStarfield() {
+      const canvas = document.getElementById('space-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      let width, height;
+      let stars = [];
+      const STAR_COUNT = 180;
+
+      function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      }
+
+      function createStars() {
+        stars = [];
+        for (let i = 0; i < STAR_COUNT; i++) {
+          stars.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            radius: Math.random() * 1.5 + 0.3,
+            alpha: Math.random() * 0.8 + 0.2,
+            speed: Math.random() * 0.02 + 0.005,
+            color: Math.random() > 0.6 ? '#00f5ff' : (Math.random() > 0.7 ? '#9d4edd' : '#ffffff'),
+            phase: Math.random() * Math.PI * 2
+          });
+        }
+      }
+
+      function render() {
+        ctx.clearRect(0, 0, width, height);
+
+        const now = Date.now() * 0.001;
+
+        stars.forEach(star => {
+          const dynamicAlpha = star.alpha * (0.6 + 0.4 * Math.sin(now * 2 + star.phase));
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+          ctx.fillStyle = star.color;
+          ctx.globalAlpha = dynamicAlpha;
+          ctx.fill();
+
+          // Subtle twinkle glow for larger stars
+          if (star.radius > 1.2) {
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = star.color;
+          } else {
+            ctx.shadowBlur = 0;
+          }
+        });
+
+        ctx.globalAlpha = 1;
+        ctx.shadowBlur = 0;
+        requestAnimationFrame(render);
+      }
+
+      window.addEventListener('resize', () => {
+        resize();
+        createStars();
+      });
+
+      resize();
+      createStars();
+      render();
+    })();
+
+    /* --------------------------------------------------------------------------
+       2. 3D HOLOGRAPHIC PLANET / ORB CANVAS (HERO SECTION)
+       -------------------------------------------------------------------------- */
+    (function initPlanetHologram() {
+      const canvas = document.getElementById('planet-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      let size = 440;
+      canvas.width = size;
+      canvas.height = size;
+
+      const radius = size * 0.38;
+      const center = size / 2;
+
+      // Generate 3D sphere points (Fibonacci sphere algorithm)
+      const POINT_COUNT = 550;
+      const points = [];
+      const goldenRatio = (1 + Math.sqrt(5)) / 2;
+
+      for (let i = 0; i < POINT_COUNT; i++) {
+        const theta = 2 * Math.PI * i / goldenRatio;
+        const phi = Math.acos(1 - 2 * (i + 0.5) / POINT_COUNT);
+        
+        const x = Math.sin(phi) * Math.cos(theta);
+        const y = Math.sin(phi) * Math.sin(theta);
+        const z = Math.cos(phi);
+        
+        points.push({ x, y, z, origX: x, origY: y, origZ: z });
+      }
+
+      let angleX = 0.3;
+      let angleY = 0;
+      let mouseX = 0, mouseY = 0;
+
+      window.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX / window.innerWidth - 0.5) * 0.4;
+        mouseY = (e.clientY / window.innerHeight - 0.5) * 0.4;
+      });
+
+      function renderPlanet() {
+        ctx.clearRect(0, 0, size, size);
+
+        // 1. Atmosphere Radial Glow
+        const atmosphere = ctx.createRadialGradient(center, center, radius * 0.6, center, center, radius * 1.25);
+        atmosphere.addColorStop(0, 'rgba(0, 245, 255, 0.08)');
+        atmosphere.addColorStop(0.5, 'rgba(121, 40, 202, 0.15)');
+        atmosphere.addColorStop(0.85, 'rgba(0, 245, 255, 0.25)');
+        atmosphere.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        
+        ctx.fillStyle = atmosphere;
+        ctx.beginPath();
+        ctx.arc(center, center, radius * 1.25, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 2. Planet Base Core Sphere
+        const planetGradient = ctx.createRadialGradient(
+          center - radius * 0.35, 
+          center - radius * 0.35, 
+          radius * 0.1, 
+          center, 
+          center, 
+          radius
+        );
+        planetGradient.addColorStop(0, 'rgba(0, 245, 255, 0.35)');
+        planetGradient.addColorStop(0.3, 'rgba(58, 123, 213, 0.4)');
+        planetGradient.addColorStop(0.7, 'rgba(121, 40, 202, 0.6)');
+        planetGradient.addColorStop(1, 'rgba(2, 5, 15, 0.95)');
+
+        ctx.fillStyle = planetGradient;
+        ctx.beginPath();
+        ctx.arc(center, center, radius, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Planet Rim Glow
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = 'rgba(0, 245, 255, 0.4)';
+        ctx.stroke();
+
+        // 3. Rotate and Project 3D Points onto Canvas
+        angleY += 0.006;
+        const targetRotX = 0.2 + mouseY;
+        const targetRotY = angleY + mouseX;
+
+        const cosX = Math.cos(targetRotX), sinX = Math.sin(targetRotX);
+        const cosY = Math.cos(targetRotY), sinY = Math.sin(targetRotY);
+
+        // Sort points by Z depth
+        const projected = [];
+
+        points.forEach(p => {
+          // Y rotation
+          let x1 = p.origX * cosY - p.origZ * sinY;
+          let z1 = p.origZ * cosY + p.origX * sinY;
+          
+          // X rotation
+          let y1 = p.origY * cosX - z1 * sinX;
+          let z2 = z1 * cosX + p.origY * sinX;
+
+          // Perspective scaling
+          const fov = 300;
+          const scale = fov / (fov + z2 * radius);
+          const px = center + x1 * radius;
+          const py = center + y1 * radius;
+
+          projected.push({ x: px, y: py, z: z2, scale });
+        });
+
+        projected.sort((a, b) => a.z - b.z);
+
+        // Render point cloud
+        projected.forEach(p => {
+          if (p.z > -0.2) { // Render predominantly on visible side
+            const alpha = Math.max(0.1, (p.z + 1) / 2);
+            const dotSize = Math.max(0.8, (p.z + 1) * 1.6);
+
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, dotSize, 0, Math.PI * 2);
+            ctx.fillStyle = p.z > 0.4 ? '#00f5ff' : (p.z > 0 ? '#8a2be2' : '#3a7bd5');
+            ctx.globalAlpha = alpha * 0.85;
+            ctx.fill();
+          }
+        });
+
+        ctx.globalAlpha = 1;
+        requestAnimationFrame(renderPlanet);
+      }
+
+      renderPlanet();
+    })();
+
+    /* --------------------------------------------------------------------------
+       4. SCROLL-DRIVEN 3D PLANET FLIGHT (HERO -> TECH ORBIT TARGET)
+       -------------------------------------------------------------------------- */
+    (function initPlanetScrollFlight() {
+      const wrapper = document.getElementById('hero-planet-wrapper');
+      const anchor = document.getElementById('hero-planet-anchor');
+      const target = document.getElementById('planet-target');
+      const quote = document.querySelector('.handwritten-quote');
+      const badge = document.querySelector('.planet-badge-orbit');
+
+      if (!wrapper || !anchor || !target) return;
+
+      let currentEase = 0;
+      let targetEase = 0;
+      let currentX = null;
+      let currentY = null;
+
+      function animate() {
+        const anchorRect = anchor.getBoundingClientRect();
+        const targetRect = target.getBoundingClientRect();
+        const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+
+        // Origin center relative to viewport
+        const startCenterX = anchorRect.left + anchorRect.width / 2;
+        const startCenterY = anchorRect.top + anchorRect.height / 2;
+
+        // Destination center relative to viewport
+        const endCenterX = targetRect.left + targetRect.width / 2;
+        const endCenterY = targetRect.top + targetRect.height / 2;
+
+        // Initialize immediately on first frame to prevent offset
+        if (currentX === null || currentY === null) {
+          currentX = startCenterX;
+          currentY = startCenterY;
+        }
+
+        // Scroll flight range: stays in hero for top 60px, then transitions to tech section
+        const heroSection = document.getElementById('home');
+        const techSection = document.getElementById('tech');
+
+        const startFlightScroll = 60;
+        const techAbsoluteTop = techSection ? (techSection.getBoundingClientRect().top + scrollY) : 1500;
+        const endFlightScroll = techAbsoluteTop - (window.innerHeight - targetRect.height) / 2;
+
+        const scrollDist = endFlightScroll - startFlightScroll;
+        const rawProgress = scrollDist > 0 ? (scrollY - startFlightScroll) / scrollDist : 0;
+        const progress = Math.min(Math.max(rawProgress, 0), 1);
+
+        // Smooth cubic ease in-out
+        targetEase = progress < 0.5
+          ? 4 * progress * progress * progress
+          : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+        currentEase += (targetEase - currentEase) * 0.12;
+
+        // Desired target coordinates for the planet center
+        const desiredX = startCenterX + (endCenterX - startCenterX) * currentEase;
+        const desiredY = startCenterY + (endCenterY - startCenterY) * currentEase;
+
+        currentX += (desiredX - currentX) * 0.15;
+        currentY += (desiredY - currentY) * 0.15;
+
+        // Translate wrapper (center is 220, 220)
+        const tx = currentX - 220;
+        const ty = currentY - 220;
+
+        // Scale: from 1.0 (440px in Hero) down to ~0.409 (180px in Tech Orbit)
+        const scaleEnd = 180 / 440;
+        const scale = 1 + (scaleEnd - 1) * currentEase;
+
+        // 3D rotations & tilt during cosmic flight
+        const rotX = Math.sin(currentEase * Math.PI) * 26;
+        const rotY = Math.sin(currentEase * Math.PI) * -42;
+        const rotZ = currentEase * 220;
+
+        wrapper.style.transform = `translate3d(${tx.toFixed(2)}px, ${ty.toFixed(2)}px, 0) scale(${scale.toFixed(4)}) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) rotateZ(${rotZ.toFixed(2)}deg)`;
+
+        // Fade out hero-only cursive text and badge during flight
+        if (quote) {
+          const qOpacity = Math.max(0, 1 - currentEase * 2.8);
+          quote.style.opacity = qOpacity.toFixed(3);
+          quote.style.transform = `rotate(-12deg) scale(${(1 - currentEase * 0.3).toFixed(3)})`;
+        }
+        if (badge) {
+          const bOpacity = Math.max(0, 1 - currentEase * 2.8);
+          badge.style.opacity = bOpacity.toFixed(3);
+        }
+
+        // Highlight tech target container when docked
+        if (target) {
+          if (currentEase > 0.85) {
+            target.style.borderColor = 'rgba(0, 245, 255, 0.7)';
+            target.style.boxShadow = '0 0 35px rgba(0, 245, 255, 0.35)';
+          } else {
+            target.style.borderColor = 'rgba(0, 245, 255, 0.35)';
+            target.style.boxShadow = '0 0 30px rgba(0, 245, 255, 0.15)';
+          }
+        }
+
+        requestAnimationFrame(animate);
+      }
+
+      requestAnimationFrame(animate);
+    })();
+  </script>
+</body>
+</html>
