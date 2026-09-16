@@ -54,13 +54,17 @@ export default function TechStackAnimation() {
   // the icon size, and the center label can scale together responsively.
   const containerRef = useRef(null);
   const [canvasSize, setCanvasSize] = useState(BASE_CANVAS);
+  const [measured, setMeasured] = useState(false);
 
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
     const observer = new ResizeObserver((entries) => {
       const width = entries[0]?.contentRect?.width;
-      if (width) setCanvasSize(width);
+      if (width) {
+        setCanvasSize(width);
+        setMeasured(true);
+      }
     });
     observer.observe(el);
     return () => observer.disconnect();
@@ -109,7 +113,14 @@ export default function TechStackAnimation() {
       {/* Clipping window — desktop crops top/bottom, mobile crops left/right */}
       <div className="tech-orbit-clip">
         {/* Square, fluid canvas: sized by width (desktop) or height (mobile) via CSS */}
-        <div ref={containerRef} className="tech-orbit-canvas">
+        <div
+          ref={containerRef}
+          className="tech-orbit-canvas"
+          style={{
+            opacity: measured ? 1 : 0,
+            transition: "opacity 0.4s ease-out",
+          }}
+        >
           {/* Orbit rings — transparent (no visible line/glow), still sized/positioned */}
           {[...CIRCLES].reverse().map((circle) => {
             const diameter = circle.radius * 2 * scale;

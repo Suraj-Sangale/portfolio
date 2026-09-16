@@ -714,11 +714,6 @@ export default function DevFolio({ pageData }) {
   const { newData = {}, socialLinks = [] } = pageData;
 
   useEffect(() => {
-    // Inject styles
-    const styleEl = document.createElement("style");
-    styleEl.textContent = styles;
-    document.head.appendChild(styleEl);
-
     // Load external scripts sequentially
     const loadScript = (src) =>
       new Promise((resolve) => {
@@ -1176,7 +1171,6 @@ export default function DevFolio({ pageData }) {
         window.removeEventListener("resize", onResize);
         renderer.dispose();
         ScrollTrigger.getAll().forEach((t) => t.kill());
-        document.head.removeChild(styleEl);
       };
     })();
 
@@ -1217,6 +1211,7 @@ export default function DevFolio({ pageData }) {
 
   return (
     <>
+      <style id="devfolio-styles" dangerouslySetInnerHTML={{ __html: styles }} />
       <div
         id="cursor-dot"
         ref={dotRef}
@@ -1406,7 +1401,7 @@ export default function DevFolio({ pageData }) {
             </h2>
           </div>
           <div className="h-timeline">
-            {journey.reverse().map((item) => (
+            {[...journey].reverse().map((item) => (
               <div
                 key={item.yr}
                 className="ht-item"
@@ -1465,8 +1460,6 @@ export default function DevFolio({ pageData }) {
 }
 
 const styles = ` 
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@100;200;300;400&family=Space+Mono:ital@0;1&display=swap');
-
 *,
 *::before,
 *::after {
@@ -1484,7 +1477,7 @@ const styles = `
   --c5: #06d6a0;
   --txt: #e2eaff;
   --dim: #3a4060;
-  --fh: 'Anton', sans-serif;
+  --fh: 'Lato', sans-serif;
   --fb: 'Outfit', sans-serif;
   --fm: 'Space Mono', monospace;
 }
@@ -1608,8 +1601,7 @@ section {
   color: var(--txt);
   text-align: center;
   filter: drop-shadow(0 0 40px rgba(0, 245, 255, .3));
-  opacity: 0;
-  animation: heroIn 1.8s .3s cubic-bezier(.16, 1, .3, 1) forwards;
+  animation: heroIn 1s cubic-bezier(.16, 1, .3, 1) forwards;
 }
 
 .glitch::before,
@@ -1704,12 +1696,12 @@ section {
 @keyframes heroIn {
   0% {
     opacity: 0;
-    transform: translateY(60px) scale(.95)
+    transform: translateY(16px);
   }
 
   100% {
     opacity: 1;
-    transform: translateY(0) scale(1)
+    transform: translateY(0);
   }
 }
 
@@ -1730,8 +1722,7 @@ section {
   flex-wrap: wrap;
   justify-content: center;
   margin-top: 22px;
-  opacity: 0;
-  animation: heroIn 1.4s .9s cubic-bezier(.16, 1, .3, 1) forwards;
+  animation: heroIn 1s .2s cubic-bezier(.16, 1, .3, 1) both;
 }
 
 .role-badge {
@@ -1772,8 +1763,7 @@ section {
   align-items: center;
   gap: 32px;
   margin-top: 24px;
-  opacity: 0;
-  animation: heroIn 1.4s 1.1s cubic-bezier(.16, 1, .3, 1) forwards;
+  animation: heroIn 1s .3s cubic-bezier(.16, 1, .3, 1) both;
 }
 
 .hero-line {
@@ -2948,7 +2938,6 @@ footer {
 }
   #s6 {
   padding: 80px 20px;
-}
 }
 }
 
