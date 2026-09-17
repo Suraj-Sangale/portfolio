@@ -46,7 +46,7 @@
       {
         "id": "whatsapp",
         "label": "WhatsApp",
-        "href": "https://wa.me/+917039529129?text=Hello, I am interested in working with you.",
+        "href": "https://wa.me/917039529129?text=Hello%2C%20I%20am%20interested%20in%20working%20with%20you.",
         "disabled": false
       },
       {
@@ -1939,7 +1939,7 @@
     {
       "id": "whatsapp",
       "label": "WhatsApp",
-      "href": "https://wa.me/+917039529129?text=Hello, I am interested in working with you.",
+      "href": "https://wa.me/917039529129?text=Hello%2C%20I%20am%20interested%20in%20working%20with%20you.",
       "disabled": false
     },
     {
