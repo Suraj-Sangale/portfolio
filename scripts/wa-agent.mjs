@@ -274,16 +274,43 @@ async function sendResumeDocument(sock, sender, msg) {
 }
 
 // ----------------------------------------------------
-// 4. Web Server for Cloud (Railway/Render) QR Scanning & Health Checks
+// 4. Web Server for Cloud (Railway/Render) QR Scanning, Health Checks & Bot Controls
 // ----------------------------------------------------
 let latestQRDataUrl = null;
 let isConnected = false;
+let isAutoReplyPaused = false;
+const pausedChats = new Map(); // sender -> unpauseTimestamp
+
+export function toggleAutoReply(paused) {
+  if (typeof paused === 'boolean') {
+    isAutoReplyPaused = paused;
+  } else {
+    isAutoReplyPaused = !isAutoReplyPaused;
+  }
+  console.log(`🤖 Auto-reply is now ${isAutoReplyPaused ? '⏸️ PAUSED' : '🟢 ACTIVE'}`);
+  return isAutoReplyPaused;
+}
 
 const port = process.env.PORT || 3001;
 const server = http.createServer((req, res) => {
-  if (req.url === '/health') {
+  const urlObj = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
+  const pathname = urlObj.pathname;
+
+  if (pathname === '/health') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ status: 'ok', connected: isConnected }));
+    res.end(JSON.stringify({ status: 'ok', connected: isConnected, isPaused: isAutoReplyPaused }));
+    return;
+  }
+
+  if (pathname === '/toggle-pause' || pathname === '/api/toggle') {
+    const newState = toggleAutoReply();
+    if (req.headers.accept?.includes('application/json')) {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: true, isPaused: newState }));
+      return;
+    }
+    res.writeHead(302, { Location: '/' });
+    res.end();
     return;
   }
 
@@ -293,21 +320,43 @@ const server = http.createServer((req, res) => {
       <!DOCTYPE html>
       <html>
       <head>
-        <title>WhatsApp AI Agent - Connected</title>
+        <title>WhatsApp AI Agent - Dashboard</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
           body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0b141a; color: #e9edef; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; text-align: center; }
-          .card { background: #111b21; padding: 2.5rem; border-radius: 16px; border: 1px solid #202c33; box-shadow: 0 10px 30px rgba(0,0,0,0.5); max-width: 420px; width: 90%; }
-          .badge { background: #00a884; color: #fff; padding: 6px 14px; border-radius: 20px; font-weight: bold; font-size: 14px; display: inline-block; margin-bottom: 15px; }
-          h1 { margin: 10px 0; font-size: 22px; }
-          p { color: #8696a0; font-size: 14px; line-height: 1.5; }
+          .card { background: #111b21; padding: 2.5rem; border-radius: 20px; border: 1px solid #202c33; box-shadow: 0 10px 30px rgba(0,0,0,0.5); max-width: 440px; width: 90%; }
+          .badge { padding: 6px 14px; border-radius: 20px; font-weight: bold; font-size: 13px; display: inline-block; margin-bottom: 15px; }
+          .badge-online { background: #00a884; color: #fff; }
+          .badge-paused { background: #eab308; color: #000; }
+          h1 { margin: 8px 0; font-size: 22px; }
+          p { color: #8696a0; font-size: 14px; line-height: 1.5; margin-bottom: 20px; }
+          .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 15px; font-weight: 600; padding: 12px 24px; border-radius: 12px; border: none; cursor: pointer; text-decoration: none; transition: all 0.2s; width: 100%; box-sizing: border-box; }
+          .btn-pause { background: #ef4444; color: white; }
+          .btn-pause:hover { background: #dc2626; }
+          .btn-resume { background: #00a884; color: white; }
+          .btn-resume:hover { background: #008f6f; }
+          .info-box { background: #182229; border-radius: 10px; padding: 12px; margin-top: 20px; font-size: 12px; color: #8696a0; text-align: left; }
+          .info-box code { color: #53bdeb; background: #111b21; padding: 2px 6px; border-radius: 4px; }
         </style>
       </head>
       <body>
         <div class="card">
-          <div class="badge">ONLINE 🟢</div>
-          <h1>WhatsApp AI Agent Active</h1>
-          <p>The agent is connected and automatically replying to incoming messages on WhatsApp.</p>
+          <div class="badge ${isAutoReplyPaused ? 'badge-paused' : 'badge-online'}">
+            ${isAutoReplyPaused ? '⏸️ AUTO-REPLY PAUSED' : '🟢 ONLINE & ACTIVE'}
+          </div>
+          <h1>WhatsApp AI Agent</h1>
+          <p>${isAutoReplyPaused ? 'The agent is connected but <b>auto-replies are temporarily paused</b>.' : 'The agent is actively listening and replying to incoming WhatsApp messages.'}</p>
+          
+          <a href="/toggle-pause" class="btn ${isAutoReplyPaused ? 'btn-resume' : 'btn-pause'}">
+            ${isAutoReplyPaused ? '▶️ Resume Auto-Reply' : '⏸️ Pause Auto-Reply'}
+          </a>
+
+          <div class="info-box">
+            <b>💡 WhatsApp Commands:</b><br/>
+            • <code>!bot pause</code> or <code>!pause</code> - Pause auto-reply<br/>
+            • <code>!bot resume</code> or <code>!resume</code> - Resume auto-reply<br/>
+            • <code>!bot status</code> - Check current status
+          </div>
         </div>
       </body>
       </html>
@@ -445,21 +494,81 @@ async function startWhatsAppAgent() {
     if (m.type !== 'notify') return;
 
     for (const msg of m.messages) {
-      if (!msg.message || msg.key.fromMe || msg.key.remoteJid === 'status@broadcast') {
+      if (!msg.message || msg.key.remoteJid === 'status@broadcast') {
         continue;
       }
 
       const sender = msg.key.remoteJid;
+      const isFromMe = Boolean(msg.key.fromMe);
+
+      let incomingText =
+        msg.message.conversation ||
+        msg.message.extendedTextMessage?.text ||
+        '';
+
+      const lowerText = incomingText.trim().toLowerCase();
+
+      // --------------------------------------------------
+      // 1. Handle Admin / Self Commands (!bot pause, !bot resume, etc.)
+      // --------------------------------------------------
+      if (
+        lowerText === '!pause' ||
+        lowerText === '!bot pause' ||
+        lowerText === '/pause' ||
+        lowerText === '!bot stop'
+      ) {
+        toggleAutoReply(true);
+        await sock.sendMessage(
+          sender,
+          { text: '⏸️ *WhatsApp AI Auto-Reply is now PAUSED.*\n\nThe bot will not respond automatically until resumed. Send *!resume* or visit the web dashboard to resume.' },
+          { quoted: msg }
+        );
+        continue;
+      }
+
+      if (
+        lowerText === '!resume' ||
+        lowerText === '!bot resume' ||
+        lowerText === '/resume' ||
+        lowerText === '!bot start'
+      ) {
+        toggleAutoReply(false);
+        await sock.sendMessage(
+          sender,
+          { text: '🟢 *WhatsApp AI Auto-Reply is now ACTIVE & LISTENING.*\n\nThe bot will automatically assist with portfolio questions, resumes, and project inquiries.' },
+          { quoted: msg }
+        );
+        continue;
+      }
+
+      if (lowerText === '!bot status' || lowerText === '!status') {
+        await sock.sendMessage(
+          sender,
+          {
+            text: `🤖 *WhatsApp AI Agent Status*\n\n• Connection: *Online 🟢*\n• Auto-Reply: *${
+              isAutoReplyPaused ? '⏸️ PAUSED' : '🟢 ACTIVE'
+            }*\n• AI Engine: *${providerName}*`,
+          },
+          { quoted: msg }
+        );
+        continue;
+      }
+
+      // Ignore other messages sent by yourself
+      if (isFromMe) {
+        continue;
+      }
 
       const isGroup = sender.endsWith('@g.us');
       if (isGroup && process.env.ALLOW_GROUPS !== 'true') {
         continue;
       }
 
-      let incomingText =
-        msg.message.conversation ||
-        msg.message.extendedTextMessage?.text ||
-        '';
+      // If auto-reply is paused, skip automatic responses
+      if (isAutoReplyPaused) {
+        console.log(`⏸️ [Bot Paused] Skipped auto-reply to ${sender}: "${incomingText || 'Media message'}"`);
+        continue;
+      }
 
       // --------------------------------------------------
       // A. Handle Incoming Voice Messages / Audio Notes
@@ -519,8 +628,6 @@ async function startWhatsAppAgent() {
       // --------------------------------------------------
       // B. Handle Quick Commands (!menu, !resume, !skills, etc.)
       // --------------------------------------------------
-      const lowerText = incomingText.trim().toLowerCase();
-
       if (lowerText === '!clear') {
         conversationHistories.delete(sender);
         await sock.sendMessage(sender, { text: '🧹 Conversation history cleared!' }, { quoted: msg });
