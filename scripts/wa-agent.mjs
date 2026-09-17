@@ -4,12 +4,14 @@ import {
   DisconnectReason,
   downloadMediaMessage,
 } from '@whiskeysockets/baileys';
-import qrcode from 'qrcode-terminal';
+import qrcodeTerminal from 'qrcode-terminal';
+import QRCode from 'qrcode';
 import OpenAI, { toFile } from 'openai';
 import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
 import pino from 'pino';
+import http from 'http';
 
 // ----------------------------------------------------
 // 1. Environment & AI Client Setup
@@ -82,7 +84,6 @@ try {
   console.warn('⚠️ Could not load data/portfolio.json:', err.message);
 }
 
-// Resume PDF path candidates
 const RESUME_PATHS = [
   path.join(process.cwd(), 'public', 'Suraj_full_stack_developer.pdf'),
   path.join(process.cwd(), 'public', 'Suraj_full_stack_developer1.pdf'),
@@ -133,9 +134,6 @@ function formatForWhatsApp(text) {
     .trim();
 }
 
-/**
- * Check if the user message indicates a request for Resume/CV
- */
 function isResumeRequest(text) {
   const t = text.toLowerCase();
   return (
@@ -147,9 +145,6 @@ function isResumeRequest(text) {
   );
 }
 
-/**
- * Quick static command responses & Number Shortcuts (1, 2, 3, 4, 5)
- */
 function handleQuickCommand(cmd, sock, sender, msg) {
   const normalized = cmd.trim().toLowerCase();
 
@@ -254,9 +249,6 @@ How can I help you today? Reply with a *number* or *command*:
   }
 }
 
-/**
- * Send Resume PDF document directly to WhatsApp user
- */
 async function sendResumeDocument(sock, sender, msg) {
   if (!resumePath) {
     await sock.sendMessage(
@@ -281,11 +273,111 @@ async function sendResumeDocument(sock, sender, msg) {
   console.log(`📎 [Sent Resume PDF to ${sender}]`);
 }
 
+// ----------------------------------------------------
+// 4. Web Server for Cloud (Railway/Render) QR Scanning & Health Checks
+// ----------------------------------------------------
+let latestQRDataUrl = null;
+let isConnected = false;
+
+const port = process.env.PORT || 3001;
+const server = http.createServer((req, res) => {
+  if (req.url === '/health') {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ status: 'ok', connected: isConnected }));
+    return;
+  }
+
+  res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+  if (isConnected) {
+    res.end(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>WhatsApp AI Agent - Connected</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0b141a; color: #e9edef; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; text-align: center; }
+          .card { background: #111b21; padding: 2.5rem; border-radius: 16px; border: 1px solid #202c33; box-shadow: 0 10px 30px rgba(0,0,0,0.5); max-width: 420px; width: 90%; }
+          .badge { background: #00a884; color: #fff; padding: 6px 14px; border-radius: 20px; font-weight: bold; font-size: 14px; display: inline-block; margin-bottom: 15px; }
+          h1 { margin: 10px 0; font-size: 22px; }
+          p { color: #8696a0; font-size: 14px; line-height: 1.5; }
+        </style>
+      </head>
+      <body>
+        <div class="card">
+          <div class="badge">ONLINE 🟢</div>
+          <h1>WhatsApp AI Agent Active</h1>
+          <p>The agent is connected and automatically replying to incoming messages on WhatsApp.</p>
+        </div>
+      </body>
+      </html>
+    `);
+  } else if (latestQRDataUrl) {
+    res.end(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Link WhatsApp AI Agent</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="refresh" content="20">
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0b141a; color: #e9edef; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; text-align: center; }
+          .card { background: #111b21; padding: 2rem; border-radius: 16px; border: 1px solid #202c33; box-shadow: 0 10px 30px rgba(0,0,0,0.5); max-width: 380px; width: 90%; }
+          h1 { margin: 0 0 8px 0; font-size: 20px; }
+          p { color: #8696a0; font-size: 13px; margin-bottom: 20px; line-height: 1.4; }
+          .qr-box { background: white; padding: 12px; border-radius: 12px; display: inline-block; margin: 10px 0; }
+          .qr-box img { display: block; width: 260px; height: 260px; }
+          .steps { text-align: left; background: #182229; padding: 14px; border-radius: 8px; margin-top: 15px; font-size: 12px; color: #aebac1; }
+          .steps ol { margin: 0; padding-left: 20px; }
+          .steps li { margin-bottom: 6px; }
+        </style>
+      </head>
+      <body>
+        <div class="card">
+          <h1>Scan to Link WhatsApp</h1>
+          <p>Scan this QR code using WhatsApp on your phone.</p>
+          <div class="qr-box">
+            <img src="${latestQRDataUrl}" alt="WhatsApp QR Code" />
+          </div>
+          <div class="steps">
+            <ol>
+              <li>Open <b>WhatsApp</b> on your phone</li>
+              <li>Tap <b>Settings > Linked Devices</b></li>
+              <li>Tap <b>Link a Device</b> and point camera here</li>
+            </ol>
+          </div>
+        </div>
+      </body>
+      </html>
+    `);
+  } else {
+    res.end(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Generating QR Code...</title>
+        <meta http-equiv="refresh" content="4">
+        <style>
+          body { font-family: sans-serif; background: #0b141a; color: #8696a0; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; text-align: center; }
+        </style>
+      </head>
+      <body>
+        <h2>Starting WhatsApp Session... Please refresh in a few seconds.</h2>
+      </body>
+      </html>
+    `);
+  }
+});
+
+server.listen(port, () => {
+  console.log(`🌐 Web QR & Health Server listening on port ${port}`);
+});
+
 // Per-user short-term conversation memory
 const conversationHistories = new Map();
 
 // ----------------------------------------------------
-// 4. Main WhatsApp Socket Connection
+// 5. Main WhatsApp Socket Connection
 // ----------------------------------------------------
 async function startWhatsAppAgent() {
   const authDir = path.join(process.cwd(), 'wa_auth_session');
@@ -299,18 +391,41 @@ async function startWhatsAppAgent() {
 
   sock.ev.on('creds.update', saveCreds);
 
-  sock.ev.on('connection.update', (update) => {
+  // Pairing code support if PAIRING_PHONE is provided in environment variables
+  const pairingPhone = process.env.PAIRING_PHONE ? process.env.PAIRING_PHONE.replace(/[^0-9]/g, '') : null;
+  if (pairingPhone && !sock.authState.creds.registered) {
+    setTimeout(async () => {
+      try {
+        const code = await sock.requestPairingCode(pairingPhone);
+        console.log(`\n======================================================`);
+        console.log(`🔑 YOUR WHATSAPP PAIRING CODE IS: ${code}`);
+        console.log(`👉 Open WhatsApp > Linked Devices > Link with phone number instead`);
+        console.log(`======================================================\n`);
+      } catch (err) {
+        console.error('Error requesting pairing code:', err?.message || err);
+      }
+    }, 4000);
+  }
+
+  sock.ev.on('connection.update', async (update) => {
     const { connection, lastDisconnect, qr } = update;
 
     if (qr) {
       console.log('\n======================================================');
       console.log('📱 SCAN THIS QR CODE IN WHATSAPP (Linked Devices)');
       console.log('======================================================\n');
-      qrcode.generate(qr, { small: true });
-      console.log('\nWaiting for scan...');
+      qrcodeTerminal.generate(qr, { small: true });
+
+      try {
+        latestQRDataUrl = await QRCode.toDataURL(qr, { margin: 2, scale: 8 });
+        console.log(`🌐 [WEB QR PAGE]: Open your Railway/Cloud URL in your browser to scan QR easily!\n`);
+      } catch (e) {
+        console.error('Error creating Web QR code image:', e);
+      }
     }
 
     if (connection === 'close') {
+      isConnected = false;
       const statusCode = lastDisconnect?.error?.output?.statusCode;
       const shouldReconnect = statusCode !== DisconnectReason.loggedOut;
       console.log(`Connection closed (status: ${statusCode}). Reconnecting: ${shouldReconnect}`);
@@ -320,6 +435,8 @@ async function startWhatsAppAgent() {
         console.log('Session logged out. Delete wa_auth_session folder and restart to re-scan.');
       }
     } else if (connection === 'open') {
+      isConnected = true;
+      latestQRDataUrl = null;
       console.log(`\n✅ Advanced WhatsApp AI Agent is online & listening!\n`);
     }
   });
@@ -328,14 +445,12 @@ async function startWhatsAppAgent() {
     if (m.type !== 'notify') return;
 
     for (const msg of m.messages) {
-      // Ignore status broadcasts or bot's own messages
       if (!msg.message || msg.key.fromMe || msg.key.remoteJid === 'status@broadcast') {
         continue;
       }
 
       const sender = msg.key.remoteJid;
 
-      // Ignore group chats by default
       const isGroup = sender.endsWith('@g.us');
       if (isGroup && process.env.ALLOW_GROUPS !== 'true') {
         continue;
@@ -364,7 +479,6 @@ async function startWhatsAppAgent() {
         try {
           await sock.sendPresenceUpdate('composing', sender);
 
-          // Download audio media buffer from WhatsApp
           const audioBuffer = await downloadMediaMessage(
             msg,
             'buffer',
@@ -372,7 +486,6 @@ async function startWhatsAppAgent() {
             { logger: pino({ level: 'silent' }) }
           );
 
-          // Transcribe audio using Groq Whisper (Free & Fast)
           const audioFile = await toFile(audioBuffer, 'voice_note.ogg', { type: 'audio/ogg' });
           const transcription = await groqWhisperClient.audio.transcriptions.create({
             file: audioFile,
@@ -383,7 +496,6 @@ async function startWhatsAppAgent() {
           incomingText = transcription.text || '';
           console.log(`📝 [Transcribed Voice Note]: "${incomingText}"`);
 
-          // Notify user what was heard
           await sock.sendMessage(
             sender,
             { text: `🎙️ _Heard:_ "${incomingText}"` },
@@ -432,7 +544,6 @@ async function startWhatsAppAgent() {
       // --------------------------------------------------
       if (isResumeRequest(incomingText)) {
         await sendResumeDocument(sock, sender, msg);
-        // Continue to provide an AI reply alongside document if needed
       }
 
       // --------------------------------------------------
@@ -485,7 +596,6 @@ async function startWhatsAppAgent() {
           rawReply = "I am having trouble answering right now. Please try again in a moment.";
         }
 
-        // Format beautifully for WhatsApp
         const formattedReply = formatForWhatsApp(rawReply);
 
         history.push({ role: 'assistant', content: formattedReply });
