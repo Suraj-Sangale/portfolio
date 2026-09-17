@@ -153,482 +153,624 @@
     ],
     "resumeLink": "/suraj_full_stack_developer.pdf"
   },
-  "projects": [
-    {
-      "num": "01",
-      "icon": "🏆",
-      "iconCls": "iv",
-      "sizeCls": "b1",
-      "titleGradient": "gw-v",
-      "titleWord": "Point Stream",
-      "titleRest": "Panel",
-      "slug": "point-stream-panel",
-      "body": "Real-time sports scoring system with WebSocket multi-referee input and live scoreboard updates.",
-      "keyFeatures": [
-        {
-          "id": 1,
-          "text": "Blazing-fast performance with Server-Side Rendering (SSR) and Static Site Generation (SSG) using Next.js."
-        },
-        {
-          "id": 2,
-          "text": "Robust backend API with JWT authentication, WebSocket-powered real-time communication, and seamless MySQL database integration."
-        },
-        {
-          "id": 3,
-          "text": "Real-time multi-referee scoring system with secured role-based access, ensuring accurate and transparent match updates."
-        }
-      ],
-      "tags": [
-        {
-          "label": "Next.js",
-          "cls": "btag-c"
-        },
-        {
-          "label": "Socket.io",
-          "cls": "btag-m"
-        },
-        {
-          "label": "MySQL",
-          "cls": "btag-v"
-        }
-      ]
-    },
-    {
-      "num": "02",
-      "icon": "🚚",
-      "iconCls": "im",
-      "sizeCls": "b2",
-      "titleGradient": "gw-m",
-      "titleWord": "Cargo",
-      "titleRest": "Desk",
-      "slug": "cargo-desk",
-      "body": "Transport management system with bulk SMS (Twilio), contact import, JWT authentication, and document tracking.",
-      "tags": [
-        {
-          "label": "Next.js",
-          "cls": "btag-c"
-        },
-        {
-          "label": "Node.js",
-          "cls": "btag-m"
-        },
-        {
-          "label": "MySQL",
-          "cls": "btag-v"
-        },
-        {
-          "label": "Twilio",
-          "cls": "btag-a"
-        }
-      ]
-    },
-    {
-      "num": "03",
-      "icon": "🛠",
-      "iconCls": "ic",
-      "sizeCls": "b3",
-      "titleGradient": "gw-c",
-      "titleWord": "Linux",
-      "titleRest": "Tools",
-      "slug": "linux-tools",
-      "body": "Web-based DevOps toolkit with DNS checker, port scanner, IP lookup, and command utilities to simplify server troubleshooting.",
-      "tags": [
-        {
-          "label": "Next.js",
-          "cls": "btag-c"
-        },
-        {
-          "label": "React",
-          "cls": "btag-v"
-        },
-        {
-          "label": "Node.js",
-          "cls": "btag-m"
-        },
-        {
-          "label": "MariaDB",
-          "cls": "btag-a"
-        }
-      ]
-    },
-    {
-      "num": "04",
-      "icon": "🎮",
-      "iconCls": "ia",
-      "sizeCls": "b2",
-      "slug": "tic-tac-toe-game",
-      "titleGradient": "gw-a",
-      "titleWord": "Tic Tac Toe",
-      "titleRest": "Game",
-      "body": "Real-time multiplayer game with Socket.IO, AI mode, and animated UI built with TypeScript.",
-      "tags": [
-        {
-          "label": "Next.js",
-          "cls": "btag-c"
-        },
-        {
-          "label": "TypeScript",
-          "cls": "btag-m"
-        },
-        {
-          "label": "Socket.IO",
-          "cls": "btag-v"
-        }
-      ]
-    },
-    {
-      "num": "05",
-      "icon": "🛍",
-      "iconCls": "ic",
-      "sizeCls": "b1",
-      "titleGradient": "gw-c",
-      "titleWord": "Urban",
-      "titleRest": "Market",
-      "slug": "urban-market",
-      "body": "Responsive e-commerce UI with cart and checkout functionality.",
-      "tags": [
-        {
-          "label": "React",
-          "cls": "btag-c"
-        },
-        {
-          "label": "Tailwind",
-          "cls": "btag-m"
-        },
-        {
-          "label": "Node.js",
-          "cls": "btag-v"
-        }
-      ]
-    },
-    {
-      "num": "06",
-      "icon": "👓",
-      "iconCls": "iv",
-      "sizeCls": "b1",
-      "titleGradient": "gw-v",
-      "titleWord": "Titan Eye",
-      "titleRest": "Plus",
-      "slug": "titan-eye-plus",
-      "body": "A leading eyewear e-commerce platform offering seamless product discovery, eye-care solutions, and high-performance shopping experience.",
-      "keyFeatures": [
-        {
-          "id": 1,
-          "text": "Built scalable frontend applications using Next.js and React.js"
-        },
-        {
-          "id": 2,
-          "text": "Integrated Magento services for product catalog and order management"
-        },
-        {
-          "id": 3,
-          "text": "Optimized Core Web Vitals using Redis caching and performance enhancements"
-        },
-        {
-          "id": 4,
-          "text": "Developed reusable and responsive UI components using SCSS"
-        },
-        {
-          "id": 5,
-          "text": "Implemented API integrations and automation scripts for testing"
-        }
-      ],
-      "tags": [
-        {
-          "label": "Next.js",
-          "cls": "btag-c"
-        },
-        {
-          "label": "React.js",
-          "cls": "btag-m"
-        },
-        {
-          "label": "Redis",
-          "cls": "btag-v"
-        },
-        {
-          "label": "Magento",
-          "cls": "btag-a"
-        }
-      ],
-      "liveUrl": "https://www.titaneyeplus.com",
-      "images": [
-        "titanEyePlus1.png",
-        "titanEyePlus2.png",
-        "titanEyePlus3.png"
-      ]
-    },
-    {
-      "num": "07",
-      "icon": "🕶",
-      "iconCls": "im",
-      "sizeCls": "b2",
-      "titleGradient": "gw-m",
-      "titleWord": "Fastrack",
-      "titleRest": "Eyewear",
-      "slug": "fastrack-eyewear",
-      "body": "Fast and mobile-friendly eyewear shopping platform focused on performance, SEO, and engaging UI design.",
-      "keyFeatures_keys_not_show": [
-        {
-          "id": 1,
-          "text": "Developed modern and responsive storefront experiences using Next.js"
-        },
-        {
-          "id": 2,
-          "text": "Integrated Magento backend services for product and inventory management"
-        },
-        {
-          "id": 3,
-          "text": "Implemented performance optimizations to improve page speed and UX"
-        },
-        {
-          "id": 4,
-          "text": "Built reusable UI components with consistent design system"
-        },
-        {
-          "id": 5,
-          "text": "Ensured SEO optimization and cross-device compatibility"
-        }
-      ],
-      "tags": [
-        {
-          "label": "Next.js",
-          "cls": "btag-c"
-        },
-        {
-          "label": "React.js",
-          "cls": "btag-m"
-        },
-        {
-          "label": "Redis",
-          "cls": "btag-v"
-        },
-        {
-          "label": "Magento",
-          "cls": "btag-a"
-        }
-      ],
-      "liveUrl": "https://fastrackeyewear.com",
-      "images": [
-        "fastrackEyewear1.png",
-        "fastrackEyewear2.png",
-        "fastrackEyewear3.png"
-      ]
-    },
-    {
-      "num": "08",
-      "icon": "😎",
-      "iconCls": "ia",
-      "sizeCls": "b2",
-      "titleGradient": "gw-a",
-      "titleWord": "Runway",
-      "titleRest": "Sunglasses",
-      "slug": "runway-sunglasses",
-      "body": "Premium sunglasses showcase platform with responsive design, SEO optimization, and modern user experience.",
-      "keyFeatures_keys_not_show": [
-        {
-          "id": 1,
-          "text": "Designed modern and responsive UI using React.js and Next.js"
-        },
-        {
-          "id": 2,
-          "text": "Developed backend services with Node.js and Redis caching"
-        },
-        {
-          "id": 3,
-          "text": "Implemented SEO best practices for improved search visibility"
-        },
-        {
-          "id": 4,
-          "text": "Ensured smooth experience across desktop, tablet, and mobile devices"
-        }
-      ],
-      "tags": [
-        {
-          "label": "React.js",
-          "cls": "btag-c"
-        },
-        {
-          "label": "Next.js",
-          "cls": "btag-m"
-        },
-        {
-          "label": "Node.js",
-          "cls": "btag-v"
-        },
-        {
-          "label": "Redis",
-          "cls": "btag-a"
-        }
-      ],
-      "liveUrl": "https://runwaysunglasses.com",
-      "images": [
-        "runwaySunglasses1.png",
-        "runwaySunglasses2.png",
-        "runwaySunglasses3.png"
-      ]
-    },
-    {
-      "num": "09",
-      "icon": "📸",
-      "iconCls": "ic",
-      "sizeCls": "b3",
-      "titleGradient": "gw-c",
-      "titleWord": "Frame",
-      "titleRest": "Expert",
-      "slug": "frame-expert",
-      "body": "Smart eyewear recommendation system with virtual try-on and intelligent fitting algorithms for retail stores.",
-      "keyFeatures_keys_not_show": [
-        {
-          "id": 1,
-          "text": "Built smart frame recommendation system for Titan Eye Plus stores"
-        },
-        {
-          "id": 2,
-          "text": "Integrated Virtual Try-On (VTO) and IndiFit calculator"
-        },
-        {
-          "id": 3,
-          "text": "Implemented React Camera for face scanning and measurements"
-        },
-        {
-          "id": 4,
-          "text": "Enabled barcode scanning and product identification"
-        },
-        {
-          "id": 5,
-          "text": "Integrated Salesforce and SAP APIs for data management"
-        }
-      ],
-      "tags": [
-        {
-          "label": "React.js",
-          "cls": "btag-c"
-        },
-        {
-          "label": "Node.js",
-          "cls": "btag-m"
-        },
-        {
-          "label": "SAP API",
-          "cls": "btag-v"
-        },
-        {
-          "label": "Salesforce",
-          "cls": "btag-a"
-        }
-      ],
-      "images": [
-        "frameExpert1.png",
-        "frameExpert2.png",
-        "frameExpert3.png"
-      ]
-    },
-    {
-      "num": "10",
-      "icon": "🎬",
-      "iconCls": "iv",
-      "sizeCls": "b1",
-      "titleGradient": "gw-v",
-      "titleWord": "Bollywood",
-      "titleRest": "MDB",
-      "slug": "bollywood-mdb",
-      "body": "Entertainment portal aggregating Bollywood news, celebrity updates, and trending industry insights.",
-      "keyFeatures_keys_not_show": [
-        {
-          "id": 1,
-          "text": "Developed dynamic news feed for Bollywood content"
-        },
-        {
-          "id": 2,
-          "text": "Integrated content from multiple reliable news sources"
-        },
-        {
-          "id": 3,
-          "text": "Collaborated with backend teams for seamless data integration"
-        },
-        {
-          "id": 4,
-          "text": "Resolved front-end issues and improved user experience"
-        }
-      ],
-      "tags": [
-        {
-          "label": "React.js",
-          "cls": "btag-c"
-        },
-        {
-          "label": "Next.js",
-          "cls": "btag-m"
-        },
-        {
-          "label": "JavaScript",
-          "cls": "btag-v"
-        },
-        {
-          "label": "CSS",
-          "cls": "btag-a"
-        }
-      ],
-      "images": [
-        "bollywoodMdb1.png",
-        "bollywoodMdb2.png",
-        "bollywoodMdb3.png"
-      ]
-    },
-    {
-      "num": "11",
-      "icon": "📚",
-      "iconCls": "im",
-      "sizeCls": "b5",
-      "titleGradient": "gw-m",
-      "titleWord": "Insight",
-      "titleRest": "GURU",
-      "slug": "insight-guru",
-      "body": "Comprehensive examination portal admin panel for managing exams, students, and academic operations. Insight GURU is a web-based application that provides a platform for managing exams, students, and academic operations.",
-      "keyFeatures_keys_not_show": [
-        {
-          "id": 1,
-          "text": "Developed responsive admin dashboard using React.js"
-        },
-        {
-          "id": 2,
-          "text": "Implemented state management using Redux"
-        },
-        {
-          "id": 3,
-          "text": "Built reusable UI components with Material-UI"
-        },
-        {
-          "id": 4,
-          "text": "Integrated backend APIs to display examination and student data"
-        }
-      ],
-      "tags": [
-        {
-          "label": "React.js",
-          "cls": "btag-c"
-        },
-        {
-          "label": "Redux",
-          "cls": "btag-m"
-        },
-        {
-          "label": "Material-UI",
-          "cls": "btag-v"
-        },
-        {
-          "label": "REST API",
-          "cls": "btag-a"
-        }
-      ],
-      "images": [
-        "insightGuru1.png",
-        "insightGuru2.png",
-        "insightGuru3.png"
-      ]
-    }
-  ],
+  "projects": {
+    "heading": "Projects",
+    "subheading": "Projects",
+    "mainText": "What",
+    "highlightedText": "I've Done",
+    "projectList": [
+      
+      {
+        "num": "06",
+        "icon": "👓",
+        "iconCls": "iv",
+        "sizeCls": "b1",
+        "titleGradient": "gw-v",
+        "titleWord": "Titan Eye",
+        "titleRest": "Plus",
+        "slug": "titan-eye-plus",
+        "isEnable": true,
+        "type": "professional",
+        "body": "A leading eyewear e-commerce platform offering seamless product discovery, eye-care solutions, and high-performance shopping experience.",
+        "image": [
+          "titanEye/titan1.png",
+          "titanEye/titan2.png",
+          "titanEye/titan3.png",
+          "titanEye/titan4.png"
+        ],
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "Built scalable frontend applications using Next.js and React.js"
+          },
+          {
+            "id": 2,
+            "text": "Integrated Magento services for product catalog and order management"
+          },
+          {
+            "id": 3,
+            "text": "Optimized Core Web Vitals using Redis caching and performance enhancements"
+          },
+          {
+            "id": 4,
+            "text": "Developed reusable and responsive UI components using SCSS"
+          },
+          {
+            "id": 5,
+            "text": "Implemented API integrations and automation scripts for testing"
+          }
+        ],
+        "tags": [
+          {
+            "label": "Next.js",
+            "cls": "btag-c"
+          },
+          {
+            "label": "React.js",
+            "cls": "btag-m"
+          },
+          {
+            "label": "Redis",
+            "cls": "btag-v"
+          },
+          {
+            "label": "Magento",
+            "cls": "btag-a"
+          }
+        ],
+        "liveUrl": "https://www.titaneyeplus.com",
+        "images": [
+          "titanEyePlus1.png",
+          "titanEyePlus2.png",
+          "titanEyePlus3.png"
+        ]
+      },
+      {
+        "num": "07",
+        "icon": "🕶",
+        "iconCls": "im",
+        "sizeCls": "b2",
+        "titleGradient": "gw-m",
+        "titleWord": "Fastrack",
+        "titleRest": "Eyewear",
+        "slug": "fastrack-eyewear",
+        "isEnable": true,
+        "type": "professional",
+        "body": "Fast and mobile-friendly eyewear shopping platform focused on performance, SEO, and engaging UI design.",
+        "keyFeatures_keys_not_show": [
+          {
+            "id": 1,
+            "text": "Developed modern and responsive storefront experiences using Next.js"
+          },
+          {
+            "id": 2,
+            "text": "Integrated Magento backend services for product and inventory management"
+          },
+          {
+            "id": 3,
+            "text": "Implemented performance optimizations to improve page speed and UX"
+          },
+          {
+            "id": 4,
+            "text": "Built reusable UI components with consistent design system"
+          },
+          {
+            "id": 5,
+            "text": "Ensured SEO optimization and cross-device compatibility"
+          }
+        ],
+        "tags": [
+          {
+            "label": "Next.js",
+            "cls": "btag-c"
+          },
+          {
+            "label": "React.js",
+            "cls": "btag-m"
+          },
+          {
+            "label": "Redis",
+            "cls": "btag-v"
+          },
+          {
+            "label": "Magento",
+            "cls": "btag-a"
+          }
+        ],
+        "liveUrl": "https://fastrackeyewear.com",
+        "images": [
+          "fastrackEyewear1.png",
+          "fastrackEyewear2.png",
+          "fastrackEyewear3.png"
+        ]
+      },
+      {
+        "num": "01",
+        "icon": "🏆",
+        "iconCls": "iv",
+        "sizeCls": "b1",
+        "titleGradient": "gw-v",
+        "titleWord": "Point Stream",
+        "titleRest": "Panel",
+        "slug": "point-stream-panel",
+        "isEnable": true,
+        "type": "personal",
+        "body": "A dynamic web-based platform built to streamline the management of sports tournaments, matches, and real-time scoring. Key highlights include match booth setups, referee-based access control, live scoreboard updates from multiple devices, detailed match history with obtained scores, and automated scorecard generation.",
+        "image": [
+          "PSPboard.png",
+          "PSPboard1.png",
+          "PSPboard2.png",
+          "PSPboard4.png",
+          "PSPboard5.png"
+        ],
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "Blazing-fast performance with Server-Side Rendering (SSR) and Static Site Generation (SSG) using Next.js."
+          },
+          {
+            "id": 2,
+            "text": "Robust backend API with JWT authentication, WebSocket-powered real-time communication, and seamless MySQL database integration."
+          },
+          {
+            "id": 3,
+            "text": "Real-time multi-referee scoring system with secured role-based access, ensuring accurate and transparent match updates."
+          }
+        ],
+        "tags": [
+          {
+            "label": "Next.js",
+            "cls": "btag-c"
+          },
+          {
+            "label": "Socket.io",
+            "cls": "btag-m"
+          },
+          {
+            "label": "MySQL",
+            "cls": "btag-v"
+          }
+        ],
+        "liveUrl": "https://pointstreampannel.vercel.app/"
+      },
+      
+      {
+        "num": "08",
+        "icon": "😎",
+        "iconCls": "ia",
+        "sizeCls": "b2",
+        "titleGradient": "gw-a",
+        "titleWord": "Runway",
+        "titleRest": "Sunglasses",
+        "slug": "runway-sunglasses",
+        "isEnable": true,
+        "type": "professional",
+        "body": "Premium sunglasses showcase platform with responsive design, SEO optimization, and modern user experience.",
+        "keyFeatures_keys_not_show": [
+          {
+            "id": 1,
+            "text": "Designed modern and responsive UI using React.js and Next.js"
+          },
+          {
+            "id": 2,
+            "text": "Developed backend services with Node.js and Redis caching"
+          },
+          {
+            "id": 3,
+            "text": "Implemented SEO best practices for improved search visibility"
+          },
+          {
+            "id": 4,
+            "text": "Ensured smooth experience across desktop, tablet, and mobile devices"
+          }
+        ],
+        "tags": [
+          {
+            "label": "React.js",
+            "cls": "btag-c"
+          },
+          {
+            "label": "Next.js",
+            "cls": "btag-m"
+          },
+          {
+            "label": "Node.js",
+            "cls": "btag-v"
+          },
+          {
+            "label": "Redis",
+            "cls": "btag-a"
+          }
+        ],
+        "liveUrl": "https://runwaysunglasses.com",
+        "images": [
+          "runwaySunglasses1.png",
+          "runwaySunglasses2.png",
+          "runwaySunglasses3.png"
+        ]
+      },
+      {
+        "num": "02",
+        "icon": "🚚",
+        "iconCls": "im",
+        "sizeCls": "b2",
+        "titleGradient": "gw-m",
+        "titleWord": "Cargo",
+        "titleRest": "Desk",
+        "slug": "cargo-desk",
+        "isEnable": true,
+        "type": "personal",
+        "body": "CargoDesk is a transport management system designed for managing daily orders, invoices, and vehicle-related documents such as insurance, PUC, and fitness certificates. A key highlight is the Bulk SMS functionality powered by the Twilio SMS API, along with a robust contact management system that supports multiple import methods.",
+        "image": [
+          "cargoDesk2.png",
+          "cargoDesk.png",
+          "cargoDesk4.png",
+          "cargoDesk5.png",
+          "cargoDesk3.png"
+        ],
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "Implemented Bulk SMS sending using Twilio SMS API for marketing."
+          },
+          {
+            "id": 2,
+            "text": "Developed a contact management module allowing bulk import from Google Contacts API, CSV, vCard, and manual entry."
+          },
+          {
+            "id": 3,
+            "text": "Secured the platform with JWT-based authentication for sign-up and login."
+          },
+          {
+            "id": 4,
+            "text": "Utilized MySQL for efficient data storage and retrieval."
+          },
+          {
+            "id": 5,
+            "text": "Designed a responsive UI using Material UI, Tailwind CSS, and SCSS for a modern and clean interface."
+          }
+        ],
+        "tags": [
+          {
+            "label": "Next.js",
+            "cls": "btag-c"
+          },
+          {
+            "label": "Node.js",
+            "cls": "btag-m"
+          },
+          {
+            "label": "MySQL",
+            "cls": "btag-v"
+          },
+          {
+            "label": "Twilio",
+            "cls": "btag-a"
+          }
+        ],
+        "liveUrl": "https://cargodesk.vercel.app/"
+      },
+      {
+        "num": "03",
+        "icon": "🛠",
+        "iconCls": "ic",
+        "sizeCls": "b3",
+        "titleGradient": "gw-c",
+        "titleWord": "Linux",
+        "titleRest": "Tools",
+        "slug": "linux-tools",
+        "isEnable": true,
+        "type": "personal",
+        "body": "Built a comprehensive web-based toolkit tailored for DevOps engineers and system administrators to streamline server troubleshooting and daily operational tasks. The app integrates various diagnostic tools to enhance productivity and simplify common server-side challenges.",
+        "images": [
+          "linuxtools.png",
+          "linuxtools2.png",
+          "linuxtools3.png",
+          "linuxtools4.png"
+        ],
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "DNS Checker to quickly verify domain records and identify misconfigurations"
+          },
+          {
+            "id": 2,
+            "text": "Port Scanner to detect open ports and assess network vulnerabilities"
+          },
+          {
+            "id": 3,
+            "text": "IP Lookup tool providing geolocation, ISP, and detailed IP data"
+          },
+          {
+            "id": 4,
+            "text": "Built-in Linux Command Library for instant access to essential terminal commands"
+          },
+          {
+            "id": 5,
+            "text": "Bonus tools like JSON Formatter, Text Comparator, and Server Diagnostics for enhanced productivity"
+          }
+        ],
+        "tags": [
+          {
+            "label": "Next.js",
+            "cls": "btag-c"
+          },
+          {
+            "label": "React",
+            "cls": "btag-v"
+          },
+          {
+            "label": "Node.js",
+            "cls": "btag-m"
+          },
+          {
+            "label": "MariaDB",
+            "cls": "btag-a"
+          }
+        ],
+        "liveUrl": "https://linux-support-manager.vercel.app/"
+      },
+      {
+        "num": "04",
+        "icon": "🎮",
+        "iconCls": "ia",
+        "sizeCls": "b2",
+        "slug": "tic-tac-toe-game",
+        "isEnable": true,
+        "type": "personal",
+        "titleGradient": "gw-a",
+        "titleWord": "Tic Tac Toe",
+        "titleRest": "Game",
+        "body": "A modern, interactive Tic Tac Toe game built with Next.js, TypeScript, and Tailwind CSS. It features smooth animations, a responsive glass-morphism UI, Single Player mode with an intelligent computer opponent, and Online Multiplayer mode using Socket.IO for real-time gameplay.",
+        "image": [
+          "ticTac/1.png",
+          "ticTac/2.png",
+          "ticTac/3.png",
+          "ticTac/4.png",
+          "ticTac/5.png"
+        ],
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "Developed a real-time multiplayer Tic Tac Toe game using Next.js, TypeScript, and Socket.IO."
+          },
+          {
+            "id": 2,
+            "text": "Implemented two game modes: Single Player (AI) and Multiplayer (WebSockets)."
+          },
+          {
+            "id": 3,
+            "text": "Built real-time room-based matchmaking with instant move syncing."
+          },
+          {
+            "id": 4,
+            "text": "Built reusable components for X and O icons with SVG animations"
+          },
+          {
+            "id": 5,
+            "text": "Ensured mobile-first responsive layout using aspect-square and CSS grid"
+          },
+          {
+            "id": 6,
+            "text": "Focused on clean TypeScript structure and component organization"
+          }
+        ],
+        "tags": [
+          {
+            "label": "Next.js",
+            "cls": "btag-c"
+          },
+          {
+            "label": "TypeScript",
+            "cls": "btag-m"
+          },
+          {
+            "label": "Socket.IO",
+            "cls": "btag-v"
+          }
+        ],
+        "liveUrl": "https://playtictac.vercel.app/"
+      },
+      {
+        "num": "05",
+        "icon": "🛍",
+        "iconCls": "ic",
+        "sizeCls": "b1",
+        "titleGradient": "gw-c",
+        "titleWord": "Urban",
+        "titleRest": "Market",
+        "slug": "urban-market",
+        "isEnable": true,
+        "type": "personal",
+        "body": "I built a fully responsive clone of Urban Marketplace, a modern e-commerce platform where users can explore a wide variety of products, add items to their cart, and seamlessly place orders.",
+        "image": ["UrbanMarket.png", "UrbanMarket2.png", "UrbanMarket4.png"],
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "Modern and responsive UI for smooth product browsing"
+          },
+          {
+            "id": 2,
+            "text": "Add to cart and complete checkout functionality"
+          },
+          {
+            "id": 3,
+            "text": "Built with React.js and Tailwind CSS, deployed on Netlify"
+          }
+        ],
+        "tags": [
+          {
+            "label": "React",
+            "cls": "btag-c"
+          },
+          {
+            "label": "Tailwind",
+            "cls": "btag-m"
+          },
+          {
+            "label": "Node.js",
+            "cls": "btag-v"
+          }
+        ],
+        "gitUrl": "https://github.com/Suraj-Sangale/urban-market",
+        "liveUrl": "https://urbanmarketplace.netlify.app/home"
+      },
+      {
+        "num": "09",
+        "icon": "📸",
+        "iconCls": "ic",
+        "sizeCls": "b3",
+        "titleGradient": "gw-c",
+        "titleWord": "Frame",
+        "titleRest": "Expert",
+        "slug": "frame-expert",
+        "isEnable": true,
+        "type": "professional",
+        "body": "Smart eyewear recommendation system with virtual try-on and intelligent fitting algorithms for retail stores.",
+        "keyFeatures_keys_not_show": [
+          {
+            "id": 1,
+            "text": "Built smart frame recommendation system for Titan Eye Plus stores"
+          },
+          {
+            "id": 2,
+            "text": "Integrated Virtual Try-On (VTO) and IndiFit calculator"
+          },
+          {
+            "id": 3,
+            "text": "Implemented React Camera for face scanning and measurements"
+          },
+          {
+            "id": 4,
+            "text": "Enabled barcode scanning and product identification"
+          },
+          {
+            "id": 5,
+            "text": "Integrated Salesforce and SAP APIs for data management"
+          }
+        ],
+        "tags": [
+          {
+            "label": "React.js",
+            "cls": "btag-c"
+          },
+          {
+            "label": "Node.js",
+            "cls": "btag-m"
+          },
+          {
+            "label": "SAP API",
+            "cls": "btag-v"
+          },
+          {
+            "label": "Salesforce",
+            "cls": "btag-a"
+          }
+        ],
+        "image": []
+      },
+      {
+        "num": "10",
+        "icon": "🎬",
+        "iconCls": "iv",
+        "sizeCls": "b1",
+        "titleGradient": "gw-v",
+        "titleWord": "Bollywood",
+        "titleRest": "MDB",
+        "slug": "bollywood-mdb",
+        "isEnable": true,
+        "type": "professional",
+        "body": "Entertainment portal aggregating Bollywood news, celebrity updates, and trending industry insights.",
+        "keyFeatures_keys_not_show": [
+          {
+            "id": 1,
+            "text": "Developed dynamic news feed for Bollywood content"
+          },
+          {
+            "id": 2,
+            "text": "Integrated content from multiple reliable news sources"
+          },
+          {
+            "id": 3,
+            "text": "Collaborated with backend teams for seamless data integration"
+          },
+          {
+            "id": 4,
+            "text": "Resolved front-end issues and improved user experience"
+          }
+        ],
+        "tags": [
+          {
+            "label": "React.js",
+            "cls": "btag-c"
+          },
+          {
+            "label": "Next.js",
+            "cls": "btag-m"
+          },
+          {
+            "label": "JavaScript",
+            "cls": "btag-v"
+          },
+          {
+            "label": "CSS",
+            "cls": "btag-a"
+          }
+        ],
+        "image": []
+      },
+      {
+        "num": "11",
+        "icon": "📚",
+        "iconCls": "im",
+        "sizeCls": "b5",
+        "titleGradient": "gw-m",
+        "titleWord": "Insight",
+        "titleRest": "GURU",
+        "slug": "insight-guru",
+        "isEnable": true,
+        "type": "professional",
+        "body": "Comprehensive examination portal admin panel for managing exams, students, and academic operations. Insight GURU is a web-based application that provides a platform for managing exams, students, and academic operations.",
+        "keyFeatures_keys_not_show": [
+          {
+            "id": 1,
+            "text": "Developed responsive admin dashboard using React.js"
+          },
+          {
+            "id": 2,
+            "text": "Implemented state management using Redux"
+          },
+          {
+            "id": 3,
+            "text": "Built reusable UI components with Material-UI"
+          },
+          {
+            "id": 4,
+            "text": "Integrated backend APIs to display examination and student data"
+          }
+        ],
+        "tags": [
+          {
+            "label": "React.js",
+            "cls": "btag-c"
+          },
+          {
+            "label": "Redux",
+            "cls": "btag-m"
+          },
+          {
+            "label": "Material-UI",
+            "cls": "btag-v"
+          },
+          {
+            "label": "REST API",
+            "cls": "btag-a"
+          }
+        ],
+        "images": []
+      }
+    ]
+  },
   "projectsOld": {
     "heading": "Projects",
     "subheading": "Projects",
@@ -668,13 +810,7 @@
             "text": "Bonus tools like JSON Formatter, Text Comparator, and Server Diagnostics for enhanced productivity"
           }
         ],
-        "techStack": [
-          "Next.js",
-          "React",
-          "PHP",
-          "MariaDB",
-          "Node.js"
-        ]
+        "techStack": ["Next.js", "React", "PHP", "MariaDB", "Node.js"]
       },
       {
         "title": "Cargo Desk",
@@ -823,16 +959,8 @@
             "text": "Built with React.js and Tailwind CSS, deployed on Netlify"
           }
         ],
-        "techStack": [
-          "Next.js",
-          "Tailwind CSS",
-          "Node.js"
-        ],
-        "image": [
-          "UrbanMarket.png",
-          "UrbanMarket2.png",
-          "UrbanMarket4.png"
-        ],
+        "techStack": ["Next.js", "Tailwind CSS", "Node.js"],
+        "image": ["UrbanMarket.png", "UrbanMarket2.png", "UrbanMarket4.png"],
         "gitUrl": "https://github.com/Suraj-Sangale/urban-market",
         "liveUrl": "https://urbanmarketplace.netlify.app/home"
       },
@@ -854,11 +982,7 @@
             "text": "User-friendly interface for easy navigation and study"
           }
         ],
-        "techStack": [
-          "Next.js",
-          "Tailwind CSS",
-          "Node.js"
-        ],
+        "techStack": ["Next.js", "Tailwind CSS", "Node.js"],
         "image": [
           "memoMind.png",
           "memoMind.png",
@@ -899,13 +1023,7 @@
         "year": "01/2022 - 03/2022",
         "title": "Intern at CGI",
         "desc": "Frontend Intern",
-        "skills": [
-          "HTML",
-          "CSS",
-          "JavaScript",
-          "React",
-          "React Router"
-        ]
+        "skills": ["HTML", "CSS", "JavaScript", "React", "React Router"]
       },
       {
         "id": 6,
@@ -914,13 +1032,7 @@
         "year": "07/2022 - 12/2023",
         "title": "Boppo Technologies",
         "desc": "Frontend Developer",
-        "skills": [
-          "React",
-          "Redux",
-          "React Native",
-          "Python",
-          "Java"
-        ]
+        "skills": ["React", "Redux", "React Native", "Python", "Java"]
       },
       {
         "id": 4,
@@ -929,13 +1041,7 @@
         "year": "02/2024 - present",
         "title": "Fortune4 Technologies",
         "desc": "Software Developer",
-        "skills": [
-          "Next js",
-          "Node js",
-          "MySQL",
-          "Redis",
-          "Strapi"
-        ]
+        "skills": ["Next js", "Node js", "MySQL", "Redis", "Strapi"]
       }
     ]
   },
@@ -1092,7 +1198,7 @@
         "titleWord": "Point Stream",
         "titleRest": "Panel",
         "slug": "point-stream-panel",
-        "body": "Real-time sports scoring system with WebSocket multi-referee input and live scoreboard updates.",
+        "body": "A dynamic web-based platform built to streamline the management of sports tournaments, matches, and real-time scoring. Key highlights include match booth setups, referee-based access control, live scoreboard updates from multiple devices, detailed match history with obtained scores, and automated scorecard generation.",
         "keyFeatures": [
           {
             "id": 1,
@@ -1120,7 +1226,8 @@
             "label": "MySQL",
             "cls": "btag-v"
           }
-        ]
+        ],
+        "liveUrl": "https://pointstreampannel.vercel.app/"
       },
       {
         "num": "02",
@@ -1131,7 +1238,29 @@
         "titleWord": "Cargo",
         "titleRest": "Desk",
         "slug": "cargo-desk",
-        "body": "Transport management system with bulk SMS (Twilio), contact import, JWT authentication, and document tracking.",
+        "body": "CargoDesk is a transport management system designed for managing daily orders, invoices, and vehicle-related documents such as insurance, PUC, and fitness certificates. A key highlight is the Bulk SMS functionality powered by the Twilio SMS API, along with a robust contact management system that supports multiple import methods.",
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "Implemented Bulk SMS sending using Twilio SMS API for marketing."
+          },
+          {
+            "id": 2,
+            "text": "Developed a contact management module allowing bulk import from Google Contacts API, CSV, vCard, and manual entry."
+          },
+          {
+            "id": 3,
+            "text": "Secured the platform with JWT-based authentication for sign-up and login."
+          },
+          {
+            "id": 4,
+            "text": "Utilized MySQL for efficient data storage and retrieval."
+          },
+          {
+            "id": 5,
+            "text": "Designed a responsive UI using Material UI, Tailwind CSS, and SCSS for a modern and clean interface."
+          }
+        ],
         "tags": [
           {
             "label": "Next.js",
@@ -1149,7 +1278,8 @@
             "label": "Twilio",
             "cls": "btag-a"
           }
-        ]
+        ],
+        "liveUrl": "https://cargodesk.vercel.app/"
       },
       {
         "num": "03",
@@ -1160,7 +1290,29 @@
         "titleWord": "Linux",
         "titleRest": "Tools",
         "slug": "linux-tools",
-        "body": "Web-based DevOps toolkit with DNS checker, port scanner, IP lookup, and command utilities to simplify server troubleshooting.",
+        "body": "Built a comprehensive web-based toolkit tailored for DevOps engineers and system administrators to streamline server troubleshooting and daily operational tasks. The app integrates various diagnostic tools to enhance productivity and simplify common server-side challenges.",
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "DNS Checker to quickly verify domain records and identify misconfigurations"
+          },
+          {
+            "id": 2,
+            "text": "Port Scanner to detect open ports and assess network vulnerabilities"
+          },
+          {
+            "id": 3,
+            "text": "IP Lookup tool providing geolocation, ISP, and detailed IP data"
+          },
+          {
+            "id": 4,
+            "text": "Built-in Linux Command Library for instant access to essential terminal commands"
+          },
+          {
+            "id": 5,
+            "text": "Bonus tools like JSON Formatter, Text Comparator, and Server Diagnostics for enhanced productivity"
+          }
+        ],
         "tags": [
           {
             "label": "Next.js",
@@ -1178,7 +1330,8 @@
             "label": "MariaDB",
             "cls": "btag-a"
           }
-        ]
+        ],
+        "liveUrl": "https://linux-support-manager.vercel.app/"
       },
       {
         "num": "04",
@@ -1189,7 +1342,33 @@
         "titleGradient": "gw-a",
         "titleWord": "Tic Tac Toe",
         "titleRest": "Game",
-        "body": "Real-time multiplayer game with Socket.IO, AI mode, and animated UI built with TypeScript.",
+        "body": "A modern, interactive Tic Tac Toe game built with Next.js, TypeScript, and Tailwind CSS. It features smooth animations, a responsive glass-morphism UI, Single Player mode with an intelligent computer opponent, and Online Multiplayer mode using Socket.IO for real-time gameplay.",
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "Developed a real-time multiplayer Tic Tac Toe game using Next.js, TypeScript, and Socket.IO."
+          },
+          {
+            "id": 2,
+            "text": "Implemented two game modes: Single Player (AI) and Multiplayer (WebSockets)."
+          },
+          {
+            "id": 3,
+            "text": "Built real-time room-based matchmaking with instant move syncing."
+          },
+          {
+            "id": 4,
+            "text": "Built reusable components for X and O icons with SVG animations"
+          },
+          {
+            "id": 5,
+            "text": "Ensured mobile-first responsive layout using aspect-square and CSS grid"
+          },
+          {
+            "id": 6,
+            "text": "Focused on clean TypeScript structure and component organization"
+          }
+        ],
         "tags": [
           {
             "label": "Next.js",
@@ -1203,7 +1382,8 @@
             "label": "Socket.IO",
             "cls": "btag-v"
           }
-        ]
+        ],
+        "liveUrl": "https://playtictac.vercel.app/"
       },
       {
         "num": "05",
@@ -1214,7 +1394,21 @@
         "titleWord": "Urban",
         "titleRest": "Market",
         "slug": "urban-market",
-        "body": "Responsive e-commerce UI with cart and checkout functionality.",
+        "body": "I built a fully responsive clone of Urban Marketplace, a modern e-commerce platform where users can explore a wide variety of products, add items to their cart, and seamlessly place orders.",
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "Modern and responsive UI for smooth product browsing"
+          },
+          {
+            "id": 2,
+            "text": "Add to cart and complete checkout functionality"
+          },
+          {
+            "id": 3,
+            "text": "Built with React.js and Tailwind CSS, deployed on Netlify"
+          }
+        ],
         "tags": [
           {
             "label": "React",
@@ -1228,7 +1422,9 @@
             "label": "Node.js",
             "cls": "btag-v"
           }
-        ]
+        ],
+        "gitUrl": "https://github.com/Suraj-Sangale/urban-market",
+        "liveUrl": "https://urbanmarketplace.netlify.app/home"
       },
       {
         "num": "06",
@@ -1447,11 +1643,7 @@
             "cls": "btag-a"
           }
         ],
-        "images": [
-          "frameExpert1.png",
-          "frameExpert2.png",
-          "frameExpert3.png"
-        ]
+        "images": ["frameExpert1.png", "frameExpert2.png", "frameExpert3.png"]
       },
       {
         "num": "10",
@@ -1551,11 +1743,7 @@
             "cls": "btag-a"
           }
         ],
-        "images": [
-          "insightGuru1.png",
-          "insightGuru2.png",
-          "insightGuru3.png"
-        ]
+        "images": ["insightGuru1.png", "insightGuru2.png", "insightGuru3.png"]
       }
     ],
     "marqueeRow1": [

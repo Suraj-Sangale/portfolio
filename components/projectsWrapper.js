@@ -79,7 +79,7 @@ export default function ProjectsWrapper({ pageData }) {
         <div
           className={`flex flex-wrap justify-center gap-8 projectCardWrapper`}
         >
-          {projectList.map((item, index) => {
+          {projectList?.map((item, index) => {
             if (!item.isEnable) return null;
             const isDefaultOpen = item.slug === activeSlug;
             return (

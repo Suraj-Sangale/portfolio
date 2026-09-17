@@ -15,14 +15,23 @@ export default function ProjectCard({ project, isDefaultOpen, filter }) {
   const [imageLoading, setImageLoading] = useState(true);
   const router = useRouter();
 
+  const title =
+    project.title ||
+    [project.titleWord, project.titleRest].filter(Boolean).join(" ") ||
+    "Project";
+
+  const description = project.body || project.description || "";
+  const imageList = project.images || project.image || [];
+  const tagsList = project.tags || project.techStack || [];
+
   // ✅ Open modal if slug matches
   useEffect(() => {
     if (isDefaultOpen) {
       setIsOpen(true);
       // ── dataLayer event ─────────────────────────────────
-      trackProjectView(project.title, project.slug, project.type);
+      trackProjectView(title, project.slug, project.type);
     }
-  }, [isDefaultOpen]);
+  }, [isDefaultOpen, title, project.slug, project.type]);
 
   const isFilteredOut = filter !== "all" && filter !== project.type;
 
@@ -55,8 +64,6 @@ export default function ProjectCard({ project, isDefaultOpen, filter }) {
     });
   };
 
-  const { image = [] } = project || {};
-
   const ImageComponent = ({ img, alt }) => (
     <div className="relative w-full h-full">
       {imageLoading && (
@@ -65,13 +72,15 @@ export default function ProjectCard({ project, isDefaultOpen, filter }) {
         </div>
       )}
       <Image
-        src={`/myProjects/${img}`}
-        alt={project.title}
+        src={
+          img?.startsWith("http") || img?.startsWith("/")
+            ? img
+            : `/myProjects/${img}`
+        }
+        alt={alt || title}
         className={`object-cover w-full h-full transition-all duration-500 ${
           imageLoading ? "opacity-0" : "opacity-100"
         }`}
-        // width={400}
-        // height={300}
         loading="lazy"
         fill
         sizes="(max-width: 640px) 100vw, 400px"
@@ -85,82 +94,95 @@ export default function ProjectCard({ project, isDefaultOpen, filter }) {
     <>
       {/* Project Card */}
       <div
-        className={`max-w-sm bg-gray-100 backdrop-blur-md rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200 hover:-translate-y-1 cursor-pointer ${isFilteredOut ? "grayscale brightness-75 scale-95 pointer-events-none" : ""}`}
+        className={`max-w-sm bg-gray-100 backdrop-blur-md rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200 hover:-translate-y-1 cursor-pointer flex flex-col justify-between ${
+          isFilteredOut
+            ? "grayscale brightness-75 scale-95 pointer-events-none"
+            : ""
+        }`}
         onClick={() => {
           setIsOpen(true);
           // ── dataLayer event ─────────────────────────────────
-          trackProjectView(project.title, project.slug, project.type);
+          trackProjectView(title, project.slug, project.type);
         }}
       >
-        {/* Image Carousel */}
-        {image && image.length > 0 && (
-          <div
-            className="relative w-full h-52 sm:h-56 overflow-hidden"
-            onClick={handleSwiperClick}
-          >
-            {isFilteredOut ? (
-              <ImageComponent
-                img={image[0]}
-                alt={project.title}
-              />
-            ) : (
-              <CustomSwiper carouselOptions={carouselOptions}>
-                {image.map((img, index) => (
-                  <SwiperSlide key={index}>
-                    <ImageComponent
-                      img={img}
-                      alt={project.title}
-                    />
-                  </SwiperSlide>
-                ))}
-              </CustomSwiper>
-            )}
-          </div>
-        )}
-
-        {/* Content Section */}
-        <div className="p-4 sm:p-5">
-          <div className="flex justify-between items-center mb-2">
-            <h2 className="text-xl font-semibold">{project.title}</h2>
-            <div className="flex space-x-3">
-              {project.liveUrl && (
-                <Link
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <CiShare1 className="text-gray-700 hover:text-black text-xl" />
-                </Link>
+        <div>
+          {/* Image Carousel */}
+          {imageList && imageList.length > 0 && (
+            <div
+              className="relative w-full h-52 sm:h-56 overflow-hidden"
+              onClick={handleSwiperClick}
+            >
+              {isFilteredOut ? (
+                <ImageComponent img={imageList[0]} alt={title} />
+              ) : (
+                <CustomSwiper carouselOptions={carouselOptions}>
+                  {imageList.map((img, index) => (
+                    <SwiperSlide key={index}>
+                      <ImageComponent img={img} alt={title} />
+                    </SwiperSlide>
+                  ))}
+                </CustomSwiper>
               )}
-              {project.gitUrl && (
-                <Link
-                  href={project.gitUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaGithub className="text-gray-700 hover:text-black text-xl" />
-                </Link>
-              )}
-            </div>
-          </div>
-
-          <p className="text-gray-700 text-sm leading-relaxed line-clamp-3 mb-3">
-            {project.description}
-          </p>
-
-          {/* Tech Stack */}
-          {project.techStack?.length > 0 && (
-            <div className="flex flex-wrap gap-2 mt-3">
-              {project.techStack.map((tech, i) => (
-                <span
-                  key={i}
-                  className="px-3 py-1 rounded-full bg-gradient-to-r from-indigo-600 to-purple-500 text-white text-xs font-medium shadow-sm hover:from-indigo-700 hover:to-purple-600 transition-colors"
-                >
-                  {tech}
-                </span>
-              ))}
             </div>
           )}
+
+          {/* Content Section */}
+          <div className="p-4 sm:p-5">
+            <div className="flex justify-between items-center mb-2">
+              <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-1.5 flex-wrap">
+                {/* {project.icon && <span>{project.icon}</span>} */}
+                <span>{project.titleWord || project.title}</span>
+                {project.titleRest && (
+                  <span className="text-indigo-600">{project.titleRest}</span>
+                )}
+              </h2>
+              <div className="flex space-x-3">
+                {project.liveUrl && (
+                  <Link
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <CiShare1 className="text-gray-700 hover:text-black text-xl" />
+                  </Link>
+                )}
+                {project.gitUrl && (
+                  <Link
+                    href={project.gitUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <FaGithub className="text-gray-700 hover:text-black text-xl" />
+                  </Link>
+                )}
+              </div>
+            </div>
+
+            {description && (
+              <p className="text-gray-700 text-sm leading-relaxed line-clamp-3 mb-3">
+                {description}
+              </p>
+            )}
+
+            {/* Tech Stack / Tags */}
+            {tagsList?.length > 0 && (
+              <div className="flex flex-wrap gap-2 mt-3">
+                {tagsList.map((tag, i) => {
+                  const label = typeof tag === "string" ? tag : tag.label;
+                  return (
+                    <span
+                      key={tag.id || label || i}
+                      className="px-3 py-1 rounded-full bg-gradient-to-r from-indigo-600 to-purple-500 text-white text-xs font-medium shadow-sm hover:from-indigo-700 hover:to-purple-600 transition-colors"
+                    >
+                      {label}
+                    </span>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 

@@ -85,7 +85,7 @@ export default function DevFolio({ pageData }) {
     "titleWord": "Point Stream",
     "titleRest": "Panel",
     "slug": "point-stream-panel",
-    "body": "Real-time sports scoring system with WebSocket multi-referee input and live scoreboard updates.",
+    "body": "A dynamic web-based platform built to streamline the management of sports tournaments, matches, and real-time scoring. Key highlights include match booth setups, referee-based access control, live scoreboard updates from multiple devices, detailed match history with obtained scores, and automated scorecard generation.",
     "keyFeatures": [
       {
         "id": 1,
@@ -104,7 +104,8 @@ export default function DevFolio({ pageData }) {
       { "label": "Next.js", "cls": "btag-c" },
       { "label": "Socket.io", "cls": "btag-m" },
       { "label": "MySQL", "cls": "btag-v" }
-    ]
+    ],
+    "liveUrl": "https://pointstreampannel.vercel.app/"
   },
 
   {
@@ -116,13 +117,36 @@ export default function DevFolio({ pageData }) {
     "titleWord": "Cargo",
     "titleRest": "Desk",
     "slug": "cargo-desk",
-    "body": "Transport management system with bulk SMS (Twilio), contact import, JWT authentication, and document tracking.",
+    "body": "CargoDesk is a transport management system designed for managing daily orders, invoices, and vehicle-related documents such as insurance, PUC, and fitness certificates. A key highlight is the Bulk SMS functionality powered by the Twilio SMS API, along with a robust contact management system that supports multiple import methods.",
+    "keyFeatures": [
+      {
+        "id": 1,
+        "text": "Implemented Bulk SMS sending using Twilio SMS API for marketing."
+      },
+      {
+        "id": 2,
+        "text": "Developed a contact management module allowing bulk import from Google Contacts API, CSV, vCard, and manual entry."
+      },
+      {
+        "id": 3,
+        "text": "Secured the platform with JWT-based authentication for sign-up and login."
+      },
+      {
+        "id": 4,
+        "text": "Utilized MySQL for efficient data storage and retrieval."
+      },
+      {
+        "id": 5,
+        "text": "Designed a responsive UI using Material UI, Tailwind CSS, and SCSS for a modern and clean interface."
+      }
+    ],
     "tags": [
       { "label": "Next.js", "cls": "btag-c" },
       { "label": "Node.js", "cls": "btag-m" },
       { "label": "MySQL", "cls": "btag-v" },
       { "label": "Twilio", "cls": "btag-a" }
-    ]
+    ],
+    "liveUrl": "https://cargodesk.vercel.app/"
   },
 
   {
@@ -134,13 +158,36 @@ export default function DevFolio({ pageData }) {
     "titleWord": "Linux",
     "titleRest": "Tools",
     "slug": "linux-tools",
-    "body": "Web-based DevOps toolkit with DNS checker, port scanner, IP lookup, and command utilities to simplify server troubleshooting.",
+    "body": "Built a comprehensive web-based toolkit tailored for DevOps engineers and system administrators to streamline server troubleshooting and daily operational tasks. The app integrates various diagnostic tools to enhance productivity and simplify common server-side challenges.",
+    "keyFeatures": [
+      {
+        "id": 1,
+        "text": "DNS Checker to quickly verify domain records and identify misconfigurations"
+      },
+      {
+        "id": 2,
+        "text": "Port Scanner to detect open ports and assess network vulnerabilities"
+      },
+      {
+        "id": 3,
+        "text": "IP Lookup tool providing geolocation, ISP, and detailed IP data"
+      },
+      {
+        "id": 4,
+        "text": "Built-in Linux Command Library for instant access to essential terminal commands"
+      },
+      {
+        "id": 5,
+        "text": "Bonus tools like JSON Formatter, Text Comparator, and Server Diagnostics for enhanced productivity"
+      }
+    ],
     "tags": [
       { "label": "Next.js", "cls": "btag-c" },
       { "label": "React", "cls": "btag-v" },
       { "label": "Node.js", "cls": "btag-m" },
       { "label": "MariaDB", "cls": "btag-a" }
-    ]
+    ],
+    "liveUrl": "https://linux-support-manager.vercel.app/"
   },
 
   {
@@ -152,12 +199,39 @@ export default function DevFolio({ pageData }) {
     "titleGradient": "gw-a",
     "titleWord": "Tic Tac Toe",
     "titleRest": "Game",
-    "body": "Real-time multiplayer game with Socket.IO, AI mode, and animated UI built with TypeScript.",
+    "body": "A modern, interactive Tic Tac Toe game built with Next.js, TypeScript, and Tailwind CSS. It features smooth animations, a responsive glass-morphism UI, Single Player mode with an intelligent computer opponent, and Online Multiplayer mode using Socket.IO for real-time gameplay. It features smooth animations, a responsive glass-morphism UI, Single Player mode with an intelligent computer opponent, and Online Multiplayer mode using Socket.IO for real-time gameplay. It features smooth animations, a responsive glass-morphism UI, Single Player mode with an intelligent computer opponent, and Online Multiplayer mode using Socket.IO for real-time gameplay. It features smooth animations, a responsive glass-morphism UI, Single Player mode with an intelligent computer opponent, and Online Multiplayer mode using Socket.IO for real-time gameplay. It features smooth animations, a responsive glass-morphism UI, Single Player mode with an intelligent computer opponent, and Online Multiplayer mode using Socket.IO for real-time gameplay. It features smooth animations, a responsive glass-morphism UI, Single Player mode with an intelligent computer opponent, and Online Multiplayer mode using Socket.IO for real-time gameplay.",
+    "keyFeatures": [
+      {
+        "id": 1,
+        "text": "Developed a real-time multiplayer Tic Tac Toe game using Next.js, TypeScript, and Socket.IO. "
+      },
+      {
+        "id": 2,
+        "text": "Implemented two game modes: Single Player (AI) and Multiplayer (WebSockets)."
+      },
+      {
+        "id": 3,
+        "text": "Built real-time room-based matchmaking with instant move syncing."
+      },
+      {
+        "id": 4,
+        "text": "Built reusable components for X and O icons with SVG animations"
+      },
+      {
+        "id": 5,
+        "text": "Ensured mobile-first responsive layout using aspect-square and CSS grid"
+      },
+      {
+        "id": 6,
+        "text": "Focused on clean TypeScript structure and component organization"
+      }
+    ],
     "tags": [
       { "label": "Next.js", "cls": "btag-c" },
       { "label": "TypeScript", "cls": "btag-m" },
       { "label": "Socket.IO", "cls": "btag-v" }
-    ]
+    ],
+    "liveUrl": "https://playtictac.vercel.app/"
   },
 
   {
@@ -169,12 +243,28 @@ export default function DevFolio({ pageData }) {
     "titleWord": "Urban",
     "titleRest": "Market",
     "slug": "urban-market",
-    "body": "Responsive e-commerce UI with cart and checkout functionality.",
+    "body": "I built a fully responsive clone of Urban Marketplace, a modern e-commerce platform where users can explore a wide variety of products, add items to their cart, and seamlessly place orders.",
+    "keyFeatures": [
+      {
+        "id": 1,
+        "text": "Modern and responsive UI for smooth product browsing"
+      },
+      {
+        "id": 2,
+        "text": "Add to cart and complete checkout functionality"
+      },
+      {
+        "id": 3,
+        "text": "Built with React.js and Tailwind CSS, deployed on Netlify"
+      }
+    ],
     "tags": [
       { "label": "React", "cls": "btag-c" },
       { "label": "Tailwind", "cls": "btag-m" },
       { "label": "Node.js", "cls": "btag-v" }
-    ]
+    ],
+    "gitUrl": "https://github.com/Suraj-Sangale/urban-market",
+    "liveUrl": "https://urbanmarketplace.netlify.app/home"
   },
 
   {
@@ -1348,9 +1438,9 @@ export default function DevFolio({ pageData }) {
                     <> {p.titleRest}</>
                   )}
                 </div>
-                <div className="bento-body">{p.body}</div>
+                <div className="bento-body">{p.body.length > 300 ? p.body.slice(0, p.sizeCls == "b1" ? 1000 : 330) + "..." : p.body}</div>
 
-                {p.keyFeatures?.length > 0 && (
+                {p.keyFeatures?.length > 0 && p.sizeCls == "b1" && (
                   <ul className="bento-features">
                     {p.keyFeatures.map((feature) => (
                       <li key={feature.id}>{feature.text}</li>

@@ -8,7 +8,14 @@ import { SwiperSlide } from "swiper/react";
 export default function ProjectDetailModal({ project, onClose }) {
   if (!project) return null;
 
-  const { image = [] } = project;
+  const title =
+    project.title ||
+    [project.titleWord, project.titleRest].filter(Boolean).join(" ") ||
+    "Project";
+
+  const description = project.body || project.description || "";
+  const imageList = project.images || project.image || [];
+  const tagsList = project.tags || project.techStack || [];
 
   const carouselOptions = {
     slidesPerView: 1,
@@ -31,15 +38,19 @@ export default function ProjectDetailModal({ project, onClose }) {
       }}
     >
       {/* ── Left: Image gallery ── */}
-      {image.length > 0 && (
+      {imageList.length > 0 && (
         <div className="w-full md:w-1/2 bg-gray-100 flex items-center justify-center relative flex-shrink-0">
           <CustomSwiper carouselOptions={carouselOptions} className="w-full h-full">
-            {image.map((img, i) => (
+            {imageList.map((img, i) => (
               <SwiperSlide key={i}>
                 <div className="w-full flex items-center justify-center bg-gray-200 h-72 md:h-full">
                   <Image
-                    src={`/myProjects/${img}`}
-                    alt={`${project.title} screenshot ${i + 1}`}
+                    src={
+                      img?.startsWith("http") || img?.startsWith("/")
+                        ? img
+                        : `/myProjects/${img}`
+                    }
+                    alt={`${title} screenshot ${i + 1}`}
                     className="object-contain w-full h-full"
                     loading="lazy"
                     width={1200}
@@ -56,13 +67,19 @@ export default function ProjectDetailModal({ project, onClose }) {
       {/* ── Right: Details ── */}
       <div
         className={`overflow-y-auto p-6 md:p-8 ${
-          image.length > 0 ? "w-full md:w-1/2" : "w-full"
+          imageList.length > 0 ? "w-full md:w-1/2" : "w-full"
         }`}
         style={{ background: "#fff", color: "#111" }}
       >
         {/* Title + links */}
         <div className="flex items-center gap-3 mb-3">
-          <h2 className="text-2xl font-bold text-gray-900">{project.title}</h2>
+          <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+            {project.icon && false && <span>{project.icon}</span>}
+            <span>{project.titleWord || project.title}</span>
+            {project.titleRest && (
+              <span className="text-indigo-600">{project.titleRest}</span>
+            )}
+          </h2>
           {project.liveUrl && (
             <Link
               href={project.liveUrl}
@@ -101,9 +118,11 @@ export default function ProjectDetailModal({ project, onClose }) {
         )}
 
         {/* Description */}
-        <p className="text-gray-600 text-sm leading-relaxed mb-6">
-          {project.description}
-        </p>
+        {description && (
+          <p className="text-gray-600 text-sm leading-relaxed mb-6">
+            {description}
+          </p>
+        )}
 
         {/* Key Features */}
         {project.keyFeatures?.length > 0 && (
@@ -113,7 +132,7 @@ export default function ProjectDetailModal({ project, onClose }) {
             </h3>
             <ul className="space-y-2 mb-6">
               {project.keyFeatures.map((feature, i) => (
-                <li key={i} className="flex items-start gap-2">
+                <li key={feature.id || i} className="flex items-start gap-2">
                   <FaCheckCircle className="text-indigo-500 mt-0.5 flex-shrink-0" />
                   <span className="text-gray-600 text-sm">{feature.text}</span>
                 </li>
@@ -123,29 +142,32 @@ export default function ProjectDetailModal({ project, onClose }) {
         )}
 
         {/* Tech Stack */}
-        {project.techStack?.length > 0 && (
+        {tagsList?.length > 0 && (
           <>
             <h3 className="text-base font-semibold text-gray-900 mb-3">
               Tech Stack
             </h3>
             <div className="flex flex-wrap gap-2">
-              {project.techStack.map((tech, i) => (
-                <span
-                  key={i}
-                  className="px-3 py-1 rounded-full text-white text-xs font-medium shadow-sm"
-                  style={{
-                    background: "linear-gradient(135deg,#6366f1,#8b5cf6)",
-                  }}
-                >
-                  {tech}
-                </span>
-              ))}
+              {tagsList.map((tag, i) => {
+                const label = typeof tag === "string" ? tag : tag.label;
+                return (
+                  <span
+                    key={tag.id || label || i}
+                    className="px-3 py-1 rounded-full text-white text-xs font-medium shadow-sm"
+                    style={{
+                      background: "linear-gradient(135deg,#6366f1,#8b5cf6)",
+                    }}
+                  >
+                    {label}
+                  </span>
+                );
+              })}
             </div>
           </>
         )}
 
         {/* CTA buttons */}
-        <div className="flex gap-3 mt-8">
+        {/* <div className="flex gap-3 mt-8">
           {project.liveUrl && (
             <Link
               href={project.liveUrl}
@@ -167,7 +189,7 @@ export default function ProjectDetailModal({ project, onClose }) {
               GitHub
             </Link>
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );
