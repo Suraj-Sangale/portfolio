@@ -9,7 +9,7 @@
   --body-color: #f1f1f1;
   --container-color: #f1f1f1;
 
-  --default-font-family: "Anton","Nunito", "Rubik", sans-serif;
+  --default-font-family: 'Outfit', sans-serif;
   --h1-font-size: 3rem;
   --h2-font-size: 1.5rem;
   --h3-font-size: 1.25rem;
@@ -51,7 +51,7 @@
   /* margin: 0;
   padding: 0; */
   box-sizing: border-box;
-  /* font-family: 'Nunito', sans-serif !important; */
+  /* font-family: 'Outfit', sans-serif !important; */
 }
 
 
@@ -64,7 +64,7 @@ body {
   line-height: 1.7;
   color: var(--text-color);
   cursor: url('/cursor.png') 10 10, auto;
-  /* font-family: 'Nunito', sans-serif !important; */
+  font-family: 'Outfit', sans-serif;
   font-size: var(--normal-font-size);
   background: rgb(0, 0, 0);
   overflow-x: hidden;

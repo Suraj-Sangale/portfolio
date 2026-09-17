@@ -7,7 +7,7 @@ import { newSeoData } from "@/utilities/Data";
 import useVisitTracker from "@/hooks/useVisitTracker";
 
 import { DefaultSeo } from "next-seo";
-import { Nunito } from "next/font/google";
+import { Outfit } from "next/font/google";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
@@ -15,9 +15,9 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-const nunito = Nunito({
+const outfit = Outfit({
   subsets: ["latin"],
-  weight: ["400", "600", "700", "900"],
+  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -45,20 +45,17 @@ export default function App({ Component, pageProps }) {
   }, [router.events]);
 
   return (
-    <>
+    <div className={outfit.className}>
       <DefaultSeo {...newSeoData} />
 
       {/* Header */}
       {!isOpenLayout && <Header />}
 
       {/* Page */}
-      <Component
-        className={nunito.className}
-        {...pageProps}
-      />
+      <Component {...pageProps} />
 
       {/* Footer */}
       {!isOpenLayout && <Footer />}
-    </>
+    </div>
   );
 }

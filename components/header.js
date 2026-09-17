@@ -33,7 +33,7 @@ const Header = () => {
 
   return (
     <>
-      <nav className="fixed top-0 inset-x-0 z-20 backdrop-blur-sm">
+      <nav className="fixed top-0 inset-x-0 z-20 backdrop-blur-sm" style={{ fontFamily: "'Outfit', sans-serif" }}>
         <div className="relative container mx-auto px-6 py-5 flex items-center justify-between">
           {/* Logo */}
           <Link href="/">
@@ -108,6 +108,7 @@ const Header = () => {
       <div
         className="fixed inset-0 z-20 md:hidden flex flex-col items-center justify-center gap-8 backdrop-blur-lg bg-black/60"
         style={{
+          fontFamily: "'Outfit', sans-serif",
           transition:
             "opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1), transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)",
           opacity: menuOpen ? 1 : 0,
