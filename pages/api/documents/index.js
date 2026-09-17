@@ -129,7 +129,7 @@ export default async function handler(req, res) {
                   extension: ext,
                   createdAt: item.created_at || new Date().toISOString(),
                   modifiedAt: item.updated_at || item.created_at || new Date().toISOString(),
-                  url: publicUrlData?.publicUrl || `/uploads/documents/${encodeURIComponent(item.name)}`,
+                  url: `/storage/documents/${encodeURIComponent(item.name)}`,
                   storageProvider: "supabase",
                 };
               });
@@ -280,7 +280,7 @@ export default async function handler(req, res) {
               formattedSize: formatBytes(uploadedFile.size),
               extension: originalExt,
               modifiedAt: new Date().toISOString(),
-              url: publicUrlData?.publicUrl || "",
+              url: `/storage/documents/${encodeURIComponent(targetFileName)}`,
               storageProvider: "supabase",
             },
           });
@@ -385,7 +385,7 @@ export default async function handler(req, res) {
               oldName: safeOldName,
               name: finalNewName,
               extension: originalExt,
-              url: publicUrlData?.publicUrl || "",
+              url: `/storage/documents/${encodeURIComponent(finalNewName)}`,
             });
           } else {
             console.warn("Supabase rename error, checking local fallback:", moveError.message);

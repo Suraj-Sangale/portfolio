@@ -71,6 +71,18 @@ const nextConfig = {
     }
     return config;
   },
+  async rewrites() {
+    const supabaseUrl =
+      process.env.NEXT_PUBLIC_SUPABASE_URL ||
+      "https://tmwveeszzbtqtjwyrphy.supabase.co";
+
+    return [
+      {
+        source: "/storage/documents/:path*",
+        destination: `${supabaseUrl}/storage/v1/object/public/documents/:path*`,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
