@@ -279,7 +279,9 @@ async function sendResumeDocument(sock, sender, msg) {
 let latestQRDataUrl = null;
 let isConnected = false;
 let isAutoReplyPaused = false;
-const pausedChats = new Map(); // sender -> unpauseTimestamp
+const authDir = path.join(process.cwd(), 'wa_auth_session');
+let activeSock = null;
+let reconnectTimer = null;
 
 export function toggleAutoReply(paused) {
   if (typeof paused === 'boolean') {
@@ -291,6 +293,27 @@ export function toggleAutoReply(paused) {
   return isAutoReplyPaused;
 }
 
+export function resetWhatsAppSession() {
+  console.log('🔄 Resetting WhatsApp session and clearing auth credentials...');
+  try {
+    if (activeSock) {
+      try { activeSock.end(); } catch (e) {}
+      activeSock = null;
+    }
+    if (fs.existsSync(authDir)) {
+      fs.rmSync(authDir, { recursive: true, force: true });
+    }
+  } catch (err) {
+    console.error('Error while resetting session directory:', err.message);
+  }
+  isConnected = false;
+  latestQRDataUrl = null;
+  if (reconnectTimer) clearTimeout(reconnectTimer);
+  reconnectTimer = setTimeout(() => {
+    startWhatsAppAgent();
+  }, 1500);
+}
+
 const port = process.env.PORT || 3001;
 const server = http.createServer((req, res) => {
   const urlObj = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
@@ -299,6 +322,13 @@ const server = http.createServer((req, res) => {
   if (pathname === '/health') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ status: 'ok', connected: isConnected, isPaused: isAutoReplyPaused }));
+    return;
+  }
+
+  if (pathname === '/reset-session') {
+    resetWhatsAppSession();
+    res.writeHead(302, { Location: '/' });
+    res.end();
     return;
   }
 
@@ -330,12 +360,14 @@ const server = http.createServer((req, res) => {
           .badge-paused { background: #eab308; color: #000; }
           h1 { margin: 8px 0; font-size: 22px; }
           p { color: #8696a0; font-size: 14px; line-height: 1.5; margin-bottom: 20px; }
-          .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 15px; font-weight: 600; padding: 12px 24px; border-radius: 12px; border: none; cursor: pointer; text-decoration: none; transition: all 0.2s; width: 100%; box-sizing: border-box; }
+          .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 15px; font-weight: 600; padding: 12px 24px; border-radius: 12px; border: none; cursor: pointer; text-decoration: none; transition: all 0.2s; width: 100%; box-sizing: border-box; margin-bottom: 10px; }
           .btn-pause { background: #ef4444; color: white; }
           .btn-pause:hover { background: #dc2626; }
           .btn-resume { background: #00a884; color: white; }
           .btn-resume:hover { background: #008f6f; }
-          .info-box { background: #182229; border-radius: 10px; padding: 12px; margin-top: 20px; font-size: 12px; color: #8696a0; text-align: left; }
+          .btn-reset { background: #334155; color: #cbd5e1; font-size: 13px; padding: 10px 16px; }
+          .btn-reset:hover { background: #475569; color: white; }
+          .info-box { background: #182229; border-radius: 10px; padding: 12px; margin-top: 15px; font-size: 12px; color: #8696a0; text-align: left; }
           .info-box code { color: #53bdeb; background: #111b21; padding: 2px 6px; border-radius: 4px; }
         </style>
       </head>
@@ -349,6 +381,10 @@ const server = http.createServer((req, res) => {
           
           <a href="/toggle-pause" class="btn ${isAutoReplyPaused ? 'btn-resume' : 'btn-pause'}">
             ${isAutoReplyPaused ? '▶️ Resume Auto-Reply' : '⏸️ Pause Auto-Reply'}
+          </a>
+
+          <a href="/reset-session" onclick="return confirm('Do you want to re-link WhatsApp? This will generate a new QR code.')" class="btn btn-reset">
+            🔄 Re-link WhatsApp Session
           </a>
 
           <div class="info-box">
@@ -379,6 +415,7 @@ const server = http.createServer((req, res) => {
           .steps { text-align: left; background: #182229; padding: 14px; border-radius: 8px; margin-top: 15px; font-size: 12px; color: #aebac1; }
           .steps ol { margin: 0; padding-left: 20px; }
           .steps li { margin-bottom: 6px; }
+          .btn-reload { display: inline-block; margin-top: 12px; font-size: 12px; color: #53bdeb; text-decoration: none; }
         </style>
       </head>
       <body>
@@ -395,6 +432,7 @@ const server = http.createServer((req, res) => {
               <li>Tap <b>Link a Device</b> and point camera here</li>
             </ol>
           </div>
+          <a href="/reset-session" class="btn-reload">🔄 Fresh QR Code</a>
         </div>
       </body>
       </html>
@@ -405,7 +443,7 @@ const server = http.createServer((req, res) => {
       <html>
       <head>
         <title>Generating QR Code...</title>
-        <meta http-equiv="refresh" content="4">
+        <meta http-equiv="refresh" content="3">
         <style>
           body { font-family: sans-serif; background: #0b141a; color: #8696a0; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; text-align: center; }
         </style>
@@ -429,7 +467,11 @@ const conversationHistories = new Map();
 // 5. Main WhatsApp Socket Connection
 // ----------------------------------------------------
 async function startWhatsAppAgent() {
-  const authDir = path.join(process.cwd(), 'wa_auth_session');
+  if (reconnectTimer) {
+    clearTimeout(reconnectTimer);
+    reconnectTimer = null;
+  }
+
   const { state, saveCreds } = await useMultiFileAuthState(authDir);
 
   const sock = makeWASocket({
@@ -437,6 +479,7 @@ async function startWhatsAppAgent() {
     printQRInTerminal: false,
     logger: pino({ level: 'silent' }),
   });
+  activeSock = sock;
 
   sock.ev.on('creds.update', saveCreds);
 
@@ -467,7 +510,7 @@ async function startWhatsAppAgent() {
 
       try {
         latestQRDataUrl = await QRCode.toDataURL(qr, { margin: 2, scale: 8 });
-        console.log(`🌐 [WEB QR PAGE]: Open your Railway/Cloud URL in your browser to scan QR easily!\n`);
+        console.log(`🌐 [WEB QR PAGE]: Open http://localhost:${port} or your Railway URL to scan QR code!\n`);
       } catch (e) {
         console.error('Error creating Web QR code image:', e);
       }
@@ -476,12 +519,28 @@ async function startWhatsAppAgent() {
     if (connection === 'close') {
       isConnected = false;
       const statusCode = lastDisconnect?.error?.output?.statusCode;
-      const shouldReconnect = statusCode !== DisconnectReason.loggedOut;
-      console.log(`Connection closed (status: ${statusCode}). Reconnecting: ${shouldReconnect}`);
-      if (shouldReconnect) {
-        startWhatsAppAgent();
+      const isLoggedOut = statusCode === DisconnectReason.loggedOut || statusCode === 401;
+
+      console.log(`⚠️ Connection closed (status: ${statusCode || 'unknown'}).`);
+
+      if (isLoggedOut) {
+        console.log('🔄 Session expired or unlinked (401). Auto-cleaning session folder and preparing new QR code...');
+        try {
+          if (fs.existsSync(authDir)) {
+            fs.rmSync(authDir, { recursive: true, force: true });
+          }
+        } catch (e) {
+          console.error('Error cleaning auth directory:', e.message);
+        }
+        latestQRDataUrl = null;
+        reconnectTimer = setTimeout(() => {
+          startWhatsAppAgent();
+        }, 2000);
       } else {
-        console.log('Session logged out. Delete wa_auth_session folder and restart to re-scan.');
+        console.log('🔄 Reconnecting automatically in 3 seconds...');
+        reconnectTimer = setTimeout(() => {
+          startWhatsAppAgent();
+        }, 3000);
       }
     } else if (connection === 'open') {
       isConnected = true;
