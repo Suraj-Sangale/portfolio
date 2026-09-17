@@ -27,7 +27,7 @@
       {
         "id": "youtube",
         "label": "YouTube",
-        "href": "https://youtube.com",
+        "href": "https://www.youtube.com/@surajsangale1024",
         "disabled": true
       },
       {
@@ -42,59 +42,12 @@
         "href": "https://www.linkedin.com/in/suraj-sangale/",
         "disabled": false
       },
-      {
-        "id": "discord",
-        "label": "Discord",
-        "href": "https://discord.com",
-        "disabled": true
-      },
-      {
-        "id": "tiktok",
-        "label": "TikTok",
-        "href": "https://tiktok.com",
-        "disabled": true
-      },
+
       {
         "id": "whatsapp",
         "label": "WhatsApp",
         "href": "https://wa.me/+917039529129?text=Hello, I am interested in working with you.",
         "disabled": false
-      },
-      {
-        "id": "telegram",
-        "label": "Telegram",
-        "href": "https://telegram.org",
-        "disabled": true
-      },
-      {
-        "id": "reddit",
-        "label": "Reddit",
-        "href": "https://reddit.com",
-        "disabled": true
-      },
-      {
-        "id": "twitch",
-        "label": "Twitch",
-        "href": "https://twitch.tv",
-        "disabled": true
-      },
-      {
-        "id": "spotify",
-        "label": "Spotify",
-        "href": "https://spotify.com",
-        "disabled": true
-      },
-      {
-        "id": "dribbble",
-        "label": "Dribbble",
-        "href": "https://dribbble.com",
-        "disabled": true
-      },
-      {
-        "id": "stackoverflow",
-        "label": "Stack Overflow",
-        "href": "https://stackoverflow.com",
-        "disabled": true
       },
       {
         "id": "email",
@@ -1780,7 +1733,7 @@
     {
       "id": "youtube",
       "label": "YouTube",
-      "href": "https://youtube.com",
+      "href": "https://www.youtube.com/@surajsangale1024",
       "disabled": true
     },
     {
@@ -1796,58 +1749,10 @@
       "disabled": false
     },
     {
-      "id": "discord",
-      "label": "Discord",
-      "href": "https://discord.com",
-      "disabled": true
-    },
-    {
-      "id": "tiktok",
-      "label": "TikTok",
-      "href": "https://tiktok.com",
-      "disabled": true
-    },
-    {
       "id": "whatsapp",
       "label": "WhatsApp",
       "href": "https://wa.me/+917039529129?text=Hello, I am interested in working with you.",
       "disabled": false
-    },
-    {
-      "id": "telegram",
-      "label": "Telegram",
-      "href": "https://telegram.org",
-      "disabled": true
-    },
-    {
-      "id": "reddit",
-      "label": "Reddit",
-      "href": "https://reddit.com",
-      "disabled": true
-    },
-    {
-      "id": "twitch",
-      "label": "Twitch",
-      "href": "https://twitch.tv",
-      "disabled": true
-    },
-    {
-      "id": "spotify",
-      "label": "Spotify",
-      "href": "https://spotify.com",
-      "disabled": true
-    },
-    {
-      "id": "dribbble",
-      "label": "Dribbble",
-      "href": "https://dribbble.com",
-      "disabled": true
-    },
-    {
-      "id": "stackoverflow",
-      "label": "Stack Overflow",
-      "href": "https://stackoverflow.com",
-      "disabled": true
     },
     {
       "id": "email",
