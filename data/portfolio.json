@@ -1960,5 +1960,81 @@
       "href": "https://medium.com/@surajsangle00",
       "disabled": false
     }
+  ],
+  "achievements": [
+  {
+    "title": "Core Web Vitals Optimization",
+    "description": "Worked on improving frontend performance and Core Web Vitals for high-traffic web applications."
+  },
+  {
+    "title": "Real-time Application Development",
+    "description": "Built real-time multi-user applications using Socket.IO and WebSockets."
+  },
+  {
+    "title": "Full Stack Development",
+    "description": "Experience building applications across frontend, backend, database and API layers."
+  },
+  {
+    "title": "Performance Optimization",
+    "description": "Experience with Redis caching, lazy loading, code splitting and frontend performance optimization."
+  }
+],
+"dataAboutMe":{
+  "name": "Suraj Sangle",
+  "role": "Full Stack Developer",
+  "description": "I am a full stack developer with experience in building web applications. I am also a software engineer with experience in building software applications.",
+  "dateOfBirth": "20th August 1999",
+  "gender": "Male",
+  "maritialStatus": "Married",
+  "address":"Kalamboli, Navi Mumbai",
+  "nationality": "Indian",
+  "languages": ["English", "Marathi", "Hindi", "Urdu"],
+  "skills": [
+    {
+      "category": "Programming Languages",
+      "items": [
+        "JavaScript",
+        "Python",
+        "TypeScript",
+        "HTML",
+        "CSS"
+      ]
+    },
+    {
+      "category": "Frontend",
+      "items": [
+        "React",
+        "Next.js",
+        "Redux",
+        "Tailwind CSS",
+        "Material-UI"
+      ]
+    },
+    {
+      "category": "Backend",
+      "items": [
+        "Node.js",
+        "Express.js",
+        "REST API"
+      ]
+    },
+    {
+      "category": "Database",
+      "items": [
+        "MySQL",
+        "MariaDB",
+        "MongoDB"
+      ]
+    },
+    {
+      "category": "Tools & Platforms",
+      "items": [
+        "Git",
+        "GitHub",
+        "Postman",
+        "VS Code"
+      ]
+    }
   ]
+}
 }
