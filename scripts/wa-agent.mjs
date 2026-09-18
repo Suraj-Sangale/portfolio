@@ -103,17 +103,19 @@ STRICT FORMATTING RULES FOR WHATSAPP:
 
 Capabilities & Actions:
 - If a user wants to view or download Suraj's resume/CV, tell them that you are sending the resume document right away.
-- Provide accurate information regarding Suraj's projects, tech stack, work experience, and background.
+- Provide accurate information regarding Suraj's projects, tech stack, work experience, achievements, education, background, languages spoken, location, and personal details.
 - Answer any general programming or tech questions politely and clearly.
 
 Portfolio Knowledge Base:
 ${JSON.stringify(
   {
     personal: portfolioData.personal,
+    dataAboutMe: portfolioData.dataAboutMe,
+    achievements: portfolioData.achievements,
     experience: portfolioData.experience,
     projects: portfolioData.projects,
-    skills: portfolioData.skills,
-    contact: portfolioData.contact,
+    skills:  portfolioData.skills || portfolioData.dataAboutMe?.skills,
+    contact: portfolioData.contact || portfolioData.personal?.socialLinks,
   },
   null,
   2
@@ -164,8 +166,10 @@ How can I help you today? Reply with a *number* or *command*:
 3️⃣ *!experience* (or reply *3*) - Work history & experience
 4️⃣ *!skills* (or reply *4*) - Technical skills & stack
 5️⃣ *!contact* (or reply *5*) - Contact info & social links
+6️⃣ *!about* (or reply *6*) - Personal bio & education
+7️⃣ *!achievements* (or reply *7*) - Key highlights & achievements
 
-💬 _Or ask any question naturally (e.g. "Tell me about his React experience") or send a voice note!_`;
+💬 _Or ask any question naturally (e.g. "Where did Suraj study?" or "Tell me about his key achievements") or send a voice note!_`;
 
     case '1':
     case '!projects':
@@ -209,18 +213,18 @@ How can I help you today? Reply with a *number* or *command*:
     case '4':
     case '!skills':
     case 'skills': {
-      const skills = portfolioData.skills || [];
+      const skillsData = portfolioData.dataAboutMe?.skills || portfolioData.skills || [];
       let skillsText = '*🛠️ Suraj Sangale - Technical Skills*\n\n';
-      if (Array.isArray(skills)) {
-        skills.forEach((cat) => {
-          skillsText += `*${cat.title || cat.name || 'Skills'}:*\n`;
+      if (Array.isArray(skillsData) && skillsData.length > 0) {
+        skillsData.forEach((cat) => {
+          skillsText += `*${cat.category || cat.title || cat.name || 'Skills'}:*\n`;
           if (Array.isArray(cat.items || cat.skills)) {
             const list = (cat.items || cat.skills).map((s) => (typeof s === 'string' ? s : s.name)).join(', ');
             skillsText += `👉 ${list}\n\n`;
           }
         });
       } else {
-        skillsText += '• *Frontend:* React, Next.js, Redux, TailwindCSS\n• *Backend:* Node.js, Express, REST APIs\n• *Databases:* MySQL, Redis, Supabase\n';
+        skillsText += '• *Frontend:* React, Next.js, Redux, TailwindCSS\n• *Backend:* Node.js, Express, REST APIs\n• *Databases:* MySQL, MariaDB, MongoDB\n• *Languages:* JavaScript, TypeScript, Python, HTML, CSS\n';
       }
       return skillsText.trim();
     }
@@ -242,6 +246,55 @@ How can I help you today? Reply with a *number* or *command*:
           contactText += `• *${s.label}:* ${s.href}\n`;
         });
       return contactText.trim();
+    }
+
+    case '6':
+    case '!about':
+    case 'about':
+    case '!bio':
+    case 'bio':
+    case '!education':
+    case 'education': {
+      const me = portfolioData.dataAboutMe || {};
+      const edu = me.educationalQualifications || [];
+      let aboutText = `*👨‍💻 About Suraj Sangale*\n\n`;
+      aboutText += `👤 *Name:* ${me.name || 'Suraj Sangale'}\n`;
+      aboutText += `💼 *Role:* ${me.role || 'Full Stack Developer'}\n`;
+      if (me.description) aboutText += `📝 *Bio:* ${me.description}\n`;
+      if (me.address) aboutText += `📍 *Location:* ${me.address}\n`;
+      if (Array.isArray(me.languages)) aboutText += `🗣️ *Languages:* ${me.languages.join(', ')}\n`;
+      if (me.nationality) aboutText += `🌍 *Nationality:* ${me.nationality}\n`;
+
+      if (Array.isArray(edu) && edu.length > 0) {
+        aboutText += `\n*🎓 Educational Qualifications:*\n`;
+        edu.forEach((e) => {
+          aboutText += `• *${e.degree}*`;
+          if (e.specialization) aboutText += ` (${e.specialization})`;
+          aboutText += `\n  🏛️ ${e.institution}`;
+          if (e.startYear && e.endYear) aboutText += ` | 🗓️ ${e.startYear} - ${e.endYear}`;
+          else if (e.endYear) aboutText += ` | 🗓️ ${e.endYear}`;
+          aboutText += `\n`;
+        });
+      }
+      return aboutText.trim();
+    }
+
+    case '7':
+    case '!achievements':
+    case 'achievements':
+    case '!highlights':
+    case 'highlights': {
+      const achievements = portfolioData.achievements || [];
+      let achText = `*🏆 Key Achievements & Highlights*\n\n`;
+      if (Array.isArray(achievements) && achievements.length > 0) {
+        achievements.forEach((a, idx) => {
+          achText += `*${idx + 1}. ${a.title}*\n`;
+          if (a.description) achText += `🔹 ${a.description}\n\n`;
+        });
+      } else {
+        achText += `• Core Web Vitals Optimization for high-traffic web apps.\n• Real-time multi-user applications using Socket.IO and WebSockets.\n• Full Stack Development across frontend, backend, DB & API layers.\n• Performance optimization with Redis caching, code splitting & lazy loading.\n`;
+      }
+      return achText.trim();
     }
 
     default:
