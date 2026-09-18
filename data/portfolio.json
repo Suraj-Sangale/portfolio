@@ -1994,19 +1994,17 @@
     "degree": "Bachelor of Engineering (B.E.)",
     "specialization": "Electronics and Telecommunication Engineering (EXTC)",
     "institution": "University of Mumbai",
-    "startYear": 2017,
     "endYear": 2022
   },
   {
     "degree": "Higher Secondary Certificate (HSC)",
     "stream": "Science",
     "institution": "Maharashtra State Board",
-    "startYear": 2016,
     "endYear": 2017
   },
   {
   "degree": "Secondary School Certificate (SSC)",
-  "institution": "School Name",
+  "institution": "Maharashtra State Board",
   "endYear": 2015
 }
 ],
