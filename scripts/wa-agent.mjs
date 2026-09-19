@@ -350,6 +350,7 @@ async function sendResumeDocument(sock, sender, msg) {
 let latestQRDataUrl = null;
 let isConnected = false;
 let isAutoReplyPaused = false;
+let isGroupsEnabled = process.env.ENABLE_GROUPS !== "false";
 const authDir = path.join(process.cwd(), "wa_auth_session");
 let activeSock = null;
 let reconnectTimer = null;
@@ -364,6 +365,18 @@ export function toggleAutoReply(paused) {
     `🤖 Auto-reply is now ${isAutoReplyPaused ? "⏸️ PAUSED" : "🟢 ACTIVE"}`,
   );
   return isAutoReplyPaused;
+}
+
+export function toggleGroups(enabled) {
+  if (typeof enabled === "boolean") {
+    isGroupsEnabled = enabled;
+  } else {
+    isGroupsEnabled = !isGroupsEnabled;
+  }
+  console.log(
+    `👥 Group replies are now ${isGroupsEnabled ? "🟢 ENABLED" : "⏸️ DISABLED"}`,
+  );
+  return isGroupsEnabled;
 }
 
 export function resetWhatsAppSession() {
@@ -401,6 +414,7 @@ const server = http.createServer((req, res) => {
         status: "ok",
         connected: isConnected,
         isPaused: isAutoReplyPaused,
+        groupsEnabled: isGroupsEnabled,
       }),
     );
     return;
@@ -425,6 +439,18 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  if (pathname === "/toggle-groups" || pathname === "/api/toggle-groups") {
+    const newGroupState = toggleGroups();
+    if (req.headers.accept?.includes("application/json")) {
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ success: true, groupsEnabled: newGroupState }));
+      return;
+    }
+    res.writeHead(302, { Location: "/" });
+    res.end();
+    return;
+  }
+
   res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
   if (isConnected) {
     res.end(`
@@ -436,32 +462,47 @@ const server = http.createServer((req, res) => {
         <style>
           body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0b141a; color: #e9edef; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; text-align: center; }
           .card { background: #111b21; padding: 2.5rem; border-radius: 20px; border: 1px solid #202c33; box-shadow: 0 10px 30px rgba(0,0,0,0.5); max-width: 440px; width: 90%; }
-          .badge { padding: 6px 14px; border-radius: 20px; font-weight: bold; font-size: 13px; display: inline-block; margin-bottom: 15px; }
+          .badge-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 15px; }
+          .badge { padding: 6px 14px; border-radius: 20px; font-weight: bold; font-size: 13px; display: inline-block; }
           .badge-online { background: #00a884; color: #fff; }
           .badge-paused { background: #eab308; color: #000; }
+          .badge-disabled { background: #64748b; color: #fff; }
           h1 { margin: 8px 0; font-size: 22px; }
           p { color: #8696a0; font-size: 14px; line-height: 1.5; margin-bottom: 20px; }
-          .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 15px; font-weight: 600; padding: 12px 24px; border-radius: 12px; border: none; cursor: pointer; text-decoration: none; transition: all 0.2s; width: 100%; box-sizing: border-box; margin-bottom: 10px; }
+          .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; font-weight: 600; padding: 12px 20px; border-radius: 12px; border: none; cursor: pointer; text-decoration: none; transition: all 0.2s; width: 100%; box-sizing: border-box; margin-bottom: 10px; }
           .btn-pause { background: #ef4444; color: white; }
           .btn-pause:hover { background: #dc2626; }
           .btn-resume { background: #00a884; color: white; }
           .btn-resume:hover { background: #008f6f; }
-          .btn-reset { background: #334155; color: #cbd5e1; font-size: 13px; padding: 10px 16px; }
-          .btn-reset:hover { background: #475569; color: white; }
+          .btn-group { background: #2563eb; color: white; }
+          .btn-group:hover { background: #1d4ed8; }
+          .btn-group-off { background: #475569; color: #e2e8f0; }
+          .btn-group-off:hover { background: #334155; }
+          .btn-reset { background: #1e293b; color: #94a3b8; font-size: 13px; padding: 10px 16px; margin-top: 5px; }
+          .btn-reset:hover { background: #334155; color: white; }
           .info-box { background: #182229; border-radius: 10px; padding: 12px; margin-top: 15px; font-size: 12px; color: #8696a0; text-align: left; }
           .info-box code { color: #53bdeb; background: #111b21; padding: 2px 6px; border-radius: 4px; }
         </style>
       </head>
       <body>
         <div class="card">
-          <div class="badge ${isAutoReplyPaused ? "badge-paused" : "badge-online"}">
-            ${isAutoReplyPaused ? "⏸️ AUTO-REPLY PAUSED" : "🟢 ONLINE & ACTIVE"}
+          <div class="badge-row">
+            <div class="badge ${isAutoReplyPaused ? "badge-paused" : "badge-online"}">
+              ${isAutoReplyPaused ? "⏸️ AUTO-REPLY PAUSED" : "🟢 ONLINE & ACTIVE"}
+            </div>
+            <div class="badge ${isGroupsEnabled ? "badge-online" : "badge-disabled"}">
+              ${isGroupsEnabled ? "👥 GROUPS: ON" : "👥 GROUPS: OFF"}
+            </div>
           </div>
           <h1>WhatsApp AI Agent</h1>
-          <p>${isAutoReplyPaused ? "The agent is connected but <b>auto-replies are temporarily paused</b>." : "The agent is actively listening and replying to incoming WhatsApp messages."}</p>
+          <p>${isAutoReplyPaused ? "The agent is connected but <b>auto-replies are temporarily paused</b>." : "The agent is actively listening and replying to WhatsApp messages."}</p>
           
           <a href="/toggle-pause" class="btn ${isAutoReplyPaused ? "btn-resume" : "btn-pause"}">
             ${isAutoReplyPaused ? "▶️ Resume Auto-Reply" : "⏸️ Pause Auto-Reply"}
+          </a>
+
+          <a href="/toggle-groups" class="btn ${isGroupsEnabled ? "btn-group-off" : "btn-group"}">
+            ${isGroupsEnabled ? "👥 Disable Group Replies" : "👥 Enable Group Replies"}
           </a>
 
           <a href="/reset-session" onclick="return confirm('Do you want to re-link WhatsApp? This will generate a new QR code.')" class="btn btn-reset">
@@ -470,9 +511,10 @@ const server = http.createServer((req, res) => {
 
           <div class="info-box">
             <b>💡 WhatsApp Commands:</b><br/>
-            • <code>!bot pause</code> or <code>!pause</code> - Pause auto-reply<br/>
-            • <code>!bot resume</code> or <code>!resume</code> - Resume auto-reply<br/>
-            • <code>!bot status</code> - Check current status
+            • <code>!bot pause</code> / <code>!pause</code> - Pause auto-reply<br/>
+            • <code>!bot resume</code> / <code>!resume</code> - Resume auto-reply<br/>
+            • <code>!groups on</code> / <code>!groups off</code> - Toggle group replies<br/>
+            • <code>!bot status</code> - Check bot status
           </div>
         </div>
       </body>
@@ -653,10 +695,10 @@ async function startWhatsAppAgent() {
       let incomingText =
         msg.message.conversation || msg.message.extendedTextMessage?.text || "";
 
-      const lowerText = incomingText.trim().toLowerCase();
+      let lowerText = incomingText.trim().toLowerCase();
 
       // --------------------------------------------------
-      // 1. Handle Admin / Self Commands (!bot pause, !bot resume, etc.)
+      // 1. Handle Admin / Self Commands (!bot pause, !groups on/off, etc.)
       // --------------------------------------------------
       if (
         lowerText === "!pause" ||
@@ -692,12 +734,48 @@ async function startWhatsAppAgent() {
         continue;
       }
 
+      if (
+        lowerText === "!groups on" ||
+        lowerText === "!bot groups on" ||
+        lowerText === "!group on" ||
+        lowerText === "!bot group on"
+      ) {
+        toggleGroups(true);
+        await sock.sendMessage(
+          sender,
+          {
+            text: "👥🟢 *Group Auto-Replies are now ENABLED.*\n\nThe bot will respond in groups when mentioned, replied to, or invoked with prefixes (`!bot`, `!ai`, `/ask`, `!resume`).",
+          },
+          { quoted: msg },
+        );
+        continue;
+      }
+
+      if (
+        lowerText === "!groups off" ||
+        lowerText === "!bot groups off" ||
+        lowerText === "!group off" ||
+        lowerText === "!bot group off"
+      ) {
+        toggleGroups(false);
+        await sock.sendMessage(
+          sender,
+          {
+            text: "👥❌ *Group Auto-Replies are now DISABLED.*\n\nThe bot will ignore all group messages until re-enabled. Direct messages (DMs) remain active.",
+          },
+          { quoted: msg },
+        );
+        continue;
+      }
+
       if (lowerText === "!bot status" || lowerText === "!status") {
         await sock.sendMessage(
           sender,
           {
             text: `🤖 *WhatsApp AI Agent Status*\n\n• Connection: *Online 🟢*\n• Auto-Reply: *${
               isAutoReplyPaused ? "⏸️ PAUSED" : "🟢 ACTIVE"
+            }*\n• Group Replies: *${
+              isGroupsEnabled ? "🟢 ENABLED" : "⏸️ DISABLED"
             }*\n• AI Engine: *${providerName}*`,
           },
           { quoted: msg },
@@ -711,22 +789,55 @@ async function startWhatsAppAgent() {
       }
 
       const isGroup = sender.endsWith("@g.us");
+      const participant = isGroup ? msg.key.participant || sender : sender;
+      const historyKey = isGroup ? `${sender}_${participant}` : sender;
+
       if (isGroup) {
-        // Optional: Only respond when the bot is mentioned
-        const mentionedJid =
-          msg.message?.extendedTextMessage?.contextInfo?.mentionedJid || [];
-
-        const botJid = sock.user?.id?.split(":")[0] + "@s.whatsapp.net";
-
-        const isBotMentioned = mentionedJid.some(
-          (jid) => jid.split(":")[0] === botJid.split("@")[0],
-        );
-
-        if (!isBotMentioned) {
+        // If group replies are toggled off, ignore completely
+        if (!isGroupsEnabled) {
           continue;
         }
 
-        console.log(`📢 Group message from ${sender}`);
+        const contextInfo = msg.message?.extendedTextMessage?.contextInfo;
+        const mentionedJid = contextInfo?.mentionedJid || [];
+        const botJid = sock.user?.id?.split(":")[0] + "@s.whatsapp.net";
+        const botPhone = botJid.split("@")[0];
+
+        // 1. Check if bot is @mentioned
+        const isBotMentioned =
+          mentionedJid.some((jid) => jid.split(":")[0] === botPhone) ||
+          incomingText.includes(`@${botPhone}`);
+
+        // 2. Check if user is replying / quoting a message from the bot
+        const quotedParticipant = contextInfo?.participant?.split(":")[0];
+        const isQuotingBot = quotedParticipant === botPhone;
+
+        // 3. Check for command prefixes (!bot, !ai, /ask, !menu, !resume, etc.)
+        const hasPrefix =
+          lowerText.startsWith("!bot") ||
+          lowerText.startsWith("!ai") ||
+          lowerText.startsWith("/ask") ||
+          lowerText.startsWith("!ask") ||
+          lowerText.startsWith("!") ||
+          lowerText.startsWith("/");
+
+        // Only reply if one of the 3 conditions is met
+        if (!isBotMentioned && !isQuotingBot && !hasPrefix) {
+          continue;
+        }
+
+        // Clean mentions and prefixes from incomingText so the AI receives a clean question
+        incomingText = incomingText
+          .replace(new RegExp(`@${botPhone}`, "g"), "")
+          .replace(/@\d+/g, "")
+          .replace(/^!(bot|ai|ask)\s*/i, "")
+          .replace(/^\/ask\s*/i, "")
+          .trim();
+
+        lowerText = incomingText.toLowerCase();
+        console.log(
+          `📢 [Group Trigger] from ${msg.pushName || participant} in ${sender}: "${incomingText}"`,
+        );
       }
 
       // If auto-reply is paused, skip automatic responses
@@ -748,6 +859,7 @@ async function startWhatsAppAgent() {
             sender,
             {
               text: "🎙️ Voice note received! To enable audio transcription, please add `GROQ_API_KEY` to your environment.",
+              mentions: isGroup ? [participant] : [],
             },
             { quoted: msg },
           );
@@ -775,11 +887,15 @@ async function startWhatsAppAgent() {
             });
 
           incomingText = transcription.text || "";
+          lowerText = incomingText.toLowerCase();
           console.log(`📝 [Transcribed Voice Note]: "${incomingText}"`);
 
           await sock.sendMessage(
             sender,
-            { text: `🎙️ _Heard:_ "${incomingText}"` },
+            {
+              text: `🎙️ _Heard:_ "${incomingText}"`,
+              mentions: isGroup ? [participant] : [],
+            },
             { quoted: msg },
           );
         } catch (audioErr) {
@@ -791,6 +907,7 @@ async function startWhatsAppAgent() {
             sender,
             {
               text: "⚠️ Couldn't process the audio note. Please try sending a text message.",
+              mentions: isGroup ? [participant] : [],
             },
             { quoted: msg },
           );
@@ -806,10 +923,13 @@ async function startWhatsAppAgent() {
       // B. Handle Quick Commands (!menu, !resume, !skills, etc.)
       // --------------------------------------------------
       if (lowerText === "!clear") {
-        conversationHistories.delete(sender);
+        conversationHistories.delete(historyKey);
         await sock.sendMessage(
           sender,
-          { text: "🧹 Conversation history cleared!" },
+          {
+            text: "🧹 Conversation history cleared!",
+            mentions: isGroup ? [participant] : [],
+          },
           { quoted: msg },
         );
         continue;
@@ -824,7 +944,10 @@ async function startWhatsAppAgent() {
       if (quickResponse) {
         await sock.sendMessage(
           sender,
-          { text: quickResponse },
+          {
+            text: quickResponse,
+            mentions: isGroup ? [participant] : [],
+          },
           { quoted: msg },
         );
         console.log(`⚡ [Quick Command Replied to ${sender}]`);
@@ -845,13 +968,16 @@ async function startWhatsAppAgent() {
         if (!aiClient) {
           await sock.sendMessage(
             sender,
-            { text: "⚠️ AI Agent is offline or API keys are missing in .env." },
+            {
+              text: "⚠️ AI Agent is offline or API keys are missing in .env.",
+              mentions: isGroup ? [participant] : [],
+            },
             { quoted: msg },
           );
           continue;
         }
 
-        let history = conversationHistories.get(sender) || [];
+        let history = conversationHistories.get(historyKey) || [];
         history.push({ role: "user", content: incomingText });
         if (history.length > 6) {
           history = history.slice(-6);
@@ -892,11 +1018,14 @@ async function startWhatsAppAgent() {
         const formattedReply = formatForWhatsApp(rawReply);
 
         history.push({ role: "assistant", content: formattedReply });
-        conversationHistories.set(sender, history);
+        conversationHistories.set(historyKey, history);
 
         await sock.sendMessage(
           sender,
-          { text: formattedReply },
+          {
+            text: formattedReply,
+            mentions: isGroup ? [participant] : [],
+          },
           { quoted: msg },
         );
         console.log(`🤖 [AI Replied]:\n${formattedReply}\n`);
