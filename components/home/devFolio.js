@@ -189,7 +189,64 @@ export default function DevFolio({ pageData }) {
     ],
     "liveUrl": "https://linux-support-manager.vercel.app/"
   },
-
+ {
+        "num": "12",
+        "icon": "🚛",
+        "iconCls": "ic",
+        "sizeCls": "b5",
+        "titleGradient": "gw-c",
+        "titleWord": "Mahaveer",
+        "titleRest": "Trans Solution",
+        "slug": "mahaveer-trans-solution",
+        "isEnable": true,
+        "type": "personal",
+        "body": "A modern road transportation and logistics web application for nationwide cargo and freight movement across India, featuring fleet showcase, dynamic quote requests, custom theming, and an interactive AI assistant.",
+        "keyFeatures": [
+          {
+            "id": 1,
+            "text": "Engineered modern responsive road logistics portal using Next.js, React, and modular SCSS"
+          },
+          {
+            "id": 2,
+            "text": "Integrated dynamic quote calculator, service exploration, and fleet showcase for Pan-India freight operations"
+          },
+          {
+            "id": 3,
+            "text": "Built real-time AI chat assistant widget and interactive theme customizer for enhanced client engagement"
+          },
+          {
+            "id": 4,
+            "text": "Optimized Core Web Vitals, metadata SEO, and high-performance cross-device layout"
+          }
+        ],
+        "tags": [
+          {
+            "label": "Next.js",
+            "cls": "btag-c"
+          },
+          {
+            "label": "React.js",
+            "cls": "btag-m"
+          },
+          {
+            "label": "SCSS",
+            "cls": "btag-v"
+          },
+          {
+            "label": "AI Chat",
+            "cls": "btag-a"
+          }
+        ],
+        "liveUrl": "https://mahaveertrans.vercel.app/",
+        "images": [
+          "mahaveerTrans/1.png",
+          "mahaveerTrans/2.png",
+          "mahaveerTrans/3.png",
+          "mahaveerTrans/4.png",
+          "mahaveerTrans/5.png",
+          "mahaveerTrans/6.png"
+        ]
+      },
   {
     "num": "04",
     "icon": "🎮",
@@ -1419,13 +1476,13 @@ export default function DevFolio({ pageData }) {
             </h2>
           </div>
           <div className="bento-grid">
-            {projects.map((p) => (
+            {projects.map((p,index) => (
               <Link
                 href={`/projects?slug=${p.slug}`}
                 key={p.num}
                 className={`bento ${p.sizeCls}`}
               >
-                <div className="bento-num">{p.num}</div>
+                <div className="bento-num">{`0${index+1}`}</div>
                 {/* <div className={`bento-icon ${p.iconCls}`}>{p.icon}</div> */}
                 <div className="bento-title">
                   <span className={p.titleGradient}>{p.titleWord}</span>
