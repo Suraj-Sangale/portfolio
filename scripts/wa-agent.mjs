@@ -208,60 +208,26 @@ How can I help you today? Reply with a *number* or *command*:
 
       let projText = `*🚀 Projects by Suraj Sangale*\n\n`;
 
-      const professionalProjects = list.filter((p) => p.type === "professional");
-      const personalProjects = list.filter((p) => p.type === "personal" || !p.type);
+      list.forEach((p, idx) => {
+        const title =
+          p.title ||
+          (p.titleWord ? `${p.titleWord} ${p.titleRest || ""}`.trim() : p.name || p.slug);
+        const icon = p.icon || "🚀";
+        const tags = Array.isArray(p.tags)
+          ? p.tags
+              .map((t) => (typeof t === "string" ? t : t.label || t.name))
+              .filter(Boolean)
+              .join(", ")
+          : "";
+        const desc = p.body || p.desc || p.description || "";
 
-      let count = 1;
-
-      if (professionalProjects.length > 0) {
-        projText += `*🏢 Professional & Client Projects:*\n\n`;
-        professionalProjects.forEach((p) => {
-          const title =
-            p.title ||
-            (p.titleWord ? `${p.titleWord} ${p.titleRest || ""}`.trim() : p.name || p.slug);
-          const icon = p.icon || "👓";
-          const tags = Array.isArray(p.tags)
-            ? p.tags
-                .map((t) => (typeof t === "string" ? t : t.label || t.name))
-                .filter(Boolean)
-                .join(", ")
-            : "";
-          const desc = p.body || p.desc || p.description || "";
-
-          projText += `*${count}. ${icon} ${title}*\n`;
-          if (desc) projText += `📝 ${desc}\n`;
-          if (tags) projText += `🛠️ *Tech:* ${tags}\n`;
-          if (p.liveUrl) projText += `🔗 *Live:* ${p.liveUrl}\n`;
-          if (p.gitUrl) projText += `💻 *GitHub:* ${p.gitUrl}\n`;
-          projText += `\n`;
-          count++;
-        });
-      }
-
-      if (personalProjects.length > 0) {
-        projText += `*💻 Personal & Featured Projects:*\n\n`;
-        personalProjects.forEach((p) => {
-          const title =
-            p.title ||
-            (p.titleWord ? `${p.titleWord} ${p.titleRest || ""}`.trim() : p.name || p.slug);
-          const icon = p.icon || "🏆";
-          const tags = Array.isArray(p.tags)
-            ? p.tags
-                .map((t) => (typeof t === "string" ? t : t.label || t.name))
-                .filter(Boolean)
-                .join(", ")
-            : "";
-          const desc = p.body || p.desc || p.description || "";
-
-          projText += `*${count}. ${icon} ${title}*\n`;
-          if (desc) projText += `📝 ${desc}\n`;
-          if (tags) projText += `🛠️ *Tech:* ${tags}\n`;
-          if (p.liveUrl) projText += `🔗 *Live:* ${p.liveUrl}\n`;
-          if (p.gitUrl) projText += `💻 *GitHub:* ${p.gitUrl}\n`;
-          projText += `\n`;
-          count++;
-        });
-      }
+        projText += `*${idx + 1}. ${icon} ${title}*\n`;
+        if (desc) projText += `📝 ${desc}\n`;
+        if (tags) projText += `🛠️ *Tech:* ${tags}\n`;
+        if (p.liveUrl) projText += `🔗 *Live:* ${p.liveUrl}\n`;
+        if (p.gitUrl) projText += `💻 *GitHub:* ${p.gitUrl}\n`;
+        projText += `\n`;
+      });
 
       projText += `👉 _Ask me about any specific project for in-depth details!_\n`;
       projText += `📄 _Reply with *5* for Resume PDF or *6* for Contact info._`;
@@ -652,6 +618,16 @@ const server = http.createServer((req, res) => {
 
 server.listen(port, () => {
   console.log(`🌐 Web QR & Health Server listening on port ${port}`);
+});
+
+server.on("error", (err) => {
+  if (err.code === "EADDRINUSE") {
+    console.warn(
+      `⚠️ Port ${port} is currently in use by another process. Health/Web QR server skipped, WhatsApp Agent will continue.`,
+    );
+  } else {
+    console.error("Server error:", err);
+  }
 });
 
 // Per-user short-term conversation memory & Message Deduplication
