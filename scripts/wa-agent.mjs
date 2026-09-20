@@ -126,8 +126,13 @@ ${JSON.stringify(
     personal: portfolioData.personal,
     dataAboutMe: portfolioData.dataAboutMe,
     achievements: portfolioData.achievements,
-    experience: portfolioData.experience,
-    projects: portfolioData.projects,
+    experience:
+      portfolioData.work?.experience || portfolioData.experience || [],
+    projects:
+      portfolioData.projects?.projectList ||
+      portfolioData.projectList ||
+      portfolioData.projects ||
+      [],
     skills: portfolioData.skills || portfolioData.dataAboutMe?.skills,
     contact: portfolioData.contact || portfolioData.personal?.socialLinks,
   },
@@ -188,41 +193,100 @@ How can I help you today? Reply with a *number* or *command*:
     case "3":
     case "!projects":
     case "projects": {
-      const projects = portfolioData.projects || [];
-      let projText = `*🚀 Featured Projects by Suraj Sangale*\n\n`;
-      const list = Array.isArray(projects) ? projects.slice(0, 5) : [];
-      if (list.length > 0) {
-        list.forEach((p, idx) => {
-          projText += `*${idx + 1}. ${p.title || p.name}*\n`;
-          if (p.desc || p.description)
-            projText += `📝 ${p.desc || p.description}\n`;
-          if (p.link || p.github || p.liveLink)
-            projText += `🔗 ${p.link || p.github || p.liveLink}\n`;
-          projText += `\n`;
-        });
-      } else {
-        projText += `• Portfolio Web Application (Next.js, Framer Motion, Supabase)\n• WhatsApp AI Agent CLI (Baileys, Groq, Whisper)\n`;
+      const rawList =
+        portfolioData.projects?.projectList ||
+        portfolioData.projectList ||
+        portfolioData.projects ||
+        [];
+      const list = Array.isArray(rawList)
+        ? rawList.filter((p) => p && p.isEnable !== false)
+        : [];
+
+      if (list.length === 0) {
+        return `*🚀 Projects by Suraj Sangale*\n\nInformation is currently being updated. Reply with *5* to download Resume or *6* to Contact him.`;
       }
-      projText += `_Reply with *2* to get his Resume or *5* to Contact him!_`;
+
+      let projText = `*🚀 Projects by Suraj Sangale*\n\n`;
+
+      const professionalProjects = list.filter((p) => p.type === "professional");
+      const personalProjects = list.filter((p) => p.type === "personal" || !p.type);
+
+      let count = 1;
+
+      if (professionalProjects.length > 0) {
+        projText += `*🏢 Professional & Client Projects:*\n\n`;
+        professionalProjects.forEach((p) => {
+          const title =
+            p.title ||
+            (p.titleWord ? `${p.titleWord} ${p.titleRest || ""}`.trim() : p.name || p.slug);
+          const icon = p.icon || "👓";
+          const tags = Array.isArray(p.tags)
+            ? p.tags
+                .map((t) => (typeof t === "string" ? t : t.label || t.name))
+                .filter(Boolean)
+                .join(", ")
+            : "";
+          const desc = p.body || p.desc || p.description || "";
+
+          projText += `*${count}. ${icon} ${title}*\n`;
+          if (desc) projText += `📝 ${desc}\n`;
+          if (tags) projText += `🛠️ *Tech:* ${tags}\n`;
+          if (p.liveUrl) projText += `🔗 *Live:* ${p.liveUrl}\n`;
+          if (p.gitUrl) projText += `💻 *GitHub:* ${p.gitUrl}\n`;
+          projText += `\n`;
+          count++;
+        });
+      }
+
+      if (personalProjects.length > 0) {
+        projText += `*💻 Personal & Featured Projects:*\n\n`;
+        personalProjects.forEach((p) => {
+          const title =
+            p.title ||
+            (p.titleWord ? `${p.titleWord} ${p.titleRest || ""}`.trim() : p.name || p.slug);
+          const icon = p.icon || "🏆";
+          const tags = Array.isArray(p.tags)
+            ? p.tags
+                .map((t) => (typeof t === "string" ? t : t.label || t.name))
+                .filter(Boolean)
+                .join(", ")
+            : "";
+          const desc = p.body || p.desc || p.description || "";
+
+          projText += `*${count}. ${icon} ${title}*\n`;
+          if (desc) projText += `📝 ${desc}\n`;
+          if (tags) projText += `🛠️ *Tech:* ${tags}\n`;
+          if (p.liveUrl) projText += `🔗 *Live:* ${p.liveUrl}\n`;
+          if (p.gitUrl) projText += `💻 *GitHub:* ${p.gitUrl}\n`;
+          projText += `\n`;
+          count++;
+        });
+      }
+
+      projText += `👉 _Ask me about any specific project for in-depth details!_\n`;
+      projText += `📄 _Reply with *5* for Resume PDF or *6* for Contact info._`;
       return projText.trim();
     }
 
     case "4":
     case "!experience":
     case "experience": {
-      const exp = portfolioData.experience || [];
+      const exp =
+        portfolioData.work?.experience || portfolioData.experience || [];
       let expText = `*💼 Work Experience*\n\n`;
-      const list = Array.isArray(exp) ? exp : [];
+      const list = Array.isArray(exp)
+        ? exp.filter((e) => e.category === "experience" || !e.category)
+        : [];
       if (list.length > 0) {
         list.forEach((e) => {
-          expText += `• *${e.title}* at *${e.company || e.desc || ""}*\n`;
+          expText += `• *${e.title}*${e.desc ? ` (${e.desc})` : ""}\n`;
           if (e.year || e.duration) expText += `  🗓️ ${e.year || e.duration}\n`;
           if (Array.isArray(e.skills))
             expText += `  🛠️ Skills: ${e.skills.join(", ")}\n`;
           expText += `\n`;
         });
       } else {
-        expText += `• Software Developer at Fortune4 Technologies (02/2024 - present)\n• Frontend Developer at Boppo Technologies\n`;
+        expText += `• Software Developer at Fortune4 Technologies (02/2024 - present)\n• Frontend Developer at Boppo Technologies (07/2022 - 12/2023)\n• Frontend Intern at CGI (01/2022 - 03/2022)\n`;
       }
       return expText.trim();
     }
@@ -823,9 +887,9 @@ async function startWhatsAppAgent() {
       }
 
       // Ignore other messages sent by yourself
-      // if (isFromMe) {
-      //   continue;
-      // }
+      if (isFromMe) {
+        continue;
+      }
 
       const isGroup = sender.endsWith("@g.us");
       const participant = isGroup ? msg.key.participant || sender : sender;
@@ -974,7 +1038,14 @@ async function startWhatsAppAgent() {
         continue;
       }
 
-      if (lowerText === "!resume" || lowerText === "!cv" || lowerText === "2") {
+      if (
+        lowerText === "!resume" ||
+        lowerText === "!cv" ||
+        lowerText === "/resume" ||
+        lowerText === "resume" ||
+        lowerText === "cv" ||
+        lowerText === "5"
+      ) {
         await sendResumeDocument(sock, sender, msg);
         continue;
       }
