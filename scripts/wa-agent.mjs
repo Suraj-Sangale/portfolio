@@ -12,6 +12,7 @@ import fs from "fs";
 import path from "path";
 import pino from "pino";
 import http from "http";
+import Redis from "ioredis";
 
 // ----------------------------------------------------
 // 1. Environment & AI Client Setup
@@ -393,14 +394,118 @@ let activeSock = null;
 let reconnectTimer = null;
 
 // ----------------------------------------------------
-// 4.1 Paused Numbers Management & LID Phone Resolution
+// 4.1 Redis & Multi-Layer Persistence Setup (Railway Resilient)
 // ----------------------------------------------------
+let redisClient = null;
+let isRedisAvailable = false;
 const pausedNumbersFile = path.join(process.cwd(), "data", "paused_numbers.json");
 let pausedNumbersSet = new Set();
 const lidToPhoneCache = new Map();
 const phoneToLidCache = new Map();
+let lidIndexTimer = null;
 
-export function extractPhoneNumber(jidOrPhone) {
+// Initialize optional Redis storage for cloud deployment persistence
+function initRedisPersistence() {
+  const redisUrl = process.env.REDIS_URL || process.env.UPSTASH_REDIS_URL;
+  const redisHost = process.env.REDIS_HOST;
+  const redisPassword = process.env.REDIS_PASSWORD;
+  const redisPort = Number(process.env.REDIS_PORT) || 6379;
+
+  try {
+    if (redisUrl) {
+      redisClient = new Redis(redisUrl, {
+        lazyConnect: true,
+        connectTimeout: 4000,
+        maxRetriesPerRequest: 2,
+        retryStrategy: (times) => (times <= 3 ? 1000 : null),
+      });
+    } else if (redisHost) {
+      const isUpstash = redisHost.includes("upstash.io");
+      redisClient = new Redis({
+        host: redisHost,
+        port: redisPort,
+        password: redisPassword || undefined,
+        tls: isUpstash ? {} : undefined,
+        lazyConnect: true,
+        connectTimeout: 4000,
+        maxRetriesPerRequest: 2,
+        retryStrategy: (times) => (times <= 3 ? 1000 : null),
+      });
+    }
+
+    if (redisClient) {
+      redisClient.on("connect", () => {
+        isRedisAvailable = true;
+        console.log("☁️ [Redis Storage]: Connected successfully for Railway state persistence.");
+      });
+      redisClient.on("ready", async () => {
+        isRedisAvailable = true;
+        await syncFromRedis();
+      });
+      redisClient.on("error", () => {
+        isRedisAvailable = false;
+      });
+      redisClient.on("close", () => {
+        isRedisAvailable = false;
+      });
+      redisClient.connect().catch(() => {});
+    }
+  } catch (err) {
+    console.warn("⚠️ Redis initialization skipped:", err.message);
+  }
+}
+
+async function syncFromRedis() {
+  if (!redisClient || !isRedisAvailable) return;
+  try {
+    const [pausedRaw, globalPaused, groupsRaw] = await Promise.all([
+      redisClient.get("wa_agent:paused_numbers"),
+      redisClient.get("wa_agent:is_paused"),
+      redisClient.get("wa_agent:groups_enabled"),
+    ]);
+
+    if (pausedRaw) {
+      const parsed = JSON.parse(pausedRaw);
+      if (Array.isArray(parsed)) {
+        parsed.forEach((n) => {
+          const clean = extractDigits(n);
+          if (clean) pausedNumbersSet.add(clean);
+        });
+        saveToLocalFile();
+        console.log(`☁️ [Redis Synced]: Loaded ${pausedNumbersSet.size} paused number(s).`);
+      }
+    }
+    if (globalPaused !== null) {
+      isAutoReplyPaused = globalPaused === "true";
+    }
+    if (groupsRaw !== null) {
+      isGroupsEnabled = groupsRaw === "true";
+    }
+  } catch (err) {
+    console.warn("⚠️ Redis sync failed (falling back to disk):", err.message);
+  }
+}
+
+async function syncToRedis() {
+  if (!redisClient || !isRedisAvailable) return;
+  try {
+    await Promise.all([
+      redisClient.set(
+        "wa_agent:paused_numbers",
+        JSON.stringify(Array.from(pausedNumbersSet)),
+      ),
+      redisClient.set("wa_agent:is_paused", String(isAutoReplyPaused)),
+      redisClient.set("wa_agent:groups_enabled", String(isGroupsEnabled)),
+    ]);
+  } catch (e) {}
+}
+
+initRedisPersistence();
+
+// ----------------------------------------------------
+// 4.2 Comprehensive LID & Phone Number Normalization
+// ----------------------------------------------------
+export function extractDigits(jidOrPhone) {
   if (!jidOrPhone) return "";
   let str = String(jidOrPhone).trim();
   // Strip domain portion (@s.whatsapp.net, @lid, @g.us, etc.)
@@ -411,25 +516,97 @@ export function extractPhoneNumber(jidOrPhone) {
   return str.replace(/\D/g, "");
 }
 
+export function extractPhoneNumber(jidOrPhone) {
+  return extractDigits(jidOrPhone);
+}
+
+/**
+ * Scan and index all WhatsApp session LID mappings (reverse & forward)
+ */
+export function indexLidMappings() {
+  try {
+    if (!fs.existsSync(authDir)) return;
+    const files = fs.readdirSync(authDir);
+    let indexedCount = 0;
+
+    for (const file of files) {
+      if (file.startsWith("lid-mapping-") && file.endsWith(".json")) {
+        try {
+          const fullPath = path.join(authDir, file);
+          const raw = fs.readFileSync(fullPath, "utf8");
+          const parsed = JSON.parse(raw);
+          const cleanVal = extractDigits(parsed);
+
+          if (file.includes("_reverse")) {
+            const lid = file
+              .replace("lid-mapping-", "")
+              .replace("_reverse.json", "")
+              .replace(/\D/g, "");
+            if (lid && cleanVal) {
+              lidToPhoneCache.set(lid, cleanVal);
+              phoneToLidCache.set(cleanVal, lid);
+              if (cleanVal.length > 10) {
+                phoneToLidCache.set(cleanVal.slice(-10), lid);
+              }
+              indexedCount++;
+            }
+          } else {
+            const phoneOrLid = file
+              .replace("lid-mapping-", "")
+              .replace(".json", "")
+              .replace(/\D/g, "");
+            if (phoneOrLid && cleanVal) {
+              phoneToLidCache.set(phoneOrLid, cleanVal);
+              lidToPhoneCache.set(cleanVal, phoneOrLid);
+              if (phoneOrLid.length > 10) {
+                phoneToLidCache.set(phoneOrLid.slice(-10), cleanVal);
+              }
+              indexedCount++;
+            }
+          }
+        } catch (e) {}
+      }
+    }
+
+    if (indexedCount > 0) {
+      console.log(`📇 [LID Indexer]: Indexed ${lidToPhoneCache.size} contact LID-to-Phone mappings.`);
+    }
+  } catch (err) {
+    console.warn("⚠️ LID indexing error:", err.message);
+  }
+}
+
+export function scheduleIndexLidMappings() {
+  if (lidIndexTimer) clearTimeout(lidIndexTimer);
+  lidIndexTimer = setTimeout(() => {
+    indexLidMappings();
+  }, 2000);
+}
+
+// Initial LID indexing
+indexLidMappings();
+
 export function resolvePhoneNumber(jidOrLid) {
   if (!jidOrLid) return "";
-  const rawId = extractPhoneNumber(jidOrLid);
+  const rawId = extractDigits(jidOrLid);
   if (!rawId) return "";
 
-  // Check cache first
   if (lidToPhoneCache.has(rawId)) {
     return lidToPhoneCache.get(rawId);
   }
 
-  // Check reverse mapping file in wa_auth_session (e.g. lid-mapping-39037041680519_reverse.json)
+  // Fallback single-file check
   try {
     const reverseFile = path.join(authDir, `lid-mapping-${rawId}_reverse.json`);
     if (fs.existsSync(reverseFile)) {
-      const mappedPhone = JSON.parse(fs.readFileSync(reverseFile, "utf8"));
-      const cleanPhone = extractPhoneNumber(mappedPhone);
+      const mapped = JSON.parse(fs.readFileSync(reverseFile, "utf8"));
+      const cleanPhone = extractDigits(mapped);
       if (cleanPhone) {
         lidToPhoneCache.set(rawId, cleanPhone);
         phoneToLidCache.set(cleanPhone, rawId);
+        if (cleanPhone.length > 10) {
+          phoneToLidCache.set(cleanPhone.slice(-10), rawId);
+        }
         return cleanPhone;
       }
     }
@@ -439,54 +616,69 @@ export function resolvePhoneNumber(jidOrLid) {
 }
 
 export function resolveLidForPhone(phone) {
-  const cleanPhone = extractPhoneNumber(phone);
+  const cleanPhone = extractDigits(phone);
   if (!cleanPhone) return "";
 
   if (phoneToLidCache.has(cleanPhone)) {
     return phoneToLidCache.get(cleanPhone);
   }
-
-  try {
-    const forwardFile = path.join(authDir, `lid-mapping-${cleanPhone}.json`);
-    if (fs.existsSync(forwardFile)) {
-      const mappedLid = JSON.parse(fs.readFileSync(forwardFile, "utf8"));
-      const cleanLid = extractPhoneNumber(mappedLid);
-      if (cleanLid) {
-        phoneToLidCache.set(cleanPhone, cleanLid);
-        lidToPhoneCache.set(cleanLid, cleanPhone);
-        return cleanLid;
-      }
-    }
-  } catch (e) {}
-
+  if (cleanPhone.length >= 10 && phoneToLidCache.has(cleanPhone.slice(-10))) {
+    return phoneToLidCache.get(cleanPhone.slice(-10));
+  }
   return "";
 }
 
-function loadPausedNumbers() {
-  try {
-    if (fs.existsSync(pausedNumbersFile)) {
-      const raw = fs.readFileSync(pausedNumbersFile, "utf8");
-      const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed)) {
-        pausedNumbersSet = new Set(
-          parsed.map((n) => extractPhoneNumber(n)).filter(Boolean),
-        );
-      }
-    }
-  } catch (err) {
-    console.warn("⚠️ Could not load data/paused_numbers.json:", err.message);
+/**
+ * Returns all potential match variations for a phone number or JID
+ */
+export function getVariationsForNumber(numOrJid) {
+  const rawDigits = extractDigits(numOrJid);
+  if (!rawDigits) return [];
+  const vars = new Set();
+  vars.add(rawDigits);
+
+  // Strip leading 0
+  if (rawDigits.startsWith("0") && rawDigits.length > 9) {
+    vars.add(rawDigits.replace(/^0+/, ""));
   }
 
-  // Load any predefined numbers from environment variable PAUSED_NUMBERS
-  if (process.env.PAUSED_NUMBERS) {
-    process.env.PAUSED_NUMBERS.split(",").forEach((n) => {
-      const clean = extractPhoneNumber(n);
-      if (clean) pausedNumbersSet.add(clean);
-    });
+  // Standard 10-digit mobile suffix
+  if (rawDigits.length >= 10) {
+    vars.add(rawDigits.slice(-10));
   }
+
+  // Country code 91 normalization
+  if (rawDigits.length === 10) {
+    vars.add("91" + rawDigits);
+  } else if (rawDigits.length === 12 && rawDigits.startsWith("91")) {
+    vars.add(rawDigits.slice(2));
+  }
+
+  // Check cached LID -> Phone mapping
+  if (lidToPhoneCache.has(rawDigits)) {
+    const mappedPhone = lidToPhoneCache.get(rawDigits);
+    vars.add(mappedPhone);
+    if (mappedPhone.length >= 10) vars.add(mappedPhone.slice(-10));
+  }
+
+  // Check cached Phone -> LID mapping
+  if (phoneToLidCache.has(rawDigits)) {
+    vars.add(phoneToLidCache.get(rawDigits));
+  }
+  if (rawDigits.length >= 10) {
+    const last10 = rawDigits.slice(-10);
+    if (phoneToLidCache.has(last10)) {
+      vars.add(phoneToLidCache.get(last10));
+    }
+  }
+
+  return Array.from(vars);
 }
 
-function savePausedNumbers() {
+// ----------------------------------------------------
+// 4.3 Paused Numbers Storage Management
+// ----------------------------------------------------
+function saveToLocalFile() {
   try {
     const dir = path.dirname(pausedNumbersFile);
     if (!fs.existsSync(dir)) {
@@ -502,11 +694,65 @@ function savePausedNumbers() {
   }
 }
 
+function loadPausedNumbers() {
+  // 1. Load from local file
+  try {
+    if (fs.existsSync(pausedNumbersFile)) {
+      const raw = fs.readFileSync(pausedNumbersFile, "utf8");
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) {
+        parsed.forEach((n) => {
+          const clean = extractDigits(n);
+          if (clean) pausedNumbersSet.add(clean);
+        });
+      }
+    }
+  } catch (err) {
+    console.warn("⚠️ Could not load data/paused_numbers.json:", err.message);
+  }
+
+  // 2. Load from PAUSED_NUMBERS environment variable (supports comma, JSON array, semicolon, space)
+  if (process.env.PAUSED_NUMBERS) {
+    let envList = [];
+    const envVal = process.env.PAUSED_NUMBERS.trim();
+    try {
+      if (envVal.startsWith("[") && envVal.endsWith("]")) {
+        envList = JSON.parse(envVal);
+      }
+    } catch (e) {}
+
+    if (!Array.isArray(envList) || envList.length === 0) {
+      envList = envVal.split(/[,;\s]+/);
+    }
+
+    envList.forEach((n) => {
+      const clean = extractDigits(n);
+      if (clean) pausedNumbersSet.add(clean);
+    });
+  }
+}
+
+function savePausedNumbers() {
+  saveToLocalFile();
+  syncToRedis();
+}
+
 export function pauseNumber(phone) {
   if (!phone) return false;
-  const clean = extractPhoneNumber(phone);
+  const clean = extractDigits(phone);
   if (!clean) return false;
   pausedNumbersSet.add(clean);
+
+  // If this phone maps to an LID, also add the LID for instant zero-latency matching
+  const mappedLid = resolveLidForPhone(clean);
+  if (mappedLid) {
+    pausedNumbersSet.add(mappedLid);
+  }
+  const resolvedPhone = resolvePhoneNumber(clean);
+  if (resolvedPhone && resolvedPhone !== clean) {
+    pausedNumbersSet.add(resolvedPhone);
+  }
+
   savePausedNumbers();
   console.log(`⏸️ [Number Paused]: +${clean} (Total paused: ${pausedNumbersSet.size})`);
   return true;
@@ -514,47 +760,59 @@ export function pauseNumber(phone) {
 
 export function resumeNumber(phone) {
   if (!phone) return false;
-  const clean = extractPhoneNumber(phone);
+  const clean = extractDigits(phone);
   if (!clean) return false;
-  let deleted = pausedNumbersSet.delete(clean);
-  if (!deleted) {
-    for (const paused of Array.from(pausedNumbersSet)) {
-      if (
-        paused === clean ||
-        (paused.length >= 8 && clean.length >= 8 && (paused.endsWith(clean) || clean.endsWith(paused)))
-      ) {
-        pausedNumbersSet.delete(paused);
-        deleted = true;
-      }
+
+  const variations = getVariationsForNumber(clean);
+  let deleted = false;
+
+  for (const v of variations) {
+    if (pausedNumbersSet.delete(v)) {
+      deleted = true;
     }
   }
+
+  for (const paused of Array.from(pausedNumbersSet)) {
+    if (
+      paused === clean ||
+      (paused.length >= 8 && clean.length >= 8 && (paused.endsWith(clean) || clean.endsWith(paused)))
+    ) {
+      pausedNumbersSet.delete(paused);
+      deleted = true;
+    }
+  }
+
   savePausedNumbers();
   console.log(`🟢 [Number Resumed]: +${clean} (Total paused: ${pausedNumbersSet.size})`);
   return deleted;
 }
 
 export function isNumberPaused(...candidates) {
-  for (const candidate of candidates) {
+  if (pausedNumbersSet.size === 0) return false;
+
+  const allCandidates = [];
+  for (const c of candidates) {
+    if (Array.isArray(c)) {
+      allCandidates.push(...c);
+    } else if (c) {
+      allCandidates.push(c);
+    }
+  }
+
+  for (const candidate of allCandidates) {
     if (!candidate) continue;
-    const rawClean = extractPhoneNumber(candidate);
-    const resolvedPhone = resolvePhoneNumber(candidate);
-    const checkList = [rawClean, resolvedPhone].filter(Boolean);
+    const variations = getVariationsForNumber(candidate);
 
-    for (const item of checkList) {
-      if (pausedNumbersSet.has(item)) return true;
+    for (const v of variations) {
+      if (pausedNumbersSet.has(v)) return true;
 
-      // Check suffix matching (with/without country code prefix e.g. 919594372501 vs 9594372501)
       for (const paused of pausedNumbersSet) {
-        if (paused === item) return true;
-        
-        // Also check if paused phone number maps to this candidate's LID
-        const pausedLid = resolveLidForPhone(paused);
-        if (pausedLid && (pausedLid === rawClean || pausedLid === item)) {
-          return true;
-        }
+        if (paused === v) return true;
+        const pausedVars = getVariationsForNumber(paused);
+        if (pausedVars.includes(v)) return true;
 
-        if (item.length >= 8 && paused.length >= 8) {
-          if (item.endsWith(paused) || paused.endsWith(item)) {
+        if (v.length >= 8 && paused.length >= 8) {
+          if (v.endsWith(paused) || paused.endsWith(v)) {
             return true;
           }
         }
@@ -565,7 +823,18 @@ export function isNumberPaused(...candidates) {
 }
 
 export function getPausedNumbers() {
-  return Array.from(pausedNumbersSet);
+  // Filter list to human-friendly phone numbers (strip internal LIDs from UI display if phone exists)
+  const list = Array.from(pausedNumbersSet);
+  const formatted = new Set();
+  for (const item of list) {
+    const resolved = resolvePhoneNumber(item);
+    if (resolved && resolved.length <= 13) {
+      formatted.add(resolved);
+    } else {
+      formatted.add(item);
+    }
+  }
+  return Array.from(formatted);
 }
 
 // Initial load of paused numbers
@@ -577,6 +846,7 @@ export function toggleAutoReply(paused) {
   } else {
     isAutoReplyPaused = !isAutoReplyPaused;
   }
+  syncToRedis();
   console.log(
     `🤖 Auto-reply is now ${isAutoReplyPaused ? "⏸️ PAUSED" : "🟢 ACTIVE"}`,
   );
@@ -589,6 +859,7 @@ export function toggleGroups(enabled) {
   } else {
     isGroupsEnabled = !isGroupsEnabled;
   }
+  syncToRedis();
   console.log(
     `👥 Group replies are now ${isGroupsEnabled ? "🟢 ENABLED" : "⏸️ DISABLED"}`,
   );
@@ -624,7 +895,7 @@ const server = http.createServer((req, res) => {
   const pathname = urlObj.pathname;
   const phoneParam = urlObj.searchParams.get("phone") || urlObj.searchParams.get("num") || "";
 
-  if (pathname === "/health") {
+  if (pathname === "/health" || pathname === "/api/status") {
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(
       JSON.stringify({
@@ -632,6 +903,8 @@ const server = http.createServer((req, res) => {
         connected: isConnected,
         isPaused: isAutoReplyPaused,
         groupsEnabled: isGroupsEnabled,
+        redisPersistence: isRedisAvailable,
+        contactsIndexed: lidToPhoneCache.size,
         pausedNumbers: getPausedNumbers(),
       }),
     );
@@ -723,6 +996,7 @@ const server = http.createServer((req, res) => {
           .badge-online { background: #00a884; color: #fff; }
           .badge-paused { background: #eab308; color: #000; }
           .badge-disabled { background: #64748b; color: #fff; }
+          .badge-storage { background: #6366f1; color: #fff; }
           .badge-mute-count { background: #3b82f6; color: #fff; }
           h1 { margin: 8px 0; font-size: 22px; }
           p { color: #8696a0; font-size: 14px; line-height: 1.5; margin-bottom: 20px; }
@@ -766,6 +1040,9 @@ const server = http.createServer((req, res) => {
             <div class="badge ${isGroupsEnabled ? "badge-online" : "badge-disabled"}">
               ${isGroupsEnabled ? "👥 GROUPS: ON" : "👥 GROUPS: OFF"}
             </div>
+            <div class="badge ${isRedisAvailable ? "badge-storage" : "badge-disabled"}">
+              ${isRedisAvailable ? "☁️ REDIS SYNCED" : "💾 LOCAL STORAGE"}
+            </div>
             <div class="badge badge-mute-count">
               🚫 ${pausedList.length} SPECIFIC PAUSED
             </div>
@@ -788,7 +1065,7 @@ const server = http.createServer((req, res) => {
               <span style="font-size:11px; color:#8696a0;">(${pausedList.length} muted)</span>
             </div>
             <form action="/pause-number" method="GET" class="form-row">
-              <input type="text" name="phone" placeholder="Phone with country code (e.g. 919876543210)" class="input-phone" required />
+              <input type="text" name="phone" placeholder="Phone with country code (e.g. 919876543210 or 9876543210)" class="input-phone" required />
               <button type="submit" class="btn-add">➕ Pause</button>
             </form>
 
@@ -817,7 +1094,9 @@ const server = http.createServer((req, res) => {
           <div class="info-box">
             <b>💡 WhatsApp Commands:</b><br/>
             • <code>!pause &lt;number&gt;</code> - Pause auto-reply for specific number<br/>
+            • <code>!pause this</code> - Pause auto-reply for current chat<br/>
             • <code>!resume &lt;number&gt;</code> - Resume auto-reply for specific number<br/>
+            • <code>!resume this</code> - Resume auto-reply for current chat<br/>
             • <code>!paused</code> - View all currently paused numbers<br/>
             • <code>!bot pause</code> / <code>!bot resume</code> - Global toggle<br/>
             • <code>!groups on</code> / <code>!groups off</code> - Toggle groups<br/>
@@ -931,7 +1210,10 @@ async function startWhatsAppAgent() {
   });
   activeSock = sock;
 
-  sock.ev.on("creds.update", saveCreds);
+  sock.ev.on("creds.update", () => {
+    saveCreds();
+    scheduleIndexLidMappings();
+  });
 
   // Pairing code support if PAIRING_PHONE is provided in environment variables
   const pairingPhone = process.env.PAIRING_PHONE
@@ -1054,7 +1336,7 @@ async function startWhatsAppAgent() {
         /^!(?:bot\s+)?(?:pause|mute|block)\s+(\+?[\d\s\-()]+)$/i,
       );
       if (pauseNumMatch) {
-        const targetNumber = pauseNumMatch[1].replace(/\D/g, "");
+        const targetNumber = extractDigits(pauseNumMatch[1]);
         if (targetNumber) {
           pauseNumber(targetNumber);
           await sock.sendMessage(
@@ -1068,12 +1350,38 @@ async function startWhatsAppAgent() {
         }
       }
 
+      // Pause current chat/contact: !pause this / !mute this / !pause chat
+      if (
+        lowerText === "!pause this" ||
+        lowerText === "!mute this" ||
+        lowerText === "!pause chat" ||
+        lowerText === "!mute chat" ||
+        lowerText === "!pause sender" ||
+        lowerText === "!mute sender"
+      ) {
+        const target = participant || sender;
+        const cleanTarget = extractDigits(target);
+        const resolved = resolvePhoneNumber(target) || cleanTarget;
+        if (resolved || cleanTarget) {
+          pauseNumber(resolved || cleanTarget);
+          if (cleanTarget && cleanTarget !== resolved) pauseNumber(cleanTarget);
+          await sock.sendMessage(
+            sender,
+            {
+              text: `⏸️ *Auto-Reply PAUSED for this chat:* \`+${resolved || cleanTarget}\`\n\nThe bot will not automatically reply to messages from this contact.\nSend *!resume this* or *!resume ${resolved || cleanTarget}* to resume.`,
+            },
+            { quoted: msg },
+          );
+          continue;
+        }
+      }
+
       // Specific number resume: !resume 919876543210 or !unmute +91-9876543210
       const resumeNumMatch = lowerText.match(
         /^!(?:bot\s+)?(?:resume|unmute|unblock)\s+(\+?[\d\s\-()]+)$/i,
       );
       if (resumeNumMatch) {
-        const targetNumber = resumeNumMatch[1].replace(/\D/g, "");
+        const targetNumber = extractDigits(resumeNumMatch[1]);
         if (targetNumber) {
           resumeNumber(targetNumber);
           await sock.sendMessage(
@@ -1085,6 +1393,30 @@ async function startWhatsAppAgent() {
           );
           continue;
         }
+      }
+
+      // Resume current chat/contact: !resume this / !unmute this / !resume chat
+      if (
+        lowerText === "!resume this" ||
+        lowerText === "!unmute this" ||
+        lowerText === "!resume chat" ||
+        lowerText === "!unmute chat" ||
+        lowerText === "!resume sender" ||
+        lowerText === "!unmute sender"
+      ) {
+        const target = participant || sender;
+        const cleanTarget = extractDigits(target);
+        const resolved = resolvePhoneNumber(target) || cleanTarget;
+        resumeNumber(resolved || cleanTarget);
+        if (cleanTarget && cleanTarget !== resolved) resumeNumber(cleanTarget);
+        await sock.sendMessage(
+          sender,
+          {
+            text: `🟢 *Auto-Reply RESUMED for this chat:* \`+${resolved || cleanTarget}\`\n\nThe bot is now active and will reply to this contact.`,
+          },
+          { quoted: msg },
+        );
+        continue;
       }
 
       // List all paused numbers: !paused or !bot paused or !mutelist
@@ -1120,7 +1452,8 @@ async function startWhatsAppAgent() {
         lowerText === "!pause" ||
         lowerText === "!bot pause" ||
         lowerText === "/pause" ||
-        lowerText === "!bot stop"
+        lowerText === "!bot stop" ||
+        lowerText === "!pause all"
       ) {
         toggleAutoReply(true);
         await sock.sendMessage(
@@ -1137,7 +1470,8 @@ async function startWhatsAppAgent() {
         lowerText === "!resume" ||
         lowerText === "!bot resume" ||
         lowerText === "/resume" ||
-        lowerText === "!bot start"
+        lowerText === "!bot start" ||
+        lowerText === "!resume all"
       ) {
         toggleAutoReply(false);
         await sock.sendMessage(
@@ -1193,7 +1527,7 @@ async function startWhatsAppAgent() {
               isAutoReplyPaused ? "⏸️ PAUSED" : "🟢 ACTIVE"
             }*\n• Group Replies: *${
               isGroupsEnabled ? "🟢 ENABLED" : "⏸️ DISABLED"
-            }*\n• Specific Paused Numbers: *${pausedList.length} muted*\n• AI Engine: *${providerName}*`,
+            }*\n• Storage Persistence: *${isRedisAvailable ? "☁️ Redis Synced" : "💾 Local & Env"}*\n• Indexed Contacts: *${lidToPhoneCache.size}*\n• Specific Paused Numbers: *${pausedList.length} muted*\n• AI Engine: *${providerName}*`,
           },
           { quoted: msg },
         );
@@ -1209,25 +1543,36 @@ async function startWhatsAppAgent() {
       const participant = isGroup ? msg.key.participant || sender : sender;
       const historyKey = isGroup ? `${sender}_${participant}` : sender;
 
-      // Check if this specific phone number / contact is paused
-      const senderPhone = extractPhoneNumber(sender);
-      const resolvedPhone = resolvePhoneNumber(sender);
-      const participantPhone = extractPhoneNumber(participant);
-      const resolvedParticipantPhone = resolvePhoneNumber(participant);
-      const isContactPaused = isNumberPaused(
+      // Extract all candidate identifiers across WhatsApp Baileys key and context formats
+      const candidateIdentities = [
         sender,
-        senderPhone,
-        resolvedPhone,
         participant,
-        participantPhone,
-        resolvedParticipantPhone,
+        msg.key?.remoteJid,
+        msg.key?.participant,
+        msg.key?.participantPn,
+        msg.key?.remoteJidPn,
+        msg.key?.participantAlt,
+        msg.key?.remoteJidAlt,
+        msg.key?.senderLid,
+        msg.key?.senderPn,
+        msg.key?.sender,
         msg.key?.participantJid,
+        msg.participant,
         msg.message?.extendedTextMessage?.contextInfo?.participant,
-      );
+        msg.message?.extendedTextMessage?.contextInfo?.remoteJid,
+        msg.message?.imageMessage?.contextInfo?.participant,
+        msg.message?.videoMessage?.contextInfo?.participant,
+        msg.message?.audioMessage?.contextInfo?.participant,
+        msg.message?.documentMessage?.contextInfo?.participant,
+      ].filter(Boolean);
+
+      // Check if this specific phone number / contact is paused
+      const isContactPaused = isNumberPaused(...candidateIdentities);
 
       if (isContactPaused) {
+        const resolvedContact = resolvePhoneNumber(participant || sender) || extractDigits(participant || sender);
         console.log(
-          `⏸️ [Specific Number Paused] Blocked auto-reply for ${sender} (+${resolvedPhone || senderPhone || ""}): "${incomingText.slice(0, 30)}"`,
+          `⏸️ [Specific Number Paused] Blocked auto-reply for ${sender} (+${resolvedContact}): "${incomingText.slice(0, 30)}"`,
         );
         continue;
       }
