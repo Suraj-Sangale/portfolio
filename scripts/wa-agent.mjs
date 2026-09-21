@@ -393,10 +393,74 @@ let activeSock = null;
 let reconnectTimer = null;
 
 // ----------------------------------------------------
-// 4.1 Paused Numbers Management (Specific Contacts)
+// 4.1 Paused Numbers Management & LID Phone Resolution
 // ----------------------------------------------------
 const pausedNumbersFile = path.join(process.cwd(), "data", "paused_numbers.json");
 let pausedNumbersSet = new Set();
+const lidToPhoneCache = new Map();
+const phoneToLidCache = new Map();
+
+export function extractPhoneNumber(jidOrPhone) {
+  if (!jidOrPhone) return "";
+  let str = String(jidOrPhone).trim();
+  // Strip domain portion (@s.whatsapp.net, @lid, @g.us, etc.)
+  str = str.split("@")[0];
+  // Strip Baileys device suffix (e.g. :0, :1, :12, :23)
+  str = str.split(":")[0];
+  // Keep only digits
+  return str.replace(/\D/g, "");
+}
+
+export function resolvePhoneNumber(jidOrLid) {
+  if (!jidOrLid) return "";
+  const rawId = extractPhoneNumber(jidOrLid);
+  if (!rawId) return "";
+
+  // Check cache first
+  if (lidToPhoneCache.has(rawId)) {
+    return lidToPhoneCache.get(rawId);
+  }
+
+  // Check reverse mapping file in wa_auth_session (e.g. lid-mapping-39037041680519_reverse.json)
+  try {
+    const reverseFile = path.join(authDir, `lid-mapping-${rawId}_reverse.json`);
+    if (fs.existsSync(reverseFile)) {
+      const mappedPhone = JSON.parse(fs.readFileSync(reverseFile, "utf8"));
+      const cleanPhone = extractPhoneNumber(mappedPhone);
+      if (cleanPhone) {
+        lidToPhoneCache.set(rawId, cleanPhone);
+        phoneToLidCache.set(cleanPhone, rawId);
+        return cleanPhone;
+      }
+    }
+  } catch (e) {}
+
+  return rawId;
+}
+
+export function resolveLidForPhone(phone) {
+  const cleanPhone = extractPhoneNumber(phone);
+  if (!cleanPhone) return "";
+
+  if (phoneToLidCache.has(cleanPhone)) {
+    return phoneToLidCache.get(cleanPhone);
+  }
+
+  try {
+    const forwardFile = path.join(authDir, `lid-mapping-${cleanPhone}.json`);
+    if (fs.existsSync(forwardFile)) {
+      const mappedLid = JSON.parse(fs.readFileSync(forwardFile, "utf8"));
+      const cleanLid = extractPhoneNumber(mappedLid);
+      if (cleanLid) {
+        phoneToLidCache.set(cleanPhone, cleanLid);
+        lidToPhoneCache.set(cleanLid, cleanPhone);
+        return cleanLid;
+      }
+    }
+  } catch (e) {}
+
+  return "";
+}
 
 function loadPausedNumbers() {
   try {
@@ -405,7 +469,7 @@ function loadPausedNumbers() {
       const parsed = JSON.parse(raw);
       if (Array.isArray(parsed)) {
         pausedNumbersSet = new Set(
-          parsed.map((n) => String(n).replace(/\D/g, "")).filter(Boolean),
+          parsed.map((n) => extractPhoneNumber(n)).filter(Boolean),
         );
       }
     }
@@ -416,7 +480,7 @@ function loadPausedNumbers() {
   // Load any predefined numbers from environment variable PAUSED_NUMBERS
   if (process.env.PAUSED_NUMBERS) {
     process.env.PAUSED_NUMBERS.split(",").forEach((n) => {
-      const clean = n.replace(/\D/g, "");
+      const clean = extractPhoneNumber(n);
       if (clean) pausedNumbersSet.add(clean);
     });
   }
@@ -440,28 +504,64 @@ function savePausedNumbers() {
 
 export function pauseNumber(phone) {
   if (!phone) return false;
-  const clean = String(phone).replace(/@.+$/, "").replace(/\D/g, "");
+  const clean = extractPhoneNumber(phone);
   if (!clean) return false;
   pausedNumbersSet.add(clean);
   savePausedNumbers();
-  console.log(`⏸️ [Number Paused]: +${clean}`);
+  console.log(`⏸️ [Number Paused]: +${clean} (Total paused: ${pausedNumbersSet.size})`);
   return true;
 }
 
 export function resumeNumber(phone) {
   if (!phone) return false;
-  const clean = String(phone).replace(/@.+$/, "").replace(/\D/g, "");
+  const clean = extractPhoneNumber(phone);
   if (!clean) return false;
-  const deleted = pausedNumbersSet.delete(clean);
+  let deleted = pausedNumbersSet.delete(clean);
+  if (!deleted) {
+    for (const paused of Array.from(pausedNumbersSet)) {
+      if (
+        paused === clean ||
+        (paused.length >= 8 && clean.length >= 8 && (paused.endsWith(clean) || clean.endsWith(paused)))
+      ) {
+        pausedNumbersSet.delete(paused);
+        deleted = true;
+      }
+    }
+  }
   savePausedNumbers();
-  console.log(`🟢 [Number Resumed]: +${clean}`);
+  console.log(`🟢 [Number Resumed]: +${clean} (Total paused: ${pausedNumbersSet.size})`);
   return deleted;
 }
 
-export function isNumberPaused(phoneOrJid) {
-  if (!phoneOrJid) return false;
-  const clean = String(phoneOrJid).replace(/@.+$/, "").replace(/\D/g, "");
-  return pausedNumbersSet.has(clean);
+export function isNumberPaused(...candidates) {
+  for (const candidate of candidates) {
+    if (!candidate) continue;
+    const rawClean = extractPhoneNumber(candidate);
+    const resolvedPhone = resolvePhoneNumber(candidate);
+    const checkList = [rawClean, resolvedPhone].filter(Boolean);
+
+    for (const item of checkList) {
+      if (pausedNumbersSet.has(item)) return true;
+
+      // Check suffix matching (with/without country code prefix e.g. 919594372501 vs 9594372501)
+      for (const paused of pausedNumbersSet) {
+        if (paused === item) return true;
+        
+        // Also check if paused phone number maps to this candidate's LID
+        const pausedLid = resolveLidForPhone(paused);
+        if (pausedLid && (pausedLid === rawClean || pausedLid === item)) {
+          return true;
+        }
+
+        if (item.length >= 8 && paused.length >= 8) {
+          if (item.endsWith(paused) || paused.endsWith(item)) {
+            return true;
+          }
+        }
+      }
+    }
+  }
+  return false;
 }
 
 export function getPausedNumbers() {
@@ -1109,10 +1209,25 @@ async function startWhatsAppAgent() {
       const participant = isGroup ? msg.key.participant || sender : sender;
       const historyKey = isGroup ? `${sender}_${participant}` : sender;
 
-      // Check if this specific phone number / sender is paused
-      if (isNumberPaused(sender) || (isGroup && isNumberPaused(participant))) {
+      // Check if this specific phone number / contact is paused
+      const senderPhone = extractPhoneNumber(sender);
+      const resolvedPhone = resolvePhoneNumber(sender);
+      const participantPhone = extractPhoneNumber(participant);
+      const resolvedParticipantPhone = resolvePhoneNumber(participant);
+      const isContactPaused = isNumberPaused(
+        sender,
+        senderPhone,
+        resolvedPhone,
+        participant,
+        participantPhone,
+        resolvedParticipantPhone,
+        msg.key?.participantJid,
+        msg.message?.extendedTextMessage?.contextInfo?.participant,
+      );
+
+      if (isContactPaused) {
         console.log(
-          `⏸️ [Specific Number Paused] Skipped auto-reply to ${sender} (${participant || ""})`,
+          `⏸️ [Specific Number Paused] Blocked auto-reply for ${sender} (+${resolvedPhone || senderPhone || ""}): "${incomingText.slice(0, 30)}"`,
         );
         continue;
       }
