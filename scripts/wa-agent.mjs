@@ -392,6 +392,85 @@ const authDir = path.join(process.cwd(), "wa_auth_session");
 let activeSock = null;
 let reconnectTimer = null;
 
+// ----------------------------------------------------
+// 4.1 Paused Numbers Management (Specific Contacts)
+// ----------------------------------------------------
+const pausedNumbersFile = path.join(process.cwd(), "data", "paused_numbers.json");
+let pausedNumbersSet = new Set();
+
+function loadPausedNumbers() {
+  try {
+    if (fs.existsSync(pausedNumbersFile)) {
+      const raw = fs.readFileSync(pausedNumbersFile, "utf8");
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) {
+        pausedNumbersSet = new Set(
+          parsed.map((n) => String(n).replace(/\D/g, "")).filter(Boolean),
+        );
+      }
+    }
+  } catch (err) {
+    console.warn("⚠️ Could not load data/paused_numbers.json:", err.message);
+  }
+
+  // Load any predefined numbers from environment variable PAUSED_NUMBERS
+  if (process.env.PAUSED_NUMBERS) {
+    process.env.PAUSED_NUMBERS.split(",").forEach((n) => {
+      const clean = n.replace(/\D/g, "");
+      if (clean) pausedNumbersSet.add(clean);
+    });
+  }
+}
+
+function savePausedNumbers() {
+  try {
+    const dir = path.dirname(pausedNumbersFile);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    fs.writeFileSync(
+      pausedNumbersFile,
+      JSON.stringify(Array.from(pausedNumbersSet), null, 2),
+      "utf8",
+    );
+  } catch (err) {
+    console.error("⚠️ Failed to save data/paused_numbers.json:", err.message);
+  }
+}
+
+export function pauseNumber(phone) {
+  if (!phone) return false;
+  const clean = String(phone).replace(/@.+$/, "").replace(/\D/g, "");
+  if (!clean) return false;
+  pausedNumbersSet.add(clean);
+  savePausedNumbers();
+  console.log(`⏸️ [Number Paused]: +${clean}`);
+  return true;
+}
+
+export function resumeNumber(phone) {
+  if (!phone) return false;
+  const clean = String(phone).replace(/@.+$/, "").replace(/\D/g, "");
+  if (!clean) return false;
+  const deleted = pausedNumbersSet.delete(clean);
+  savePausedNumbers();
+  console.log(`🟢 [Number Resumed]: +${clean}`);
+  return deleted;
+}
+
+export function isNumberPaused(phoneOrJid) {
+  if (!phoneOrJid) return false;
+  const clean = String(phoneOrJid).replace(/@.+$/, "").replace(/\D/g, "");
+  return pausedNumbersSet.has(clean);
+}
+
+export function getPausedNumbers() {
+  return Array.from(pausedNumbersSet);
+}
+
+// Initial load of paused numbers
+loadPausedNumbers();
+
 export function toggleAutoReply(paused) {
   if (typeof paused === "boolean") {
     isAutoReplyPaused = paused;
@@ -443,6 +522,7 @@ const port = process.env.PORT || 3001;
 const server = http.createServer((req, res) => {
   const urlObj = new URL(req.url, `http://${req.headers.host || "localhost"}`);
   const pathname = urlObj.pathname;
+  const phoneParam = urlObj.searchParams.get("phone") || urlObj.searchParams.get("num") || "";
 
   if (pathname === "/health") {
     res.writeHead(200, { "Content-Type": "application/json" });
@@ -452,6 +532,7 @@ const server = http.createServer((req, res) => {
         connected: isConnected,
         isPaused: isAutoReplyPaused,
         groupsEnabled: isGroupsEnabled,
+        pausedNumbers: getPausedNumbers(),
       }),
     );
     return;
@@ -488,8 +569,46 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // API / Route to pause specific number
+  if (pathname === "/pause-number" || pathname === "/api/pause-number") {
+    if (phoneParam) {
+      pauseNumber(phoneParam);
+    }
+    if (req.headers.accept?.includes("application/json") || req.method === "POST") {
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ success: true, pausedNumbers: getPausedNumbers() }));
+      return;
+    }
+    res.writeHead(302, { Location: "/" });
+    res.end();
+    return;
+  }
+
+  // API / Route to resume specific number
+  if (pathname === "/resume-number" || pathname === "/api/resume-number") {
+    if (phoneParam) {
+      resumeNumber(phoneParam);
+    }
+    if (req.headers.accept?.includes("application/json") || req.method === "POST") {
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ success: true, pausedNumbers: getPausedNumbers() }));
+      return;
+    }
+    res.writeHead(302, { Location: "/" });
+    res.end();
+    return;
+  }
+
+  // API to fetch paused numbers list
+  if (pathname === "/api/paused-numbers") {
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ pausedNumbers: getPausedNumbers() }));
+    return;
+  }
+
   res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
   if (isConnected) {
+    const pausedList = getPausedNumbers();
     res.end(`
       <!DOCTYPE html>
       <html>
@@ -497,13 +616,14 @@ const server = http.createServer((req, res) => {
         <title>WhatsApp AI Agent - Dashboard</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
-          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0b141a; color: #e9edef; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; text-align: center; }
-          .card { background: #111b21; padding: 2.5rem; border-radius: 20px; border: 1px solid #202c33; box-shadow: 0 10px 30px rgba(0,0,0,0.5); max-width: 440px; width: 90%; }
+          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0b141a; color: #e9edef; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px 10px; box-sizing: border-box; text-align: center; }
+          .card { background: #111b21; padding: 2rem; border-radius: 20px; border: 1px solid #202c33; box-shadow: 0 10px 30px rgba(0,0,0,0.5); max-width: 480px; width: 100%; box-sizing: border-box; }
           .badge-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 15px; }
           .badge { padding: 6px 14px; border-radius: 20px; font-weight: bold; font-size: 13px; display: inline-block; }
           .badge-online { background: #00a884; color: #fff; }
           .badge-paused { background: #eab308; color: #000; }
           .badge-disabled { background: #64748b; color: #fff; }
+          .badge-mute-count { background: #3b82f6; color: #fff; }
           h1 { margin: 8px 0; font-size: 22px; }
           p { color: #8696a0; font-size: 14px; line-height: 1.5; margin-bottom: 20px; }
           .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; font-weight: 600; padding: 12px 20px; border-radius: 12px; border: none; cursor: pointer; text-decoration: none; transition: all 0.2s; width: 100%; box-sizing: border-box; margin-bottom: 10px; }
@@ -517,6 +637,22 @@ const server = http.createServer((req, res) => {
           .btn-group-off:hover { background: #334155; }
           .btn-reset { background: #1e293b; color: #94a3b8; font-size: 13px; padding: 10px 16px; margin-top: 5px; }
           .btn-reset:hover { background: #334155; color: white; }
+          
+          /* Specific Number Management Section */
+          .section-box { background: #182229; border: 1px solid #222e35; border-radius: 14px; padding: 16px; margin: 18px 0; text-align: left; }
+          .section-title { font-size: 14px; font-weight: 700; color: #e9edef; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+          .form-row { display: flex; gap: 8px; margin-bottom: 12px; }
+          .input-phone { flex: 1; background: #111b21; border: 1px solid #2a3942; border-radius: 8px; color: #e9edef; padding: 10px 12px; font-size: 13px; outline: none; transition: border-color 0.2s; }
+          .input-phone:focus { border-color: #00a884; }
+          .btn-add { background: #00a884; color: white; padding: 10px 14px; font-size: 13px; font-weight: 600; border-radius: 8px; border: none; cursor: pointer; white-space: nowrap; }
+          .btn-add:hover { background: #008f6f; }
+          .numbers-list { display: flex; flex-direction: column; gap: 6px; max-height: 160px; overflow-y: auto; padding-right: 2px; }
+          .number-item { display: flex; align-items: center; justify-content: space-between; background: #111b21; padding: 8px 12px; border-radius: 8px; border: 1px solid #202c33; font-size: 13px; }
+          .number-text { color: #53bdeb; font-family: monospace; font-weight: 600; }
+          .btn-unpause { background: #ef4444; color: white; border: none; border-radius: 6px; padding: 4px 10px; font-size: 11px; font-weight: 600; cursor: pointer; text-decoration: none; }
+          .btn-unpause:hover { background: #dc2626; }
+          .empty-state { color: #8696a0; font-size: 12px; font-style: italic; text-align: center; margin: 8px 0; }
+
           .info-box { background: #182229; border-radius: 10px; padding: 12px; margin-top: 15px; font-size: 12px; color: #8696a0; text-align: left; }
           .info-box code { color: #53bdeb; background: #111b21; padding: 2px 6px; border-radius: 4px; }
         </style>
@@ -530,17 +666,49 @@ const server = http.createServer((req, res) => {
             <div class="badge ${isGroupsEnabled ? "badge-online" : "badge-disabled"}">
               ${isGroupsEnabled ? "👥 GROUPS: ON" : "👥 GROUPS: OFF"}
             </div>
+            <div class="badge badge-mute-count">
+              🚫 ${pausedList.length} SPECIFIC PAUSED
+            </div>
           </div>
           <h1>WhatsApp AI Agent</h1>
-          <p>${isAutoReplyPaused ? "The agent is connected but <b>auto-replies are temporarily paused</b>." : "The agent is actively listening and replying to WhatsApp messages."}</p>
+          <p>${isAutoReplyPaused ? "The agent is connected but <b>all auto-replies are globally paused</b>." : "The agent is actively listening and replying to WhatsApp messages."}</p>
           
           <a href="/toggle-pause" class="btn ${isAutoReplyPaused ? "btn-resume" : "btn-pause"}">
-            ${isAutoReplyPaused ? "▶️ Resume Auto-Reply" : "⏸️ Pause Auto-Reply"}
+            ${isAutoReplyPaused ? "▶️ Resume Global Auto-Reply" : "⏸️ Pause Global Auto-Reply"}
           </a>
 
           <a href="/toggle-groups" class="btn ${isGroupsEnabled ? "btn-group-off" : "btn-group"}">
             ${isGroupsEnabled ? "👥 Disable Group Replies" : "👥 Enable Group Replies"}
           </a>
+
+          <!-- Specific Number Auto-Reply Pause UI -->
+          <div class="section-box">
+            <div class="section-title">
+              <span>⏸️ Pause Specific Numbers / Contacts</span>
+              <span style="font-size:11px; color:#8696a0;">(${pausedList.length} muted)</span>
+            </div>
+            <form action="/pause-number" method="GET" class="form-row">
+              <input type="text" name="phone" placeholder="Phone with country code (e.g. 919876543210)" class="input-phone" required />
+              <button type="submit" class="btn-add">➕ Pause</button>
+            </form>
+
+            <div class="numbers-list">
+              ${
+                pausedList.length > 0
+                  ? pausedList
+                      .map(
+                        (num) => `
+                    <div class="number-item">
+                      <span class="number-text">+${num}</span>
+                      <a href="/resume-number?phone=${num}" class="btn-unpause">▶️ Resume</a>
+                    </div>
+                  `,
+                      )
+                      .join("")
+                  : `<div class="empty-state">No numbers currently paused individually.</div>`
+              }
+            </div>
+          </div>
 
           <a href="/reset-session" onclick="return confirm('Do you want to re-link WhatsApp? This will generate a new QR code.')" class="btn btn-reset">
             🔄 Re-link WhatsApp Session
@@ -548,9 +716,11 @@ const server = http.createServer((req, res) => {
 
           <div class="info-box">
             <b>💡 WhatsApp Commands:</b><br/>
-            • <code>!bot pause</code> / <code>!pause</code> - Pause auto-reply<br/>
-            • <code>!bot resume</code> / <code>!resume</code> - Resume auto-reply<br/>
-            • <code>!groups on</code> / <code>!groups off</code> - Toggle group replies<br/>
+            • <code>!pause &lt;number&gt;</code> - Pause auto-reply for specific number<br/>
+            • <code>!resume &lt;number&gt;</code> - Resume auto-reply for specific number<br/>
+            • <code>!paused</code> - View all currently paused numbers<br/>
+            • <code>!bot pause</code> / <code>!bot resume</code> - Global toggle<br/>
+            • <code>!groups on</code> / <code>!groups off</code> - Toggle groups<br/>
             • <code>!bot status</code> - Check bot status
           </div>
         </div>
@@ -779,6 +949,73 @@ async function startWhatsAppAgent() {
       // --------------------------------------------------
       // 1. Handle Admin / Self Commands (!bot pause, !groups on/off, etc.)
       // --------------------------------------------------
+      // Specific number pause: !pause 919876543210 or !mute +91-9876543210
+      const pauseNumMatch = lowerText.match(
+        /^!(?:bot\s+)?(?:pause|mute|block)\s+(\+?[\d\s\-()]+)$/i,
+      );
+      if (pauseNumMatch) {
+        const targetNumber = pauseNumMatch[1].replace(/\D/g, "");
+        if (targetNumber) {
+          pauseNumber(targetNumber);
+          await sock.sendMessage(
+            sender,
+            {
+              text: `⏸️ *Auto-Reply PAUSED for Number:* \`+${targetNumber}\`\n\nThe bot will ignore all incoming messages from this number.\nSend *!resume ${targetNumber}* or use the web dashboard to re-enable.`,
+            },
+            { quoted: msg },
+          );
+          continue;
+        }
+      }
+
+      // Specific number resume: !resume 919876543210 or !unmute +91-9876543210
+      const resumeNumMatch = lowerText.match(
+        /^!(?:bot\s+)?(?:resume|unmute|unblock)\s+(\+?[\d\s\-()]+)$/i,
+      );
+      if (resumeNumMatch) {
+        const targetNumber = resumeNumMatch[1].replace(/\D/g, "");
+        if (targetNumber) {
+          resumeNumber(targetNumber);
+          await sock.sendMessage(
+            sender,
+            {
+              text: `🟢 *Auto-Reply RESUMED for Number:* \`+${targetNumber}\`\n\nThe bot is now active and will reply to this number.`,
+            },
+            { quoted: msg },
+          );
+          continue;
+        }
+      }
+
+      // List all paused numbers: !paused or !bot paused or !mutelist
+      if (
+        lowerText === "!paused" ||
+        lowerText === "!bot paused" ||
+        lowerText === "!mutelist" ||
+        lowerText === "!paused list"
+      ) {
+        const list = getPausedNumbers();
+        if (list.length === 0) {
+          await sock.sendMessage(
+            sender,
+            {
+              text: `📋 *Paused Numbers List*\n\nNo individual phone numbers are currently paused.\nGlobal auto-reply is *${isAutoReplyPaused ? "⏸️ PAUSED" : "🟢 ACTIVE"}*.`,
+            },
+            { quoted: msg },
+          );
+        } else {
+          const formatted = list.map((n, idx) => `${idx + 1}. \`+${n}\``).join("\n");
+          await sock.sendMessage(
+            sender,
+            {
+              text: `📋 *Paused Specific Numbers (${list.length})*\n\n${formatted}\n\n_To resume a number, send *!resume <number>* or visit the web dashboard._`,
+            },
+            { quoted: msg },
+          );
+        }
+        continue;
+      }
+
       if (
         lowerText === "!pause" ||
         lowerText === "!bot pause" ||
@@ -789,7 +1026,7 @@ async function startWhatsAppAgent() {
         await sock.sendMessage(
           sender,
           {
-            text: "⏸️ *WhatsApp AI Auto-Reply is now PAUSED.*\n\nThe bot will not respond automatically until resumed. Send *!resume* or visit the web dashboard to resume.",
+            text: "⏸️ *WhatsApp AI Auto-Reply is now PAUSED globally.*\n\nThe bot will not respond automatically until resumed. Send *!resume* or visit the web dashboard to resume.",
           },
           { quoted: msg },
         );
@@ -806,7 +1043,7 @@ async function startWhatsAppAgent() {
         await sock.sendMessage(
           sender,
           {
-            text: "🟢 *WhatsApp AI Auto-Reply is now ACTIVE & LISTENING.*\n\nThe bot will automatically assist with portfolio questions, resumes, and project inquiries.",
+            text: "🟢 *WhatsApp AI Auto-Reply is now ACTIVE & LISTENING globally.*\n\nThe bot will automatically assist with portfolio questions, resumes, and project inquiries.",
           },
           { quoted: msg },
         );
@@ -848,6 +1085,7 @@ async function startWhatsAppAgent() {
       }
 
       if (lowerText === "!bot status" || lowerText === "!status") {
+        const pausedList = getPausedNumbers();
         await sock.sendMessage(
           sender,
           {
@@ -855,7 +1093,7 @@ async function startWhatsAppAgent() {
               isAutoReplyPaused ? "⏸️ PAUSED" : "🟢 ACTIVE"
             }*\n• Group Replies: *${
               isGroupsEnabled ? "🟢 ENABLED" : "⏸️ DISABLED"
-            }*\n• AI Engine: *${providerName}*`,
+            }*\n• Specific Paused Numbers: *${pausedList.length} muted*\n• AI Engine: *${providerName}*`,
           },
           { quoted: msg },
         );
@@ -870,6 +1108,14 @@ async function startWhatsAppAgent() {
       const isGroup = sender.endsWith("@g.us");
       const participant = isGroup ? msg.key.participant || sender : sender;
       const historyKey = isGroup ? `${sender}_${participant}` : sender;
+
+      // Check if this specific phone number / sender is paused
+      if (isNumberPaused(sender) || (isGroup && isNumberPaused(participant))) {
+        console.log(
+          `⏸️ [Specific Number Paused] Skipped auto-reply to ${sender} (${participant || ""})`,
+        );
+        continue;
+      }
 
       if (isGroup) {
         // If group replies are toggled off, ignore completely
