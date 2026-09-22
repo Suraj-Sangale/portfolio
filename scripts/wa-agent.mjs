@@ -1631,9 +1631,9 @@ async function handleIncomingMessage(sock, msg) {
     }
 
     // Ignore other messages sent by yourself
-    // if (isFromMe) {
-    //   return;
-    // }
+    if (isFromMe) {
+      return;
+    }
 
     const isGroup = sender.endsWith("@g.us");
     const participant = isGroup ? msg.key.participant || sender : sender;
