@@ -877,7 +877,7 @@ export default function DevFolio({ pageData }) {
     let cleanup = () => {};
 
     (async () => {
-      // Load Three.js first, then GSAP + ScrollTrigger in parallel
+      // Load Three.js first, then GSAP + ScrollTrigger + Lenis in parallel
       await loadScript(
         "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js",
       );
@@ -888,12 +888,40 @@ export default function DevFolio({ pageData }) {
         loadScript(
           "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js",
         ),
+        loadScript(
+          "https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js",
+        ),
       ]);
 
       const THREE = window.THREE;
       const gsap = window.gsap;
       const ScrollTrigger = window.ScrollTrigger;
       gsap?.registerPlugin?.(ScrollTrigger);
+
+      // ── SMOOTH SCROLL (LENIS) ──
+      let lenis = null;
+      let updateLenisTicker = null;
+      if (window.Lenis) {
+        lenis = new window.Lenis({
+          duration: 5,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          orientation: "vertical",
+          gestureOrientation: "vertical",
+          smoothWheel: true,
+          wheelMultiplier: 1,
+          touchMultiplier: 2,
+        });
+
+        lenis.on("scroll", () => {
+          ScrollTrigger?.update?.();
+        });
+
+        updateLenisTicker = (time) => {
+          lenis.raf(time * 2000);
+        };
+        gsap?.ticker?.add?.(updateLenisTicker);
+        gsap?.ticker?.lagSmoothing?.(0);
+      }
 
       // ── CURSOR ──
       const dot = dotRef.current;
@@ -1139,7 +1167,7 @@ export default function DevFolio({ pageData }) {
           trigger: "#page",
           start: "top top",
           end: "bottom bottom",
-          scrub: 2,
+          scrub: 1.2,
           onUpdate(self) {
           const p = self.progress;
           camZ = 6 - p * 135;
@@ -1316,6 +1344,12 @@ export default function DevFolio({ pageData }) {
         document.removeEventListener("mousemove", onMouseMove);
         document.removeEventListener("mousemove", onMouse);
         window.removeEventListener("resize", onResize);
+        if (lenis) {
+          if (updateLenisTicker && gsap?.ticker) {
+            gsap.ticker.remove(updateLenisTicker);
+          }
+          lenis.destroy();
+        }
         renderer.dispose();
         ScrollTrigger.getAll().forEach((t) => t.kill());
       };
@@ -1631,7 +1665,28 @@ const styles = `
 
 html {
   background: var(--bg);
-  scroll-behavior: auto
+  scroll-behavior: smooth;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
 
 body {
@@ -1733,7 +1788,7 @@ section {
 }
 
 #s1 {
-  min-height: 180vh;
+  min-height: 20vh;
   justify-content: flex-start;
   padding-top: 28vh;
   gap: 0
