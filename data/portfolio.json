@@ -111,7 +111,22 @@
         "imgUrl": "https://i.ibb.co/p6YrRtk0/pngwing-com-1.png"
       },
       {
-        "id": "10",
+        "id": "12",
+        "name": "Python",
+        "imgUrl": "https://i.ibb.co/ch74zT26/python.png"
+      },
+      {
+        "id": "",
+        "name": "Django",
+        "imgUrl": "https://i.ibb.co/3ynxffqW/django.png"
+      },
+      {
+        "id": "",
+        "name": "Fast API",
+        "imgUrl": "https://i.ibb.co/q8BPht9/fast-API.png"
+      },
+      {
+        "id": "",
         "name": "MySQL",
         "imgUrl": "https://i.ibb.co/XQK5wHP/mysql.png"
       },
