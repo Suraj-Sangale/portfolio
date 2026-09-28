@@ -1516,7 +1516,7 @@ export default function DevFolio({ pageData }) {
                 key={p.num}
                 className={`bento ${p.sizeCls}`}
               >
-                <div className="bento-num">{`0${index+1}`}</div>
+                <div className="bento-num">{`${index<9?"0":""}${index+1}`}</div>
                 {/* <div className={`bento-icon ${p.iconCls}`}>{p.icon}</div> */}
                 <div className="bento-title">
                   <span className={p.titleGradient}>{p.titleWord}</span>
