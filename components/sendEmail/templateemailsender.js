@@ -1,32 +1,84 @@
-import React, { useMemo, useState, useCallback } from "react";
+import React, { useMemo, useState, useCallback, useEffect } from "react";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 /**
  * TemplateEmailSender
  * ---------------------------------------------------------------------------
- * Compose an email from a fixed set of predefined templates. The subject and
- * body are locked — the only parts a user can touch are the placeholder
- * fields the template itself declares (e.g. {{companyName}}). This keeps
- * wording consistent across every send while still letting each email be
- * personalized where it matters.
- *
- * Drop this file in as-is. Styles are plain CSS scoped with a unique prefix
- * and injected via a single <style> tag in this same file — no separate
- * .css/.module.css file needed, no build-step CSS module loader required.
+ * Compose and dispatch customized corporate emails and cover letters directly
+ * from your Gmail, with pre-filled company intelligence and customizable templates.
  * ---------------------------------------------------------------------------
  */
 
 // ---------------------------------------------------------------------------
-// 1. Predefined templates
-//    Locked copy lives in `subject` / `body`. Anything wrapped in {{field}}
-//    becomes an editable field, generated automatically — add a template
-//    here and its form appears with no other code changes.
+// 1. Cover letter presets
+// ---------------------------------------------------------------------------
+const COVER_LETTER_PRESETS = {
+  fullstack: {
+    label: "Full Stack (React, Next.js, Node)",
+    icon: "🚀",
+    text: "Throughout my career as a Full Stack Developer, I have focused on building resilient, high-performance web applications using React, Next.js, and Node.js. I have designed robust APIs, implemented optimized databases, and deployed cloud services. I thrive in teams that prioritize user delight, clean architecture, and velocity.",
+  },
+  frontend: {
+    label: "Frontend & UI/UX Specialist",
+    icon: "🎨",
+    text: "My core expertise lies in designing responsive, accessible, and interactive user interfaces with React, Next.js, and modern CSS/animation tools. I care deeply about performance optimization, micro-interactions, responsive design systems, and crafting memorable digital experiences.",
+  },
+  backend: {
+    label: "Backend & Systems Engineer",
+    icon: "⚡",
+    text: "I bring strong foundations in server-side engineering, microservices, REST/GraphQL API design, and cloud deployments with Node.js and AWS. I focus on writing reliable, clean code, automating development workflows, and ensuring systems scale gracefully under demanding production workloads.",
+  },
+  general: {
+    label: "Adaptive & Mission-Driven",
+    icon: "💡",
+    text: "I am specifically drawn to your engineering initiatives and products. I bring a proactive problem-solving mindset, rapid learning agility, and a strong commitment to team collaboration and craftsmanship.",
+  },
+};
+
+// ---------------------------------------------------------------------------
+// 2. Predefined templates
 // ---------------------------------------------------------------------------
 const TEMPLATES = [
+  {
+    id: "cover-letter",
+    label: "Cover Letter",
+    icon: "📜",
+    seal: "01",
+    to: "",
+    subject: "Application & Cover Letter for {{role}} — {{yourName}}",
+    body:
+      "Dear {{hiringManager}},\n\n" +
+      "I am writing to express my strong enthusiasm and application for the <b>{{role}}</b> position at <b>{{companyName}}</b>. " +
+      "With hands-on expertise building scalable, modern web applications using <b>React, Next.js, Node.js, and cloud architectures</b>, " +
+      "I am eager to contribute to {{companyName}}'s engineering team and mission.\n\n" +
+      "Throughout my development journey, I have prioritized writing clean, maintainable code, designing resilient API backends, " +
+      "and delivering seamless, high-performance user interfaces. I pride myself on solving complex technical challenges proactively and communicating transparently.\n\n" +
+      "{{customCoverParagraph}}\n\n" +
+      "I have attached my <b>comprehensive resume</b> for your review. You can also inspect my live projects and code on my portfolio. " +
+      "I would welcome the opportunity to discuss how my skill set and enthusiasm align with {{companyName}}'s goals.\n\n" +
+      "Thank you for your time and consideration.\n\n" +
+      "Warm regards,\n" +
+      "<b>{{yourName}}</b>",
+    fields: {
+      yourName:             { label: "Your name",                     placeholder: "Suraj Sangale",                 default: "Suraj Sangale",                 required: true  },
+      role:                 { label: "Target Role",                   placeholder: "Full Stack Developer",          default: "Full Stack Developer",          required: true  },
+      companyName:          { label: "Company",                       placeholder: "Acme Technologies",             default: "",                              required: true  },
+      hiringManager:        { label: "Hiring Manager / Team",         placeholder: "Hiring Team",                   default: "Hiring Team",                   required: false },
+      customCoverParagraph: {
+        label: "Cover Letter Focus / Highlight",
+        placeholder: "Detail your key strengths, motivation for this company, and relevant achievements...",
+        default: "Throughout my career as a Full Stack Developer, I have focused on building resilient, high-performance web applications using React, Next.js, and Node.js. I have designed robust APIs, implemented optimized databases, and deployed cloud services. I thrive in teams that prioritize user delight, clean architecture, and velocity.",
+        required: false,
+        multiline: true,
+      },
+    },
+  },
   {
     id: "job-application",
     label: "Job Application",
     icon: "💼",
-    seal: "01",
+    seal: "02",
     to: "",
     subject: "Application for {{role}} — {{yourName}}",
     body:
@@ -47,7 +99,7 @@ const TEMPLATES = [
     id: "follow-up",
     label: "Follow-up",
     icon: "🔁",
-    seal: "02",
+    seal: "03",
     to: "",
     subject: "Following up — {{role}} application",
     body:
@@ -66,7 +118,7 @@ const TEMPLATES = [
     id: "thank-you",
     label: "Thank You",
     icon: "🙏",
-    seal: "03",
+    seal: "04",
     to: "",
     subject: "Thank you — {{role}} interview",
     body:
@@ -94,6 +146,7 @@ function getDefaults(template) {
 const PLACEHOLDER_RE = /{{\s*([\w]+)\s*}}/g;
 
 function fillTemplate(text, values) {
+  if (!text) return "";
   return text.replace(PLACEHOLDER_RE, (_, key) => {
     const v = values[key];
     return v && v.trim() ? v : `▢${key}▢`;
@@ -101,12 +154,47 @@ function fillTemplate(text, values) {
 }
 
 export default function TemplateEmailSender() {
+  const router = useRouter();
+
   const [templateId, setTemplateId] = useState(TEMPLATES[0].id);
   const [toAddress, setToAddress] = useState("");
+  const [customSubject, setCustomSubject] = useState("");
+  const [isSubjectCustomized, setIsSubjectCustomized] = useState(false);
   const [values, setValues] = useState(() => getDefaults(TEMPLATES[0]));
   const [touched, setTouched] = useState({});
   const [sendState, setSendState] = useState("idle"); // idle | sending | success | error
   const [errorMsg, setErrorMsg] = useState("");
+  const [includeCoverLetter, setIncludeCoverLetter] = useState(false);
+  const [coverLetterPreset, setCoverLetterPreset] = useState("fullstack");
+
+  // Sync incoming query parameters from Company Contacts Finder
+  useEffect(() => {
+    if (!router.isReady) return;
+    const { to, company, role, template: tplParam, coverletter, subject } = router.query;
+
+    if (to && typeof to === "string") {
+      setToAddress(to);
+    }
+
+    if (subject && typeof subject === "string") {
+      setCustomSubject(subject);
+      setIsSubjectCustomized(true);
+    }
+
+    if (tplParam && typeof tplParam === "string" && TEMPLATES.some((t) => t.id === tplParam)) {
+      setTemplateId(tplParam);
+    } else if (coverletter === "true" || coverletter === "1") {
+      setTemplateId("cover-letter");
+    }
+
+    if (company && typeof company === "string") {
+      setValues((prev) => ({
+        ...prev,
+        companyName: company,
+        ...(role && typeof role === "string" ? { role } : {}),
+      }));
+    }
+  }, [router.isReady, router.query]);
 
   const template = useMemo(
     () => TEMPLATES.find((t) => t.id === templateId) ?? TEMPLATES[0],
@@ -121,7 +209,15 @@ export default function TemplateEmailSender() {
   const handleSelectTemplate = useCallback((id) => {
     const tpl = TEMPLATES.find((t) => t.id === id) ?? TEMPLATES[0];
     setTemplateId(id);
-    setValues(getDefaults(tpl));
+    setIsSubjectCustomized(false);
+    setCustomSubject("");
+    setValues((prev) => ({
+      ...getDefaults(tpl),
+      ...(prev.companyName ? { companyName: prev.companyName } : {}),
+      ...(prev.role ? { role: prev.role } : {}),
+      ...(prev.yourName ? { yourName: prev.yourName } : {}),
+      ...(prev.hiringManager && prev.hiringManager !== "Hiring Team" ? { hiringManager: prev.hiringManager } : {}),
+    }));
     setTouched({});
     setSendState("idle");
     setErrorMsg("");
@@ -135,14 +231,44 @@ export default function TemplateEmailSender() {
     setTouched((prev) => ({ ...prev, [key]: true }));
   }, []);
 
+  const handleApplyCoverPreset = (key) => {
+    setCoverLetterPreset(key);
+    const p = COVER_LETTER_PRESETS[key];
+    if (p) {
+      setValues((prev) => ({
+        ...prev,
+        customCoverParagraph: p.text,
+      }));
+    }
+  };
+
+  // Subject management
+  const autoSubject = fillTemplate(template.subject, values);
+  const effectiveSubject = isSubjectCustomized ? customSubject : autoSubject;
+
+  const handleSubjectChange = (e) => {
+    setCustomSubject(e.target.value);
+    setIsSubjectCustomized(true);
+  };
+
+  const handleResetSubject = () => {
+    setIsSubjectCustomized(false);
+    setCustomSubject("");
+  };
+
   const missingRequired = fieldEntries
     .filter(([key, cfg]) => cfg.required && !values[key]?.trim())
     .map(([key]) => key);
 
-  const canSend = missingRequired.length === 0 && toAddress.trim().length > 0;
+  const canSend = missingRequired.length === 0 && toAddress.trim().length > 0 && effectiveSubject.trim().length > 0;
 
-  const filledSubject = fillTemplate(template.subject, values);
-  const filledBody = fillTemplate(template.body, values);
+  let filledBody = fillTemplate(template.body, values);
+
+  // If user toggles cover letter addendum on other short templates
+  if (includeCoverLetter && template.id !== "cover-letter") {
+    const presetSnippet = COVER_LETTER_PRESETS[coverLetterPreset]?.text || "";
+    filledBody = `${filledBody}\n\n--- COVER LETTER HIGHLIGHT ---\n${fillTemplate(presetSnippet, values)}`;
+  }
 
   const handleSend = useCallback(
     async (e) => {
@@ -159,7 +285,7 @@ export default function TemplateEmailSender() {
         const res = await fetch("/api/sendTemplateMail", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ to: toAddress, subject: filledSubject, body: filledBody }),
+          body: JSON.stringify({ to: toAddress, subject: effectiveSubject, body: filledBody }),
         });
         const data = await res.json();
         if (data.status) {
@@ -174,11 +300,11 @@ export default function TemplateEmailSender() {
         setErrorMsg("Network error. Please try again.");
       }
     },
-    [fieldEntries, canSend, toAddress, filledSubject, filledBody]
+    [fieldEntries, canSend, toAddress, effectiveSubject, filledBody]
   );
 
   return (
-    <div className="tes-root">
+    <div className="tes-root mt-8">
       <style>{CSS}</style>
 
       {/* Animated background orbs */}
@@ -187,139 +313,263 @@ export default function TemplateEmailSender() {
       <div className="tes-orb tes-orb-3" aria-hidden="true" />
 
       <div className="tes-wrap">
-      <header className="tes-header">
-        <div className="tes-header-badge">
-          <span className="tes-header-dot" />
-          Email Composer
-        </div>
-        <h1 className="tes-title">
-          Send from a {" "}
-          <span className="tes-title-accent">Template</span>
-        </h1>
-        <p className="tes-sub">
-          Wording stays locked. Fill in only what changes — and send directly from your Gmail.
-        </p>
-      </header>
+        <header className="tes-header">
+          {/* <div className="tes-header-top-row">
+            <Link href="/company-contacts" className="tes-breadcrumb-link">
+              ← Back to Company Contacts
+            </Link>
+          </div> */}
+          {/* <div className="tes-header-badge">
+            <span className="tes-header-dot" />
+            Corporate Email &amp; Cover Letter Portal
+          </div> */}
+          <h1 className="tes-title">
+            Send from a <span className="tes-title-accent">Template &amp; Cover Letter</span>
+          </h1>
+        </header>
 
-      <div className="tes-layout">
-        {/* Template selector */}
-        <nav className="tes-stack" aria-label="Choose a template">
-          <p className="tes-stack-label">Choose template</p>
-          {TEMPLATES.map((t) => {
-            const active = t.id === template.id;
-            return (
-              <button
-                key={t.id}
-                type="button"
-                className={`tes-card${active ? " tes-card--active" : ""}`}
-                onClick={() => handleSelectTemplate(t.id)}
-                aria-pressed={active}
-              >
-                <span className="tes-card-icon">{t.icon}</span>
-                <span className="tes-card-body">
-                  <span className="tes-card-label">{t.label}</span>
-                  <span className="tes-card-preview">{t.subject.replace(PLACEHOLDER_RE, "…")}</span>
-                </span>
-                {active && <span className="tes-card-pip" aria-hidden="true" />}
-              </button>
-            );
-          })}
-        </nav>
+        <div className="tes-layout">
+          {/* Template selector */}
+          <nav className="tes-stack" aria-label="Choose a template">
+            <p className="tes-stack-label">Choose template</p>
+            {TEMPLATES.map((t) => {
+              const active = t.id === template.id;
+              return (
+                <button
+                  key={t.id}
+                  type="button"
+                  className={`tes-card${active ? " tes-card--active" : ""}`}
+                  onClick={() => handleSelectTemplate(t.id)}
+                  aria-pressed={active}
+                >
+                  <span className="tes-card-icon">{t.icon}</span>
+                  <span className="tes-card-body">
+                    <span className="tes-card-label">{t.label}</span>
+                    <span className="tes-card-preview">{t.subject.replace(PLACEHOLDER_RE, "…")}</span>
+                  </span>
+                  {active && <span className="tes-card-pip" aria-hidden="true" />}
+                </button>
+              );
+            })}
+          </nav>
 
-        {/* -------------------------------------------------------------- */}
-        {/* Composer                                                       */}
-        {/* -------------------------------------------------------------- */}
-        <form className="tes-composer" onSubmit={handleSend}>
-          <div className="tes-field-row">
-            <label className="tes-label" htmlFor="tes-to">To</label>
-            <input
-              id="tes-to"
-              type="email"
-              required
-              className="tes-input"
-              placeholder="recruiter@company.com"
-              value={toAddress}
-              onChange={(e) => setToAddress(e.target.value)}
-            />
-          </div>
+          {/* -------------------------------------------------------------- */}
+          {/* Composer                                                       */}
+          {/* -------------------------------------------------------------- */}
+          <form className="tes-composer" onSubmit={handleSend}>
+            {/* Banner if redirected with company query */}
+            {router.query.company && (
+              <div className="tes-company-banner">
+                <div className="tes-company-banner-text">
+                  <span className="tes-company-icon">🏢</span>
+                  <span>
+                    Sending to <strong>{router.query.company}</strong>
+                    {toAddress && (
+                      <span> (<span className="tes-company-email">{toAddress}</span>)</span>
+                    )}
+                  </span>
+                </div>
+                <Link href="/company-contacts" className="tes-company-back-link">
+                  Scan another company
+                </Link>
+              </div>
+            )}
 
-          <div className="tes-locked-row">
-            <span className="tes-locked-tag">Locked</span>
-            <span className="tes-locked-copy">
-              Subject &amp; body wording come from the “{template.label}” template.
-            </span>
-          </div>
+            <div className="tes-field-row">
+              <label className="tes-label" htmlFor="tes-to">
+                Recipient Email <span className="tes-required">*</span>
+              </label>
+              <input
+                id="tes-to"
+                type="email"
+                required
+                className="tes-input"
+                placeholder="recruiter@company.com"
+                value={toAddress}
+                onChange={(e) => setToAddress(e.target.value)}
+              />
+            </div>
 
-          {fieldEntries.length > 0 && (
-            <div className="tes-fields">
-              {fieldEntries.map(([key, cfg]) => {
-                const showError = touched[key] && cfg.required && !values[key]?.trim();
-                return (
-                  <div className="tes-field-row" key={key}>
-                    <label className="tes-label" htmlFor={`tes-field-${key}`}>
-                      {cfg.label}
-                      {cfg.required && <span className="tes-required">*</span>}
-                    </label>
-                    <input
-                      id={`tes-field-${key}`}
-                      className={`tes-input tes-input--fill${showError ? " tes-input--error" : ""}`}
-                      placeholder={cfg.placeholder}
-                      value={values[key] || ""}
-                      onChange={(e) => handleFieldChange(key, e.target.value)}
-                      onBlur={() => handleFieldBlur(key)}
-                    />
-                    {showError && <span className="tes-error">Required</span>}
+            <div className="tes-field-row">
+              <div className="tes-label-row">
+                <label className="tes-label" htmlFor="tes-subject">
+                  Email Subject <span className="tes-required">*</span>
+                </label>
+                {isSubjectCustomized ? (
+                  <button
+                    type="button"
+                    className="tes-reset-subject-btn"
+                    onClick={handleResetSubject}
+                    title="Reset to template auto-generated subject"
+                  >
+                    ↺ Reset to Template Default
+                  </button>
+                ) : (
+                  <span className="tes-subject-hint">Auto-generated • Edit to customize</span>
+                )}
+              </div>
+              <input
+                id="tes-subject"
+                type="text"
+                required
+                className="tes-input tes-input--subject"
+                placeholder="e.g. Application for Full Stack Developer — Suraj Sangale"
+                value={effectiveSubject}
+                onChange={handleSubjectChange}
+              />
+            </div>
+
+            <div className="tes-locked-row">
+              <span className="tes-locked-tag">Active Template</span>
+              <span className="tes-locked-copy">
+                “{template.label}” template structure loaded. Fill in the fields below.
+              </span>
+            </div>
+
+            {/* Cover Letter Preset Selector (when Cover Letter template is active) */}
+            {template.id === "cover-letter" && (
+              <div className="tes-cover-panel">
+                <div className="tes-cover-header">
+                  <span className="tes-cover-title">📜 Cover Letter Focus Presets</span>
+                  <span className="tes-cover-sub">Click a preset to insert a tailored pitch</span>
+                </div>
+                <div className="tes-presets-row">
+                  {Object.entries(COVER_LETTER_PRESETS).map(([key, p]) => (
+                    <button
+                      key={key}
+                      type="button"
+                      className={`tes-preset-btn ${coverLetterPreset === key ? "tes-preset-btn--active" : ""}`}
+                      onClick={() => handleApplyCoverPreset(key)}
+                    >
+                      <span>{p.icon}</span>
+                      <span>{p.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Cover Letter Optional Addendum (when on other templates) */}
+            {template.id !== "cover-letter" && (
+              <div className="tes-cover-toggle-card">
+                <label className="tes-checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={includeCoverLetter}
+                    onChange={(e) => setIncludeCoverLetter(e.target.checked)}
+                    className="tes-checkbox"
+                  />
+                  <span className="tes-checkbox-text">
+                    <strong>Include Cover Letter Addendum</strong> in this email
+                  </span>
+                </label>
+                {includeCoverLetter && (
+                  <div className="tes-presets-row tes-presets-mt">
+                    {Object.entries(COVER_LETTER_PRESETS).map(([key, p]) => (
+                      <button
+                        key={key}
+                        type="button"
+                        className={`tes-preset-btn ${coverLetterPreset === key ? "tes-preset-btn--active" : ""}`}
+                        onClick={() => setCoverLetterPreset(key)}
+                      >
+                        <span>{p.icon}</span>
+                        <span>{p.label}</span>
+                      </button>
+                    ))}
                   </div>
-                );
-              })}
-            </div>
-          )}
-
-          <button
-            type="submit"
-            className={`tes-send${sendState === "success" ? " tes-send--success" : ""}${sendState === "error" ? " tes-send--error" : ""}`}
-            disabled={!canSend || sendState === "sending"}
-          >
-            {sendState === "sending" && <span className="tes-spinner" aria-hidden="true" />}
-            {sendState === "idle" && "Send email →"}
-            {sendState === "sending" && "Sending…"}
-            {sendState === "success" && "✓ Email sent!"}
-            {sendState === "error" && "✗ Failed — retry"}
-          </button>
-          {sendState === "error" && errorMsg && (
-            <span className="tes-send-error-msg">{errorMsg}</span>
-          )}
-        </form>
-
-        {/* Live preview */}
-        <aside className="tes-preview" aria-label="Email preview">
-          <div className="tes-preview-header">
-            <div className="tes-preview-dots"><span /><span /><span /></div>
-            <span className="tes-preview-title">Preview</span>
-          </div>
-          <div className="tes-preview-body">
-            <div className="tes-preview-meta">
-              <div className="tes-meta-row">
-                <span className="tes-meta-key">To</span>
-                <span className="tes-meta-val">{toAddress || <em>—</em>}</span>
+                )}
               </div>
-              <div className="tes-meta-row">
-                <span className="tes-meta-key">Subject</span>
-                <span className="tes-meta-val tes-meta-subject">{filledSubject}</span>
+            )}
+
+            {/* Editable template fields */}
+            {fieldEntries.length > 0 && (
+              <div className="tes-fields">
+                {fieldEntries.map(([key, cfg]) => {
+                  const showError = touched[key] && cfg.required && !values[key]?.trim();
+                  return (
+                    <div className="tes-field-row" key={key}>
+                      <label className="tes-label" htmlFor={`tes-field-${key}`}>
+                        {cfg.label}
+                        {cfg.required && <span className="tes-required">*</span>}
+                      </label>
+                      {cfg.multiline ? (
+                        <textarea
+                          id={`tes-field-${key}`}
+                          rows={4}
+                          className={`tes-input tes-input--fill tes-textarea${showError ? " tes-input--error" : ""}`}
+                          placeholder={cfg.placeholder}
+                          value={values[key] || ""}
+                          onChange={(e) => handleFieldChange(key, e.target.value)}
+                          onBlur={() => handleFieldBlur(key)}
+                        />
+                      ) : (
+                        <input
+                          id={`tes-field-${key}`}
+                          className={`tes-input tes-input--fill${showError ? " tes-input--error" : ""}`}
+                          placeholder={cfg.placeholder}
+                          value={values[key] || ""}
+                          onChange={(e) => handleFieldChange(key, e.target.value)}
+                          onBlur={() => handleFieldBlur(key)}
+                        />
+                      )}
+                      {showError && <span className="tes-error">Required</span>}
+                    </div>
+                  );
+                })}
               </div>
+            )}
+
+            <button
+              type="submit"
+              className={`tes-send${sendState === "success" ? " tes-send--success" : ""}${sendState === "error" ? " tes-send--error" : ""}`}
+              disabled={!canSend || sendState === "sending"}
+            >
+              {sendState === "sending" && <span className="tes-spinner" aria-hidden="true" />}
+              {sendState === "idle" && "Send email with Resume & Cover Letter →"}
+              {sendState === "sending" && "Sending…"}
+              {sendState === "success" && "✓ Email sent successfully!"}
+              {sendState === "error" && "✗ Failed — retry"}
+            </button>
+            {sendState === "error" && errorMsg && (
+              <span className="tes-send-error-msg">{errorMsg}</span>
+            )}
+          </form>
+
+          {/* Live preview */}
+          <aside className="tes-preview" aria-label="Email preview">
+            <div className="tes-preview-header">
+              <div className="tes-preview-dots"><span /><span /><span /></div>
+              <span className="tes-preview-title">Live Preview</span>
             </div>
-            <div className="tes-preview-divider" />
-            <pre className="tes-preview-text">{filledBody}</pre>
-          </div>
-        </aside>
-      </div>
+            <div className="tes-preview-body">
+              <div className="tes-preview-meta">
+                <div className="tes-meta-row">
+                  <span className="tes-meta-key">To</span>
+                  <span className="tes-meta-val">{toAddress || <em>—</em>}</span>
+                </div>
+                <div className="tes-meta-row">
+                  <span className="tes-meta-key">Subject</span>
+                  <span className="tes-meta-val tes-meta-subject">{effectiveSubject || <em>(No subject)</em>}</span>
+                </div>
+                <div className="tes-meta-row">
+                  <span className="tes-meta-key">Attachment</span>
+                  <span className="tes-meta-val" style={{ color: "#34d399", fontSize: "0.8rem" }}>
+                    📎 Suraj_Sangale_Resume.pdf (Included Automatically)
+                  </span>
+                </div>
+              </div>
+              <div className="tes-preview-divider" />
+              <pre className="tes-preview-text">{filledBody.replace(/<[^>]+>/g, "")}</pre>
+            </div>
+          </aside>
+        </div>
       </div>
     </div>
   );
 }
 
 // ---------------------------------------------------------------------------
-// 2. Styles — dark glassmorphism premium theme
+// 3. Styles — dark glassmorphism premium theme
 // ---------------------------------------------------------------------------
 const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@600;700;800&display=swap');
@@ -338,7 +588,6 @@ const CSS = `
   --green:     #22c55e;
   --red:       #ef4444;
   --sans:      'Inter', system-ui, sans-serif;
-  // --display:   'Syne', system-ui, sans-serif;
   --radius:    14px;
   --radius-sm: 9px;
 
@@ -358,161 +607,185 @@ const CSS = `
   filter: blur(100px);
   opacity: 0.15;
   pointer-events: none;
-  animation: tes-float 14s ease-in-out infinite alternate;
+  z-index: 0;
+  animation: tes-float 12s ease-in-out infinite alternate;
 }
 .tes-orb-1 {
-  width: 650px; height: 650px;
+  width: 500px; height: 500px;
   background: radial-gradient(circle, #e05a2b 0%, transparent 70%);
-  top: -220px; left: -180px;
+  top: -100px; left: -100px;
+  animation-duration: 14s;
 }
 .tes-orb-2 {
-  width: 500px; height: 500px;
+  width: 400px; height: 400px;
   background: radial-gradient(circle, #7c3aed 0%, transparent 70%);
-  bottom: -120px; right: -120px;
-  animation-duration: 18s; animation-delay: -6s;
+  bottom: 50px; right: -80px;
+  animation-duration: 18s;
+  animation-delay: -5s;
 }
 .tes-orb-3 {
-  width: 360px; height: 360px;
-  background: radial-gradient(circle, #0ea5e9 0%, transparent 70%);
-  top: 45%; left: 48%;
-  animation-duration: 22s; animation-delay: -10s;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, #06b6d4 0%, transparent 70%);
+  top: 40%; left: 45%;
+  animation-duration: 22s;
+  animation-delay: -10s;
+  opacity: 0.08;
 }
 @keyframes tes-float {
-  0%   { transform: translate(0,0) scale(1); }
-  100% { transform: translate(45px,35px) scale(1.1); }
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(30px, 20px) scale(1.06); }
+  100% { transform: translate(-20px, 35px) scale(0.95); }
 }
 
-/* ── Wrap ────────────────────────────────────────────────────── */
+/* ── Outer wrapper ───────────────────────────────────────────── */
 .tes-wrap {
   position: relative;
   z-index: 1;
-  max-width: 1120px;
+  max-width: 1160px;
   margin: 0 auto;
-  padding: 3.5rem 1.5rem 6rem;
+  padding: 3rem 1.5rem 5rem;
 }
 
-/* ── Header ──────────────────────────────────────────────────── */
-.tes-header { margin-bottom: 3.5rem; }
+/* ── Header ─────────────────────────────────────────────────── */
+.tes-header {
+  text-align: center;
+  margin-bottom: 2.75rem;
+}
+.tes-header-top-row {
+  margin-bottom: 1rem;
+}
+.tes-breadcrumb-link {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.tes-breadcrumb-link:hover {
+  color: #38bdf8;
+}
 .tes-header-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--accent-2);
   background: rgba(224,90,43,0.1);
-  border: 1px solid rgba(224,90,43,0.22);
-  border-radius: 100px;
-  padding: 0.3rem 0.9rem;
-  margin-bottom: 1.3rem;
+  border: 1px solid rgba(224,90,43,0.25);
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  margin-bottom: 1rem;
 }
 .tes-header-dot {
   width: 6px; height: 6px;
-  background: var(--accent-2);
   border-radius: 50%;
-  animation: tes-pulse 2.2s ease-in-out infinite;
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent);
+  animation: tes-pulse 2s infinite;
 }
 @keyframes tes-pulse {
-  0%,100% { opacity: 1; transform: scale(1); }
-  50%      { opacity: 0.35; transform: scale(0.7); }
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.75); }
 }
 .tes-title {
-  font-family: var(--display);
-  font-size: clamp(2.6rem, 5.5vw, 4rem);
-  font-weight: 800;
-  line-height: 1.05;
+  font-family: var(--sans);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 700;
   letter-spacing: -0.03em;
+  line-height: 1.15;
   color: #fff;
-  margin-bottom: 1rem;
+  margin-bottom: 0.65rem;
 }
 .tes-title-accent {
-  background: linear-gradient(125deg, var(--accent) 0%, var(--accent-2) 55%, #ffb347 100%);
+  background: linear-gradient(135deg, var(--accent-2) 0%, #ffbe76 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 .tes-sub {
-  font-size: 1rem;
-  line-height: 1.7;
+  font-size: 0.95rem;
   color: var(--text-soft);
-  max-width: 500px;
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.6;
 }
 
-/* ── Grid layout ─────────────────────────────────────────────── */
+/* ── Main layout ─────────────────────────────────────────────── */
 .tes-layout {
   display: grid;
-  grid-template-columns: 230px 1fr 1fr;
-  gap: 1.25rem;
+  grid-template-columns: 260px 1fr 1fr;
+  gap: 1.5rem;
   align-items: start;
 }
-@media (max-width: 920px) {
+@media (max-width: 960px) {
   .tes-layout { grid-template-columns: 1fr 1fr; }
-  .tes-stack  { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3,1fr); gap: 0.75rem; }
-  .tes-stack-label { grid-column: 1 / -1; }
+  .tes-stack   { grid-column: 1 / -1; }
 }
-@media (max-width: 580px) {
+@media (max-width: 640px) {
   .tes-layout { grid-template-columns: 1fr; }
-  .tes-stack  { grid-template-columns: 1fr; }
 }
 
-/* ── Template cards ──────────────────────────────────────────── */
+/* ── Template list / stack ───────────────────────────────────── */
+.tes-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
 .tes-stack-label {
-  font-size: 0.67rem;
+  font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.11em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text-soft);
-  margin-bottom: 0.3rem;
-  padding-left: 0.2rem;
+  padding: 0 0.25rem 0.25rem;
 }
 .tes-card {
   position: relative;
   display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  width: 100%;
-  text-align: left;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.85rem 1rem;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 0.9rem;
-  cursor: pointer;
-  font-family: var(--sans);
+  border-radius: var(--radius);
   color: var(--text);
-  transition: all 0.22s ease;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  overflow: hidden;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
-.tes-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%);
-  opacity: 0;
-  transition: opacity 0.22s;
+.tes-card:hover {
+  background: var(--surface-2);
+  border-color: var(--border-2);
+  transform: translateY(-1px);
 }
-.tes-card:hover { border-color: var(--border-2); transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.35); }
-.tes-card:hover::after { opacity: 1; }
 .tes-card--active {
-  border-color: var(--accent);
-  background: rgba(224,90,43,0.09);
-  box-shadow: 0 0 0 1px var(--accent), 0 10px 36px var(--accent-glow);
+  background: rgba(224,90,43,0.1);
+  border-color: rgba(224,90,43,0.45);
+  box-shadow: 0 0 20px rgba(224,90,43,0.15);
 }
-.tes-card--active::after { opacity: 1; }
 .tes-card-icon {
   font-size: 1.4rem;
+  line-height: 1;
   flex-shrink: 0;
-  width: 38px; height: 38px;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid var(--border);
-  border-radius: 8px;
 }
-.tes-card-body { display: flex; flex-direction: column; gap: 0.18rem; min-width: 0; flex: 1; }
-.tes-card-label { font-size: 0.87rem; font-weight: 600; color: #fff; }
+.tes-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+.tes-card-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .tes-card-preview {
   font-size: 0.72rem;
   color: var(--text-soft);
@@ -522,13 +795,50 @@ const CSS = `
 }
 .tes-card-pip {
   position: absolute;
-  right: 0; top: 0; bottom: 0;
-  width: 3px;
-  background: linear-gradient(180deg, var(--accent) 0%, var(--accent-2) 100%);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  right: 0.85rem;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
 }
 
-/* ── Composer panel ──────────────────────────────────────────── */
+/* ── Pre-filled Company Banner ──────────────────────────────── */
+.tes-company-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 18px;
+  background: rgba(6, 182, 212, 0.12);
+  border: 1px solid rgba(6, 182, 212, 0.35);
+  border-radius: var(--radius-sm);
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: #e0f2fe;
+  flex-wrap: wrap;
+}
+.tes-company-banner-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tes-company-icon { font-size: 16px; }
+.tes-company-email {
+  color: #38bdf8;
+  font-family: monospace;
+}
+.tes-company-back-link {
+  font-size: 12px;
+  color: #38bdf8;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+.tes-company-back-link:hover {
+  text-decoration: underline;
+  opacity: 0.85;
+}
+
+/* ── Composer panel ─────────────────────────────────────────── */
 .tes-composer {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -541,170 +851,263 @@ const CSS = `
   -webkit-backdrop-filter: blur(24px);
   box-shadow: 0 4px 48px rgba(0,0,0,0.35);
 }
-.tes-composer-head {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  padding-bottom: 1.1rem;
-  border-bottom: 1px solid var(--border);
-}
-.tes-composer-icon {
-  font-size: 1.5rem;
-  width: 46px; height: 46px;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid var(--border);
-  border-radius: 11px;
-  flex-shrink: 0;
-}
-.tes-composer-label {
-  font-size: 0.67rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-soft);
-}
-.tes-composer-name {
-  font-size: 0.97rem;
-  font-weight: 600;
-  color: #fff;
-  margin-top: 0.12rem;
-}
 
-/* ── Form fields ─────────────────────────────────────────────── */
-.tes-field-group { display: flex; flex-direction: column; gap: 0.4rem; }
-.tes-flabel {
+/* ── Form rows & inputs ──────────────────────────────────────── */
+.tes-field-row {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 0.35rem;
-  font-size: 0.7rem;
-  font-weight: 700;
+}
+.tes-label {
+  font-size: 0.72rem;
+  font-weight: 600;
   letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--text-soft);
 }
-.tes-flabel-icon { font-style: normal; }
-.tes-req { color: var(--accent-2); margin-left: 0.12rem; }
+.tes-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.tes-reset-subject-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.68rem;
+  color: var(--accent-2);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.2s;
+}
+.tes-reset-subject-btn:hover {
+  text-decoration: underline;
+  opacity: 0.85;
+}
+.tes-subject-hint {
+  font-size: 0.65rem;
+  color: var(--text-soft);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.tes-required {
+  color: var(--accent);
+  margin-left: 2px;
+}
 .tes-input {
   width: 100%;
-  font-family: var(--sans);
-  font-size: 0.93rem;
-  color: var(--text);
+  padding: 0.65rem 0.9rem;
   background: rgba(255,255,255,0.05);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 0.68rem 0.9rem;
+  color: #fff;
+  font-family: var(--sans);
+  font-size: 0.88rem;
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
-  -webkit-appearance: none;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
 }
-.tes-input::placeholder { color: rgba(122,122,154,0.65); }
 .tes-input:focus {
+  background: rgba(255,255,255,0.08);
   border-color: var(--accent);
-  background: rgba(224,90,43,0.06);
   box-shadow: 0 0 0 3px var(--accent-glow);
 }
-.tes-input--err { border-color: var(--red); }
-.tes-input--err:focus { box-shadow: 0 0 0 3px rgba(239,68,68,0.22); }
-.tes-errmsg { font-size: 0.72rem; color: #f87171; font-weight: 500; }
-
-/* ── Locked notice ───────────────────────────────────────────── */
-.tes-locked {
+.tes-input::placeholder {
+  color: rgba(255,255,255,0.22);
+}
+.tes-input--error {
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px rgba(239,68,68,0.2);
+}
+.tes-textarea {
+  resize: vertical;
+  min-height: 90px;
+  line-height: 1.55;
+  font-size: 0.85rem;
+}
+.tes-error {
+  font-size: 0.68rem;
+  color: #f87171;
+  font-weight: 500;
+}
+.tes-locked-row {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
-  padding: 0.65rem 0.9rem;
-  background: rgba(255,255,255,0.025);
-  border: 1px dashed rgba(255,255,255,0.1);
-  border-radius: var(--radius-sm);
-}
-.tes-locked-pill {
-  font-size: 0.63rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-soft);
-  background: rgba(255,255,255,0.07);
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  padding: 0.15rem 0.55rem;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.tes-locked-text { font-size: 0.78rem; color: var(--text-soft); line-height: 1.45; }
-.tes-locked-text strong { color: var(--text); font-weight: 600; }
-
-/* ── Fields block ────────────────────────────────────────────── */
-.tes-fields {
-  display: flex; flex-direction: column; gap: 0.9rem;
-  padding: 1rem 1.1rem;
+  gap: 0.6rem;
+  padding: 0.55rem 0.85rem;
   background: rgba(255,255,255,0.025);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
 }
-.tes-fields-title {
-  font-size: 0.67rem;
+.tes-locked-tag {
+  font-size: 0.62rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--accent-2);
+  background: rgba(224,90,43,0.15);
+  border: 1px solid rgba(224,90,43,0.3);
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.tes-locked-copy {
+  font-size: 0.72rem;
+  color: var(--text-soft);
+  line-height: 1.4;
+}
+
+/* ── Cover letter panel & options ───────────────────────────── */
+.tes-cover-panel {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  margin-top: 4px;
+  margin-bottom: 6px;
+}
+.tes-cover-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.tes-cover-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #fb923c;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.tes-cover-sub {
+  font-size: 11px;
+  color: var(--text-soft);
+}
+.tes-presets-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.tes-preset-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  color: var(--text-soft);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.tes-preset-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  border-color: var(--border-2);
+}
+.tes-preset-btn--active {
+  background: rgba(224, 90, 43, 0.2);
+  border-color: rgba(224, 90, 43, 0.5);
+  color: #ff9d7d;
+  font-weight: 500;
+}
+
+/* ── Cover letter toggle card ───────────────────────────────── */
+.tes-cover-toggle-card {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  margin-top: 4px;
+}
+.tes-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text);
+}
+.tes-checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+.tes-presets-mt {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.tes-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
 }
 
 /* ── Send button ─────────────────────────────────────────────── */
-.tes-btn {
-  display: inline-flex;
+.tes-send {
+  position: relative;
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.55rem;
-  align-self: flex-start;
-  font-family: var(--sans);
-  font-size: 0.93rem;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  color: #fff;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.8rem 1.4rem;
   background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
   border: none;
   border-radius: var(--radius-sm);
-  padding: 0.78rem 1.8rem;
+  color: #fff;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.22s ease;
-  box-shadow: 0 4px 22px var(--accent-glow);
-  position: relative;
-  overflow: hidden;
+  box-shadow: 0 4px 20px var(--accent-glow);
+  transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+  margin-top: 0.4rem;
 }
-.tes-btn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 60%);
-  opacity: 0;
-  transition: opacity 0.22s;
+.tes-send:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 28px rgba(224,90,43,0.5);
 }
-.tes-btn:hover:not(:disabled)::before { opacity: 1; }
-.tes-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 32px var(--accent-glow); }
-.tes-btn:active:not(:disabled) { transform: translateY(1px); }
-.tes-btn:disabled { background: rgba(255,255,255,0.08); box-shadow: none; cursor: not-allowed; color: var(--text-soft); }
-.tes-btn--ok   { background: linear-gradient(135deg, #15803d, var(--green)) !important; box-shadow: 0 4px 22px rgba(34,197,94,0.35) !important; }
-.tes-btn--fail { background: linear-gradient(135deg, #991b1b, var(--red)) !important; box-shadow: 0 4px 22px rgba(239,68,68,0.35) !important; }
-
-.tes-spin {
-  width: 0.9rem; height: 0.9rem;
-  border: 2px solid rgba(255,255,255,0.28);
+.tes-send:active:not(:disabled) { transform: translateY(0); }
+.tes-send:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.tes-send--success {
+  background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+  box-shadow: 0 4px 20px rgba(34,197,94,0.35);
+}
+.tes-send--error {
+  background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+  box-shadow: 0 4px 20px rgba(239,68,68,0.35);
+}
+.tes-spinner {
+  width: 14px; height: 14px;
+  border: 2px solid rgba(255,255,255,0.35);
   border-top-color: #fff;
   border-radius: 50%;
-  animation: tes-rotate 0.65s linear infinite;
-  flex-shrink: 0;
+  animation: tes-spin 0.7s linear infinite;
 }
-@keyframes tes-rotate { to { transform: rotate(360deg); } }
-
-.tes-errbanner {
-  font-size: 0.78rem;
-  color: #fca5a5;
-  background: rgba(239,68,68,0.09);
-  border: 1px solid rgba(239,68,68,0.2);
-  border-radius: var(--radius-sm);
-  padding: 0.55rem 0.85rem;
-  line-height: 1.5;
+@keyframes tes-spin { to { transform: rotate(360deg); } }
+.tes-send-error-msg {
+  font-size: 0.75rem;
+  color: #f87171;
+  text-align: center;
 }
 
 /* ── Preview panel ───────────────────────────────────────────── */
@@ -750,7 +1153,7 @@ const CSS = `
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text-soft);
-  min-width: 3.8rem;
+  min-width: 4.8rem;
   padding-top: 0.15rem;
   flex-shrink: 0;
 }
@@ -763,7 +1166,7 @@ const CSS = `
   font-size: 0.85rem;
   line-height: 1.8;
   white-space: pre-wrap;
-  color: rgba(232,232,240,0.75);
+  color: rgba(232,232,240,0.85);
   word-break: break-word;
 }
 `;

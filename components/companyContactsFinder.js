@@ -640,6 +640,17 @@ export default function CompanyContactsFinder() {
 
                 {/* Batch Actions */}
                 <div className="batch-actions-col">
+                  {(data.hr?.[0]?.email || data.info?.[0]?.email || data.other?.[0]?.email) && (
+                    <Link
+                      href={`/send-email?to=${encodeURIComponent(data.hr?.[0]?.email || data.info?.[0]?.email || data.other?.[0]?.email)}&company=${encodeURIComponent(data.company || "")}&website=${encodeURIComponent(data.website || "")}`}
+                      className="batch-btn send-mail-btn"
+                      title="Send email and cover letter to this company"
+                    >
+                      <Send size={14} className="text-cyan-300" />
+                      <span>Send Mail / Cover Letter</span>
+                    </Link>
+                  )}
+
                   {data.hr?.length > 0 && (
                     <button
                       type="button"
@@ -857,6 +868,8 @@ export default function CompanyContactsFinder() {
                           key={`hr-${idx}`}
                           item={item}
                           category="hr"
+                          companyName={data?.company}
+                          companyWebsite={data?.website}
                           onCopy={handleCopy}
                           isCopied={copiedKey === `hr-${idx}`}
                           itemKey={`hr-${idx}`}
@@ -882,6 +895,8 @@ export default function CompanyContactsFinder() {
                           key={`info-${idx}`}
                           item={item}
                           category="info"
+                          companyName={data?.company}
+                          companyWebsite={data?.website}
                           onCopy={handleCopy}
                           isCopied={copiedKey === `info-${idx}`}
                           itemKey={`info-${idx}`}
@@ -907,6 +922,8 @@ export default function CompanyContactsFinder() {
                           key={`other-${idx}`}
                           item={item}
                           category="other"
+                          companyName={data?.company}
+                          companyWebsite={data?.website}
                           onCopy={handleCopy}
                           isCopied={copiedKey === `other-${idx}`}
                           itemKey={`other-${idx}`}
@@ -1724,6 +1741,21 @@ export default function CompanyContactsFinder() {
           border: 1px solid transparent;
         }
 
+        .batch-btn.send-mail-btn {
+          background: linear-gradient(135deg, rgba(6, 182, 212, 0.22), rgba(99, 102, 241, 0.22));
+          border-color: rgba(6, 182, 212, 0.45);
+          color: #38bdf8;
+          text-decoration: none;
+        }
+
+        .batch-btn.send-mail-btn:hover {
+          background: linear-gradient(135deg, rgba(6, 182, 212, 0.35), rgba(99, 102, 241, 0.35));
+          border-color: rgba(56, 189, 248, 0.7);
+          color: #ffffff;
+          box-shadow: 0 0 16px rgba(6, 182, 212, 0.3);
+          transform: translateY(-1px);
+        }
+
         .batch-btn.hr-btn {
           background: rgba(16, 185, 129, 0.15);
           border-color: rgba(16, 185, 129, 0.3);
@@ -2057,8 +2089,9 @@ export default function CompanyContactsFinder() {
 }
 
 // ── Contact Card Sub-Component ─────────────────────────────────────────────
-function ContactCard({ item, category, onCopy, isCopied, itemKey }) {
+function ContactCard({ item, category, companyName, companyWebsite, onCopy, isCopied, itemKey }) {
   const isHr = category === "hr";
+  const sendEmailUrl = `/send-email?to=${encodeURIComponent(item.email)}&company=${encodeURIComponent(companyName || "")}&website=${encodeURIComponent(companyWebsite || "")}&role=${encodeURIComponent("Full Stack Developer")}`;
 
   return (
     <div className={`contact-card ${isHr ? "is-hr" : ""}`}>
@@ -2072,6 +2105,15 @@ function ContactCard({ item, category, onCopy, isCopied, itemKey }) {
         </div>
 
         <div className="card-action-btns">
+          <Link
+            href={sendEmailUrl}
+            className="send-mail-portal-btn"
+            title="Compose and send email / cover letter to this contact"
+          >
+            <Send size={12} />
+            <span>Send Mail</span>
+          </Link>
+
           <button
             type="button"
             onClick={() => onCopy(item.email, itemKey)}
@@ -2082,11 +2124,11 @@ function ContactCard({ item, category, onCopy, isCopied, itemKey }) {
           </button>
 
           <a
-            href={`mailto:${item.email}?subject=Inquiry / Opportunity`}
+            href={`mailto:${item.email}?subject=Application / Opportunity — ${companyName || ""}`}
             className="action-icon-btn mail-btn"
-            title="Open in mail client"
+            title="Open in external mail client"
           >
-            <Send size={13} />
+            <ExternalLink size={13} />
           </a>
         </div>
       </div>
@@ -2212,6 +2254,32 @@ function ContactCard({ item, category, onCopy, isCopied, itemKey }) {
           flex-shrink: 0;
         }
 
+        .send-mail-portal-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          height: 30px;
+          padding: 0 10px;
+          border-radius: 8px;
+          background: rgba(6, 182, 212, 0.12);
+          border: 1px solid rgba(6, 182, 212, 0.35);
+          color: #38bdf8;
+          font-size: 12px;
+          font-weight: 500;
+          text-decoration: none;
+          cursor: pointer;
+          transition: all 0.15s ease;
+          white-space: nowrap;
+        }
+
+        .send-mail-portal-btn:hover {
+          background: rgba(6, 182, 212, 0.25);
+          border-color: rgba(6, 182, 212, 0.65);
+          color: #ffffff;
+          box-shadow: 0 0 12px rgba(6, 182, 212, 0.3);
+          transform: translateY(-1px);
+        }
+
         .action-icon-btn {
           width: 30px;
           height: 30px;
@@ -2315,12 +2383,13 @@ function ContactCard({ item, category, onCopy, isCopied, itemKey }) {
 // ── Phone Card Sub-Component ───────────────────────────────────────────────
 function PhoneCard({ phoneItem, onCopy, isCopied, itemKey }) {
   const isHr = phoneItem.type === "hr";
+  const isCallUs = phoneItem.type === "call_us" || /call\s*us/i.test(phoneItem.label || "");
 
   return (
     <div className="phone-card">
       <div className="phone-top">
         <div className="phone-display">
-          <Phone size={16} className={isHr ? "text-purple-400" : "text-sky-400"} />
+          <Phone size={16} className={isHr ? "text-purple-400" : isCallUs ? "text-emerald-400" : "text-sky-400"} />
           <span className="phone-text">{phoneItem.phone}</span>
         </div>
 
@@ -2341,8 +2410,8 @@ function PhoneCard({ phoneItem, onCopy, isCopied, itemKey }) {
       </div>
 
       <div className="phone-tags">
-        <span className={`type-tag ${isHr ? "hr-type" : "general-type"}`}>
-          {isHr ? "HR / Talent Direct" : "General Office"}
+        <span className={`type-tag ${isHr ? "hr-type" : isCallUs ? "call-type" : "general-type"}`}>
+          {phoneItem.label || (isHr ? "HR / Talent Direct" : isCallUs ? "Call Us" : "General Office")}
         </span>
 
         {phoneItem.locationMatch && (
@@ -2450,6 +2519,12 @@ function PhoneCard({ phoneItem, onCopy, isCopied, itemKey }) {
           background: rgba(192, 132, 252, 0.15);
           color: #c084fc;
           border: 1px solid rgba(192, 132, 252, 0.3);
+        }
+
+        .type-tag.call-type {
+          background: rgba(52, 211, 153, 0.15);
+          color: #34d399;
+          border: 1px solid rgba(52, 211, 153, 0.3);
         }
 
         .type-tag.general-type {
