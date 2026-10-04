@@ -104,6 +104,18 @@ const TOOLS = [
     badges: ["drag & drop", "rename", "store"],
     checker: true,
   },
+  {
+    id: 10,
+    href: "tool/company_contacts",
+    accent: "var(--accent-2)",
+    tags: ["data", "dev"],
+    featured: true,
+    icon: "🏢",
+    tag: "Intelligence · Contacts",
+    title: "Company & HR Contact Finder",
+    desc: "Discover verified HR emails, recruiter contacts, phone lines, and corporate channels for any company with live DNS MX verification.",
+    badges: ["HR emails", "DNS MX", "phones", "export"],
+  },
 ];
 
 const FILTERS = ["all", "data", "location", "text", "dev"];
