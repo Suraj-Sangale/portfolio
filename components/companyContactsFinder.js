@@ -419,43 +419,6 @@ export default function CompanyContactsFinder() {
                 )}
               </div>
 
-              {/* Quick Preset Companies */}
-              <div className="presets-container">
-                <span className="presets-label">Quick Examples:</span>
-                <div className="presets-list">
-                  {PRESET_COMPANIES.map((item, idx) => (
-                    <button
-                      key={idx}
-                      type="button"
-                      onClick={() => handleApplyPreset(item)}
-                      disabled={loading}
-                      className="preset-chip"
-                    >
-                      <span>{item.name}</span>
-                      <span className="preset-city">{item.location}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Quick Location Chips */}
-              <div className="location-chips-container">
-                <span className="presets-label">Popular Hubs:</span>
-                <div className="presets-list">
-                  {POPULAR_LOCATIONS.map((loc, idx) => (
-                    <button
-                      key={idx}
-                      type="button"
-                      onClick={() => setLocation(loc)}
-                      disabled={loading}
-                      className={`location-chip ${location === loc ? "active" : ""}`}
-                    >
-                      {loc}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
               {/* Form Buttons */}
               <div className="form-action-row">
                 <button
@@ -1944,7 +1907,7 @@ export default function CompanyContactsFinder() {
           background: rgba(11, 12, 18, 0.8);
           border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 10px;
-          padding: 6px 12px;
+          padding: 16px 12px;
           min-width: 220px;
         }
 
