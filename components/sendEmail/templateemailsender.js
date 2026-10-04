@@ -166,6 +166,7 @@ export default function TemplateEmailSender() {
   const [errorMsg, setErrorMsg] = useState("");
   const [includeCoverLetter, setIncludeCoverLetter] = useState(false);
   const [coverLetterPreset, setCoverLetterPreset] = useState("fullstack");
+  const [previewMode, setPreviewMode] = useState("visual"); // visual | raw
 
   // Sync incoming query parameters from Company Contacts Finder
   useEffect(() => {
@@ -285,7 +286,14 @@ export default function TemplateEmailSender() {
         const res = await fetch("/api/sendTemplateMail", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ to: toAddress, subject: effectiveSubject, body: filledBody }),
+          body: JSON.stringify({
+            to: toAddress,
+            subject: effectiveSubject,
+            body: filledBody,
+            companyName: values.companyName || router.query.company || "",
+            role: values.role || "",
+            yourName: values.yourName || "Suraj Sangale",
+          }),
         });
         const data = await res.json();
         if (data.status) {
@@ -535,17 +543,34 @@ export default function TemplateEmailSender() {
             )}
           </form>
 
-          {/* Live preview */}
+          {/* Live preview matching the visual email template */}
           <aside className="tes-preview" aria-label="Email preview">
             <div className="tes-preview-header">
               <div className="tes-preview-dots"><span /><span /><span /></div>
-              <span className="tes-preview-title">Live Preview</span>
+              <span className="tes-preview-title">Email Preview</span>
+              <div className="tes-preview-mode-switch">
+                <button
+                  type="button"
+                  className={`tes-mode-btn ${previewMode === "visual" ? "tes-mode-btn--active" : ""}`}
+                  onClick={() => setPreviewMode("visual")}
+                >
+                  ✉ Visual Card
+                </button>
+                <button
+                  type="button"
+                  className={`tes-mode-btn ${previewMode === "raw" ? "tes-mode-btn--active" : ""}`}
+                  onClick={() => setPreviewMode("raw")}
+                >
+                  📄 Raw Text
+                </button>
+              </div>
             </div>
+
             <div className="tes-preview-body">
               <div className="tes-preview-meta">
                 <div className="tes-meta-row">
                   <span className="tes-meta-key">To</span>
-                  <span className="tes-meta-val">{toAddress || <em>—</em>}</span>
+                  <span className="tes-meta-val">{toAddress || <em>(Enter recipient email)</em>}</span>
                 </div>
                 <div className="tes-meta-row">
                   <span className="tes-meta-key">Subject</span>
@@ -558,8 +583,138 @@ export default function TemplateEmailSender() {
                   </span>
                 </div>
               </div>
+
               <div className="tes-preview-divider" />
-              <pre className="tes-preview-text">{filledBody.replace(/<[^>]+>/g, "")}</pre>
+
+              {previewMode === "visual" ? (
+                <div className="tes-mockup-wrapper">
+                  <div className="tes-mockup-card">
+                    {/* Header with background-image header-bg.jpg & subject overlay */}
+                    <div className="tes-mockup-header">
+                      <div className="tes-mockup-header-content">
+                        <span className="tes-mockup-header-tag">
+                          FROM {(values.yourName || "SURAJ SANGALE").toUpperCase()}
+                        </span>
+                        <h2 className="tes-mockup-header-title">
+                          {effectiveSubject || "Application for Full Stack Developer Position"}
+                        </h2>
+                        {(values.companyName || router.query.company) && (
+                          <div className="tes-mockup-header-company">
+                            At <span>{values.companyName || router.query.company}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Email Content Body */}
+                    <div className="tes-mockup-body">
+                      <div className="tes-mockup-paragraphs">
+                        {filledBody
+                          .split(/\n\s*\n/)
+                          .map((p) => p.trim())
+                          .filter(Boolean)
+                          .map((p, idx) => (
+                            <p
+                              key={idx}
+                              className="tes-mockup-p"
+                              dangerouslySetInnerHTML={{ __html: p.replace(/\n/g, "<br/>") }}
+                            />
+                          ))}
+                      </div>
+
+                      {/* Signature Profile Box */}
+                      <div className="tes-mockup-signature">
+                        <div className="tes-mockup-sig-left">
+                          <div className="tes-mockup-profile">
+                            <div className="tes-mockup-avatar">
+                              {(values.yourName || "Suraj Sangale").charAt(0) || "S"}
+                            </div>
+                            <div>
+                              <div className="tes-mockup-name">{values.yourName || "Suraj Sangale"}</div>
+                              <div className="tes-mockup-role">{values.role || "Full-Stack Developer"}</div>
+                            </div>
+                          </div>
+                          <div className="tes-mockup-pills">
+                            <span className="tes-mockup-pill">React.js</span>
+                            <span className="tes-mockup-pill">Next.js</span>
+                            <span className="tes-mockup-pill">Node.js</span>
+                            <span className="tes-mockup-pill">AWS</span>
+                          </div>
+                        </div>
+
+                        <div className="tes-mockup-sig-divider" />
+
+                        <div className="tes-mockup-sig-right">
+                          <div className="tes-mockup-contact-item">
+                            <span className="tes-mockup-contact-icon tes-mockup-contact-icon--orange">📞</span>
+                            <span className="tes-mockup-contact-text">+91 70395 29129</span>
+                          </div>
+                          <div className="tes-mockup-contact-item">
+                            <span className="tes-mockup-contact-icon tes-mockup-contact-icon--orange">✉</span>
+                            <span className="tes-mockup-contact-text">surajdsangale@gmail.com</span>
+                          </div>
+                          <div className="tes-mockup-contact-item">
+                            <span className="tes-mockup-contact-icon tes-mockup-contact-icon--blue">🌐</span>
+                            <span className="tes-mockup-contact-text">surajsangale.vercel.app</span>
+                          </div>
+                          <div className="tes-mockup-contact-item">
+                            <span className="tes-mockup-contact-icon tes-mockup-contact-icon--linkedin">in</span>
+                            <span className="tes-mockup-contact-text">linkedin.com/in/suraj-sangale</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Bottom Action Cards */}
+                      <div className="tes-mockup-actions">
+                        {/* Resume Card */}
+                        <a
+                          href="https://surajsangale.vercel.app/Suraj_full_stack_developer.pdf"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="tes-mockup-action-card tes-mockup-action-card--resume"
+                        >
+                          <div className="tes-mockup-action-left">
+                            <div className="tes-mockup-action-icon tes-mockup-action-icon--resume">
+                              📄
+                            </div>
+                            <div>
+                              <div className="tes-mockup-action-title">Resume</div>
+                              <div className="tes-mockup-action-sub">suraj-sangale-resume.pdf</div>
+                            </div>
+                          </div>
+                          <div className="tes-mockup-action-btn tes-mockup-action-btn--resume">
+                            📥
+                          </div>
+                        </a>
+
+                        {/* Portfolio Card */}
+                        <a
+                          href="https://surajsangale.vercel.app"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="tes-mockup-action-card tes-mockup-action-card--portfolio"
+                        >
+                          <div className="tes-mockup-action-left">
+                            <div className="tes-mockup-action-icon tes-mockup-action-icon--portfolio">
+                              🔗
+                            </div>
+                            <div>
+                              <div className="tes-mockup-action-title">Portfolio</div>
+                              <div className="tes-mockup-action-sub">surajsangale.vercel.app</div>
+                            </div>
+                          </div>
+                          <div className="tes-mockup-action-btn tes-mockup-action-btn--portfolio">
+                            ↗
+                          </div>
+                        </a>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <pre className="tes-preview-text">{filledBody.replace(/<[^>]+>/g, "")}</pre>
+              )}
             </div>
           </aside>
         </div>
@@ -641,7 +796,7 @@ const CSS = `
 .tes-wrap {
   position: relative;
   z-index: 1;
-  max-width: 1160px;
+  max-width: 1320px;
   margin: 0 auto;
   padding: 3rem 1.5rem 5rem;
 }
@@ -715,15 +870,15 @@ const CSS = `
 /* ── Main layout ─────────────────────────────────────────────── */
 .tes-layout {
   display: grid;
-  grid-template-columns: 260px 1fr 1fr;
+  grid-template-columns: 240px 1fr 1.25fr;
   gap: 1.5rem;
   align-items: start;
 }
-@media (max-width: 960px) {
-  .tes-layout { grid-template-columns: 1fr 1fr; }
+@media (max-width: 1080px) {
+  .tes-layout { grid-template-columns: 1fr 1.15fr; }
   .tes-stack   { grid-column: 1 / -1; }
 }
-@media (max-width: 640px) {
+@media (max-width: 820px) {
   .tes-layout { grid-template-columns: 1fr; }
 }
 
@@ -1144,7 +1299,33 @@ const CSS = `
   text-transform: uppercase;
   color: var(--text-soft);
 }
-.tes-preview-body { padding: 1.3rem; }
+.tes-preview-mode-switch {
+  margin-left: auto;
+  display: flex;
+  gap: 5px;
+}
+.tes-mode-btn {
+  font-size: 11px;
+  font-family: var(--sans);
+  padding: 3px 8px;
+  border-radius: 5px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-soft);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.tes-mode-btn:hover {
+  color: #fff;
+  border-color: var(--border-2);
+}
+.tes-mode-btn--active {
+  background: rgba(224, 90, 43, 0.2);
+  border-color: rgba(224, 90, 43, 0.5);
+  color: #ff9d7d;
+  font-weight: 500;
+}
+.tes-preview-body { padding: 1.2rem; }
 .tes-preview-meta { display: flex; flex-direction: column; gap: 0.55rem; margin-bottom: 1rem; }
 .tes-meta-row { display: flex; gap: 0.65rem; align-items: flex-start; }
 .tes-meta-key {
@@ -1169,4 +1350,245 @@ const CSS = `
   color: rgba(232,232,240,0.85);
   word-break: break-word;
 }
+
+/* ── Visual Email Mockup Card ────────────────────────────────── */
+.tes-mockup-wrapper {
+  background: #f7f4ee;
+  padding: 16px;
+  border-radius: 16px;
+  max-height: 700px;
+  overflow-y: auto;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.tes-mockup-card {
+  background: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 10px 32px rgba(0,0,0,0.09);
+  border: 1px solid #ebdcd0;
+  color: #1f2937;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+.tes-mockup-header {
+  background-color: #faefe7;
+  background-image: url('/images/header-bg.jpg');
+  background-size: cover;
+  background-position: right center;
+  background-repeat: no-repeat;
+  min-height: 185px;
+  padding: 26px 22px 22px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.tes-mockup-header-content {
+  width: 63%;
+  max-width: 63%;
+}
+.tes-mockup-header-tag {
+  display: block;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #c24b27;
+  margin-bottom: 6px;
+}
+.tes-mockup-header-title {
+  margin: 0 0 6px;
+  font-size: 20px;
+  font-weight: 800;
+  color: #111827;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+.tes-mockup-header-company {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #4b5563;
+}
+.tes-mockup-header-company span {
+  color: #c24b27;
+  font-weight: 700;
+}
+.tes-mockup-body {
+  padding: 22px 22px 24px;
+  background: #ffffff;
+}
+.tes-mockup-paragraphs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.tes-mockup-p {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: #2d3748;
+  margin: 0;
+}
+.tes-mockup-p b, .tes-mockup-p strong {
+  color: #111827;
+  font-weight: 700;
+}
+.tes-mockup-signature {
+  background: #fbf5ef;
+  border: 1px solid #f3e6d8;
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin: 22px 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.tes-mockup-sig-left {
+  flex: 1;
+}
+.tes-mockup-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 9px;
+}
+.tes-mockup-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #c24b27 0%, #de6537 100%);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.tes-mockup-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.2;
+}
+.tes-mockup-role {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #c24b27;
+  margin-top: 2px;
+}
+.tes-mockup-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.tes-mockup-pill {
+  background: #f1e3d6;
+  color: #5d4b3e;
+  font-size: 9.5px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+.tes-mockup-sig-divider {
+  width: 1px;
+  background: #e8d9cc;
+  align-self: stretch;
+}
+.tes-mockup-sig-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.tes-mockup-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #374151;
+  font-weight: 500;
+}
+.tes-mockup-contact-icon {
+  font-size: 11.5px;
+  flex-shrink: 0;
+}
+.tes-mockup-contact-icon--orange { color: #c24b27; }
+.tes-mockup-contact-icon--blue { color: #2563eb; }
+.tes-mockup-contact-icon--linkedin {
+  background: #0077b5;
+  color: #fff;
+  font-size: 8.5px;
+  font-weight: 800;
+  padding: 1px 3px;
+  border-radius: 2px;
+  line-height: 1;
+}
+.tes-mockup-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+.tes-mockup-action-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: 11px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.tes-mockup-action-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+.tes-mockup-action-card--resume {
+  background: #fdf2ee;
+  border: 1px solid #fae0d4;
+}
+.tes-mockup-action-card--portfolio {
+  background: #f0f7ff;
+  border: 1px solid #d9ebff;
+}
+.tes-mockup-action-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tes-mockup-action-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+.tes-mockup-action-icon--resume {
+  background: #f8ded4;
+}
+.tes-mockup-action-icon--portfolio {
+  background: #0070f3;
+  color: #fff;
+  border-radius: 50%;
+}
+.tes-mockup-action-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.2;
+}
+.tes-mockup-action-sub {
+  font-size: 10px;
+  color: #6b7280;
+  margin-top: 1px;
+}
+.tes-mockup-action-btn {
+  font-size: 13px;
+  font-weight: 700;
+}
+.tes-mockup-action-btn--resume { color: #c24b27; }
+.tes-mockup-action-btn--portfolio { color: #0070f3; }
 `;
+
