@@ -589,7 +589,7 @@ export default function TemplateEmailSender() {
               {previewMode === "visual" ? (
                 <div className="tes-mockup-wrapper">
                   <div className="tes-mockup-card">
-                    {/* Header with background-image header-bg.jpg & subject overlay */}
+                    {/* Header with background-image suraj.jpg & subject overlay */}
                     <div className="tes-mockup-header">
                       <div className="tes-mockup-header-content">
                         <span className="tes-mockup-header-tag">
@@ -1371,7 +1371,7 @@ const CSS = `
 }
 .tes-mockup-header {
   background-color: #faefe7;
-  background-image: url('/images/header-bg.jpg');
+  background-image: url('/images/suraj.jpg');
   background-size: cover;
   background-position: right center;
   background-repeat: no-repeat;

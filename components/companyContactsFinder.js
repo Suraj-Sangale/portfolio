@@ -85,7 +85,9 @@ export default function CompanyContactsFinder() {
     if (loading) {
       setScanStepIndex(0);
       interval = setInterval(() => {
-        setScanStepIndex((prev) => (prev < SCAN_STEPS.length - 1 ? prev + 1 : prev));
+        setScanStepIndex((prev) =>
+          prev < SCAN_STEPS.length - 1 ? prev + 1 : prev,
+        );
       }, 2200);
     }
     return () => clearInterval(interval);
@@ -110,10 +112,13 @@ export default function CompanyContactsFinder() {
         company: companyName,
         location: loc,
         website: web,
-        timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+        timestamp: new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
       };
       const filtered = recentSearches.filter(
-        (item) => item.company.toLowerCase() !== companyName.toLowerCase()
+        (item) => item.company.toLowerCase() !== companyName.toLowerCase(),
       );
       const updated = [newItem, ...filtered].slice(0, 8);
       setRecentSearches(updated);
@@ -161,7 +166,9 @@ export default function CompanyContactsFinder() {
       saveToHistory(trimmedCompany, location.trim(), website.trim());
     } catch (err) {
       console.error("Search failed:", err);
-      setError(err.message || "Failed to contact discovery service. Please try again.");
+      setError(
+        err.message || "Failed to contact discovery service. Please try again.",
+      );
     } finally {
       setLoading(false);
     }
@@ -206,26 +213,68 @@ export default function CompanyContactsFinder() {
   // Export as CSV
   const handleExportCSV = () => {
     if (!data) return;
-    const rows = [["Type", "Contact", "Domain Match", "Location Match", "MX Valid", "Source Page"]];
+    const rows = [
+      [
+        "Type",
+        "Contact",
+        "Domain Match",
+        "Location Match",
+        "MX Valid",
+        "Source Page",
+      ],
+    ];
 
     (data.hr || []).forEach((e) =>
-      rows.push(["HR Email", e.email, e.sameDomain ? "Yes" : "No", e.locationMatch ? "Yes" : "No", e.domainCanReceiveMail ? "Valid" : "Invalid", e.source || ""])
+      rows.push([
+        "HR Email",
+        e.email,
+        e.sameDomain ? "Yes" : "No",
+        e.locationMatch ? "Yes" : "No",
+        e.domainCanReceiveMail ? "Valid" : "Invalid",
+        e.source || "",
+      ]),
     );
     (data.info || []).forEach((e) =>
-      rows.push(["General Email", e.email, e.sameDomain ? "Yes" : "No", e.locationMatch ? "Yes" : "No", e.domainCanReceiveMail ? "Valid" : "Invalid", e.source || ""])
+      rows.push([
+        "General Email",
+        e.email,
+        e.sameDomain ? "Yes" : "No",
+        e.locationMatch ? "Yes" : "No",
+        e.domainCanReceiveMail ? "Valid" : "Invalid",
+        e.source || "",
+      ]),
     );
     (data.other || []).forEach((e) =>
-      rows.push(["Other Email", e.email, e.sameDomain ? "Yes" : "No", e.locationMatch ? "Yes" : "No", e.domainCanReceiveMail ? "Valid" : "Invalid", e.source || ""])
+      rows.push([
+        "Other Email",
+        e.email,
+        e.sameDomain ? "Yes" : "No",
+        e.locationMatch ? "Yes" : "No",
+        e.domainCanReceiveMail ? "Valid" : "Invalid",
+        e.source || "",
+      ]),
     );
     (data.phones || []).forEach((p) =>
-      rows.push(["Phone", p.phone, "-", p.locationMatch ? "Yes" : "No", "-", p.source || ""])
+      rows.push([
+        "Phone",
+        p.phone,
+        "-",
+        p.locationMatch ? "Yes" : "No",
+        "-",
+        p.source || "",
+      ]),
     );
 
-    const csvContent = "data:text/csv;charset=utf-8," + rows.map((r) => r.map((cell) => `"${cell}"`).join(",")).join("\n");
+    const csvContent =
+      "data:text/csv;charset=utf-8," +
+      rows.map((r) => r.map((cell) => `"${cell}"`).join(",")).join("\n");
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `${(data.company || "company").toLowerCase().replace(/\s+/g, "_")}_contacts.csv`);
+    link.setAttribute(
+      "download",
+      `${(data.company || "company").toLowerCase().replace(/\s+/g, "_")}_contacts.csv`,
+    );
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -234,7 +283,9 @@ export default function CompanyContactsFinder() {
   // Export as JSON
   const handleExportJSON = () => {
     if (!data) return;
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const blob = new Blob([JSON.stringify(data, null, 2)], {
+      type: "application/json",
+    });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -253,7 +304,7 @@ export default function CompanyContactsFinder() {
       (item) =>
         (item.email && item.email.toLowerCase().includes(query)) ||
         (item.phone && item.phone.toLowerCase().includes(query)) ||
-        (item.source && item.source.toLowerCase().includes(query))
+        (item.source && item.source.toLowerCase().includes(query)),
     );
   };
 
@@ -261,7 +312,10 @@ export default function CompanyContactsFinder() {
   const infoFiltered = filterList(data?.info);
   const otherFiltered = filterList(data?.other);
   const phonesFiltered = filterList(data?.phones);
-  const totalEmailsCount = (data?.hr?.length || 0) + (data?.info?.length || 0) + (data?.other?.length || 0);
+  const totalEmailsCount =
+    (data?.hr?.length || 0) +
+    (data?.info?.length || 0) +
+    (data?.other?.length || 0);
 
   return (
     <>
@@ -300,10 +354,13 @@ export default function CompanyContactsFinder() {
               <span>Real-Time Corporate Discovery & MX Verification</span>
             </div>
             <h1 className="hero-title">
-              Find Verified <span className="gradient-text">HR & Company Contacts</span>
+              Find Verified{" "}
+              <span className="gradient-text">HR & Company Contacts</span>
             </h1>
             <p className="hero-subtitle">
-              Instantly crawl official websites, extract recruiter emails, discover phone lines, and verify DNS deliverability — without expensive paid APIs.
+              Instantly crawl official websites, extract recruiter emails,
+              discover phone lines, and verify DNS deliverability — without
+              expensive paid APIs.
             </p>
           </motion.div>
 
@@ -387,7 +444,9 @@ export default function CompanyContactsFinder() {
                     className="toggle-website-btn"
                   >
                     <Globe size={14} />
-                    <span>+ Add Official Website URL (Faster & more accurate)</span>
+                    <span>
+                      + Add Official Website URL (Faster & more accurate)
+                    </span>
                   </button>
                 ) : (
                   <div className="input-group website-input-group">
@@ -489,8 +548,12 @@ export default function CompanyContactsFinder() {
                     }}
                     className="history-pill"
                   >
-                    <span className="font-medium text-neutral-200">{item.company}</span>
-                    {item.location && <span className="history-loc">({item.location})</span>}
+                    <span className="font-medium text-neutral-200">
+                      {item.company}
+                    </span>
+                    {item.location && (
+                      <span className="history-loc">({item.location})</span>
+                    )}
                   </button>
                 ))}
               </div>
@@ -512,7 +575,8 @@ export default function CompanyContactsFinder() {
                 </div>
                 <h3 className="loading-title">Crawling Company Intelligence</h3>
                 <p className="loading-desc">
-                  Scanning for official contact portals, careers pages, emails, and checking DNS MX records...
+                  Scanning for official contact portals, careers pages, emails,
+                  and checking DNS MX records...
                 </p>
 
                 <div className="progress-steps-list">
@@ -528,7 +592,10 @@ export default function CompanyContactsFinder() {
                           {isDone ? (
                             <Check size={12} className="text-white" />
                           ) : isCurrent ? (
-                            <RefreshCw size={12} className="animate-spin text-cyan-400" />
+                            <RefreshCw
+                              size={12}
+                              className="animate-spin text-cyan-400"
+                            />
                           ) : (
                             <span className="step-number">{idx + 1}</span>
                           )}
@@ -554,7 +621,8 @@ export default function CompanyContactsFinder() {
                 <h4 className="error-heading">Search Encountered an Issue</h4>
                 <p className="error-text">{error}</p>
                 <p className="error-hint">
-                  Tip: Provide the direct website domain (e.g., <code>domain.com</code>) to bypass search engine discovery.
+                  Tip: Provide the direct website domain (e.g.,{" "}
+                  <code>domain.com</code>) to bypass search engine discovery.
                 </p>
               </div>
             </motion.div>
@@ -590,7 +658,9 @@ export default function CompanyContactsFinder() {
                       className="company-website-link"
                     >
                       <Globe size={15} />
-                      <span>{data.website.replace(/^https?:\/\/(www\.)?/, "")}</span>
+                      <span>
+                        {data.website.replace(/^https?:\/\/(www\.)?/, "")}
+                      </span>
                       <ExternalLink size={13} />
                     </a>
                   ) : (
@@ -603,7 +673,9 @@ export default function CompanyContactsFinder() {
 
                 {/* Batch Actions */}
                 <div className="batch-actions-col">
-                  {(data.hr?.[0]?.email || data.info?.[0]?.email || data.other?.[0]?.email) && (
+                  {(data.hr?.[0]?.email ||
+                    data.info?.[0]?.email ||
+                    data.other?.[0]?.email) && (
                     <Link
                       href={`/send-email?to=${encodeURIComponent(data.hr?.[0]?.email || data.info?.[0]?.email || data.other?.[0]?.email)}&company=${encodeURIComponent(data.company || "")}&website=${encodeURIComponent(data.website || "")}`}
                       className="batch-btn send-mail-btn"
@@ -704,7 +776,9 @@ export default function CompanyContactsFinder() {
                     <Phone size={20} />
                   </div>
                   <div>
-                    <div className="stat-number">{data.phones?.length || 0}</div>
+                    <div className="stat-number">
+                      {data.phones?.length || 0}
+                    </div>
                     <div className="stat-label">Phone Numbers</div>
                   </div>
                 </div>
@@ -714,7 +788,9 @@ export default function CompanyContactsFinder() {
                     <Layers size={20} />
                   </div>
                   <div>
-                    <div className="stat-number">{data.pagesChecked?.length || 0}</div>
+                    <div className="stat-number">
+                      {data.pagesChecked?.length || 0}
+                    </div>
                     <div className="stat-label">Pages Checked</div>
                   </div>
                 </div>
@@ -725,7 +801,9 @@ export default function CompanyContactsFinder() {
                 <div className="notes-banner">
                   <Info size={18} className="text-amber-400 shrink-0 mt-0.5" />
                   <div className="notes-text">
-                    <p className="font-semibold text-amber-200">Scan Diagnostic Note</p>
+                    <p className="font-semibold text-amber-200">
+                      Scan Diagnostic Note
+                    </p>
                     <p>{data.notes}</p>
                   </div>
                 </div>
@@ -740,7 +818,9 @@ export default function CompanyContactsFinder() {
                     className={`tab-btn ${activeTab === "all" ? "active" : ""}`}
                   >
                     <span>All Contacts</span>
-                    <span className="tab-count">{totalEmailsCount + (data.phones?.length || 0)}</span>
+                    <span className="tab-count">
+                      {totalEmailsCount + (data.phones?.length || 0)}
+                    </span>
                   </button>
 
                   <button
@@ -749,7 +829,9 @@ export default function CompanyContactsFinder() {
                     className={`tab-btn ${activeTab === "hr" ? "active" : ""}`}
                   >
                     <span>💼 HR & Careers</span>
-                    <span className="tab-count hr-count">{data.hr?.length || 0}</span>
+                    <span className="tab-count hr-count">
+                      {data.hr?.length || 0}
+                    </span>
                   </button>
 
                   <button
@@ -768,7 +850,9 @@ export default function CompanyContactsFinder() {
                       className={`tab-btn ${activeTab === "other" ? "active" : ""}`}
                     >
                       <span>Other</span>
-                      <span className="tab-count">{data.other?.length || 0}</span>
+                      <span className="tab-count">
+                        {data.other?.length || 0}
+                      </span>
                     </button>
                   )}
 
@@ -778,7 +862,9 @@ export default function CompanyContactsFinder() {
                     className={`tab-btn ${activeTab === "phones" ? "active" : ""}`}
                   >
                     <span>📞 Phones</span>
-                    <span className="tab-count">{data.phones?.length || 0}</span>
+                    <span className="tab-count">
+                      {data.phones?.length || 0}
+                    </span>
                   </button>
 
                   <button
@@ -787,7 +873,9 @@ export default function CompanyContactsFinder() {
                     className={`tab-btn ${activeTab === "pages" ? "active" : ""}`}
                   >
                     <span>Audit Log</span>
-                    <span className="tab-count">{data.pagesChecked?.length || 0}</span>
+                    <span className="tab-count">
+                      {data.pagesChecked?.length || 0}
+                    </span>
                   </button>
                 </div>
 
@@ -816,109 +904,130 @@ export default function CompanyContactsFinder() {
               {/* Contacts Display Body */}
               <div className="tab-content-area">
                 {/* 1. ALL OR HR TAB */}
-                {(activeTab === "all" || activeTab === "hr") && hrFiltered.length > 0 && (
-                  <div className="contact-category-section">
-                    <div className="category-header">
-                      <div className="flex items-center gap-2">
-                        <span className="category-pill hr-pill">HR & Recruiting Desks</span>
-                        <span className="category-sub">Direct emails for jobs, applications, and talent teams</span>
+                {(activeTab === "all" || activeTab === "hr") &&
+                  hrFiltered.length > 0 && (
+                    <div className="contact-category-section">
+                      <div className="category-header">
+                        <div className="flex items-center gap-2">
+                          <span className="category-pill hr-pill">
+                            HR & Recruiting Desks
+                          </span>
+                          <span className="category-sub">
+                            Direct emails for jobs, applications, and talent
+                            teams
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="contacts-grid">
+                        {hrFiltered.map((item, idx) => (
+                          <ContactCard
+                            key={`hr-${idx}`}
+                            item={item}
+                            category="hr"
+                            companyName={data?.company}
+                            companyWebsite={data?.website}
+                            onCopy={handleCopy}
+                            isCopied={copiedKey === `hr-${idx}`}
+                            itemKey={`hr-${idx}`}
+                          />
+                        ))}
                       </div>
                     </div>
-
-                    <div className="contacts-grid">
-                      {hrFiltered.map((item, idx) => (
-                        <ContactCard
-                          key={`hr-${idx}`}
-                          item={item}
-                          category="hr"
-                          companyName={data?.company}
-                          companyWebsite={data?.website}
-                          onCopy={handleCopy}
-                          isCopied={copiedKey === `hr-${idx}`}
-                          itemKey={`hr-${idx}`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                )}
+                  )}
 
                 {/* 2. ALL OR INFO TAB */}
-                {(activeTab === "all" || activeTab === "info") && infoFiltered.length > 0 && (
-                  <div className="contact-category-section">
-                    <div className="category-header">
-                      <div className="flex items-center gap-2">
-                        <span className="category-pill info-pill">General & Office Desks</span>
-                        <span className="category-sub">General corporate inquiries, hello, and support</span>
+                {(activeTab === "all" || activeTab === "info") &&
+                  infoFiltered.length > 0 && (
+                    <div className="contact-category-section">
+                      <div className="category-header">
+                        <div className="flex items-center gap-2">
+                          <span className="category-pill info-pill">
+                            General & Office Desks
+                          </span>
+                          <span className="category-sub">
+                            General corporate inquiries, hello, and support
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="contacts-grid">
+                        {infoFiltered.map((item, idx) => (
+                          <ContactCard
+                            key={`info-${idx}`}
+                            item={item}
+                            category="info"
+                            companyName={data?.company}
+                            companyWebsite={data?.website}
+                            onCopy={handleCopy}
+                            isCopied={copiedKey === `info-${idx}`}
+                            itemKey={`info-${idx}`}
+                          />
+                        ))}
                       </div>
                     </div>
-
-                    <div className="contacts-grid">
-                      {infoFiltered.map((item, idx) => (
-                        <ContactCard
-                          key={`info-${idx}`}
-                          item={item}
-                          category="info"
-                          companyName={data?.company}
-                          companyWebsite={data?.website}
-                          onCopy={handleCopy}
-                          isCopied={copiedKey === `info-${idx}`}
-                          itemKey={`info-${idx}`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                )}
+                  )}
 
                 {/* 3. ALL OR OTHER TAB */}
-                {(activeTab === "all" || activeTab === "other") && otherFiltered.length > 0 && (
-                  <div className="contact-category-section">
-                    <div className="category-header">
-                      <div className="flex items-center gap-2">
-                        <span className="category-pill other-pill">Other Corporate Addresses</span>
-                        <span className="category-sub">Found on official domain pages</span>
+                {(activeTab === "all" || activeTab === "other") &&
+                  otherFiltered.length > 0 && (
+                    <div className="contact-category-section">
+                      <div className="category-header">
+                        <div className="flex items-center gap-2">
+                          <span className="category-pill other-pill">
+                            Other Corporate Addresses
+                          </span>
+                          <span className="category-sub">
+                            Found on official domain pages
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="contacts-grid">
+                        {otherFiltered.map((item, idx) => (
+                          <ContactCard
+                            key={`other-${idx}`}
+                            item={item}
+                            category="other"
+                            companyName={data?.company}
+                            companyWebsite={data?.website}
+                            onCopy={handleCopy}
+                            isCopied={copiedKey === `other-${idx}`}
+                            itemKey={`other-${idx}`}
+                          />
+                        ))}
                       </div>
                     </div>
-
-                    <div className="contacts-grid">
-                      {otherFiltered.map((item, idx) => (
-                        <ContactCard
-                          key={`other-${idx}`}
-                          item={item}
-                          category="other"
-                          companyName={data?.company}
-                          companyWebsite={data?.website}
-                          onCopy={handleCopy}
-                          isCopied={copiedKey === `other-${idx}`}
-                          itemKey={`other-${idx}`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                )}
+                  )}
 
                 {/* 4. ALL OR PHONES TAB */}
-                {(activeTab === "all" || activeTab === "phones") && phonesFiltered.length > 0 && (
-                  <div className="contact-category-section">
-                    <div className="category-header">
-                      <div className="flex items-center gap-2">
-                        <span className="category-pill phone-pill">Phone Numbers</span>
-                        <span className="category-sub">Direct office lines & recruitment contacts</span>
+                {(activeTab === "all" || activeTab === "phones") &&
+                  phonesFiltered.length > 0 && (
+                    <div className="contact-category-section">
+                      <div className="category-header">
+                        <div className="flex items-center gap-2">
+                          <span className="category-pill phone-pill">
+                            Phone Numbers
+                          </span>
+                          <span className="category-sub">
+                            Direct office lines & recruitment contacts
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="contacts-grid">
+                        {phonesFiltered.map((phoneItem, idx) => (
+                          <PhoneCard
+                            key={`phone-${idx}`}
+                            phoneItem={phoneItem}
+                            onCopy={handleCopy}
+                            isCopied={copiedKey === `phone-${idx}`}
+                            itemKey={`phone-${idx}`}
+                          />
+                        ))}
                       </div>
                     </div>
-
-                    <div className="contacts-grid">
-                      {phonesFiltered.map((phoneItem, idx) => (
-                        <PhoneCard
-                          key={`phone-${idx}`}
-                          phoneItem={phoneItem}
-                          onCopy={handleCopy}
-                          isCopied={copiedKey === `phone-${idx}`}
-                          itemKey={`phone-${idx}`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                )}
+                  )}
 
                 {/* 5. AUDIT LOG TAB */}
                 {activeTab === "pages" && (
@@ -928,7 +1037,8 @@ export default function CompanyContactsFinder() {
                         Pages Traversed ({data.pagesChecked?.length || 0})
                       </h3>
                       <p className="text-xs text-neutral-400">
-                        The scraper fetched and inspected the following internal URLs for contact information:
+                        The scraper fetched and inspected the following internal
+                        URLs for contact information:
                       </p>
                     </div>
 
@@ -943,7 +1053,10 @@ export default function CompanyContactsFinder() {
                         >
                           <span className="audit-index">{idx + 1}</span>
                           <span className="audit-url">{url}</span>
-                          <ExternalLink size={13} className="shrink-0 text-neutral-500" />
+                          <ExternalLink
+                            size={13}
+                            className="shrink-0 text-neutral-500"
+                          />
                         </a>
                       ))}
                     </div>
@@ -962,7 +1075,9 @@ export default function CompanyContactsFinder() {
                     phonesFiltered.length === 0)) && (
                   <div className="empty-tab-state">
                     <HelpCircle size={36} className="text-neutral-500 mb-2" />
-                    <p className="text-neutral-300 font-medium">No contacts match the current view.</p>
+                    <p className="text-neutral-300 font-medium">
+                      No contacts match the current view.
+                    </p>
                     <p className="text-xs text-neutral-500 mt-1 max-w-md text-center">
                       {searchFilter
                         ? `No items found matching "${searchFilter}". Try clearing the filter.`
@@ -1093,7 +1208,12 @@ export default function CompanyContactsFinder() {
         }
 
         .gradient-text {
-          background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+          background: linear-gradient(
+            135deg,
+            #38bdf8 0%,
+            #818cf8 50%,
+            #c084fc 100%
+          );
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
         }
@@ -1705,14 +1825,22 @@ export default function CompanyContactsFinder() {
         }
 
         .batch-btn.send-mail-btn {
-          background: linear-gradient(135deg, rgba(6, 182, 212, 0.22), rgba(99, 102, 241, 0.22));
+          background: linear-gradient(
+            135deg,
+            rgba(6, 182, 212, 0.22),
+            rgba(99, 102, 241, 0.22)
+          );
           border-color: rgba(6, 182, 212, 0.45);
           color: #38bdf8;
           text-decoration: none;
         }
 
         .batch-btn.send-mail-btn:hover {
-          background: linear-gradient(135deg, rgba(6, 182, 212, 0.35), rgba(99, 102, 241, 0.35));
+          background: linear-gradient(
+            135deg,
+            rgba(6, 182, 212, 0.35),
+            rgba(99, 102, 241, 0.35)
+          );
           border-color: rgba(56, 189, 248, 0.7);
           color: #ffffff;
           box-shadow: 0 0 16px rgba(6, 182, 212, 0.3);
@@ -2052,7 +2180,15 @@ export default function CompanyContactsFinder() {
 }
 
 // ── Contact Card Sub-Component ─────────────────────────────────────────────
-function ContactCard({ item, category, companyName, companyWebsite, onCopy, isCopied, itemKey }) {
+function ContactCard({
+  item,
+  category,
+  companyName,
+  companyWebsite,
+  onCopy,
+  isCopied,
+  itemKey,
+}) {
   const isHr = category === "hr";
   const sendEmailUrl = `/send-email?to=${encodeURIComponent(item.email)}&company=${encodeURIComponent(companyName || "")}&website=${encodeURIComponent(companyWebsite || "")}&role=${encodeURIComponent("Full Stack Developer")}`;
 
@@ -2061,7 +2197,10 @@ function ContactCard({ item, category, companyName, companyWebsite, onCopy, isCo
       {/* Top row: Email and Copy/Mail actions */}
       <div className="card-top">
         <div className="email-display-wrap">
-          <Mail size={16} className={`shrink-0 ${isHr ? "text-emerald-400" : "text-sky-400"}`} />
+          <Mail
+            size={16}
+            className={`shrink-0 ${isHr ? "text-emerald-400" : "text-sky-400"}`}
+          />
           <span className="email-text" title={item.email}>
             {item.email}
           </span>
@@ -2070,6 +2209,7 @@ function ContactCard({ item, category, companyName, companyWebsite, onCopy, isCo
         <div className="card-action-btns">
           <Link
             href={sendEmailUrl}
+            target="_blank"
             className="send-mail-portal-btn"
             title="Compose and send email / cover letter to this contact"
           >
@@ -2083,7 +2223,11 @@ function ContactCard({ item, category, companyName, companyWebsite, onCopy, isCo
             className="action-icon-btn copy-btn"
             title="Copy email to clipboard"
           >
-            {isCopied ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
+            {isCopied ? (
+              <Check size={14} className="text-emerald-400" />
+            ) : (
+              <Copy size={14} />
+            )}
           </button>
 
           <a
@@ -2136,7 +2280,9 @@ function ContactCard({ item, category, companyName, companyWebsite, onCopy, isCo
         {item.sameDomain ? (
           <span className="meta-badge domain-badge">Official Domain</span>
         ) : (
-          <span className="meta-badge third-party-badge">External ATS / Domain</span>
+          <span className="meta-badge third-party-badge">
+            External ATS / Domain
+          </span>
         )}
       </div>
 
@@ -2225,7 +2371,6 @@ function ContactCard({ item, category, companyName, companyWebsite, onCopy, isCo
           padding: 0 10px;
           border-radius: 8px;
           background: rgba(6, 182, 212, 0.12);
-          border: 1px solid rgba(6, 182, 212, 0.35);
           color: #38bdf8;
           font-size: 12px;
           font-weight: 500;
@@ -2233,6 +2378,8 @@ function ContactCard({ item, category, companyName, companyWebsite, onCopy, isCo
           cursor: pointer;
           transition: all 0.15s ease;
           white-space: nowrap;
+          border: 1px solid red;
+          padding: 2px 10px;
         }
 
         .send-mail-portal-btn:hover {
@@ -2346,13 +2493,23 @@ function ContactCard({ item, category, companyName, companyWebsite, onCopy, isCo
 // ── Phone Card Sub-Component ───────────────────────────────────────────────
 function PhoneCard({ phoneItem, onCopy, isCopied, itemKey }) {
   const isHr = phoneItem.type === "hr";
-  const isCallUs = phoneItem.type === "call_us" || /call\s*us/i.test(phoneItem.label || "");
+  const isCallUs =
+    phoneItem.type === "call_us" || /call\s*us/i.test(phoneItem.label || "");
 
   return (
     <div className="phone-card">
       <div className="phone-top">
         <div className="phone-display">
-          <Phone size={16} className={isHr ? "text-purple-400" : isCallUs ? "text-emerald-400" : "text-sky-400"} />
+          <Phone
+            size={16}
+            className={
+              isHr
+                ? "text-purple-400"
+                : isCallUs
+                  ? "text-emerald-400"
+                  : "text-sky-400"
+            }
+          />
           <span className="phone-text">{phoneItem.phone}</span>
         </div>
 
@@ -2363,18 +2520,33 @@ function PhoneCard({ phoneItem, onCopy, isCopied, itemKey }) {
             className="action-icon-btn"
             title="Copy number"
           >
-            {isCopied ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
+            {isCopied ? (
+              <Check size={14} className="text-emerald-400" />
+            ) : (
+              <Copy size={14} />
+            )}
           </button>
 
-          <a href={`tel:${phoneItem.phone}`} className="action-icon-btn" title="Call number">
+          <a
+            href={`tel:${phoneItem.phone}`}
+            className="action-icon-btn"
+            title="Call number"
+          >
             <Phone size={13} />
           </a>
         </div>
       </div>
 
       <div className="phone-tags">
-        <span className={`type-tag ${isHr ? "hr-type" : isCallUs ? "call-type" : "general-type"}`}>
-          {phoneItem.label || (isHr ? "HR / Talent Direct" : isCallUs ? "Call Us" : "General Office")}
+        <span
+          className={`type-tag ${isHr ? "hr-type" : isCallUs ? "call-type" : "general-type"}`}
+        >
+          {phoneItem.label ||
+            (isHr
+              ? "HR / Talent Direct"
+              : isCallUs
+                ? "Call Us"
+                : "General Office")}
         </span>
 
         {phoneItem.locationMatch && (
