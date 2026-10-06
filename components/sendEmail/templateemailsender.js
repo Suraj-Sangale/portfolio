@@ -27,7 +27,7 @@ const COVER_LETTER_PRESETS = {
   backend: {
     label: "Backend & Systems Engineer",
     icon: "⚡",
-    text: "I bring strong foundations in server-side engineering, microservices, REST/GraphQL API design, and cloud deployments with Node.js and AWS. I focus on writing reliable, clean code, automating development workflows, and ensuring systems scale gracefully under demanding production workloads.",
+    text: "I bring strong foundations in server-side engineering, microservices, REST/GraphQL API design, and cloud deployments with Node.js, Redis, Python and AWS. I focus on writing reliable, clean code, automating development workflows, and ensuring systems scale gracefully under demanding production workloads.",
   },
   general: {
     label: "Adaptive & Mission-Driven",
@@ -50,7 +50,7 @@ const TEMPLATES = [
     body:
       "Dear {{hiringManager}},\n\n" +
       "I am writing to express my strong enthusiasm and application for the <b>{{role}}</b> position at <b>{{companyName}}</b>. " +
-      "With hands-on expertise building scalable, modern web applications using <b>React, Next.js, Node.js, and cloud architectures</b>, " +
+      "With hands-on expertise building scalable, modern web applications using <b>React, Next.js, Node.js, Redis, Python and cloud architectures</b>, " +
       "I am eager to contribute to {{companyName}}'s engineering team and mission.\n\n" +
       "Throughout my development journey, I have prioritized writing clean, maintainable code, designing resilient API backends, " +
       "and delivering seamless, high-performance user interfaces. I pride myself on solving complex technical challenges proactively and communicating transparently.\n\n" +
@@ -84,7 +84,7 @@ const TEMPLATES = [
     body:
       "Hello {{hiringManager}},\n\n" +
       "I'm writing to apply for the <b>{{role}}</b> position at <b>{{companyName}}</b>. " +
-      "I work as a full stack developer with <b>React, Next.js, Node.js</b> and " +
+      "I work as a full stack developer with <b>React, Next.js, Node.js, Redis, Python</b> and " +
       "<b>AWS</b>, and I'd welcome the chance to bring that to your team.\n\n" +
       "I've attached my <b>resume and portfolio</b> for your review. Happy to " +
       "share more detail on anything relevant.",
