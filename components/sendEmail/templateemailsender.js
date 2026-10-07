@@ -668,7 +668,7 @@ export default function TemplateEmailSender() {
                       <div className="tes-mockup-actions">
                         {/* Resume Card */}
                         <a
-                          href="https://surajsangale.vercel.app/Suraj_full_stack_developer.pdf"
+                          href="https://surajsangale.vercel.app/suraj_full_stack_developer.pdf"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="tes-mockup-action-card tes-mockup-action-card--resume"

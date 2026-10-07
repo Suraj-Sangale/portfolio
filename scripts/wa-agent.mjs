@@ -98,6 +98,7 @@ try {
 }
 
 const RESUME_PATHS = [
+  path.join(process.cwd(), "public", "suraj_full_stack_developer.pdf"),
   path.join(process.cwd(), "public", "Suraj_full_stack_developer.pdf"),
   path.join(process.cwd(), "public", "Suraj_full_stack_developer1.pdf"),
   path.join(process.cwd(), "public", "Suraj_full_stack_developer2.pdf"),

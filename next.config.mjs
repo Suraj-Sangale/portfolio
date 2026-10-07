@@ -4,6 +4,9 @@ const nextConfig = {
   turbopack: {},
   // Exclude server-only packages from client bundle
   serverExternalPackages: ["ioredis"],
+  outputFileTracingIncludes: {
+    "/api/**/*": ["./public/**/*"],
+  },
   images: {
     remotePatterns: [
       {

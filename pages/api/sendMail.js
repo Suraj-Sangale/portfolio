@@ -18,7 +18,17 @@ export default async function handler(req, res) {
     yourName,
   } = req.body;
 
-  const targetTo = to || process.env.MAIL_USER;
+  const mailUser = (process.env.MAIL_USER || "").trim();
+  const mailPass = (process.env.MAIL_PASS || process.env.MY_EMAIL_APP_PASSWORD || "").replace(/\s+/g, "");
+
+  if (!mailUser || !mailPass) {
+    return res.status(500).json({
+      status: false,
+      message: "Server configuration error: MAIL_USER or MAIL_PASS environment variables are missing on Vercel.",
+    });
+  }
+
+  const targetTo = to || mailUser;
   const emailSubject = subject || "Application for Full Stack Developer Position";
   const emailContent = body || message || "";
   const senderName = yourName || from_name || "Suraj Sangale";
@@ -33,8 +43,8 @@ export default async function handler(req, res) {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: process.env.MAIL_USER,
-      pass: process.env.MAIL_PASS,
+      user: mailUser,
+      pass: mailPass,
     },
   });
 
@@ -47,7 +57,7 @@ export default async function handler(req, res) {
   });
 
   const mailOptions = {
-    from: `"${senderName}" <${process.env.MAIL_USER}>`,
+    from: `"${senderName}" <${mailUser}>`,
     to: targetTo,
     ...(from_email ? { replyTo: from_email } : {}),
     subject: emailSubject,
@@ -66,7 +76,7 @@ export default async function handler(req, res) {
     console.error("[sendMail] error:", err);
     return res.status(500).json({
       status: false,
-      message: "Failed to send email. Please check server logs.",
+      message: `Failed to send email: ${err.message || "Please check server logs."}`,
     });
   }
 }
